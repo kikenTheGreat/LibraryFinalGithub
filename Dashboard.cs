@@ -41,13 +41,14 @@ namespace Library_Final
 
         private void kryptonButton7_Click(object sender, EventArgs e)
         {
-
+            BorrowBooks borrowBooks = new BorrowBooks();
+            borrowBooks.Show();
         }
 
         private void kryptonButton6_Click(object sender, EventArgs e)
         {
-            ReturnBooks returnBooks new = ReturnBooks();
-            return.Show();
+            Return @return = new Return();
+            @return.Show();
         }
     }
 }

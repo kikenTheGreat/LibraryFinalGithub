@@ -182,7 +182,7 @@
             kryptonButton1.StateCommon.Content.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             kryptonButton1.TabIndex = 10;
             kryptonButton1.Values.DropDownArrowColor = Color.Empty;
-            kryptonButton1.Values.Text = "Bitch";
+            kryptonButton1.Values.Text = "Login";
             kryptonButton1.Click += kryptonButton1_Click;
             // 
             // kryptonButton2

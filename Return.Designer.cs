@@ -38,9 +38,10 @@
             // 
             // kryptonTextBox3
             // 
-            kryptonTextBox3.Location = new Point(37, 48);
+            kryptonTextBox3.Location = new Point(42, 64);
+            kryptonTextBox3.Margin = new Padding(3, 4, 3, 4);
             kryptonTextBox3.Name = "kryptonTextBox3";
-            kryptonTextBox3.Size = new Size(1223, 29);
+            kryptonTextBox3.Size = new Size(1398, 33);
             kryptonTextBox3.StateCommon.Back.Color1 = Color.AliceBlue;
             kryptonTextBox3.StateCommon.Border.Color1 = Color.White;
             kryptonTextBox3.StateCommon.Border.Color2 = Color.White;
@@ -52,9 +53,10 @@
             // kryptonButton9
             // 
             kryptonButton9.Enabled = false;
-            kryptonButton9.Location = new Point(37, 83);
+            kryptonButton9.Location = new Point(42, 111);
+            kryptonButton9.Margin = new Padding(3, 4, 3, 4);
             kryptonButton9.Name = "kryptonButton9";
-            kryptonButton9.Size = new Size(1223, 326);
+            kryptonButton9.Size = new Size(1398, 435);
             kryptonButton9.StateCommon.Back.Color1 = Color.AliceBlue;
             kryptonButton9.StateCommon.Back.Color2 = Color.AliceBlue;
             kryptonButton9.StateCommon.Border.Color1 = Color.Transparent;
@@ -65,9 +67,10 @@
             // 
             // kryptonButton4
             // 
-            kryptonButton4.Location = new Point(1222, 13);
+            kryptonButton4.Location = new Point(1397, 17);
+            kryptonButton4.Margin = new Padding(3, 4, 3, 4);
             kryptonButton4.Name = "kryptonButton4";
-            kryptonButton4.Size = new Size(15, 15);
+            kryptonButton4.Size = new Size(17, 20);
             kryptonButton4.StateCommon.Back.Color1 = Color.FromArgb(0, 192, 0);
             kryptonButton4.StateCommon.Back.Color2 = Color.FromArgb(0, 192, 0);
             kryptonButton4.StateCommon.Border.Color1 = Color.FromArgb(0, 192, 0);
@@ -79,9 +82,10 @@
             // 
             // kryptonButton3
             // 
-            kryptonButton3.Location = new Point(1243, 13);
+            kryptonButton3.Location = new Point(1421, 17);
+            kryptonButton3.Margin = new Padding(3, 4, 3, 4);
             kryptonButton3.Name = "kryptonButton3";
-            kryptonButton3.Size = new Size(15, 15);
+            kryptonButton3.Size = new Size(17, 20);
             kryptonButton3.StateCommon.Back.Color1 = Color.FromArgb(192, 192, 0);
             kryptonButton3.StateCommon.Back.Color2 = Color.FromArgb(192, 192, 0);
             kryptonButton3.StateCommon.Border.Color1 = Color.FromArgb(192, 192, 0);
@@ -93,9 +97,10 @@
             // 
             // kryptonButton2
             // 
-            kryptonButton2.Location = new Point(1264, 13);
+            kryptonButton2.Location = new Point(1445, 17);
+            kryptonButton2.Margin = new Padding(3, 4, 3, 4);
             kryptonButton2.Name = "kryptonButton2";
-            kryptonButton2.Size = new Size(15, 15);
+            kryptonButton2.Size = new Size(17, 20);
             kryptonButton2.StateCommon.Back.Color1 = Color.FromArgb(192, 0, 0);
             kryptonButton2.StateCommon.Back.Color2 = Color.FromArgb(192, 0, 0);
             kryptonButton2.StateCommon.Border.Color1 = Color.FromArgb(192, 0, 0);
@@ -104,20 +109,22 @@
             kryptonButton2.TabIndex = 121;
             kryptonButton2.Values.DropDownArrowColor = Color.Empty;
             kryptonButton2.Values.Text = "kryptonButton2";
+            kryptonButton2.Click += this.kryptonButton2_Click;
             // 
             // Return
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1291, 421);
+            ClientSize = new Size(1475, 561);
             Controls.Add(kryptonButton4);
             Controls.Add(kryptonButton3);
             Controls.Add(kryptonButton2);
             Controls.Add(kryptonTextBox3);
             Controls.Add(kryptonButton9);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Return";
             Text = "Return";
             ResumeLayout(false);
