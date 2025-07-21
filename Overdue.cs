@@ -10,23 +10,22 @@ using System.Windows.Forms;
 
 namespace Library_Final
 {
-    public partial class Return : Form
+    public partial class Overdue : Form
     {
-        public Return()
+        public Overdue()
         {
             InitializeComponent();
         }
 
-        private void kryptonTextBox1_TextChanged(object sender, EventArgs e)
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
-        private void kryptonCheckButton1_Click(object sender, EventArgs e)
+        private void kryptonButton5_Click(object sender, EventArgs e)
         {
             Dashboard dashboard = new Dashboard();
             dashboard.ShowDialog();
-            this.Close();
         }
     }
 }

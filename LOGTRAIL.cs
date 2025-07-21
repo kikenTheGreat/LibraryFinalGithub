@@ -16,5 +16,27 @@ namespace Library_Final
         {
             InitializeComponent();
         }
+
+        private void kryptonButton2_Click(object sender, EventArgs e)
+        {
+            Dashboard dashboard = new Dashboard();
+            dashboard.ShowDialog();
+            this.Close();
+        }
+
+        private void kryptonLabel3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kryptonLabel2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kryptonTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

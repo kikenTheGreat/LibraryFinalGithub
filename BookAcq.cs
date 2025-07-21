@@ -20,7 +20,8 @@ namespace Library_Final
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
             Dashboard dashboard = new Dashboard();
-            dashboard.Show();
+            dashboard.ShowDialog();
+            this.Close();
         }
     }
 }

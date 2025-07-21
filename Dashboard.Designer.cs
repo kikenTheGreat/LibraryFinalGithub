@@ -48,6 +48,8 @@
             kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
             kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             kryptonButton9 = new Krypton.Toolkit.KryptonButton();
+            kryptonButton10 = new Krypton.Toolkit.KryptonButton();
+            kryptonButton11 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)kryptonPanel1).BeginInit();
             kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)kryptonPanel2).BeginInit();
@@ -104,6 +106,7 @@
             kryptonButton2.TabIndex = 17;
             kryptonButton2.Values.DropDownArrowColor = Color.Empty;
             kryptonButton2.Values.Text = "kryptonButton2";
+            kryptonButton2.Click += kryptonButton2_Click;
             // 
             // kryptonButton1
             // 
@@ -288,11 +291,11 @@
             kryptonLabel5.Location = new Point(49, 117);
             kryptonLabel5.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel5.Name = "kryptonLabel5";
-            kryptonLabel5.Size = new Size(132, 28);
+            kryptonLabel5.Size = new Size(136, 28);
             kryptonLabel5.StateCommon.ShortText.Color1 = Color.White;
             kryptonLabel5.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             kryptonLabel5.TabIndex = 31;
-            kryptonLabel5.Values.Text = "Total Clients";
+            kryptonLabel5.Values.Text = "Add Account";
             // 
             // kryptonButton8
             // 
@@ -311,14 +314,15 @@
             kryptonButton8.TabIndex = 20;
             kryptonButton8.Values.DropDownArrowColor = Color.Empty;
             kryptonButton8.Values.Text = "";
+            kryptonButton8.Click += kryptonButton8_Click;
             // 
             // kryptonButton9
             // 
             kryptonButton9.Enabled = false;
-            kryptonButton9.Location = new Point(289, 60);
+            kryptonButton9.Location = new Point(281, 60);
             kryptonButton9.Margin = new Padding(3, 4, 3, 4);
             kryptonButton9.Name = "kryptonButton9";
-            kryptonButton9.Size = new Size(1134, 933);
+            kryptonButton9.Size = new Size(1152, 933);
             kryptonButton9.StateCommon.Back.Color1 = Color.AliceBlue;
             kryptonButton9.StateCommon.Back.Color2 = Color.AliceBlue;
             kryptonButton9.StateCommon.Border.Color1 = Color.Transparent;
@@ -327,13 +331,35 @@
             kryptonButton9.Values.DropDownArrowColor = Color.Empty;
             kryptonButton9.Values.Text = "";
             // 
+            // kryptonButton10
+            // 
+            kryptonButton10.Location = new Point(24, 1012);
+            kryptonButton10.Name = "kryptonButton10";
+            kryptonButton10.Size = new Size(218, 68);
+            kryptonButton10.TabIndex = 27;
+            kryptonButton10.Values.DropDownArrowColor = Color.Empty;
+            kryptonButton10.Values.Text = "Overdue Penalty Tracking";
+            kryptonButton10.Click += kryptonButton10_Click;
+            // 
+            // kryptonButton11
+            // 
+            kryptonButton11.Location = new Point(602, 5);
+            kryptonButton11.Name = "kryptonButton11";
+            kryptonButton11.Size = new Size(224, 31);
+            kryptonButton11.TabIndex = 28;
+            kryptonButton11.Values.DropDownArrowColor = Color.Empty;
+            kryptonButton11.Values.Text = "Overdue Penalty Tracking";
+            kryptonButton11.Click += kryptonButton11_Click;
+            // 
             // Dashboard
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1475, 1035);
+            ClientSize = new Size(1475, 1102);
+            Controls.Add(kryptonButton11);
+            Controls.Add(kryptonButton10);
             Controls.Add(kryptonButton9);
             Controls.Add(kryptonPanel5);
             Controls.Add(kryptonPanel3);
@@ -389,5 +415,7 @@
         private Krypton.Toolkit.KryptonLabel kryptonLabel4;
         private Krypton.Toolkit.KryptonLabel kryptonLabel3;
         private Krypton.Toolkit.KryptonLabel kryptonLabel5;
+        private Krypton.Toolkit.KryptonButton kryptonButton10;
+        private Krypton.Toolkit.KryptonButton kryptonButton11;
     }
 }

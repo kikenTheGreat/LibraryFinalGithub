@@ -19,6 +19,8 @@ namespace Library_Final
 
         private void kryptonButton2_Click(object sender, EventArgs e)
         {
+            Login login = new Login();
+            login.ShowDialog();
             this.Close();
         }
 
@@ -35,6 +37,12 @@ namespace Library_Final
             this.Close();
         }
 
+        private void kryptonButton1_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.ShowDialog();
+            this.Close();
+        }
     }
-    
+
 }
