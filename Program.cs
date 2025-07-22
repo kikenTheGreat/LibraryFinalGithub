@@ -1,6 +1,6 @@
-using Library_Final.Utilities;
+using System;
+using System.Windows.Forms;
 using Library_Final.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library_Final
 {
@@ -12,28 +12,21 @@ namespace Library_Final
         [STAThread]
         static void Main()
         {
-            // Initialize application configuration
-            ApplicationConfiguration.Initialize();
-            
-            // Initialize dependency injection
-            ServiceProvider.Initialize();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             
             // Initialize database
             InitializeDatabase();
             
             // Run the application
             Application.Run(new Login());
-            
-            // Cleanup
-            ServiceProvider.DisposeServices();
         }
         
         private static void InitializeDatabase()
         {
             try
             {
-                using var context = ServiceProvider.GetService<LibraryDbContext>();
-                context.Database.EnsureCreated();
+                DatabaseHelper.InitializeDatabase();
             }
             catch (Exception ex)
             {

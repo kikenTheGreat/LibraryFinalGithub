@@ -1,76 +1,71 @@
-using Microsoft.EntityFrameworkCore;
-using Library_Final.Data;
-using Library_Final.Interfaces;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Collections.Generic;
 using Library_Final.Models;
+using Library_Final.Data;
 
 namespace Library_Final.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
-        private readonly LibraryDbContext _context;
-
-        public UserService(LibraryDbContext context)
+        public User AuthenticateUser(string username, string password)
         {
-            _context = context;
+            string query = "SELECT * FROM Users WHERE Username = @Username AND IsActive = 1";
+            SqlParameter[] parameters = {
+                new SqlParameter("@Username", username)
+            };
+
+            DataTable result = DatabaseHelper.ExecuteQuery(query, parameters);
+            
+            if (result.Rows.Count > 0)
+            {
+                DataRow row = result.Rows[0];
+                string storedHash = row["PasswordHash"].ToString();
+                
+                if (BCrypt.Net.BCrypt.Verify(password, storedHash))
+                {
+                    // Update last login date
+                    UpdateLastLogin(Convert.ToInt32(row["UserId"]));
+                    
+                    return new User
+                    {
+                        UserId = Convert.ToInt32(row["UserId"]),
+                        Username = row["Username"].ToString(),
+                        Email = row["Email"].ToString(),
+                        FullName = row["FullName"].ToString(),
+                        Role = (UserRole)Convert.ToInt32(row["Role"]),
+                        CreatedDate = Convert.ToDateTime(row["CreatedDate"]),
+                        LastLoginDate = row["LastLoginDate"] == DBNull.Value ? null : (DateTime?)Convert.ToDateTime(row["LastLoginDate"]),
+                        IsActive = Convert.ToBoolean(row["IsActive"])
+                    };
+                }
+            }
+            
+            return null;
         }
 
-        public async Task<User?> AuthenticateAsync(string username, string password)
-        {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == username && u.IsActive);
-
-            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
-                return null;
-
-            // Update last login date
-            user.LastLoginDate = DateTime.Now;
-            await _context.SaveChangesAsync();
-
-            return user;
-        }
-
-        public async Task<User?> GetUserByIdAsync(int userId)
-        {
-            return await _context.Users
-                .Include(u => u.BorrowRecords)
-                .FirstOrDefaultAsync(u => u.UserId == userId);
-        }
-
-        public async Task<User?> GetUserByUsernameAsync(string username)
-        {
-            return await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == username);
-        }
-
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            return await _context.Users
-                .Where(u => u.IsActive)
-                .OrderBy(u => u.FullName)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<User>> GetUsersByRoleAsync(UserRole role)
-        {
-            return await _context.Users
-                .Where(u => u.Role == role && u.IsActive)
-                .OrderBy(u => u.FullName)
-                .ToListAsync();
-        }
-
-        public async Task<bool> CreateUserAsync(User user, string password)
+        public bool CreateUser(User user, string password)
         {
             try
             {
-                if (await IsUsernameAvailableAsync(user.Username) == false ||
-                    await IsEmailAvailableAsync(user.Email) == false)
-                    return false;
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+                
+                string query = @"
+                    INSERT INTO Users (Username, PasswordHash, Email, FullName, Role, CreatedDate, IsActive)
+                    VALUES (@Username, @PasswordHash, @Email, @FullName, @Role, @CreatedDate, @IsActive)";
 
-                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
-                user.CreatedDate = DateTime.Now;
+                SqlParameter[] parameters = {
+                    new SqlParameter("@Username", user.Username),
+                    new SqlParameter("@PasswordHash", hashedPassword),
+                    new SqlParameter("@Email", user.Email),
+                    new SqlParameter("@FullName", user.FullName),
+                    new SqlParameter("@Role", (int)user.Role),
+                    new SqlParameter("@CreatedDate", user.CreatedDate),
+                    new SqlParameter("@IsActive", user.IsActive)
+                };
 
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
                 return true;
             }
             catch
@@ -79,63 +74,62 @@ namespace Library_Final.Services
             }
         }
 
-        public async Task<bool> UpdateUserAsync(User user)
+        public List<User> GetAllUsers()
         {
-            try
+            List<User> users = new List<User>();
+            string query = "SELECT * FROM Users WHERE IsActive = 1 ORDER BY FullName";
+            
+            DataTable result = DatabaseHelper.ExecuteQuery(query);
+            
+            foreach (DataRow row in result.Rows)
             {
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync();
-                return true;
+                users.Add(new User
+                {
+                    UserId = Convert.ToInt32(row["UserId"]),
+                    Username = row["Username"].ToString(),
+                    Email = row["Email"].ToString(),
+                    FullName = row["FullName"].ToString(),
+                    Role = (UserRole)Convert.ToInt32(row["Role"]),
+                    CreatedDate = Convert.ToDateTime(row["CreatedDate"]),
+                    LastLoginDate = row["LastLoginDate"] == DBNull.Value ? null : (DateTime?)Convert.ToDateTime(row["LastLoginDate"]),
+                    IsActive = Convert.ToBoolean(row["IsActive"])
+                });
             }
-            catch
-            {
-                return false;
-            }
+            
+            return users;
         }
 
-        public async Task<bool> DeleteUserAsync(int userId)
+        public bool IsUsernameAvailable(string username)
         {
-            try
-            {
-                var user = await GetUserByIdAsync(userId);
-                if (user == null) return false;
-
-                user.IsActive = false; // Soft delete
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            string query = "SELECT COUNT(*) FROM Users WHERE Username = @Username";
+            SqlParameter[] parameters = {
+                new SqlParameter("@Username", username)
+            };
+            
+            int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(query, parameters));
+            return count == 0;
         }
 
-        public async Task<bool> ChangePasswordAsync(int userId, string currentPassword, string newPassword)
+        public bool IsEmailAvailable(string email)
         {
-            try
-            {
-                var user = await GetUserByIdAsync(userId);
-                if (user == null || !BCrypt.Net.BCrypt.Verify(currentPassword, user.PasswordHash))
-                    return false;
-
-                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(newPassword);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            string query = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
+            SqlParameter[] parameters = {
+                new SqlParameter("@Email", email)
+            };
+            
+            int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(query, parameters));
+            return count == 0;
         }
 
-        public async Task<bool> IsUsernameAvailableAsync(string username)
+        private void UpdateLastLogin(int userId)
         {
-            return !await _context.Users.AnyAsync(u => u.Username == username);
-        }
-
-        public async Task<bool> IsEmailAvailableAsync(string email)
-        {
-            return !await _context.Users.AnyAsync(u => u.Email == email);
+            string query = "UPDATE Users SET LastLoginDate = @LoginDate WHERE UserId = @UserId";
+            SqlParameter[] parameters = {
+                new SqlParameter("@LoginDate", DateTime.Now),
+                new SqlParameter("@UserId", userId)
+            };
+            
+            DatabaseHelper.ExecuteNonQuery(query, parameters);
         }
     }
 }

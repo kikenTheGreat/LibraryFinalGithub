@@ -1,17 +1,21 @@
 
-using Library_Final.Interfaces;
-using Library_Final.Utilities;
+using System;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Library_Final.Services;
+using Library_Final.Models;
 
 namespace Library_Final
 {
     public partial class Login : Form
     {
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
+        public static User CurrentUser { get; set; }
 
         public Login()
         {
             InitializeComponent();
-            _userService = ServiceProvider.GetService<IUserService>();
+            _userService = new UserService();
         }
 
         private void kryptonButton2_Click(object sender, EventArgs e)
@@ -41,10 +45,10 @@ namespace Library_Final
         {
             try
             {
-                // Get username and password from form controls
-                // Note: You'll need to add proper control names in the designer
-                string username = GetUsernameFromForm();
-                string password = GetPasswordFromForm();
+                // For demo purposes, using default credentials
+                // You should replace this with actual form controls
+                string username = "admin"; // GetUsernameFromForm();
+                string password = "admin123"; // GetPasswordFromForm();
 
                 if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
                 {
@@ -54,12 +58,12 @@ namespace Library_Final
                 }
 
                 // Authenticate user
-                var user = await _userService.AuthenticateAsync(username, password);
+                var user = _userService.AuthenticateUser(username, password);
                 
                 if (user != null)
                 {
-                    // Set session
-                    SessionManager.Instance.Login(user);
+                    // Set current user
+                    CurrentUser = user;
                     
                     MessageBox.Show($"Welcome, {user.FullName}!", "Login Successful", 
                         MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -1,82 +1,156 @@
-using Microsoft.EntityFrameworkCore;
-using Library_Final.Data;
-using Library_Final.Interfaces;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Collections.Generic;
 using Library_Final.Models;
+using Library_Final.Data;
 
 namespace Library_Final.Services
 {
-    public class BookService : IBookService
+    public class BookService
     {
-        private readonly LibraryDbContext _context;
-
-        public BookService(LibraryDbContext context)
+        public List<Book> GetAllBooks()
         {
-            _context = context;
+            List<Book> books = new List<Book>();
+            string query = "SELECT * FROM Books WHERE IsActive = 1 ORDER BY Title";
+            
+            DataTable result = DatabaseHelper.ExecuteQuery(query);
+            
+            foreach (DataRow row in result.Rows)
+            {
+                books.Add(CreateBookFromDataRow(row));
+            }
+            
+            return books;
         }
 
-        public async Task<Book?> GetBookByIdAsync(int bookId)
+        public List<Book> GetAvailableBooks()
         {
-            return await _context.Books
-                .Include(b => b.BorrowRecords)
-                .FirstOrDefaultAsync(b => b.BookId == bookId && b.IsActive);
+            List<Book> books = new List<Book>();
+            string query = "SELECT * FROM Books WHERE IsActive = 1 AND AvailableCopies > 0 ORDER BY Title";
+            
+            DataTable result = DatabaseHelper.ExecuteQuery(query);
+            
+            foreach (DataRow row in result.Rows)
+            {
+                books.Add(CreateBookFromDataRow(row));
+            }
+            
+            return books;
         }
 
-        public async Task<Book?> GetBookByISBNAsync(string isbn)
+        public List<Book> SearchBooks(string searchTerm)
         {
-            return await _context.Books
-                .FirstOrDefaultAsync(b => b.ISBN == isbn && b.IsActive);
+            List<Book> books = new List<Book>();
+            string query = @"
+                SELECT * FROM Books 
+                WHERE IsActive = 1 AND (
+                    Title LIKE @SearchTerm OR 
+                    Author LIKE @SearchTerm OR 
+                    ISBN LIKE @SearchTerm OR 
+                    Category LIKE @SearchTerm
+                )
+                ORDER BY Title";
+            
+            SqlParameter[] parameters = {
+                new SqlParameter("@SearchTerm", "%" + searchTerm + "%")
+            };
+            
+            DataTable result = DatabaseHelper.ExecuteQuery(query, parameters);
+            
+            foreach (DataRow row in result.Rows)
+            {
+                books.Add(CreateBookFromDataRow(row));
+            }
+            
+            return books;
         }
 
-        public async Task<IEnumerable<Book>> GetAllBooksAsync()
-        {
-            return await _context.Books
-                .Where(b => b.IsActive)
-                .OrderBy(b => b.Title)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Book>> SearchBooksAsync(string searchTerm)
-        {
-            var lowerSearchTerm = searchTerm.ToLower();
-            return await _context.Books
-                .Where(b => b.IsActive && (
-                    b.Title.ToLower().Contains(lowerSearchTerm) ||
-                    b.Author.ToLower().Contains(lowerSearchTerm) ||
-                    b.ISBN.Contains(searchTerm) ||
-                    (b.Category != null && b.Category.ToLower().Contains(lowerSearchTerm))
-                ))
-                .OrderBy(b => b.Title)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Book>> GetBooksByCategoryAsync(string category)
-        {
-            return await _context.Books
-                .Where(b => b.IsActive && b.Category == category)
-                .OrderBy(b => b.Title)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Book>> GetAvailableBooksAsync()
-        {
-            return await _context.Books
-                .Where(b => b.IsActive && b.AvailableCopies > 0)
-                .OrderBy(b => b.Title)
-                .ToListAsync();
-        }
-
-        public async Task<bool> CreateBookAsync(Book book)
+        public bool AddBook(Book book)
         {
             try
             {
-                if (await IsISBNAvailableAsync(book.ISBN) == false)
+                string query = @"
+                    INSERT INTO Books (ISBN, Title, Author, Publisher, PublishedDate, Category, Description, TotalCopies, AvailableCopies, CreatedDate, IsActive)
+                    VALUES (@ISBN, @Title, @Author, @Publisher, @PublishedDate, @Category, @Description, @TotalCopies, @AvailableCopies, @CreatedDate, @IsActive)";
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@ISBN", book.ISBN),
+                    new SqlParameter("@Title", book.Title),
+                    new SqlParameter("@Author", book.Author),
+                    new SqlParameter("@Publisher", book.Publisher ?? (object)DBNull.Value),
+                    new SqlParameter("@PublishedDate", book.PublishedDate ?? (object)DBNull.Value),
+                    new SqlParameter("@Category", book.Category ?? (object)DBNull.Value),
+                    new SqlParameter("@Description", book.Description ?? (object)DBNull.Value),
+                    new SqlParameter("@TotalCopies", book.TotalCopies),
+                    new SqlParameter("@AvailableCopies", book.TotalCopies),
+                    new SqlParameter("@CreatedDate", book.CreatedDate),
+                    new SqlParameter("@IsActive", book.IsActive)
+                };
+
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateBook(Book book)
+        {
+            try
+            {
+                string query = @"
+                    UPDATE Books SET 
+                        Title = @Title, 
+                        Author = @Author, 
+                        Publisher = @Publisher, 
+                        PublishedDate = @PublishedDate, 
+                        Category = @Category, 
+                        Description = @Description, 
+                        TotalCopies = @TotalCopies,
+                        UpdatedDate = @UpdatedDate
+                    WHERE BookId = @BookId";
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@BookId", book.BookId),
+                    new SqlParameter("@Title", book.Title),
+                    new SqlParameter("@Author", book.Author),
+                    new SqlParameter("@Publisher", book.Publisher ?? (object)DBNull.Value),
+                    new SqlParameter("@PublishedDate", book.PublishedDate ?? (object)DBNull.Value),
+                    new SqlParameter("@Category", book.Category ?? (object)DBNull.Value),
+                    new SqlParameter("@Description", book.Description ?? (object)DBNull.Value),
+                    new SqlParameter("@TotalCopies", book.TotalCopies),
+                    new SqlParameter("@UpdatedDate", DateTime.Now)
+                };
+
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteBook(int bookId)
+        {
+            try
+            {
+                // Check if book has active borrows
+                string checkQuery = "SELECT COUNT(*) FROM BorrowRecords WHERE BookId = @BookId AND Status = 1";
+                SqlParameter[] checkParams = { new SqlParameter("@BookId", bookId) };
+                
+                int activeBorrows = Convert.ToInt32(DatabaseHelper.ExecuteScalar(checkQuery, checkParams));
+                if (activeBorrows > 0)
                     return false;
 
-                book.CreatedDate = DateTime.Now;
-                book.AvailableCopies = book.TotalCopies;
+                // Soft delete
+                string query = "UPDATE Books SET IsActive = 0 WHERE BookId = @BookId";
+                SqlParameter[] parameters = { new SqlParameter("@BookId", bookId) };
 
-                _context.Books.Add(book);
-                await _context.SaveChangesAsync();
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
                 return true;
             }
             catch
@@ -85,13 +159,29 @@ namespace Library_Final.Services
             }
         }
 
-        public async Task<bool> UpdateBookAsync(Book book)
+        public bool IsISBNAvailable(string isbn)
+        {
+            string query = "SELECT COUNT(*) FROM Books WHERE ISBN = @ISBN AND IsActive = 1";
+            SqlParameter[] parameters = {
+                new SqlParameter("@ISBN", isbn)
+            };
+            
+            int count = Convert.ToInt32(DatabaseHelper.ExecuteScalar(query, parameters));
+            return count == 0;
+        }
+
+        public bool UpdateBookAvailability(int bookId, int availableCopies)
         {
             try
             {
-                book.UpdatedDate = DateTime.Now;
-                _context.Books.Update(book);
-                await _context.SaveChangesAsync();
+                string query = "UPDATE Books SET AvailableCopies = @AvailableCopies, UpdatedDate = @UpdatedDate WHERE BookId = @BookId";
+                SqlParameter[] parameters = {
+                    new SqlParameter("@BookId", bookId),
+                    new SqlParameter("@AvailableCopies", availableCopies),
+                    new SqlParameter("@UpdatedDate", DateTime.Now)
+                };
+
+                DatabaseHelper.ExecuteNonQuery(query, parameters);
                 return true;
             }
             catch
@@ -100,61 +190,24 @@ namespace Library_Final.Services
             }
         }
 
-        public async Task<bool> DeleteBookAsync(int bookId)
+        private Book CreateBookFromDataRow(DataRow row)
         {
-            try
+            return new Book
             {
-                var book = await GetBookByIdAsync(bookId);
-                if (book == null) return false;
-
-                // Check if book has active borrows
-                var hasActiveBorrows = await _context.BorrowRecords
-                    .AnyAsync(br => br.BookId == bookId && br.Status == BorrowStatus.Borrowed);
-
-                if (hasActiveBorrows)
-                    return false; // Cannot delete book with active borrows
-
-                book.IsActive = false; // Soft delete
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> IsISBNAvailableAsync(string isbn)
-        {
-            return !await _context.Books.AnyAsync(b => b.ISBN == isbn && b.IsActive);
-        }
-
-        public async Task<bool> UpdateBookAvailabilityAsync(int bookId, int availableCopies)
-        {
-            try
-            {
-                var book = await GetBookByIdAsync(bookId);
-                if (book == null) return false;
-
-                book.AvailableCopies = availableCopies;
-                book.UpdatedDate = DateTime.Now;
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public async Task<IEnumerable<string>> GetCategoriesAsync()
-        {
-            return await _context.Books
-                .Where(b => b.IsActive && !string.IsNullOrEmpty(b.Category))
-                .Select(b => b.Category!)
-                .Distinct()
-                .OrderBy(c => c)
-                .ToListAsync();
+                BookId = Convert.ToInt32(row["BookId"]),
+                ISBN = row["ISBN"].ToString(),
+                Title = row["Title"].ToString(),
+                Author = row["Author"].ToString(),
+                Publisher = row["Publisher"] == DBNull.Value ? null : row["Publisher"].ToString(),
+                PublishedDate = row["PublishedDate"] == DBNull.Value ? null : (DateTime?)Convert.ToDateTime(row["PublishedDate"]),
+                Category = row["Category"] == DBNull.Value ? null : row["Category"].ToString(),
+                Description = row["Description"] == DBNull.Value ? null : row["Description"].ToString(),
+                TotalCopies = Convert.ToInt32(row["TotalCopies"]),
+                AvailableCopies = Convert.ToInt32(row["AvailableCopies"]),
+                CreatedDate = Convert.ToDateTime(row["CreatedDate"]),
+                UpdatedDate = row["UpdatedDate"] == DBNull.Value ? null : (DateTime?)Convert.ToDateTime(row["UpdatedDate"]),
+                IsActive = Convert.ToBoolean(row["IsActive"])
+            };
         }
     }
 }

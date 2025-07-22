@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Library_Final.Utilities;
 using Library_Final.Models;
 
 namespace Library_Final
@@ -22,7 +21,7 @@ namespace Library_Final
 
         private void LoadDashboard()
         {
-            var currentUser = SessionManager.Instance.CurrentUser;
+            var currentUser = Login.CurrentUser;
             if (currentUser != null)
             {
                 // Update UI based on user role
