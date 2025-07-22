@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Library_Final.Utilities;
+using Library_Final.Models;
 
 namespace Library_Final
 {
@@ -15,6 +17,24 @@ namespace Library_Final
         public Dashboard()
         {
             InitializeComponent();
+            LoadDashboard();
+        }
+
+        private void LoadDashboard()
+        {
+            var currentUser = SessionManager.Instance.CurrentUser;
+            if (currentUser != null)
+            {
+                // Update UI based on user role
+                this.Text = $"Library Management System - Welcome {currentUser.FullName}";
+                
+                // Hide/show buttons based on role
+                if (currentUser.Role == UserRole.Student)
+                {
+                    // Students can only borrow/return books
+                    // You can hide admin buttons here
+                }
+            }
         }
 
         private void kryptonPanel1_Paint(object sender, PaintEventArgs e)
