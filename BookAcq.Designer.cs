@@ -48,13 +48,17 @@
             kryptonLabel8 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel9 = new Krypton.Toolkit.KryptonLabel();
             Quantity = new Krypton.Toolkit.KryptonTextBox();
-            kryptonButton9 = new Krypton.Toolkit.KryptonButton();
             kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             kryptonButton5 = new Krypton.Toolkit.KryptonButton();
             Category = new Krypton.Toolkit.KryptonComboBox();
             Source = new Krypton.Toolkit.KryptonComboBox();
+            DataGridTotalBooks = new Krypton.Toolkit.KryptonDataGridView();
+            kryptonButton6 = new Krypton.Toolkit.KryptonButton();
+            kryptonButton7 = new Krypton.Toolkit.KryptonButton();
+            kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)Category).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).BeginInit();
             SuspendLayout();
             // 
             // kryptonButton4
@@ -279,21 +283,6 @@
             Quantity.StateCommon.Content.Color1 = Color.DarkGray;
             Quantity.TabIndex = 33;
             // 
-            // kryptonButton9
-            // 
-            kryptonButton9.Enabled = false;
-            kryptonButton9.Location = new Point(639, 69);
-            kryptonButton9.Margin = new Padding(3, 4, 3, 4);
-            kryptonButton9.Name = "kryptonButton9";
-            kryptonButton9.Size = new Size(800, 933);
-            kryptonButton9.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonButton9.StateCommon.Back.Color2 = Color.AliceBlue;
-            kryptonButton9.StateCommon.Border.Color1 = Color.Transparent;
-            kryptonButton9.StateCommon.Border.Rounding = 15F;
-            kryptonButton9.TabIndex = 41;
-            kryptonButton9.Values.DropDownArrowColor = Color.Empty;
-            kryptonButton9.Values.Text = "";
-            // 
             // kryptonButton1
             // 
             kryptonButton1.Location = new Point(328, 623);
@@ -351,6 +340,62 @@
             Source.TabIndex = 45;
             Source.SelectedIndexChanged += kryptonComboBox2_SelectedIndexChanged;
             // 
+            // DataGridTotalBooks
+            // 
+            DataGridTotalBooks.BorderStyle = BorderStyle.None;
+            DataGridTotalBooks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DataGridTotalBooks.Location = new Point(625, 115);
+            DataGridTotalBooks.Name = "DataGridTotalBooks";
+            DataGridTotalBooks.RowHeadersWidth = 51;
+            DataGridTotalBooks.Size = new Size(827, 567);
+            DataGridTotalBooks.TabIndex = 46;
+            // 
+            // kryptonButton6
+            // 
+            kryptonButton6.Location = new Point(98, 623);
+            kryptonButton6.Margin = new Padding(3, 4, 3, 4);
+            kryptonButton6.Name = "kryptonButton6";
+            kryptonButton6.Size = new Size(214, 59);
+            kryptonButton6.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
+            kryptonButton6.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
+            kryptonButton6.StateCommon.Border.Rounding = 15F;
+            kryptonButton6.StateCommon.Content.ShortText.Color1 = Color.White;
+            kryptonButton6.StateCommon.Content.ShortText.Font = new Font("Rockwell", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kryptonButton6.TabIndex = 47;
+            kryptonButton6.Values.DropDownArrowColor = Color.Empty;
+            kryptonButton6.Values.Text = "Update";
+            kryptonButton6.Click += kryptonButton6_Click;
+            // 
+            // kryptonButton7
+            // 
+            kryptonButton7.Location = new Point(98, 729);
+            kryptonButton7.Margin = new Padding(3, 4, 3, 4);
+            kryptonButton7.Name = "kryptonButton7";
+            kryptonButton7.Size = new Size(214, 59);
+            kryptonButton7.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
+            kryptonButton7.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
+            kryptonButton7.StateCommon.Border.Rounding = 15F;
+            kryptonButton7.StateCommon.Content.ShortText.Color1 = Color.White;
+            kryptonButton7.StateCommon.Content.ShortText.Font = new Font("Rockwell", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kryptonButton7.TabIndex = 48;
+            kryptonButton7.Values.DropDownArrowColor = Color.Empty;
+            kryptonButton7.Values.Text = "Delete";
+            // 
+            // kryptonButton8
+            // 
+            kryptonButton8.Location = new Point(328, 729);
+            kryptonButton8.Margin = new Padding(3, 4, 3, 4);
+            kryptonButton8.Name = "kryptonButton8";
+            kryptonButton8.Size = new Size(214, 59);
+            kryptonButton8.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
+            kryptonButton8.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
+            kryptonButton8.StateCommon.Border.Rounding = 15F;
+            kryptonButton8.StateCommon.Content.ShortText.Color1 = Color.White;
+            kryptonButton8.StateCommon.Content.ShortText.Font = new Font("Rockwell", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kryptonButton8.TabIndex = 49;
+            kryptonButton8.Values.DropDownArrowColor = Color.Empty;
+            kryptonButton8.Values.Text = "Search";
+            // 
             // BookAcq
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -358,11 +403,14 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1035);
+            Controls.Add(kryptonButton8);
+            Controls.Add(kryptonButton7);
+            Controls.Add(kryptonButton6);
+            Controls.Add(DataGridTotalBooks);
             Controls.Add(Source);
             Controls.Add(Category);
             Controls.Add(kryptonButton5);
             Controls.Add(kryptonButton1);
-            Controls.Add(kryptonButton9);
             Controls.Add(kryptonLabel6);
             Controls.Add(Published);
             Controls.Add(kryptonLabel7);
@@ -387,8 +435,10 @@
             Name = "BookAcq";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BookAcq";
+            Load += BookAcq_Load;
             ((System.ComponentModel.ISupportInitialize)Category).EndInit();
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -414,10 +464,13 @@
         private Krypton.Toolkit.KryptonLabel kryptonLabel8;
         private Krypton.Toolkit.KryptonLabel kryptonLabel9;
         private Krypton.Toolkit.KryptonTextBox Quantity;
-        private Krypton.Toolkit.KryptonButton kryptonButton9;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
         private Krypton.Toolkit.KryptonButton kryptonButton5;
         private Krypton.Toolkit.KryptonComboBox Category;
         private Krypton.Toolkit.KryptonComboBox Source;
+        private Krypton.Toolkit.KryptonDataGridView DataGridTotalBooks;
+        private Krypton.Toolkit.KryptonButton kryptonButton6;
+        private Krypton.Toolkit.KryptonButton kryptonButton7;
+        private Krypton.Toolkit.KryptonButton kryptonButton8;
     }
 }

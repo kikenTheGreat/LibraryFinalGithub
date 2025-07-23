@@ -80,5 +80,12 @@ namespace Library_Final
             overdue.ShowDialog();
             this.Close();
         }
+
+        private void TotalBooks_Click(object sender, EventArgs e)
+        {
+            AllBooks allBooks = new AllBooks();
+            allBooks.ShowDialog();
+            this.Close();
+        }
     }
 }
