@@ -119,20 +119,57 @@ namespace Library_Final
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
 
-            string keyword = "%" + SearchButton.Text + "%"; // This is your search textbox
+            string query = "SELECT * FROM BooksTotal WHERE 1=1";  // Safe base
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = con;
 
-            SqlCommand cmd = new SqlCommand(@"SELECT * FROM BooksTotal WHERE 
-    BookID LIKE @keyword OR 
-    BookTitle LIKE @keyword OR 
-    Author LIKE @keyword OR 
-    ISBN LIKE @keyword OR 
-    Publisher LIKE @keyword OR 
-    Source LIKE @keyword OR 
-    Quantity LIKE @keyword OR 
-    Published LIKE @keyword OR 
-    Category LIKE @keyword", con);
+            if (!string.IsNullOrWhiteSpace(BookID.Text))
+            {
+                query += " AND BookID LIKE @BookID";
+                cmd.Parameters.AddWithValue("@BookID", "%" + BookID.Text + "%");
+            }
+            if (!string.IsNullOrWhiteSpace(BookTitle.Text))
+            {
+                query += " AND BookTitle LIKE @BookTitle";
+                cmd.Parameters.AddWithValue("@BookTitle", "%" + BookTitle.Text + "%");
+            }
+            if (!string.IsNullOrWhiteSpace(Author.Text))
+            {
+                query += " AND Author LIKE @Author";
+                cmd.Parameters.AddWithValue("@Author", "%" + Author.Text + "%");
+            }
+            if (!string.IsNullOrWhiteSpace(ISBN.Text))
+            {
+                query += " AND ISBN LIKE @ISBN";
+                cmd.Parameters.AddWithValue("@ISBN", "%" + ISBN.Text + "%");
+            }
+            if (!string.IsNullOrWhiteSpace(Publisher.Text))
+            {
+                query += " AND Publisher LIKE @Publisher";
+                cmd.Parameters.AddWithValue("@Publisher", "%" + Publisher.Text + "%");
+            }
+            if (!string.IsNullOrWhiteSpace(Source.Text))
+            {
+                query += " AND Source LIKE @Source";
+                cmd.Parameters.AddWithValue("@Source", "%" + Source.Text + "%");
+            }
+            if (!string.IsNullOrWhiteSpace(Quantity.Text))
+            {
+                query += " AND Quantity LIKE @Quantity";
+                cmd.Parameters.AddWithValue("@Quantity", "%" + Quantity.Text + "%");
+            }
+            if (!string.IsNullOrWhiteSpace(Published.Text))
+            {
+                query += " AND Published LIKE @Published";
+                cmd.Parameters.AddWithValue("@Published", "%" + Published.Text + "%");
+            }
+            if (!string.IsNullOrWhiteSpace(Category.Text))
+            {
+                query += " AND Category LIKE @Category";
+                cmd.Parameters.AddWithValue("@Category", "%" + Category.Text + "%");
+            }
 
-            cmd.Parameters.AddWithValue("@keyword", keyword);
+            cmd.CommandText = query;
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
