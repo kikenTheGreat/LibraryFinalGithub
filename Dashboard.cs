@@ -83,9 +83,7 @@ namespace Library_Final
 
         private void TotalBooks_Click(object sender, EventArgs e)
         {
-            AllBooks allBooks = new AllBooks();
-            allBooks.ShowDialog();
-            this.Close();
+            
         }
     }
 }

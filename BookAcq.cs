@@ -84,7 +84,7 @@ namespace Library_Final
         {
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
-
+            //use WHERE to specify what record to UPDATE                                                                                              
             SqlCommand cmd = new SqlCommand("UPDATE BooksTotal SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
 
             cmd.Parameters.AddWithValue("@BookID", BookID.Text);  // this will be used in WHERE clause
@@ -111,6 +111,46 @@ namespace Library_Final
             Quantity.Text = "";
             Published.Text = "";
             Category.Text = "";
+
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            con.Open();
+
+            string keyword = "%" + SearchButton.Text + "%"; // This is your search textbox
+
+            SqlCommand cmd = new SqlCommand(@"SELECT * FROM BooksTotal WHERE 
+    BookID LIKE @keyword OR 
+    BookTitle LIKE @keyword OR 
+    Author LIKE @keyword OR 
+    ISBN LIKE @keyword OR 
+    Publisher LIKE @keyword OR 
+    Source LIKE @keyword OR 
+    Quantity LIKE @keyword OR 
+    Published LIKE @keyword OR 
+    Category LIKE @keyword", con);
+
+            cmd.Parameters.AddWithValue("@keyword", keyword);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+
+            DataGridTotalBooks.DataSource = dt;
+            con.Close();
+
+
+
+
+
+
+
+        }
+
+        private void SearchBtn_Click(object sender, EventArgs e)
+        {
 
         }
     }
