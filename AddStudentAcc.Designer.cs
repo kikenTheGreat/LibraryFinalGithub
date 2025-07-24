@@ -54,6 +54,8 @@
             kryptonLabel10 = new Krypton.Toolkit.KryptonLabel();
             Role = new Krypton.Toolkit.KryptonTextBox();
             AddStudentAccDataGrid = new Krypton.Toolkit.KryptonDataGridView();
+            kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
+            kryptonLabel11 = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)kryptonPictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AddStudentAccDataGrid).BeginInit();
             SuspendLayout();
@@ -381,11 +383,36 @@
             AddStudentAccDataGrid.TabIndex = 59;
             AddStudentAccDataGrid.CellContentClick += kryptonDataGridView1_CellContentClick;
             // 
+            // kryptonLabel1
+            // 
+            kryptonLabel1.Location = new Point(12, 13);
+            kryptonLabel1.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel1.Name = "kryptonLabel1";
+            kryptonLabel1.Size = new Size(74, 28);
+            kryptonLabel1.StateCommon.ShortText.Color1 = Color.DarkGray;
+            kryptonLabel1.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonLabel1.TabIndex = 60;
+            kryptonLabel1.Values.Text = "Name";
+            // 
+            // kryptonLabel11
+            // 
+            kryptonLabel11.Location = new Point(679, 14);
+            kryptonLabel11.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel11.Name = "kryptonLabel11";
+            kryptonLabel11.Size = new Size(132, 28);
+            kryptonLabel11.StateCommon.ShortText.Color1 = Color.DarkGray;
+            kryptonLabel11.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonLabel11.TabIndex = 61;
+            kryptonLabel11.Values.Text = "Section, S.Y";
+            kryptonLabel11.Click += kryptonLabel11_Click;
+            // 
             // AddStudentAcc
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(980, 603);
+            Controls.Add(kryptonLabel11);
+            Controls.Add(kryptonLabel1);
             Controls.Add(AddStudentAccDataGrid);
             Controls.Add(Role);
             Controls.Add(kryptonLabel10);
@@ -409,7 +436,7 @@
             Controls.Add(kryptonButton4);
             Controls.Add(kryptonButton3);
             Controls.Add(kryptonButton2);
-  
+            Name = "AddStudentAcc";
             Text = "AddStudentAcc";
             Load += AddStudentAcc_Load;
             ((System.ComponentModel.ISupportInitialize)kryptonPictureBox2).EndInit();
@@ -446,5 +473,7 @@
         private Krypton.Toolkit.KryptonLabel kryptonLabel10;
         private Krypton.Toolkit.KryptonTextBox Role;
         private Krypton.Toolkit.KryptonDataGridView AddStudentAccDataGrid;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel11;
     }
 }

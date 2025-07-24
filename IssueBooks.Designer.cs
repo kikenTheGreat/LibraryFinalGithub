@@ -34,13 +34,8 @@
             kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             kryptonButton4 = new Krypton.Toolkit.KryptonButton();
-            kryptonTextBox5 = new Krypton.Toolkit.KryptonTextBox();
-            kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
-            kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
-            kryptonTextBox2 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
-            kryptonComboBox2 = new Krypton.Toolkit.KryptonComboBox();
             kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             kryptonButton6 = new Krypton.Toolkit.KryptonButton();
             kryptonButton9 = new Krypton.Toolkit.KryptonButton();
@@ -58,8 +53,12 @@
             kryptonLabel16 = new Krypton.Toolkit.KryptonLabel();
             kryptonTextBox3 = new Krypton.Toolkit.KryptonTextBox();
             kryptonCheckButton1 = new Krypton.Toolkit.KryptonCheckButton();
+            monthCalendar1 = new MonthCalendar();
+            ClientID = new ComboBox();
+            BookID = new ComboBox();
+            Status = new ComboBox();
+            BorrowerStatus = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)kryptonComboBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)kryptonComboBox2).BeginInit();
             SuspendLayout();
             // 
             // kryptonLabel4
@@ -130,46 +129,9 @@
             kryptonButton4.Values.DropDownArrowColor = Color.Empty;
             kryptonButton4.Values.Text = "kryptonButton4";
             // 
-            // kryptonTextBox5
-            // 
-            kryptonTextBox5.Location = new Point(162, 107);
-            kryptonTextBox5.Margin = new Padding(3, 4, 3, 4);
-            kryptonTextBox5.Name = "kryptonTextBox5";
-            kryptonTextBox5.Size = new Size(214, 33);
-            kryptonTextBox5.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonTextBox5.StateCommon.Border.Color1 = Color.White;
-            kryptonTextBox5.StateCommon.Border.Color2 = Color.White;
-            kryptonTextBox5.StateCommon.Border.Rounding = 10F;
-            kryptonTextBox5.StateCommon.Content.Color1 = Color.DarkGray;
-            kryptonTextBox5.TabIndex = 67;
-            // 
-            // kryptonLabel5
-            // 
-            kryptonLabel5.Location = new Point(34, 109);
-            kryptonLabel5.Margin = new Padding(3, 4, 3, 4);
-            kryptonLabel5.Name = "kryptonLabel5";
-            kryptonLabel5.Size = new Size(104, 33);
-            kryptonLabel5.StateCommon.ShortText.Color1 = Color.White;
-            kryptonLabel5.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            kryptonLabel5.TabIndex = 68;
-            kryptonLabel5.Values.Text = "Issue ID";
-            // 
-            // kryptonTextBox1
-            // 
-            kryptonTextBox1.Location = new Point(162, 227);
-            kryptonTextBox1.Margin = new Padding(3, 4, 3, 4);
-            kryptonTextBox1.Name = "kryptonTextBox1";
-            kryptonTextBox1.Size = new Size(214, 33);
-            kryptonTextBox1.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonTextBox1.StateCommon.Border.Color1 = Color.White;
-            kryptonTextBox1.StateCommon.Border.Color2 = Color.White;
-            kryptonTextBox1.StateCommon.Border.Rounding = 10F;
-            kryptonTextBox1.StateCommon.Content.Color1 = Color.DarkGray;
-            kryptonTextBox1.TabIndex = 69;
-            // 
             // kryptonLabel1
             // 
-            kryptonLabel1.Location = new Point(34, 227);
+            kryptonLabel1.Location = new Point(5, 59);
             kryptonLabel1.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel1.Name = "kryptonLabel1";
             kryptonLabel1.Size = new Size(102, 33);
@@ -178,23 +140,9 @@
             kryptonLabel1.TabIndex = 70;
             kryptonLabel1.Values.Text = "Book ID";
             // 
-            // kryptonTextBox2
-            // 
-            kryptonTextBox2.Location = new Point(162, 168);
-            kryptonTextBox2.Margin = new Padding(3, 4, 3, 4);
-            kryptonTextBox2.Name = "kryptonTextBox2";
-            kryptonTextBox2.Size = new Size(214, 33);
-            kryptonTextBox2.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonTextBox2.StateCommon.Border.Color1 = Color.White;
-            kryptonTextBox2.StateCommon.Border.Color2 = Color.White;
-            kryptonTextBox2.StateCommon.Border.Rounding = 10F;
-            kryptonTextBox2.StateCommon.Content.Color1 = Color.DarkGray;
-            kryptonTextBox2.TabIndex = 71;
-            kryptonTextBox2.TextChanged += kryptonTextBox2_TextChanged;
-            // 
             // kryptonLabel2
             // 
-            kryptonLabel2.Location = new Point(34, 171);
+            kryptonLabel2.Location = new Point(5, 3);
             kryptonLabel2.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel2.Name = "kryptonLabel2";
             kryptonLabel2.Size = new Size(114, 33);
@@ -203,21 +151,9 @@
             kryptonLabel2.TabIndex = 72;
             kryptonLabel2.Values.Text = "Client ID";
             // 
-            // kryptonComboBox2
-            // 
-            kryptonComboBox2.DropDownWidth = 181;
-            kryptonComboBox2.Location = new Point(162, 288);
-            kryptonComboBox2.Margin = new Padding(3, 4, 3, 4);
-            kryptonComboBox2.Name = "kryptonComboBox2";
-            kryptonComboBox2.Size = new Size(214, 32);
-            kryptonComboBox2.StateCommon.ComboBox.Back.Color1 = Color.AliceBlue;
-            kryptonComboBox2.StateCommon.ComboBox.Border.Rounding = 8F;
-            kryptonComboBox2.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            kryptonComboBox2.TabIndex = 74;
-            // 
             // kryptonLabel3
             // 
-            kryptonLabel3.Location = new Point(34, 285);
+            kryptonLabel3.Location = new Point(5, 248);
             kryptonLabel3.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel3.Name = "kryptonLabel3";
             kryptonLabel3.Size = new Size(118, 33);
@@ -228,7 +164,7 @@
             // 
             // kryptonButton6
             // 
-            kryptonButton6.Location = new Point(162, 356);
+            kryptonButton6.Location = new Point(180, 370);
             kryptonButton6.Margin = new Padding(3, 4, 3, 4);
             kryptonButton6.Name = "kryptonButton6";
             kryptonButton6.Size = new Size(214, 59);
@@ -412,6 +348,47 @@
             kryptonCheckButton1.Values.Text = "Back";
             kryptonCheckButton1.Click += kryptonCheckButton1_Click;
             // 
+            // monthCalendar1
+            // 
+            monthCalendar1.Location = new Point(132, 167);
+            monthCalendar1.Name = "monthCalendar1";
+            monthCalendar1.TabIndex = 94;
+            // 
+            // ClientID
+            // 
+            ClientID.FormattingEnabled = true;
+            ClientID.Location = new Point(133, 8);
+            ClientID.Name = "ClientID";
+            ClientID.Size = new Size(262, 28);
+            ClientID.TabIndex = 95;
+            // 
+            // BookID
+            // 
+            BookID.FormattingEnabled = true;
+            BookID.Location = new Point(133, 64);
+            BookID.Name = "BookID";
+            BookID.Size = new Size(262, 28);
+            BookID.TabIndex = 96;
+            // 
+            // Status
+            // 
+            Status.FormattingEnabled = true;
+            Status.Location = new Point(133, 127);
+            Status.Name = "Status";
+            Status.Size = new Size(262, 28);
+            Status.TabIndex = 97;
+            // 
+            // BorrowerStatus
+            // 
+            BorrowerStatus.Location = new Point(12, 127);
+            BorrowerStatus.Margin = new Padding(3, 4, 3, 4);
+            BorrowerStatus.Name = "BorrowerStatus";
+            BorrowerStatus.Size = new Size(80, 33);
+            BorrowerStatus.StateCommon.ShortText.Color1 = Color.White;
+            BorrowerStatus.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            BorrowerStatus.TabIndex = 98;
+            BorrowerStatus.Values.Text = "Status";
+            // 
             // BorrowBooks
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -419,6 +396,11 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1035);
+            Controls.Add(BorrowerStatus);
+            Controls.Add(Status);
+            Controls.Add(BookID);
+            Controls.Add(ClientID);
+            Controls.Add(monthCalendar1);
             Controls.Add(kryptonCheckButton1);
             Controls.Add(kryptonTextBox3);
             Controls.Add(kryptonLabel16);
@@ -438,13 +420,8 @@
             Controls.Add(kryptonLabel4);
             Controls.Add(kryptonComboBox1);
             Controls.Add(kryptonLabel3);
-            Controls.Add(kryptonComboBox2);
             Controls.Add(kryptonLabel2);
-            Controls.Add(kryptonTextBox2);
             Controls.Add(kryptonLabel1);
-            Controls.Add(kryptonTextBox1);
-            Controls.Add(kryptonLabel5);
-            Controls.Add(kryptonTextBox5);
             Controls.Add(kryptonButton4);
             Controls.Add(kryptonButton3);
             Controls.Add(kryptonButton2);
@@ -454,7 +431,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BorrowBooks";
             ((System.ComponentModel.ISupportInitialize)kryptonComboBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)kryptonComboBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -465,13 +441,8 @@
         private Krypton.Toolkit.KryptonButton kryptonButton2;
         private Krypton.Toolkit.KryptonButton kryptonButton3;
         private Krypton.Toolkit.KryptonButton kryptonButton4;
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox5;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel5;
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox2;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
-        private Krypton.Toolkit.KryptonComboBox kryptonComboBox2;
         private Krypton.Toolkit.KryptonLabel kryptonLabel3;
         private Krypton.Toolkit.KryptonButton kryptonButton6;
         private Krypton.Toolkit.KryptonButton kryptonButton9;
@@ -489,5 +460,10 @@
         private Krypton.Toolkit.KryptonLabel kryptonLabel16;
         private Krypton.Toolkit.KryptonTextBox kryptonTextBox3;
         private Krypton.Toolkit.KryptonCheckButton kryptonCheckButton1;
+        private MonthCalendar monthCalendar1;
+        private ComboBox ClientID;
+        private ComboBox BookID;
+        private ComboBox Status;
+        private Krypton.Toolkit.KryptonLabel BorrowerStatus;
     }
 }

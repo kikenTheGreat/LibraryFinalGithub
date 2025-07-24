@@ -110,5 +110,10 @@ VALUES
         {
 
         }
+
+        private void kryptonLabel11_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
