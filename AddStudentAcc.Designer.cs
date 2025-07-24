@@ -409,7 +409,7 @@
             Controls.Add(kryptonButton4);
             Controls.Add(kryptonButton3);
             Controls.Add(kryptonButton2);
-            Name = "AddStudentAcc";
+  
             Text = "AddStudentAcc";
             Load += AddStudentAcc_Load;
             ((System.ComponentModel.ISupportInitialize)kryptonPictureBox2).EndInit();
