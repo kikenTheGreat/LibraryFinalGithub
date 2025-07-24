@@ -32,7 +32,7 @@ namespace Library_Final
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO BooksTotal (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
+            SqlCommand cmd = new SqlCommand("INSERT INTO BooksAcq (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
                                 "VALUES (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
 
 
@@ -73,7 +73,7 @@ namespace Library_Final
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BooksTotal", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM BooksAcq", con);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             da.Fill(dt);
@@ -85,7 +85,7 @@ namespace Library_Final
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
             //use WHERE to specify what record to UPDATE                                                                                              
-            SqlCommand cmd = new SqlCommand("UPDATE BooksTotal SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
+            SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
 
             cmd.Parameters.AddWithValue("@BookID", BookID.Text);  // this will be used in WHERE clause
             cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
@@ -119,7 +119,7 @@ namespace Library_Final
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
 
-            string query = "SELECT * FROM BooksTotal WHERE 1=1";  // Safe base
+            string query = "SELECT * FROM BooksAcq WHERE 1=1";  // Safe base
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = con;
 

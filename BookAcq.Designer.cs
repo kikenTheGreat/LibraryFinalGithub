@@ -54,7 +54,7 @@
             Source = new Krypton.Toolkit.KryptonComboBox();
             DataGridTotalBooks = new Krypton.Toolkit.KryptonDataGridView();
             kryptonButton6 = new Krypton.Toolkit.KryptonButton();
-            kryptonButton7 = new Krypton.Toolkit.KryptonButton();
+            ArchivedButton = new Krypton.Toolkit.KryptonButton();
             SearchButton = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)Category).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
@@ -366,20 +366,20 @@
             kryptonButton6.Values.Text = "Update";
             kryptonButton6.Click += kryptonButton6_Click;
             // 
-            // kryptonButton7
+            // ArchivedButton
             // 
-            kryptonButton7.Location = new Point(98, 729);
-            kryptonButton7.Margin = new Padding(3, 4, 3, 4);
-            kryptonButton7.Name = "kryptonButton7";
-            kryptonButton7.Size = new Size(214, 59);
-            kryptonButton7.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
-            kryptonButton7.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
-            kryptonButton7.StateCommon.Border.Rounding = 15F;
-            kryptonButton7.StateCommon.Content.ShortText.Color1 = Color.White;
-            kryptonButton7.StateCommon.Content.ShortText.Font = new Font("Rockwell", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            kryptonButton7.TabIndex = 48;
-            kryptonButton7.Values.DropDownArrowColor = Color.Empty;
-            kryptonButton7.Values.Text = "Delete";
+            ArchivedButton.Location = new Point(98, 729);
+            ArchivedButton.Margin = new Padding(3, 4, 3, 4);
+            ArchivedButton.Name = "ArchivedButton";
+            ArchivedButton.Size = new Size(214, 59);
+            ArchivedButton.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
+            ArchivedButton.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
+            ArchivedButton.StateCommon.Border.Rounding = 15F;
+            ArchivedButton.StateCommon.Content.ShortText.Color1 = Color.White;
+            ArchivedButton.StateCommon.Content.ShortText.Font = new Font("Rockwell", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ArchivedButton.TabIndex = 48;
+            ArchivedButton.Values.DropDownArrowColor = Color.Empty;
+            ArchivedButton.Values.Text = "Archive";
             // 
             // SearchButton
             // 
@@ -406,7 +406,7 @@
             ClientSize = new Size(1475, 1035);
             Controls.Add(DataGridTotalBooks);
             Controls.Add(SearchButton);
-            Controls.Add(kryptonButton7);
+            Controls.Add(ArchivedButton);
             Controls.Add(kryptonButton6);
             Controls.Add(Source);
             Controls.Add(Category);
@@ -471,7 +471,7 @@
         private Krypton.Toolkit.KryptonComboBox Source;
         private Krypton.Toolkit.KryptonDataGridView DataGridTotalBooks;
         private Krypton.Toolkit.KryptonButton kryptonButton6;
-        private Krypton.Toolkit.KryptonButton kryptonButton7;
+        private Krypton.Toolkit.KryptonButton ArchivedButton;
         private Krypton.Toolkit.KryptonButton SearchButton;
     }
 }
