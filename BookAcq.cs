@@ -190,5 +190,10 @@ namespace Library_Final
         {
 
         }
+
+        private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

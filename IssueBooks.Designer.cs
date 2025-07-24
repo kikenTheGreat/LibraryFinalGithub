@@ -305,11 +305,11 @@
             kryptonLabel10.Location = new Point(45, 559);
             kryptonLabel10.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel10.Name = "kryptonLabel10";
-            kryptonLabel10.Size = new Size(71, 28);
+            kryptonLabel10.Size = new Size(124, 28);
             kryptonLabel10.StateCommon.ShortText.Color1 = Color.White;
             kryptonLabel10.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             kryptonLabel10.TabIndex = 84;
-            kryptonLabel10.Values.Text = "Client";
+            kryptonLabel10.Values.Text = "Client Type";
             // 
             // kryptonLabel11
             // 

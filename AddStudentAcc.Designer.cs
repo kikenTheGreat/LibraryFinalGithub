@@ -30,23 +30,32 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddStudentAcc));
             kryptonPictureBox2 = new Krypton.Toolkit.KryptonPictureBox();
-            kryptonPictureBox1 = new Krypton.Toolkit.KryptonPictureBox();
-            kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            AddAccButton = new Krypton.Toolkit.KryptonButton();
             kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
-            kryptonTextBox4 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
-            kryptonTextBox3 = new Krypton.Toolkit.KryptonTextBox();
+            Name = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
-            kryptonTextBox2 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
-            kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
-            kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             kryptonButton4 = new Krypton.Toolkit.KryptonButton();
             kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             kryptonButton5 = new Krypton.Toolkit.KryptonButton();
+            Semester = new Krypton.Toolkit.KryptonTextBox();
+            SectionSY = new Krypton.Toolkit.KryptonTextBox();
+            Department = new Krypton.Toolkit.KryptonTextBox();
+            ClientID = new Krypton.Toolkit.KryptonTextBox();
+            StudentNumber = new Krypton.Toolkit.KryptonTextBox();
+            YearLevel = new Krypton.Toolkit.KryptonTextBox();
+            Email = new Krypton.Toolkit.KryptonTextBox();
+            kryptonLabel6 = new Krypton.Toolkit.KryptonLabel();
+            kryptonLabel7 = new Krypton.Toolkit.KryptonLabel();
+            kryptonLabel8 = new Krypton.Toolkit.KryptonLabel();
+            kryptonLabel9 = new Krypton.Toolkit.KryptonLabel();
+            kryptonLabel10 = new Krypton.Toolkit.KryptonLabel();
+            Role = new Krypton.Toolkit.KryptonTextBox();
+            AddStudentAccDataGrid = new Krypton.Toolkit.KryptonDataGridView();
             ((System.ComponentModel.ISupportInitialize)kryptonPictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)kryptonPictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)AddStudentAccDataGrid).BeginInit();
             SuspendLayout();
             // 
             // kryptonPictureBox2
@@ -60,37 +69,27 @@
             kryptonPictureBox2.TabIndex = 43;
             kryptonPictureBox2.TabStop = false;
             // 
-            // kryptonPictureBox1
+            // AddAccButton
             // 
-            kryptonPictureBox1.BackgroundImage = (Image)resources.GetObject("kryptonPictureBox1.BackgroundImage");
-            kryptonPictureBox1.BackgroundImageLayout = ImageLayout.Center;
-            kryptonPictureBox1.Location = new Point(543, 111);
-            kryptonPictureBox1.Margin = new Padding(3, 4, 3, 4);
-            kryptonPictureBox1.Name = "kryptonPictureBox1";
-            kryptonPictureBox1.Size = new Size(341, 397);
-            kryptonPictureBox1.TabIndex = 42;
-            kryptonPictureBox1.TabStop = false;
-            // 
-            // kryptonButton1
-            // 
-            kryptonButton1.Location = new Point(135, 455);
-            kryptonButton1.Margin = new Padding(3, 4, 3, 4);
-            kryptonButton1.Name = "kryptonButton1";
-            kryptonButton1.Size = new Size(274, 49);
-            kryptonButton1.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
-            kryptonButton1.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
-            kryptonButton1.StateCommon.Border.Color1 = Color.FromArgb(62, 93, 74);
-            kryptonButton1.StateCommon.Border.Color2 = Color.FromArgb(62, 93, 74);
-            kryptonButton1.StateCommon.Border.Rounding = 13F;
-            kryptonButton1.StateCommon.Content.ShortText.Color1 = Color.White;
-            kryptonButton1.StateCommon.Content.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            kryptonButton1.TabIndex = 41;
-            kryptonButton1.Values.DropDownArrowColor = Color.Empty;
-            kryptonButton1.Values.Text = "Add Acc";
+            AddAccButton.Location = new Point(694, 179);
+            AddAccButton.Margin = new Padding(3, 4, 3, 4);
+            AddAccButton.Name = "AddAccButton";
+            AddAccButton.Size = new Size(274, 49);
+            AddAccButton.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
+            AddAccButton.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
+            AddAccButton.StateCommon.Border.Color1 = Color.FromArgb(62, 93, 74);
+            AddAccButton.StateCommon.Border.Color2 = Color.FromArgb(62, 93, 74);
+            AddAccButton.StateCommon.Border.Rounding = 13F;
+            AddAccButton.StateCommon.Content.ShortText.Color1 = Color.White;
+            AddAccButton.StateCommon.Content.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            AddAccButton.TabIndex = 41;
+            AddAccButton.Values.DropDownArrowColor = Color.Empty;
+            AddAccButton.Values.Text = "Add Acc";
+            AddAccButton.Click += AddAccButton_Click;
             // 
             // kryptonLabel5
             // 
-            kryptonLabel5.Location = new Point(130, 361);
+            kryptonLabel5.Location = new Point(246, 102);
             kryptonLabel5.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel5.Name = "kryptonLabel5";
             kryptonLabel5.Size = new Size(177, 28);
@@ -99,22 +98,9 @@
             kryptonLabel5.TabIndex = 40;
             kryptonLabel5.Values.Text = "Student Number";
             // 
-            // kryptonTextBox4
-            // 
-            kryptonTextBox4.Location = new Point(136, 394);
-            kryptonTextBox4.Margin = new Padding(3, 4, 3, 4);
-            kryptonTextBox4.Name = "kryptonTextBox4";
-            kryptonTextBox4.Size = new Size(274, 33);
-            kryptonTextBox4.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonTextBox4.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
-            kryptonTextBox4.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
-            kryptonTextBox4.StateCommon.Border.Rounding = 9F;
-            kryptonTextBox4.StateCommon.Content.Color1 = Color.White;
-            kryptonTextBox4.TabIndex = 39;
-            // 
             // kryptonLabel2
             // 
-            kryptonLabel2.Location = new Point(130, 111);
+            kryptonLabel2.Location = new Point(6, 16);
             kryptonLabel2.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel2.Name = "kryptonLabel2";
             kryptonLabel2.Size = new Size(74, 28);
@@ -123,22 +109,22 @@
             kryptonLabel2.TabIndex = 38;
             kryptonLabel2.Values.Text = "Name";
             // 
-            // kryptonTextBox3
+            // Name
             // 
-            kryptonTextBox3.Location = new Point(136, 145);
-            kryptonTextBox3.Margin = new Padding(3, 4, 3, 4);
-            kryptonTextBox3.Name = "kryptonTextBox3";
-            kryptonTextBox3.Size = new Size(274, 33);
-            kryptonTextBox3.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonTextBox3.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
-            kryptonTextBox3.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
-            kryptonTextBox3.StateCommon.Border.Rounding = 9F;
-            kryptonTextBox3.StateCommon.Content.Color1 = Color.White;
-            kryptonTextBox3.TabIndex = 37;
+            Name.Location = new Point(12, 50);
+            Name.Margin = new Padding(3, 4, 3, 4);
+            Name.Name = "Name";
+            Name.Size = new Size(187, 33);
+            Name.StateCommon.Back.Color1 = Color.AliceBlue;
+            Name.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            Name.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            Name.StateCommon.Border.Rounding = 9F;
+            Name.StateCommon.Content.Color1 = Color.White;
+            Name.TabIndex = 37;
             // 
             // kryptonLabel4
             // 
-            kryptonLabel4.Location = new Point(130, 274);
+            kryptonLabel4.Location = new Point(679, 16);
             kryptonLabel4.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel4.Name = "kryptonLabel4";
             kryptonLabel4.Size = new Size(132, 28);
@@ -146,56 +132,19 @@
             kryptonLabel4.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             kryptonLabel4.TabIndex = 36;
             kryptonLabel4.Values.Text = "Section, S.Y";
-            // 
-            // kryptonTextBox2
-            // 
-            kryptonTextBox2.Location = new Point(136, 307);
-            kryptonTextBox2.Margin = new Padding(3, 4, 3, 4);
-            kryptonTextBox2.Name = "kryptonTextBox2";
-            kryptonTextBox2.Size = new Size(274, 33);
-            kryptonTextBox2.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonTextBox2.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
-            kryptonTextBox2.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
-            kryptonTextBox2.StateCommon.Border.Rounding = 9F;
-            kryptonTextBox2.StateCommon.Content.Color1 = Color.White;
-            kryptonTextBox2.TabIndex = 35;
+            kryptonLabel4.Click += kryptonLabel4_Click;
             // 
             // kryptonLabel3
             // 
-            kryptonLabel3.Location = new Point(128, 191);
+            kryptonLabel3.Location = new Point(12, 102);
             kryptonLabel3.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel3.Name = "kryptonLabel3";
-            kryptonLabel3.Size = new Size(243, 28);
+            kryptonLabel3.Size = new Size(74, 28);
             kryptonLabel3.StateCommon.ShortText.Color1 = Color.DarkGray;
             kryptonLabel3.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             kryptonLabel3.TabIndex = 34;
-            kryptonLabel3.Values.Text = "Email / Phone number";
-            // 
-            // kryptonTextBox1
-            // 
-            kryptonTextBox1.Location = new Point(135, 225);
-            kryptonTextBox1.Margin = new Padding(3, 4, 3, 4);
-            kryptonTextBox1.Name = "kryptonTextBox1";
-            kryptonTextBox1.Size = new Size(274, 33);
-            kryptonTextBox1.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonTextBox1.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
-            kryptonTextBox1.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
-            kryptonTextBox1.StateCommon.Border.Rounding = 9F;
-            kryptonTextBox1.StateCommon.Content.Color1 = Color.White;
-            kryptonTextBox1.TabIndex = 33;
-            // 
-            // kryptonLabel1
-            // 
-            kryptonLabel1.LabelStyle = Krypton.Toolkit.LabelStyle.NormalControl;
-            kryptonLabel1.Location = new Point(99, 9);
-            kryptonLabel1.Margin = new Padding(3, 4, 3, 4);
-            kryptonLabel1.Name = "kryptonLabel1";
-            kryptonLabel1.Size = new Size(259, 54);
-            kryptonLabel1.StateNormal.ShortText.Color1 = Color.White;
-            kryptonLabel1.StateNormal.ShortText.Font = new Font("Rockwell", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            kryptonLabel1.TabIndex = 32;
-            kryptonLabel1.Values.Text = "Get started!";
-            kryptonLabel1.Click += kryptonLabel1_Click;
+            kryptonLabel3.Values.Text = "Email";
+            kryptonLabel3.Click += kryptonLabel3_Click;
             // 
             // kryptonButton4
             // 
@@ -260,24 +209,203 @@
             kryptonButton5.Values.Text = "Back";
             kryptonButton5.Click += kryptonButton5_Click;
             // 
+            // Semester
+            // 
+            Semester.Location = new Point(679, 138);
+            Semester.Margin = new Padding(3, 4, 3, 4);
+            Semester.Name = "Semester";
+            Semester.Size = new Size(95, 33);
+            Semester.StateCommon.Back.Color1 = Color.AliceBlue;
+            Semester.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            Semester.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            Semester.StateCommon.Border.Rounding = 9F;
+            Semester.StateCommon.Content.Color1 = Color.White;
+            Semester.TabIndex = 46;
+            // 
+            // SectionSY
+            // 
+            SectionSY.Location = new Point(679, 50);
+            SectionSY.Margin = new Padding(3, 4, 3, 4);
+            SectionSY.Name = "SectionSY";
+            SectionSY.Size = new Size(241, 33);
+            SectionSY.StateCommon.Back.Color1 = Color.AliceBlue;
+            SectionSY.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            SectionSY.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            SectionSY.StateCommon.Border.Rounding = 9F;
+            SectionSY.StateCommon.Content.Color1 = Color.White;
+            SectionSY.TabIndex = 47;
+            // 
+            // Department
+            // 
+            Department.Location = new Point(463, 138);
+            Department.Margin = new Padding(3, 4, 3, 4);
+            Department.Name = "Department";
+            Department.Size = new Size(187, 33);
+            Department.StateCommon.Back.Color1 = Color.AliceBlue;
+            Department.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            Department.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            Department.StateCommon.Border.Rounding = 9F;
+            Department.StateCommon.Content.Color1 = Color.White;
+            Department.TabIndex = 48;
+            // 
+            // ClientID
+            // 
+            ClientID.Location = new Point(463, 50);
+            ClientID.Margin = new Padding(3, 4, 3, 4);
+            ClientID.Name = "ClientID";
+            ClientID.Size = new Size(187, 33);
+            ClientID.StateCommon.Back.Color1 = Color.AliceBlue;
+            ClientID.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            ClientID.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            ClientID.StateCommon.Border.Rounding = 9F;
+            ClientID.StateCommon.Content.Color1 = Color.White;
+            ClientID.TabIndex = 49;
+            // 
+            // StudentNumber
+            // 
+            StudentNumber.Location = new Point(246, 138);
+            StudentNumber.Margin = new Padding(3, 4, 3, 4);
+            StudentNumber.Name = "StudentNumber";
+            StudentNumber.Size = new Size(187, 33);
+            StudentNumber.StateCommon.Back.Color1 = Color.AliceBlue;
+            StudentNumber.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            StudentNumber.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            StudentNumber.StateCommon.Border.Rounding = 9F;
+            StudentNumber.StateCommon.Content.Color1 = Color.White;
+            StudentNumber.TabIndex = 50;
+            // 
+            // YearLevel
+            // 
+            YearLevel.Location = new Point(246, 50);
+            YearLevel.Margin = new Padding(3, 4, 3, 4);
+            YearLevel.Name = "YearLevel";
+            YearLevel.Size = new Size(187, 33);
+            YearLevel.StateCommon.Back.Color1 = Color.AliceBlue;
+            YearLevel.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            YearLevel.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            YearLevel.StateCommon.Border.Rounding = 9F;
+            YearLevel.StateCommon.Content.Color1 = Color.White;
+            YearLevel.TabIndex = 51;
+            // 
+            // Email
+            // 
+            Email.Location = new Point(12, 138);
+            Email.Margin = new Padding(3, 4, 3, 4);
+            Email.Name = "Email";
+            Email.Size = new Size(187, 33);
+            Email.StateCommon.Back.Color1 = Color.AliceBlue;
+            Email.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            Email.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            Email.StateCommon.Border.Rounding = 9F;
+            Email.StateCommon.Content.Color1 = Color.White;
+            Email.TabIndex = 52;
+            // 
+            // kryptonLabel6
+            // 
+            kryptonLabel6.Location = new Point(463, 14);
+            kryptonLabel6.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel6.Name = "kryptonLabel6";
+            kryptonLabel6.Size = new Size(106, 28);
+            kryptonLabel6.StateCommon.ShortText.Color1 = Color.DarkGray;
+            kryptonLabel6.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonLabel6.TabIndex = 53;
+            kryptonLabel6.Values.Text = "Client ID";
+            kryptonLabel6.Click += kryptonLabel6_Click;
+            // 
+            // kryptonLabel7
+            // 
+            kryptonLabel7.Location = new Point(679, 102);
+            kryptonLabel7.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel7.Name = "kryptonLabel7";
+            kryptonLabel7.Size = new Size(107, 28);
+            kryptonLabel7.StateCommon.ShortText.Color1 = Color.DarkGray;
+            kryptonLabel7.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonLabel7.TabIndex = 54;
+            kryptonLabel7.Values.Text = "Semester";
+            // 
+            // kryptonLabel8
+            // 
+            kryptonLabel8.Location = new Point(463, 102);
+            kryptonLabel8.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel8.Name = "kryptonLabel8";
+            kryptonLabel8.Size = new Size(135, 28);
+            kryptonLabel8.StateCommon.ShortText.Color1 = Color.DarkGray;
+            kryptonLabel8.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonLabel8.TabIndex = 55;
+            kryptonLabel8.Values.Text = "Department";
+            // 
+            // kryptonLabel9
+            // 
+            kryptonLabel9.Location = new Point(246, 13);
+            kryptonLabel9.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel9.Name = "kryptonLabel9";
+            kryptonLabel9.Size = new Size(122, 28);
+            kryptonLabel9.StateCommon.ShortText.Color1 = Color.DarkGray;
+            kryptonLabel9.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonLabel9.TabIndex = 56;
+            kryptonLabel9.Values.Text = "Year Level";
+            kryptonLabel9.Click += kryptonLabel9_Click;
+            // 
+            // kryptonLabel10
+            // 
+            kryptonLabel10.Location = new Point(839, 102);
+            kryptonLabel10.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel10.Name = "kryptonLabel10";
+            kryptonLabel10.Size = new Size(59, 28);
+            kryptonLabel10.StateCommon.ShortText.Color1 = Color.DarkGray;
+            kryptonLabel10.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            kryptonLabel10.TabIndex = 57;
+            kryptonLabel10.Values.Text = "Role";
+            // 
+            // Role
+            // 
+            Role.Location = new Point(825, 138);
+            Role.Margin = new Padding(3, 4, 3, 4);
+            Role.Name = "Role";
+            Role.Size = new Size(95, 33);
+            Role.StateCommon.Back.Color1 = Color.AliceBlue;
+            Role.StateCommon.Border.Color1 = Color.FromArgb(31, 31, 31);
+            Role.StateCommon.Border.Color2 = Color.FromArgb(31, 31, 31);
+            Role.StateCommon.Border.Rounding = 9F;
+            Role.StateCommon.Content.Color1 = Color.White;
+            Role.TabIndex = 58;
+            // 
+            // AddStudentAccDataGrid
+            // 
+            AddStudentAccDataGrid.BorderStyle = BorderStyle.None;
+            AddStudentAccDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            AddStudentAccDataGrid.Location = new Point(6, 235);
+            AddStudentAccDataGrid.Name = "AddStudentAccDataGrid";
+            AddStudentAccDataGrid.RowHeadersWidth = 51;
+            AddStudentAccDataGrid.Size = new Size(969, 368);
+            AddStudentAccDataGrid.TabIndex = 59;
+            AddStudentAccDataGrid.CellContentClick += kryptonDataGridView1_CellContentClick;
+            // 
             // AddStudentAcc
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(980, 603);
+            Controls.Add(AddStudentAccDataGrid);
+            Controls.Add(Role);
+            Controls.Add(kryptonLabel10);
+            Controls.Add(kryptonLabel9);
+            Controls.Add(kryptonLabel8);
+            Controls.Add(kryptonLabel7);
+            Controls.Add(kryptonLabel6);
+            Controls.Add(Email);
+            Controls.Add(YearLevel);
+            Controls.Add(StudentNumber);
+            Controls.Add(ClientID);
+            Controls.Add(Department);
+            Controls.Add(SectionSY);
+            Controls.Add(Semester);
             Controls.Add(kryptonButton5);
             Controls.Add(kryptonPictureBox2);
-            Controls.Add(kryptonPictureBox1);
-            Controls.Add(kryptonButton1);
+            Controls.Add(AddAccButton);
             Controls.Add(kryptonLabel5);
-            Controls.Add(kryptonTextBox4);
-            Controls.Add(kryptonLabel2);
-            Controls.Add(kryptonTextBox3);
-            Controls.Add(kryptonLabel4);
-            Controls.Add(kryptonTextBox2);
+            Controls.Add(Name);
             Controls.Add(kryptonLabel3);
-            Controls.Add(kryptonTextBox1);
-            Controls.Add(kryptonLabel1);
             Controls.Add(kryptonButton4);
             Controls.Add(kryptonButton3);
             Controls.Add(kryptonButton2);
@@ -285,7 +413,7 @@
             Text = "AddStudentAcc";
             Load += AddStudentAcc_Load;
             ((System.ComponentModel.ISupportInitialize)kryptonPictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)kryptonPictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)AddStudentAccDataGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -293,20 +421,30 @@
         #endregion
 
         private Krypton.Toolkit.KryptonPictureBox kryptonPictureBox2;
-        private Krypton.Toolkit.KryptonPictureBox kryptonPictureBox1;
-        private Krypton.Toolkit.KryptonButton kryptonButton1;
+        private Krypton.Toolkit.KryptonButton AddAccButton;
         private Krypton.Toolkit.KryptonLabel kryptonLabel5;
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox4;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox3;
+        private Krypton.Toolkit.KryptonTextBox Name;
         private Krypton.Toolkit.KryptonLabel kryptonLabel4;
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox2;
+  
         private Krypton.Toolkit.KryptonLabel kryptonLabel3;
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonButton kryptonButton4;
         private Krypton.Toolkit.KryptonButton kryptonButton3;
         private Krypton.Toolkit.KryptonButton kryptonButton2;
         private Krypton.Toolkit.KryptonButton kryptonButton5;
+        private Krypton.Toolkit.KryptonTextBox Semester;
+        private Krypton.Toolkit.KryptonTextBox SectionSY;
+        private Krypton.Toolkit.KryptonTextBox Department;
+        private Krypton.Toolkit.KryptonTextBox ClientID;
+        private Krypton.Toolkit.KryptonTextBox StudentNumber;
+        private Krypton.Toolkit.KryptonTextBox YearLevel;
+        private Krypton.Toolkit.KryptonTextBox Email;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel6;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel7;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel8;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel9;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel10;
+        private Krypton.Toolkit.KryptonTextBox Role;
+        private Krypton.Toolkit.KryptonDataGridView AddStudentAccDataGrid;
     }
 }

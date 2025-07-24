@@ -349,6 +349,7 @@
             DataGridTotalBooks.RowHeadersWidth = 51;
             DataGridTotalBooks.Size = new Size(827, 567);
             DataGridTotalBooks.TabIndex = 46;
+            DataGridTotalBooks.CellContentClick += DataGridTotalBooks_CellContentClick;
             // 
             // kryptonButton6
             // 
