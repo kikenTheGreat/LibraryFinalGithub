@@ -117,6 +117,7 @@
             BookID.StateCommon.Content.Color1 = Color.DarkGray;
             BookID.TabIndex = 23;
             BookID.Text = "00000";
+            BookID.TextChanged += BookID_TextChanged;
             // 
             // Author
             // 

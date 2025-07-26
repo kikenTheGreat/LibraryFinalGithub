@@ -70,6 +70,8 @@ namespace Library_Final
 
         private void BookAcq_Load(object sender, EventArgs e)
         {
+
+            //output the datagrid 
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
 
@@ -78,6 +80,15 @@ namespace Library_Final
             DataTable dt = new DataTable();
             da.Fill(dt);
             DataGridTotalBooks.DataSource = dt;
+
+
+         
+
+
+
+
+
+
         }
 
         private void kryptonButton6_Click(object sender, EventArgs e)
@@ -192,6 +203,11 @@ namespace Library_Final
         }
 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void BookID_TextChanged(object sender, EventArgs e)
         {
 
         }

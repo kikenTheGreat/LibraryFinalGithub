@@ -58,6 +58,12 @@
             BookID = new ComboBox();
             Status = new ComboBox();
             BorrowerStatus = new Krypton.Toolkit.KryptonLabel();
+            kryptonToastNotificationManager1 = new Krypton.Toolkit.KryptonToastNotificationManager();
+            kryptonToastNotificationManager2 = new Krypton.Toolkit.KryptonToastNotificationManager();
+            kryptonToastNotificationManager3 = new Krypton.Toolkit.KryptonToastNotificationManager();
+            kryptonToastNotificationManager4 = new Krypton.Toolkit.KryptonToastNotificationManager();
+            kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
+            IssuedID = new Krypton.Toolkit.KryptonMaskedTextBox();
             ((System.ComponentModel.ISupportInitialize)kryptonComboBox1).BeginInit();
             SuspendLayout();
             // 
@@ -131,7 +137,7 @@
             // 
             // kryptonLabel1
             // 
-            kryptonLabel1.Location = new Point(5, 59);
+            kryptonLabel1.Location = new Point(5, 88);
             kryptonLabel1.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel1.Name = "kryptonLabel1";
             kryptonLabel1.Size = new Size(102, 33);
@@ -142,7 +148,7 @@
             // 
             // kryptonLabel2
             // 
-            kryptonLabel2.Location = new Point(5, 3);
+            kryptonLabel2.Location = new Point(5, 56);
             kryptonLabel2.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel2.Name = "kryptonLabel2";
             kryptonLabel2.Size = new Size(114, 33);
@@ -357,7 +363,7 @@
             // ClientID
             // 
             ClientID.FormattingEnabled = true;
-            ClientID.Location = new Point(133, 8);
+            ClientID.Location = new Point(133, 61);
             ClientID.Name = "ClientID";
             ClientID.Size = new Size(262, 28);
             ClientID.TabIndex = 95;
@@ -365,10 +371,11 @@
             // BookID
             // 
             BookID.FormattingEnabled = true;
-            BookID.Location = new Point(133, 64);
+            BookID.Location = new Point(133, 93);
             BookID.Name = "BookID";
             BookID.Size = new Size(262, 28);
             BookID.TabIndex = 96;
+            BookID.SelectedIndexChanged += BookID_SelectedIndexChanged;
             // 
             // Status
             // 
@@ -389,6 +396,24 @@
             BorrowerStatus.TabIndex = 98;
             BorrowerStatus.Values.Text = "Status";
             // 
+            // kryptonLabel5
+            // 
+            kryptonLabel5.Location = new Point(5, 16);
+            kryptonLabel5.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel5.Name = "kryptonLabel5";
+            kryptonLabel5.Size = new Size(119, 33);
+            kryptonLabel5.StateCommon.ShortText.Color1 = Color.White;
+            kryptonLabel5.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kryptonLabel5.TabIndex = 99;
+            kryptonLabel5.Values.Text = "Issued ID";
+            // 
+            // IssuedID
+            // 
+            IssuedID.Location = new Point(133, 21);
+            IssuedID.Name = "IssuedID";
+            IssuedID.Size = new Size(261, 27);
+            IssuedID.TabIndex = 100;
+            // 
             // BorrowBooks
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -396,6 +421,8 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1035);
+            Controls.Add(IssuedID);
+            Controls.Add(kryptonLabel5);
             Controls.Add(BorrowerStatus);
             Controls.Add(Status);
             Controls.Add(BookID);
@@ -430,6 +457,7 @@
             Name = "BorrowBooks";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BorrowBooks";
+            Load += BorrowBooks_Load;
             ((System.ComponentModel.ISupportInitialize)kryptonComboBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -465,5 +493,11 @@
         private ComboBox BookID;
         private ComboBox Status;
         private Krypton.Toolkit.KryptonLabel BorrowerStatus;
+        private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager1;
+        private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager2;
+        private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager3;
+        private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager4;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel5;
+        private Krypton.Toolkit.KryptonMaskedTextBox IssuedID;
     }
 }
