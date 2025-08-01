@@ -29,16 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BorrowBooks));
-            kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
-            kryptonComboBox1 = new Krypton.Toolkit.KryptonComboBox();
             kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             kryptonButton4 = new Krypton.Toolkit.KryptonButton();
             kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
-            kryptonButton6 = new Krypton.Toolkit.KryptonButton();
-            kryptonButton9 = new Krypton.Toolkit.KryptonButton();
+            IssueBooksButton = new Krypton.Toolkit.KryptonButton();
             kryptonLabel6 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel7 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel8 = new Krypton.Toolkit.KryptonLabel();
@@ -53,7 +50,7 @@
             kryptonLabel16 = new Krypton.Toolkit.KryptonLabel();
             kryptonTextBox3 = new Krypton.Toolkit.KryptonTextBox();
             kryptonCheckButton1 = new Krypton.Toolkit.KryptonCheckButton();
-            monthCalendar1 = new MonthCalendar();
+            DueDate = new MonthCalendar();
             ClientID = new ComboBox();
             BookID = new ComboBox();
             Status = new ComboBox();
@@ -62,33 +59,9 @@
             kryptonToastNotificationManager2 = new Krypton.Toolkit.KryptonToastNotificationManager();
             kryptonToastNotificationManager3 = new Krypton.Toolkit.KryptonToastNotificationManager();
             kryptonToastNotificationManager4 = new Krypton.Toolkit.KryptonToastNotificationManager();
-            kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
-            IssuedID = new Krypton.Toolkit.KryptonMaskedTextBox();
-            ((System.ComponentModel.ISupportInitialize)kryptonComboBox1).BeginInit();
+            IssueBooksDataGrid = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).BeginInit();
             SuspendLayout();
-            // 
-            // kryptonLabel4
-            // 
-            kryptonLabel4.Location = new Point(567, 497);
-            kryptonLabel4.Margin = new Padding(3, 4, 3, 4);
-            kryptonLabel4.Name = "kryptonLabel4";
-            kryptonLabel4.Size = new Size(131, 33);
-            kryptonLabel4.StateCommon.ShortText.Color1 = Color.White;
-            kryptonLabel4.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            kryptonLabel4.TabIndex = 77;
-            kryptonLabel4.Values.Text = "Issue Date";
-            // 
-            // kryptonComboBox1
-            // 
-            kryptonComboBox1.DropDownWidth = 181;
-            kryptonComboBox1.Location = new Point(695, 500);
-            kryptonComboBox1.Margin = new Padding(3, 4, 3, 4);
-            kryptonComboBox1.Name = "kryptonComboBox1";
-            kryptonComboBox1.Size = new Size(214, 32);
-            kryptonComboBox1.StateCommon.ComboBox.Back.Color1 = Color.AliceBlue;
-            kryptonComboBox1.StateCommon.ComboBox.Border.Rounding = 8F;
-            kryptonComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            kryptonComboBox1.TabIndex = 76;
             // 
             // kryptonButton2
             // 
@@ -168,35 +141,21 @@
             kryptonLabel3.TabIndex = 75;
             kryptonLabel3.Values.Text = "Due Date";
             // 
-            // kryptonButton6
+            // IssueBooksButton
             // 
-            kryptonButton6.Location = new Point(180, 370);
-            kryptonButton6.Margin = new Padding(3, 4, 3, 4);
-            kryptonButton6.Name = "kryptonButton6";
-            kryptonButton6.Size = new Size(214, 59);
-            kryptonButton6.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
-            kryptonButton6.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
-            kryptonButton6.StateCommon.Border.Rounding = 15F;
-            kryptonButton6.StateCommon.Content.ShortText.Color1 = Color.White;
-            kryptonButton6.StateCommon.Content.ShortText.Font = new Font("Rockwell", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            kryptonButton6.TabIndex = 78;
-            kryptonButton6.Values.DropDownArrowColor = Color.Empty;
-            kryptonButton6.Values.Text = "Issue Books";
-            // 
-            // kryptonButton9
-            // 
-            kryptonButton9.Enabled = false;
-            kryptonButton9.Location = new Point(416, 124);
-            kryptonButton9.Margin = new Padding(3, 4, 3, 4);
-            kryptonButton9.Name = "kryptonButton9";
-            kryptonButton9.Size = new Size(1022, 881);
-            kryptonButton9.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonButton9.StateCommon.Back.Color2 = Color.AliceBlue;
-            kryptonButton9.StateCommon.Border.Color1 = Color.Transparent;
-            kryptonButton9.StateCommon.Border.Rounding = 15F;
-            kryptonButton9.TabIndex = 79;
-            kryptonButton9.Values.DropDownArrowColor = Color.Empty;
-            kryptonButton9.Values.Text = "";
+            IssueBooksButton.Location = new Point(180, 370);
+            IssueBooksButton.Margin = new Padding(3, 4, 3, 4);
+            IssueBooksButton.Name = "IssueBooksButton";
+            IssueBooksButton.Size = new Size(214, 59);
+            IssueBooksButton.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
+            IssueBooksButton.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
+            IssueBooksButton.StateCommon.Border.Rounding = 15F;
+            IssueBooksButton.StateCommon.Content.ShortText.Color1 = Color.White;
+            IssueBooksButton.StateCommon.Content.ShortText.Font = new Font("Rockwell", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            IssueBooksButton.TabIndex = 78;
+            IssueBooksButton.Values.DropDownArrowColor = Color.Empty;
+            IssueBooksButton.Values.Text = "Issue Books";
+            IssueBooksButton.Click += kryptonButton6_Click;
             // 
             // kryptonLabel6
             // 
@@ -354,11 +313,12 @@
             kryptonCheckButton1.Values.Text = "Back";
             kryptonCheckButton1.Click += kryptonCheckButton1_Click;
             // 
-            // monthCalendar1
+            // DueDate
             // 
-            monthCalendar1.Location = new Point(132, 167);
-            monthCalendar1.Name = "monthCalendar1";
-            monthCalendar1.TabIndex = 94;
+            DueDate.Location = new Point(132, 167);
+            DueDate.Name = "DueDate";
+            DueDate.TabIndex = 94;
+            DueDate.DateChanged += DueDate_DateChanged;
             // 
             // ClientID
             // 
@@ -367,6 +327,7 @@
             ClientID.Name = "ClientID";
             ClientID.Size = new Size(262, 28);
             ClientID.TabIndex = 95;
+            ClientID.SelectedIndexChanged += ClientID_SelectedIndexChanged;
             // 
             // BookID
             // 
@@ -384,6 +345,7 @@
             Status.Name = "Status";
             Status.Size = new Size(262, 28);
             Status.TabIndex = 97;
+            Status.SelectedIndexChanged += Status_SelectedIndexChanged;
             // 
             // BorrowerStatus
             // 
@@ -396,23 +358,15 @@
             BorrowerStatus.TabIndex = 98;
             BorrowerStatus.Values.Text = "Status";
             // 
-            // kryptonLabel5
+            // IssueBooksDataGrid
             // 
-            kryptonLabel5.Location = new Point(5, 16);
-            kryptonLabel5.Margin = new Padding(3, 4, 3, 4);
-            kryptonLabel5.Name = "kryptonLabel5";
-            kryptonLabel5.Size = new Size(119, 33);
-            kryptonLabel5.StateCommon.ShortText.Color1 = Color.White;
-            kryptonLabel5.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            kryptonLabel5.TabIndex = 99;
-            kryptonLabel5.Values.Text = "Issued ID";
-            // 
-            // IssuedID
-            // 
-            IssuedID.Location = new Point(133, 21);
-            IssuedID.Name = "IssuedID";
-            IssuedID.Size = new Size(261, 27);
-            IssuedID.TabIndex = 100;
+            IssueBooksDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            IssueBooksDataGrid.Location = new Point(416, 127);
+            IssueBooksDataGrid.Name = "IssueBooksDataGrid";
+            IssueBooksDataGrid.RowHeadersWidth = 51;
+            IssueBooksDataGrid.Size = new Size(1022, 498);
+            IssueBooksDataGrid.TabIndex = 101;
+            IssueBooksDataGrid.CellContentClick += IssueBooksDataGrid_CellContentClick;
             // 
             // BorrowBooks
             // 
@@ -421,13 +375,12 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1035);
-            Controls.Add(IssuedID);
-            Controls.Add(kryptonLabel5);
+            Controls.Add(IssueBooksDataGrid);
             Controls.Add(BorrowerStatus);
             Controls.Add(Status);
             Controls.Add(BookID);
             Controls.Add(ClientID);
-            Controls.Add(monthCalendar1);
+            Controls.Add(DueDate);
             Controls.Add(kryptonCheckButton1);
             Controls.Add(kryptonTextBox3);
             Controls.Add(kryptonLabel16);
@@ -442,10 +395,7 @@
             Controls.Add(kryptonLabel8);
             Controls.Add(kryptonLabel7);
             Controls.Add(kryptonLabel6);
-            Controls.Add(kryptonButton9);
-            Controls.Add(kryptonButton6);
-            Controls.Add(kryptonLabel4);
-            Controls.Add(kryptonComboBox1);
+            Controls.Add(IssueBooksButton);
             Controls.Add(kryptonLabel3);
             Controls.Add(kryptonLabel2);
             Controls.Add(kryptonLabel1);
@@ -458,22 +408,19 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BorrowBooks";
             Load += BorrowBooks_Load;
-            ((System.ComponentModel.ISupportInitialize)kryptonComboBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private Krypton.Toolkit.KryptonLabel kryptonLabel4;
-        private Krypton.Toolkit.KryptonComboBox kryptonComboBox1;
         private Krypton.Toolkit.KryptonButton kryptonButton2;
         private Krypton.Toolkit.KryptonButton kryptonButton3;
         private Krypton.Toolkit.KryptonButton kryptonButton4;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
         private Krypton.Toolkit.KryptonLabel kryptonLabel3;
-        private Krypton.Toolkit.KryptonButton kryptonButton6;
-        private Krypton.Toolkit.KryptonButton kryptonButton9;
+        private Krypton.Toolkit.KryptonButton IssueBooksButton;
         private Krypton.Toolkit.KryptonLabel kryptonLabel6;
         private Krypton.Toolkit.KryptonLabel kryptonLabel7;
         private Krypton.Toolkit.KryptonLabel kryptonLabel8;
@@ -488,7 +435,7 @@
         private Krypton.Toolkit.KryptonLabel kryptonLabel16;
         private Krypton.Toolkit.KryptonTextBox kryptonTextBox3;
         private Krypton.Toolkit.KryptonCheckButton kryptonCheckButton1;
-        private MonthCalendar monthCalendar1;
+        private MonthCalendar DueDate;
         private ComboBox ClientID;
         private ComboBox BookID;
         private ComboBox Status;
@@ -497,7 +444,6 @@
         private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager2;
         private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager3;
         private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager4;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel5;
-        private Krypton.Toolkit.KryptonMaskedTextBox IssuedID;
+        private DataGridView IssueBooksDataGrid;
     }
 }
