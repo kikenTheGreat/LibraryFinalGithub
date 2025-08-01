@@ -18,6 +18,8 @@ namespace Library_Final
         public BookAcq()
         {
             InitializeComponent();
+            LoadBooksGrid(); // refresh grid to show new record
+
         }
 
         private void kryptonButton5_Click(object sender, EventArgs e)
@@ -49,6 +51,7 @@ namespace Library_Final
 
             cmd.ExecuteNonQuery();
             MessageBox.Show("Book added successfully!");
+            LoadBooksGrid(); // refresh grid to show new record
             con.Close();
 
             BookID.Text = " ";      // what will display after inserting
@@ -72,24 +75,34 @@ namespace Library_Final
         {
 
             //output the datagrid 
-            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
-            con.Open();
-
-            SqlCommand cmd = new SqlCommand("SELECT * FROM BooksAcq", con);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            DataGridTotalBooks.DataSource = dt;
-
-
-         
-
-
-
-
+            LoadBooksGrid();
 
 
         }
+
+        private void LoadBooksGrid()          //output the datagrid 
+        {
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            {
+                string query = "SELECT * FROM BooksAcq";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                DataGridTotalBooks.DataSource = dt;
+
+                // Scroll to top
+                if (DataGridTotalBooks.Rows.Count > 0)
+                {
+                    DataGridTotalBooks.FirstDisplayedScrollingRowIndex = 0;
+                    DataGridTotalBooks.ClearSelection(); // Optional
+                }
+            }
+        }
+
+
+
+
+
 
         private void kryptonButton6_Click(object sender, EventArgs e)
         {
@@ -110,6 +123,7 @@ namespace Library_Final
 
             cmd.ExecuteNonQuery();
             MessageBox.Show("Book updated successfully!");
+            LoadBooksGrid(); // refresh grid to show new record
             con.Close();
 
             // Clear the textboxes after update

@@ -60,6 +60,8 @@
             kryptonToastNotificationManager3 = new Krypton.Toolkit.KryptonToastNotificationManager();
             kryptonToastNotificationManager4 = new Krypton.Toolkit.KryptonToastNotificationManager();
             IssueBooksDataGrid = new DataGridView();
+            IssueDate = new MonthCalendar();
+            kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -113,26 +115,26 @@
             kryptonLabel1.Location = new Point(5, 88);
             kryptonLabel1.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel1.Name = "kryptonLabel1";
-            kryptonLabel1.Size = new Size(102, 33);
+            kryptonLabel1.Size = new Size(127, 33);
             kryptonLabel1.StateCommon.ShortText.Color1 = Color.White;
             kryptonLabel1.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             kryptonLabel1.TabIndex = 70;
-            kryptonLabel1.Values.Text = "Book ID";
+            kryptonLabel1.Values.Text = "Book Title";
             // 
             // kryptonLabel2
             // 
-            kryptonLabel2.Location = new Point(5, 56);
+            kryptonLabel2.Location = new Point(-3, 61);
             kryptonLabel2.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel2.Name = "kryptonLabel2";
-            kryptonLabel2.Size = new Size(114, 33);
+            kryptonLabel2.Size = new Size(155, 33);
             kryptonLabel2.StateCommon.ShortText.Color1 = Color.White;
             kryptonLabel2.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             kryptonLabel2.TabIndex = 72;
-            kryptonLabel2.Values.Text = "Client ID";
+            kryptonLabel2.Values.Text = "Client Name";
             // 
             // kryptonLabel3
             // 
-            kryptonLabel3.Location = new Point(5, 248);
+            kryptonLabel3.Location = new Point(5, 486);
             kryptonLabel3.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel3.Name = "kryptonLabel3";
             kryptonLabel3.Size = new Size(118, 33);
@@ -140,10 +142,11 @@
             kryptonLabel3.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             kryptonLabel3.TabIndex = 75;
             kryptonLabel3.Values.Text = "Due Date";
+            kryptonLabel3.Click += kryptonLabel3_Click;
             // 
             // IssueBooksButton
             // 
-            IssueBooksButton.Location = new Point(180, 370);
+            IssueBooksButton.Location = new Point(432, 634);
             IssueBooksButton.Margin = new Padding(3, 4, 3, 4);
             IssueBooksButton.Name = "IssueBooksButton";
             IssueBooksButton.Size = new Size(214, 59);
@@ -159,7 +162,7 @@
             // 
             // kryptonLabel6
             // 
-            kryptonLabel6.Location = new Point(34, 437);
+            kryptonLabel6.Location = new Point(652, 660);
             kryptonLabel6.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel6.Name = "kryptonLabel6";
             kryptonLabel6.Size = new Size(256, 33);
@@ -170,7 +173,7 @@
             // 
             // kryptonLabel7
             // 
-            kryptonLabel7.Location = new Point(34, 652);
+            kryptonLabel7.Location = new Point(1004, 677);
             kryptonLabel7.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel7.Name = "kryptonLabel7";
             kryptonLabel7.Size = new Size(174, 33);
@@ -181,7 +184,7 @@
             // 
             // kryptonLabel8
             // 
-            kryptonLabel8.Location = new Point(45, 481);
+            kryptonLabel8.Location = new Point(663, 699);
             kryptonLabel8.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel8.Name = "kryptonLabel8";
             kryptonLabel8.Size = new Size(69, 28);
@@ -192,7 +195,7 @@
             // 
             // kryptonLabel9
             // 
-            kryptonLabel9.Location = new Point(45, 597);
+            kryptonLabel9.Location = new Point(663, 815);
             kryptonLabel9.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel9.Name = "kryptonLabel9";
             kryptonLabel9.Size = new Size(69, 28);
@@ -203,7 +206,7 @@
             // 
             // kryptonLabel10
             // 
-            kryptonLabel10.Location = new Point(45, 559);
+            kryptonLabel10.Location = new Point(663, 777);
             kryptonLabel10.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel10.Name = "kryptonLabel10";
             kryptonLabel10.Size = new Size(124, 28);
@@ -214,7 +217,7 @@
             // 
             // kryptonLabel11
             // 
-            kryptonLabel11.Location = new Point(45, 520);
+            kryptonLabel11.Location = new Point(663, 738);
             kryptonLabel11.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel11.Name = "kryptonLabel11";
             kryptonLabel11.Size = new Size(87, 28);
@@ -225,7 +228,7 @@
             // 
             // kryptonLabel15
             // 
-            kryptonLabel15.Location = new Point(45, 696);
+            kryptonLabel15.Location = new Point(1015, 721);
             kryptonLabel15.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel15.Name = "kryptonLabel15";
             kryptonLabel15.Size = new Size(108, 28);
@@ -236,7 +239,7 @@
             // 
             // kryptonLabel14
             // 
-            kryptonLabel14.Location = new Point(45, 812);
+            kryptonLabel14.Location = new Point(1015, 837);
             kryptonLabel14.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel14.Name = "kryptonLabel14";
             kryptonLabel14.Size = new Size(104, 28);
@@ -247,7 +250,7 @@
             // 
             // kryptonLabel13
             // 
-            kryptonLabel13.Location = new Point(45, 773);
+            kryptonLabel13.Location = new Point(1015, 798);
             kryptonLabel13.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel13.Name = "kryptonLabel13";
             kryptonLabel13.Size = new Size(103, 28);
@@ -258,7 +261,7 @@
             // 
             // kryptonLabel12
             // 
-            kryptonLabel12.Location = new Point(45, 735);
+            kryptonLabel12.Location = new Point(1015, 760);
             kryptonLabel12.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel12.Name = "kryptonLabel12";
             kryptonLabel12.Size = new Size(78, 28);
@@ -269,7 +272,7 @@
             // 
             // kryptonLabel17
             // 
-            kryptonLabel17.Location = new Point(45, 889);
+            kryptonLabel17.Location = new Point(1015, 914);
             kryptonLabel17.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel17.Name = "kryptonLabel17";
             kryptonLabel17.Size = new Size(94, 28);
@@ -280,7 +283,7 @@
             // 
             // kryptonLabel16
             // 
-            kryptonLabel16.Location = new Point(45, 851);
+            kryptonLabel16.Location = new Point(1015, 876);
             kryptonLabel16.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel16.Name = "kryptonLabel16";
             kryptonLabel16.Size = new Size(57, 28);
@@ -315,7 +318,7 @@
             // 
             // DueDate
             // 
-            DueDate.Location = new Point(132, 167);
+            DueDate.Location = new Point(142, 391);
             DueDate.Name = "DueDate";
             DueDate.TabIndex = 94;
             DueDate.DateChanged += DueDate_DateChanged;
@@ -323,7 +326,7 @@
             // ClientID
             // 
             ClientID.FormattingEnabled = true;
-            ClientID.Location = new Point(133, 61);
+            ClientID.Location = new Point(148, 61);
             ClientID.Name = "ClientID";
             ClientID.Size = new Size(262, 28);
             ClientID.TabIndex = 95;
@@ -332,7 +335,7 @@
             // BookID
             // 
             BookID.FormattingEnabled = true;
-            BookID.Location = new Point(133, 93);
+            BookID.Location = new Point(148, 95);
             BookID.Name = "BookID";
             BookID.Size = new Size(262, 28);
             BookID.TabIndex = 96;
@@ -368,6 +371,24 @@
             IssueBooksDataGrid.TabIndex = 101;
             IssueBooksDataGrid.CellContentClick += IssueBooksDataGrid_CellContentClick;
             // 
+            // IssueDate
+            // 
+            IssueDate.Location = new Point(133, 166);
+            IssueDate.Name = "IssueDate";
+            IssueDate.TabIndex = 102;
+            // 
+            // kryptonLabel4
+            // 
+            kryptonLabel4.Location = new Point(1, 239);
+            kryptonLabel4.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel4.Name = "kryptonLabel4";
+            kryptonLabel4.Size = new Size(131, 33);
+            kryptonLabel4.StateCommon.ShortText.Color1 = Color.White;
+            kryptonLabel4.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kryptonLabel4.TabIndex = 103;
+            kryptonLabel4.Values.Text = "Issue Date";
+            kryptonLabel4.Click += kryptonLabel4_Click;
+            // 
             // BorrowBooks
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -375,6 +396,8 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1035);
+            Controls.Add(kryptonLabel4);
+            Controls.Add(IssueDate);
             Controls.Add(IssueBooksDataGrid);
             Controls.Add(BorrowerStatus);
             Controls.Add(Status);
@@ -445,5 +468,7 @@
         private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager3;
         private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager4;
         private DataGridView IssueBooksDataGrid;
+        private MonthCalendar IssueDate;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel4;
     }
 }

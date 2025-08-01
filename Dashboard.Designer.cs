@@ -48,7 +48,6 @@
             kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
             kryptonButton8 = new Krypton.Toolkit.KryptonButton();
             kryptonButton9 = new Krypton.Toolkit.KryptonButton();
-            kryptonButton11 = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)kryptonPanel1).BeginInit();
             kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)kryptonPanel2).BeginInit();
@@ -330,16 +329,6 @@
             kryptonButton9.Values.DropDownArrowColor = Color.Empty;
             kryptonButton9.Values.Text = "";
             // 
-            // kryptonButton11
-            // 
-            kryptonButton11.Location = new Point(602, 5);
-            kryptonButton11.Name = "kryptonButton11";
-            kryptonButton11.Size = new Size(224, 31);
-            kryptonButton11.TabIndex = 28;
-            kryptonButton11.Values.DropDownArrowColor = Color.Empty;
-            kryptonButton11.Values.Text = "Overdue Penalty Tracking";
-            kryptonButton11.Click += kryptonButton11_Click;
-            // 
             // Dashboard
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -347,7 +336,6 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1102);
-            Controls.Add(kryptonButton11);
             Controls.Add(kryptonButton9);
             Controls.Add(kryptonPanel5);
             Controls.Add(kryptonPanel3);
@@ -403,6 +391,5 @@
         private Krypton.Toolkit.KryptonLabel kryptonLabel4;
         private Krypton.Toolkit.KryptonLabel kryptonLabel3;
         private Krypton.Toolkit.KryptonLabel kryptonLabel5;
-        private Krypton.Toolkit.KryptonButton kryptonButton11;
     }
 }

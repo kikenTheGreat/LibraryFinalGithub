@@ -21,7 +21,7 @@ namespace Library_Final
         {
             InitializeComponent();
 
-
+            LoadIssueBooks(); // Refresh DataGridView
         }
 
 
@@ -45,7 +45,7 @@ namespace Library_Final
         {
             //retrieving the BookID in DATABASE ---OPENING----
             string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
-            string query1 = "SELECT BookID FROM BooksAcq";
+            string query1 = "SELECT BookTitle FROM BooksAcq";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -55,7 +55,7 @@ namespace Library_Final
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        BookID.Items.Add(reader["BookID"].ToString());
+                        BookID.Items.Add(reader["BookTitle"].ToString());
                     }
                 }
             }
@@ -64,7 +64,7 @@ namespace Library_Final
 
 
             //retrieving the ClientID in DATABASE ---OPENING----
-            string query2 = "SELECT ClientID FROM AddStudentAcc";
+            string query2 = "SELECT Name FROM AddStudentAcc";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -74,7 +74,7 @@ namespace Library_Final
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        ClientID.Items.Add(reader["ClientID"].ToString());
+                        ClientID.Items.Add(reader["Name"].ToString());
                     }
                 }
             }
@@ -83,29 +83,14 @@ namespace Library_Final
 
 
 
-            //retrieving the IssueID in DATABASE ---OPENING----
-            string query3 = "SELECT IssueID FROM IssueBooks";
-
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query3, con))
-                {
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        ClientID.Items.Add(reader["IssueID"].ToString());
-                    }
-                }
-            }
-            //retrieving the IssueID in DATABASE ---CLOSING----
 
 
 
 
             //add value in combobox STATUS
-            Status.Items.Add("Availabe");
             Status.Items.Add("Issued");
+            Status.SelectedIndex = 0;
+
 
 
 
@@ -161,57 +146,47 @@ namespace Library_Final
 
         private void kryptonButton6_Click(object sender, EventArgs e)
         {
-            string query = @"INSERT INTO IssueBooks (Status, ClientID, BookID, DueDate)
-                 VALUES (@Status, @ClientID, @BookID, @DueDate)";
+            DateTime issueDate = IssueDate.SelectionStart;
+            DateTime dueDate = DueDate.SelectionStart;
+            DateTime today = DateTime.Now;
+
+            int overdueDays = 0;
+            decimal penalty = 0;
+
+            if (today > dueDate)
+            {
+                overdueDays = (today - dueDate).Days;
+                penalty = overdueDays * 5; // ₱5 per day
+            }
+
+            string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle, IssueDate, DueDate)
+                     VALUES (@Status, @StudentName, @BookTitle, @IssueDate, @DueDate)";
 
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Status", Status.Text);
-
-                    // ClientID - Check if selected, otherwise insert NULL
-                    if (!string.IsNullOrEmpty(ClientID.Text))
-                        cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
-                    else
-                        cmd.Parameters.AddWithValue("@ClientID", DBNull.Value);
-
-                    // BookID - Check if selected, otherwise insert NULL
-                    if (!string.IsNullOrEmpty(BookID.Text))
-                        cmd.Parameters.AddWithValue("@BookID", BookID.Text);
-                    else
-                        cmd.Parameters.AddWithValue("@BookID", DBNull.Value);
-
-                    // DueDate - Get exact date from DateTimePicker
-                   cmd.Parameters.AddWithValue("@DueDate", DueDate.SelectionStart);
-
+                    cmd.Parameters.AddWithValue("@StudentName", ClientID.Text);
+                    cmd.Parameters.AddWithValue("@BookTitle", BookID.Text);
+                    cmd.Parameters.AddWithValue("@IssueDate", issueDate);
+                    cmd.Parameters.AddWithValue("@DueDate", dueDate);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
-
-                    MessageBox.Show("Issue Book inserted successfully.");
                 }
             }
 
+            MessageBox.Show("Issue Book inserted successfully.");
+
             LoadIssueBooks(); // Refresh DataGridView
-
-
         }
+
 
         private void LoadIssueBooks()
         {
-            string query = @"
-        SELECT 
-            ib.IssueID,
-            sa.ClientID,
-            ba.BookID,
-            ib.Status,
-            ib.DueDate
-        FROM IssueBooks ib
-        LEFT JOIN AddStudentAcc sa ON ib.ClientID = sa.ClientID
-        LEFT JOIN BooksAcq ba ON ib.BookID = ba.BookID";
-
+            string query = @"SELECT IssueID, StudentName, BookTitle, IssueDate, DueDate,OverdueDays,Penalty, Status FROM IssueBooks";
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
@@ -222,7 +197,18 @@ namespace Library_Final
         }
 
 
+
         private void DueDate_DateChanged(object sender, DateRangeEventArgs e)
+        {
+
+        }
+
+        private void kryptonLabel3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kryptonLabel4_Click(object sender, EventArgs e)
         {
 
         }

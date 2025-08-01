@@ -20,6 +20,8 @@ namespace Library_Final
         public AddStudentAcc()
         {
             InitializeComponent();
+            //output data grid
+            LoadStudentAccounts();
         }
 
         private void kryptonLabel1_Click(object sender, EventArgs e)
@@ -29,15 +31,30 @@ namespace Library_Final
 
         private void AddStudentAcc_Load(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
-            con.Open();
-
-            SqlCommand cmd = new SqlCommand("SELECT * FROM AddStudentAcc", con);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            AddStudentAccDataGrid.DataSource = dt;
+            //output data grid
+            LoadStudentAccounts();
         }
+
+        private void LoadStudentAccounts()   //output data grid
+        {
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            {
+                con.Open();
+
+                string query = "SELECT * FROM AddStudentAcc";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    AddStudentAccDataGrid.DataSource = dt;
+                }
+            }
+        }
+
+
+
+
 
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
@@ -89,6 +106,7 @@ VALUES
 
             cmd.ExecuteNonQuery();
             MessageBox.Show("Student record added successfully!");
+            LoadStudentAccounts();       //output data grid
             con.Close();
 
             // Clear the fields after insert
