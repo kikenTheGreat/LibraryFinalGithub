@@ -54,7 +54,6 @@
             Source = new Krypton.Toolkit.KryptonComboBox();
             DataGridTotalBooks = new Krypton.Toolkit.KryptonDataGridView();
             kryptonButton6 = new Krypton.Toolkit.KryptonButton();
-            ArchivedButton = new Krypton.Toolkit.KryptonButton();
             SearchButton = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)Category).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
@@ -368,21 +367,6 @@
             kryptonButton6.Values.Text = "Update";
             kryptonButton6.Click += kryptonButton6_Click;
             // 
-            // ArchivedButton
-            // 
-            ArchivedButton.Location = new Point(98, 729);
-            ArchivedButton.Margin = new Padding(3, 4, 3, 4);
-            ArchivedButton.Name = "ArchivedButton";
-            ArchivedButton.Size = new Size(214, 59);
-            ArchivedButton.StateCommon.Back.Color1 = Color.FromArgb(62, 93, 74);
-            ArchivedButton.StateCommon.Back.Color2 = Color.FromArgb(62, 93, 74);
-            ArchivedButton.StateCommon.Border.Rounding = 15F;
-            ArchivedButton.StateCommon.Content.ShortText.Color1 = Color.White;
-            ArchivedButton.StateCommon.Content.ShortText.Font = new Font("Rockwell", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            ArchivedButton.TabIndex = 48;
-            ArchivedButton.Values.DropDownArrowColor = Color.Empty;
-            ArchivedButton.Values.Text = "Archive";
-            // 
             // SearchButton
             // 
             SearchButton.Location = new Point(345, 729);
@@ -408,7 +392,6 @@
             ClientSize = new Size(1475, 1035);
             Controls.Add(DataGridTotalBooks);
             Controls.Add(SearchButton);
-            Controls.Add(ArchivedButton);
             Controls.Add(kryptonButton6);
             Controls.Add(Source);
             Controls.Add(Category);
@@ -473,7 +456,6 @@
         private Krypton.Toolkit.KryptonComboBox Source;
         private Krypton.Toolkit.KryptonDataGridView DataGridTotalBooks;
         private Krypton.Toolkit.KryptonButton kryptonButton6;
-        private Krypton.Toolkit.KryptonButton ArchivedButton;
         private Krypton.Toolkit.KryptonButton SearchButton;
     }
 }

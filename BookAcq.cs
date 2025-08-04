@@ -18,6 +18,7 @@ namespace Library_Final
         public BookAcq()
         {
             InitializeComponent();
+            
             LoadBooksGrid(); // refresh grid to show new record
 
         }
@@ -84,7 +85,7 @@ namespace Library_Final
         {
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
-                string query = "SELECT * FROM BooksAcq";
+                string query = "SELECT \r\n    BookID,\r\n    BookTitle,\r\n    Author,\r\n    ISBN,\r\n    Publisher,\r\n    Source,\r\n    Quantity,\r\n    Published,\r\n    Category\r\nFROM BooksAcq;\r\n";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -96,6 +97,20 @@ namespace Library_Final
                     DataGridTotalBooks.FirstDisplayedScrollingRowIndex = 0;
                     DataGridTotalBooks.ClearSelection(); // Optional
                 }
+
+
+                // Check if already added (to avoid duplicates)
+                if (!DataGridTotalBooks.Columns.Contains("Action"))
+                {
+                    DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+                    btn.HeaderText = "Action";         // Column header name
+                    btn.Name = "Action";               // Internal name
+                    btn.Text = "Archive";              // Button text
+                    btn.UseColumnTextForButtonValue = true; // So it shows text in every row
+                    DataGridTotalBooks.Columns.Add(btn);    // Add to DataGridView
+                }
+
+
             }
         }
 
@@ -218,6 +233,22 @@ namespace Library_Final
 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+           
+            if (e.RowIndex >= 0 && DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Action")
+            {
+                DataGridViewRow selectedRow = DataGridTotalBooks.Rows[e.RowIndex];
+
+                // Archive it
+                ArchiveBookFromRow(selectedRow);
+
+                // Optionally delete it from BooksAcq
+                string bookID = selectedRow.Cells["BookID"].Value.ToString();
+                DeleteFromBooksAcq(bookID);
+
+                // Refresh grid
+                LoadBooksGrid();
+            }
+        
 
         }
 
@@ -225,5 +256,89 @@ namespace Library_Final
         {
 
         }
+
+        private void ArchivedButton_Click(object sender, EventArgs e)
+        {
+            // archive function ----------------------
+
+            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            con.Open();
+
+            SqlCommand cmd = new SqlCommand("INSERT INTO BooksArchive (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
+                "VALUES (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+
+            cmd.Parameters.AddWithValue("@BookID", BookID.Text);
+            cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
+            cmd.Parameters.AddWithValue("@Author", Author.Text);
+            cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
+            cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
+            cmd.Parameters.AddWithValue("@Source", Source.Text);
+            cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
+            cmd.Parameters.AddWithValue("@Published", Published.Text);
+            cmd.Parameters.AddWithValue("@Category", Category.Text);
+
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Book archived successfully!");
+
+            LoadBooksGrid(); // Optional: reload if showing archived books
+
+            con.Close();
+
+            // Clear fields
+            BookID.Text = "";
+            BookTitle.Text = "";
+            Author.Text = "";
+            ISBN.Text = "";
+            Publisher.Text = "";
+            Source.Text = "";
+            Quantity.Text = "";
+            Published.Text = "";
+            Category.Text = "";
+
+        }
+
+
+        private void ArchiveBookFromRow(DataGridViewRow row)
+        {
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand(@"
+            INSERT INTO BooksArchive (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, Status)
+            VALUES (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @Status)", con);
+
+                cmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value.ToString());
+                cmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value.ToString());
+                cmd.Parameters.AddWithValue("@Author", row.Cells["Author"].Value.ToString());
+                cmd.Parameters.AddWithValue("@ISBN", row.Cells["ISBN"].Value.ToString());
+                cmd.Parameters.AddWithValue("@Publisher", row.Cells["Publisher"].Value.ToString());
+                cmd.Parameters.AddWithValue("@Source", row.Cells["Source"].Value.ToString());
+                cmd.Parameters.AddWithValue("@Quantity", row.Cells["Quantity"].Value.ToString());
+                cmd.Parameters.AddWithValue("@Published", row.Cells["Published"].Value.ToString());
+                cmd.Parameters.AddWithValue("@Category", row.Cells["Category"].Value.ToString());
+                cmd.Parameters.AddWithValue("@Status", "Archived"); // or "Damaged", "Lost", etc.
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Book archived successfully from row!");
+            }
+        }
+
+
+        private void DeleteFromBooksAcq(string bookID) //delete after archive
+        {
+            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            con.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM BooksAcq WHERE BookID = @BookID", con);
+            cmd.Parameters.AddWithValue("@BookID", bookID);
+            cmd.ExecuteNonQuery();
+
+            con.Close();
+        }
+
+
+
     }
 }

@@ -165,11 +165,11 @@
             kryptonLabel2.Location = new Point(42, 117);
             kryptonLabel2.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel2.Name = "kryptonLabel2";
-            kryptonLabel2.Size = new Size(152, 28);
+            kryptonLabel2.Size = new Size(150, 28);
             kryptonLabel2.StateCommon.ShortText.Color1 = Color.White;
             kryptonLabel2.StateCommon.ShortText.Font = new Font("Rockwell", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             kryptonLabel2.TabIndex = 28;
-            kryptonLabel2.Values.Text = "Manage Books";
+            kryptonLabel2.Values.Text = "Archive Books";
             // 
             // kryptonButton5
             // 

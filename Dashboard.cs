@@ -38,8 +38,8 @@ namespace Library_Final
 
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
-            ManageBooks manageBooks = new ManageBooks();
-            manageBooks.Show();
+            ArchiveBooks archive = new ArchiveBooks();
+            archive.Show();
         }
 
         private void kryptonButton7_Click(object sender, EventArgs e)
