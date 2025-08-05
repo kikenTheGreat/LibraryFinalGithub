@@ -43,42 +43,10 @@ namespace Library_Final
 
         private void BorrowBooks_Load(object sender, EventArgs e)
         {
-            //retrieving the BookID in DATABASE ---OPENING----
-            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
-            string query1 = "SELECT BookTitle FROM BooksAcq";
-
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query1, con))
-                {
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        BookID.Items.Add(reader["BookTitle"].ToString());
-                    }
-                }
-            }
-            //retrieving the BookID in DATABASE ---CLOSING----
 
 
 
-            //retrieving the ClientID in DATABASE ---OPENING----
-            string query2 = "SELECT Name FROM AddStudentAcc";
 
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query2, con))
-                {
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        ClientID.Items.Add(reader["Name"].ToString());
-                    }
-                }
-            }
-            //retrieving the ClientID in DATABASE ---CLOSING----
 
 
 
@@ -167,8 +135,8 @@ namespace Library_Final
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@Status", Status.Text);
-                    cmd.Parameters.AddWithValue("@StudentName", ClientID.Text);
-                    cmd.Parameters.AddWithValue("@BookTitle", BookID.Text);
+                    cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
+                    cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
                     cmd.Parameters.AddWithValue("@IssueDate", issueDate);
                     cmd.Parameters.AddWithValue("@DueDate", dueDate);
 
@@ -212,5 +180,94 @@ namespace Library_Final
         {
 
         }
+
+
+
+
+
+        private void BookID_TextChanged(object sender, EventArgs e)
+        {
+            string bookID = BookID.Text.Trim();
+
+            if (bookID.Length >= 4)
+            {
+                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+                string query = "SELECT BookTitle FROM BooksAcq WHERE BookID = @BookID";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@BookID", bookID);
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            string title = reader["BookTitle"].ToString();
+                            BookTitle.Items.Clear();
+                            BookTitle.Items.Add(title);
+                            BookTitle.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            BookTitle.Items.Clear();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // If less than 4 characters, clear the ComboBox
+                BookTitle.Items.Clear();
+            }
+        }
+
+
+
+
+
+        private void ClientID_TextChanged(object sender, EventArgs e)
+        {
+            string clientID = ClientID.Text.Trim();
+
+            if (clientID.Length >= 4)
+            {
+                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+                string query = "SELECT Name FROM AddStudentAcc WHERE ClientID = @ClientID";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ClientID", clientID);
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            string name = reader["Name"].ToString();
+                            ClientName.Items.Clear();
+                            ClientName.Items.Add(name);
+                            ClientName.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            ClientName.Items.Clear();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Clear ComboBox if clientID is less than 4 characters
+                ClientName.Items.Clear();
+            }
+        }
+
+
+
     }
 }

@@ -51,8 +51,8 @@
             kryptonTextBox3 = new Krypton.Toolkit.KryptonTextBox();
             kryptonCheckButton1 = new Krypton.Toolkit.KryptonCheckButton();
             DueDate = new MonthCalendar();
-            ClientID = new ComboBox();
-            BookID = new ComboBox();
+            ClientName = new ComboBox();
+            BookTitle = new ComboBox();
             Status = new ComboBox();
             BorrowerStatus = new Krypton.Toolkit.KryptonLabel();
             kryptonToastNotificationManager1 = new Krypton.Toolkit.KryptonToastNotificationManager();
@@ -62,6 +62,10 @@
             IssueBooksDataGrid = new DataGridView();
             IssueDate = new MonthCalendar();
             kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
+            kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
+            kryptonLabel18 = new Krypton.Toolkit.KryptonLabel();
+            ClientID = new Krypton.Toolkit.KryptonTextBox();
+            BookID = new Krypton.Toolkit.KryptonTextBox();
             ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -112,7 +116,7 @@
             // 
             // kryptonLabel1
             // 
-            kryptonLabel1.Location = new Point(5, 88);
+            kryptonLabel1.Location = new Point(5, 131);
             kryptonLabel1.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel1.Name = "kryptonLabel1";
             kryptonLabel1.Size = new Size(127, 33);
@@ -318,33 +322,33 @@
             // 
             // DueDate
             // 
-            DueDate.Location = new Point(142, 391);
+            DueDate.Location = new Point(148, 445);
             DueDate.Name = "DueDate";
             DueDate.TabIndex = 94;
             DueDate.DateChanged += DueDate_DateChanged;
             // 
-            // ClientID
+            // ClientName
             // 
-            ClientID.FormattingEnabled = true;
-            ClientID.Location = new Point(148, 61);
-            ClientID.Name = "ClientID";
-            ClientID.Size = new Size(262, 28);
-            ClientID.TabIndex = 95;
-            ClientID.SelectedIndexChanged += ClientID_SelectedIndexChanged;
+            ClientName.FormattingEnabled = true;
+            ClientName.Location = new Point(148, 61);
+            ClientName.Name = "ClientName";
+            ClientName.Size = new Size(262, 28);
+            ClientName.TabIndex = 95;
+            ClientName.SelectedIndexChanged += ClientID_SelectedIndexChanged;
             // 
-            // BookID
+            // BookTitle
             // 
-            BookID.FormattingEnabled = true;
-            BookID.Location = new Point(148, 95);
-            BookID.Name = "BookID";
-            BookID.Size = new Size(262, 28);
-            BookID.TabIndex = 96;
-            BookID.SelectedIndexChanged += BookID_SelectedIndexChanged;
+            BookTitle.FormattingEnabled = true;
+            BookTitle.Location = new Point(148, 138);
+            BookTitle.Name = "BookTitle";
+            BookTitle.Size = new Size(262, 28);
+            BookTitle.TabIndex = 96;
+            BookTitle.SelectedIndexChanged += BookID_SelectedIndexChanged;
             // 
             // Status
             // 
             Status.FormattingEnabled = true;
-            Status.Location = new Point(133, 127);
+            Status.Location = new Point(139, 181);
             Status.Name = "Status";
             Status.Size = new Size(262, 28);
             Status.TabIndex = 97;
@@ -352,7 +356,7 @@
             // 
             // BorrowerStatus
             // 
-            BorrowerStatus.Location = new Point(12, 127);
+            BorrowerStatus.Location = new Point(18, 181);
             BorrowerStatus.Margin = new Padding(3, 4, 3, 4);
             BorrowerStatus.Name = "BorrowerStatus";
             BorrowerStatus.Size = new Size(80, 33);
@@ -373,13 +377,13 @@
             // 
             // IssueDate
             // 
-            IssueDate.Location = new Point(133, 166);
+            IssueDate.Location = new Point(139, 220);
             IssueDate.Name = "IssueDate";
             IssueDate.TabIndex = 102;
             // 
             // kryptonLabel4
             // 
-            kryptonLabel4.Location = new Point(1, 239);
+            kryptonLabel4.Location = new Point(7, 293);
             kryptonLabel4.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel4.Name = "kryptonLabel4";
             kryptonLabel4.Size = new Size(131, 33);
@@ -389,6 +393,44 @@
             kryptonLabel4.Values.Text = "Issue Date";
             kryptonLabel4.Click += kryptonLabel4_Click;
             // 
+            // kryptonLabel5
+            // 
+            kryptonLabel5.Location = new Point(40, 90);
+            kryptonLabel5.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel5.Name = "kryptonLabel5";
+            kryptonLabel5.Size = new Size(102, 33);
+            kryptonLabel5.StateCommon.ShortText.Color1 = Color.White;
+            kryptonLabel5.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kryptonLabel5.TabIndex = 104;
+            kryptonLabel5.Values.Text = "Book ID";
+            // 
+            // kryptonLabel18
+            // 
+            kryptonLabel18.Location = new Point(-3, 3);
+            kryptonLabel18.Margin = new Padding(3, 4, 3, 4);
+            kryptonLabel18.Name = "kryptonLabel18";
+            kryptonLabel18.Size = new Size(114, 33);
+            kryptonLabel18.StateCommon.ShortText.Color1 = Color.White;
+            kryptonLabel18.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            kryptonLabel18.TabIndex = 105;
+            kryptonLabel18.Values.Text = "Client ID";
+            // 
+            // ClientID
+            // 
+            ClientID.Location = new Point(148, 9);
+            ClientID.Name = "ClientID";
+            ClientID.Size = new Size(265, 27);
+            ClientID.TabIndex = 106;
+            ClientID.TextChanged += ClientID_TextChanged;
+            // 
+            // BookID
+            // 
+            BookID.Location = new Point(138, 105);
+            BookID.Name = "BookID";
+            BookID.Size = new Size(265, 27);
+            BookID.TabIndex = 107;
+            BookID.TextChanged += BookID_TextChanged;
+            // 
             // BorrowBooks
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -396,13 +438,17 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1035);
+            Controls.Add(BookID);
+            Controls.Add(ClientID);
+            Controls.Add(kryptonLabel18);
+            Controls.Add(kryptonLabel5);
             Controls.Add(kryptonLabel4);
             Controls.Add(IssueDate);
             Controls.Add(IssueBooksDataGrid);
             Controls.Add(BorrowerStatus);
             Controls.Add(Status);
-            Controls.Add(BookID);
-            Controls.Add(ClientID);
+            Controls.Add(BookTitle);
+            Controls.Add(ClientName);
             Controls.Add(DueDate);
             Controls.Add(kryptonCheckButton1);
             Controls.Add(kryptonTextBox3);
@@ -459,8 +505,8 @@
         private Krypton.Toolkit.KryptonTextBox kryptonTextBox3;
         private Krypton.Toolkit.KryptonCheckButton kryptonCheckButton1;
         private MonthCalendar DueDate;
-        private ComboBox ClientID;
-        private ComboBox BookID;
+        private ComboBox ClientName;
+        private ComboBox BookTitle;
         private ComboBox Status;
         private Krypton.Toolkit.KryptonLabel BorrowerStatus;
         private Krypton.Toolkit.KryptonToastNotificationManager kryptonToastNotificationManager1;
@@ -470,5 +516,9 @@
         private DataGridView IssueBooksDataGrid;
         private MonthCalendar IssueDate;
         private Krypton.Toolkit.KryptonLabel kryptonLabel4;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel5;
+        private Krypton.Toolkit.KryptonLabel kryptonLabel18;
+        private Krypton.Toolkit.KryptonTextBox ClientID;
+        private Krypton.Toolkit.KryptonTextBox BookID;
     }
 }
