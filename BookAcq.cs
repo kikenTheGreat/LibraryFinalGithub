@@ -10,6 +10,8 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace Library_Final
 {
@@ -332,7 +334,7 @@ namespace Library_Final
                     cmd.Parameters.AddWithValue("@Published", published);
                     cmd.Parameters.AddWithValue("@Category", category);
 
-                    // 🔴 This is the missing part
+                
                     cmd.Parameters.AddWithValue("@BookID", bookID); // Make sure bookID has a value
 
                     cmd.ExecuteNonQuery();

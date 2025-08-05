@@ -52,9 +52,12 @@
             Source = new Krypton.Toolkit.KryptonComboBox();
             DataGridTotalBooks = new Krypton.Toolkit.KryptonDataGridView();
             SearchButton = new Krypton.Toolkit.KryptonButton();
+            picCover = new PictureBox();
+            kryptonTextBox1 = new Krypton.Toolkit.KryptonTextBox();
             ((System.ComponentModel.ISupportInitialize)Category).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picCover).BeginInit();
             SuspendLayout();
             // 
             // kryptonButton4
@@ -195,11 +198,11 @@
             kryptonLabel6.Location = new Point(328, 384);
             kryptonLabel6.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel6.Name = "kryptonLabel6";
-            kryptonLabel6.Size = new Size(127, 33);
+            kryptonLabel6.Size = new Size(185, 33);
             kryptonLabel6.StateCommon.ShortText.Color1 = Color.White;
             kryptonLabel6.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             kryptonLabel6.TabIndex = 40;
-            kryptonLabel6.Values.Text = "Published";
+            kryptonLabel6.Values.Text = "Published Date";
             // 
             // Published
             // 
@@ -258,7 +261,7 @@
             // 
             // kryptonButton1
             // 
-            kryptonButton1.Location = new Point(88, 504);
+            kryptonButton1.Location = new Point(88, 767);
             kryptonButton1.Margin = new Padding(3, 4, 3, 4);
             kryptonButton1.Name = "kryptonButton1";
             kryptonButton1.Size = new Size(214, 59);
@@ -326,7 +329,7 @@
             // 
             // SearchButton
             // 
-            SearchButton.Location = new Point(315, 504);
+            SearchButton.Location = new Point(315, 767);
             SearchButton.Margin = new Padding(3, 4, 3, 4);
             SearchButton.Name = "SearchButton";
             SearchButton.Size = new Size(227, 59);
@@ -340,6 +343,25 @@
             SearchButton.Values.Text = "Search";
             SearchButton.Click += SearchButton_Click;
             // 
+            // picCover
+            // 
+            picCover.Location = new Point(104, 477);
+            picCover.Name = "picCover";
+            picCover.Size = new Size(438, 161);
+            picCover.TabIndex = 50;
+            picCover.TabStop = false;
+            // 
+            // kryptonTextBox1
+            // 
+            kryptonTextBox1.Location = new Point(104, 666);
+            kryptonTextBox1.Margin = new Padding(3, 4, 3, 4);
+            kryptonTextBox1.Name = "kryptonTextBox1";
+            kryptonTextBox1.Size = new Size(409, 33);
+            kryptonTextBox1.StateCommon.Back.Color1 = Color.AliceBlue;
+            kryptonTextBox1.StateCommon.Border.Rounding = 10F;
+            kryptonTextBox1.StateCommon.Content.Color1 = Color.DarkGray;
+            kryptonTextBox1.TabIndex = 51;
+            // 
             // BookAcq
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -347,6 +369,8 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1035);
+            Controls.Add(kryptonTextBox1);
+            Controls.Add(picCover);
             Controls.Add(DataGridTotalBooks);
             Controls.Add(SearchButton);
             Controls.Add(Source);
@@ -379,6 +403,7 @@
             ((System.ComponentModel.ISupportInitialize)Category).EndInit();
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picCover).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -408,5 +433,7 @@
         private Krypton.Toolkit.KryptonComboBox Source;
         private Krypton.Toolkit.KryptonDataGridView DataGridTotalBooks;
         private Krypton.Toolkit.KryptonButton SearchButton;
+        private PictureBox picCover;
+        private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
     }
 }
