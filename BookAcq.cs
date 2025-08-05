@@ -20,7 +20,7 @@ namespace Library_Final
         public BookAcq()
         {
             InitializeComponent();
-            
+
             LoadBooksGrid(); // refresh grid to show new record
             DataGridTotalBooks.CellBeginEdit += DataGridTotalBooks_CellBeginEdit;
 
@@ -68,7 +68,7 @@ namespace Library_Final
             LoadBooksGrid(); // refresh grid to show new record
             con.Close();
 
-              // what will display after inserting
+            // what will display after inserting
             BookTitle.Text = " ";
             Author.Text = " ";
             ISBN.Text = " ";
@@ -152,7 +152,7 @@ namespace Library_Final
             //use WHERE to specify what record to UPDATE                                                                                              
             SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
 
-             // this will be used in WHERE clause
+            // this will be used in WHERE clause
             cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
             cmd.Parameters.AddWithValue("@Author", Author.Text);
             cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
@@ -168,7 +168,7 @@ namespace Library_Final
             con.Close();
 
             // Clear the textboxes after update
-       
+
             BookTitle.Text = "";
             Author.Text = "";
             ISBN.Text = "";
@@ -247,7 +247,7 @@ namespace Library_Final
 
 
 
-        
+
 
         private void SearchBtn_Click(object sender, EventArgs e)
         {
@@ -266,7 +266,7 @@ namespace Library_Final
             if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "BookID")
             {
                 MessageBox.Show("BookID cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            
+
             }
 
 
@@ -294,7 +294,7 @@ namespace Library_Final
 
 
             // Allow Editing in DATAGRID ROW (UPDATE FUNCTIONNNNNN)
-            
+
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
             if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Update")
@@ -303,7 +303,7 @@ namespace Library_Final
                 DataGridViewRow row = DataGridTotalBooks.Rows[e.RowIndex];
 
                 // Example: retrieve the data
-            
+
                 string bookTitle = row.Cells["BookTitle"].Value.ToString();
                 string author = row.Cells["Author"].Value.ToString();
                 string isbn = row.Cells["ISBN"].Value.ToString();
@@ -312,7 +312,7 @@ namespace Library_Final
 
                 string quantity = row.Cells["Quantity"].Value.ToString();
 
-            
+
                 string published = row.Cells["Published"].Value.ToString();
                 string category = row.Cells["Category"].Value.ToString();
 
@@ -334,7 +334,7 @@ namespace Library_Final
                     cmd.Parameters.AddWithValue("@Published", published);
                     cmd.Parameters.AddWithValue("@Category", category);
 
-                
+
                     cmd.Parameters.AddWithValue("@BookID", bookID); // Make sure bookID has a value
 
                     cmd.ExecuteNonQuery();
@@ -362,7 +362,7 @@ namespace Library_Final
             SqlCommand cmd = new SqlCommand("INSERT INTO BooksArchive (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
                 "VALUES ( @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
 
-          
+
             cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
             cmd.Parameters.AddWithValue("@Author", Author.Text);
             cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
@@ -380,7 +380,7 @@ namespace Library_Final
             con.Close();
 
             // Clear fields
-          
+
             BookTitle.Text = "";
             Author.Text = "";
             ISBN.Text = "";
@@ -438,7 +438,61 @@ namespace Library_Final
             con.Close();
         }
 
+        private async void ISBN_KeyDown(object sender, KeyEventArgs e)
+        {
+            //retrieve the data through onlineeeeeeeeeeeeeeeeeeeeeeeeeeee
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                string isbn = ISBN.Text.Trim();
+                string apiUrl = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    try
+                    {
+                        var response = await client.GetStringAsync(apiUrl);
+                        JObject json = JObject.Parse(response);
+
+                        var book = json["items"]?[0]?["volumeInfo"];
+                        if (book != null)
+                        {
+                            BookTitle.Text = book["title"]?.ToString();
+                            Author.Text = book["authors"]?[0]?.ToString();
+                            Publisher.Text = book["publisher"]?.ToString();
+                            Published.Text = book["publishedDate"]?.ToString();
+                            Category.Text = book["categories"]?[0]?.ToString();
+                            txtDesc.Text = book["description"]?.ToString();
+
+                            string thumbnail = book["imageLinks"]?["thumbnail"]?.ToString();
+                            if (!string.IsNullOrEmpty(thumbnail))
+                            {
+                                picCover.Load(thumbnail);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Book not found.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
+            }
 
 
+
+
+
+
+
+        }
+
+        private void ISBN_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
