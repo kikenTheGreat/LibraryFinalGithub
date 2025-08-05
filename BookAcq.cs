@@ -20,8 +20,19 @@ namespace Library_Final
             InitializeComponent();
             
             LoadBooksGrid(); // refresh grid to show new record
+            DataGridTotalBooks.CellBeginEdit += DataGridTotalBooks_CellBeginEdit;
 
         }
+
+        private void DataGridTotalBooks_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "BookID")
+            {
+                MessageBox.Show("BookID cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                e.Cancel = true; // prevent editing
+            }
+        }
+
 
         private void kryptonButton5_Click(object sender, EventArgs e)
         {
@@ -35,12 +46,12 @@ namespace Library_Final
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO BooksAcq (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
-                                "VALUES (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+            SqlCommand cmd = new SqlCommand("INSERT INTO BooksAcq ( BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
+                                "VALUES ( @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
 
 
 
-            cmd.Parameters.AddWithValue("@BookID", BookID.Text);
+
             cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
             cmd.Parameters.AddWithValue("@Author", Author.Text);
             cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
@@ -55,7 +66,7 @@ namespace Library_Final
             LoadBooksGrid(); // refresh grid to show new record
             con.Close();
 
-            BookID.Text = " ";      // what will display after inserting
+              // what will display after inserting
             BookTitle.Text = " ";
             Author.Text = " ";
             ISBN.Text = " ";
@@ -81,11 +92,11 @@ namespace Library_Final
 
         }
 
-        private void LoadBooksGrid()          //output the datagrid 
+        private void LoadBooksGrid()          //output the datagriddddddddddddddd
         {
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
-                string query = "SELECT \r\n    BookID,\r\n    BookTitle,\r\n    Author,\r\n    ISBN,\r\n    Publisher,\r\n    Source,\r\n    Quantity,\r\n    Published,\r\n    Category\r\nFROM BooksAcq;\r\n";
+                string query = "SELECT * FROM BooksAcq";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -99,7 +110,7 @@ namespace Library_Final
                 }
 
 
-                // Check if already added (to avoid duplicates)
+                // Button For ARCHIVEEEEEEE
                 if (!DataGridTotalBooks.Columns.Contains("Action"))
                 {
                     DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
@@ -109,6 +120,19 @@ namespace Library_Final
                     btn.UseColumnTextForButtonValue = true; // So it shows text in every row
                     DataGridTotalBooks.Columns.Add(btn);    // Add to DataGridView
                 }
+
+
+                // Button For UPDATEEEEE
+                if (!DataGridTotalBooks.Columns.Contains("Update"))
+                {
+                    DataGridViewButtonColumn updateButton = new DataGridViewButtonColumn();
+                    updateButton.Name = "Update";
+                    updateButton.HeaderText = "Actions";
+                    updateButton.Text = "Update";
+                    updateButton.UseColumnTextForButtonValue = true;
+                    DataGridTotalBooks.Columns.Add(updateButton);
+                }
+
 
 
             }
@@ -126,7 +150,7 @@ namespace Library_Final
             //use WHERE to specify what record to UPDATE                                                                                              
             SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
 
-            cmd.Parameters.AddWithValue("@BookID", BookID.Text);  // this will be used in WHERE clause
+             // this will be used in WHERE clause
             cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
             cmd.Parameters.AddWithValue("@Author", Author.Text);
             cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
@@ -142,7 +166,7 @@ namespace Library_Final
             con.Close();
 
             // Clear the textboxes after update
-            BookID.Text = "";
+       
             BookTitle.Text = "";
             Author.Text = "";
             ISBN.Text = "";
@@ -156,75 +180,72 @@ namespace Library_Final
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
-            con.Open();
 
-            string query = "SELECT * FROM BooksAcq WHERE 1=1";  // Safe base
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = con;
-
-            if (!string.IsNullOrWhiteSpace(BookID.Text))
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
-                query += " AND BookID LIKE @BookID";
-                cmd.Parameters.AddWithValue("@BookID", "%" + BookID.Text + "%");
+                con.Open();
+
+                string query = "SELECT * FROM BooksAcq WHERE 1=1";
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = con;
+
+                if (!string.IsNullOrWhiteSpace(BookTitle.Text))
+                {
+                    query += " AND BookTitle LIKE @BookTitle";
+                    cmd.Parameters.AddWithValue("@BookTitle", "%" + BookTitle.Text + "%");
+                }
+                if (!string.IsNullOrWhiteSpace(Author.Text))
+                {
+                    query += " AND Author LIKE @Author";
+                    cmd.Parameters.AddWithValue("@Author", "%" + Author.Text + "%");
+                }
+                if (!string.IsNullOrWhiteSpace(ISBN.Text))
+                {
+                    query += " AND ISBN LIKE @ISBN";
+                    cmd.Parameters.AddWithValue("@ISBN", "%" + ISBN.Text + "%");
+                }
+                if (!string.IsNullOrWhiteSpace(Publisher.Text))
+                {
+                    query += " AND Publisher LIKE @Publisher";
+                    cmd.Parameters.AddWithValue("@Publisher", "%" + Publisher.Text + "%");
+                }
+                if (!string.IsNullOrWhiteSpace(Source.Text))
+                {
+                    query += " AND Source LIKE @Source";
+                    cmd.Parameters.AddWithValue("@Source", "%" + Source.Text + "%");
+                }
+                if (!string.IsNullOrWhiteSpace(Quantity.Text))
+                {
+                    query += " AND Quantity LIKE @Quantity";
+                    cmd.Parameters.AddWithValue("@Quantity", "%" + Quantity.Text + "%");
+                }
+                if (!string.IsNullOrWhiteSpace(Published.Text))
+                {
+                    query += " AND Published LIKE @Published";
+                    cmd.Parameters.AddWithValue("@Published", "%" + Published.Text + "%");
+                }
+                if (!string.IsNullOrWhiteSpace(Category.Text))
+                {
+                    query += " AND Category LIKE @Category";
+                    cmd.Parameters.AddWithValue("@Category", "%" + Category.Text + "%");
+                }
+
+                cmd.CommandText = query;
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                DataGridTotalBooks.DataSource = dt; // Your DataGridView name
             }
-            if (!string.IsNullOrWhiteSpace(BookTitle.Text))
-            {
-                query += " AND BookTitle LIKE @BookTitle";
-                cmd.Parameters.AddWithValue("@BookTitle", "%" + BookTitle.Text + "%");
-            }
-            if (!string.IsNullOrWhiteSpace(Author.Text))
-            {
-                query += " AND Author LIKE @Author";
-                cmd.Parameters.AddWithValue("@Author", "%" + Author.Text + "%");
-            }
-            if (!string.IsNullOrWhiteSpace(ISBN.Text))
-            {
-                query += " AND ISBN LIKE @ISBN";
-                cmd.Parameters.AddWithValue("@ISBN", "%" + ISBN.Text + "%");
-            }
-            if (!string.IsNullOrWhiteSpace(Publisher.Text))
-            {
-                query += " AND Publisher LIKE @Publisher";
-                cmd.Parameters.AddWithValue("@Publisher", "%" + Publisher.Text + "%");
-            }
-            if (!string.IsNullOrWhiteSpace(Source.Text))
-            {
-                query += " AND Source LIKE @Source";
-                cmd.Parameters.AddWithValue("@Source", "%" + Source.Text + "%");
-            }
-            if (!string.IsNullOrWhiteSpace(Quantity.Text))
-            {
-                query += " AND Quantity LIKE @Quantity";
-                cmd.Parameters.AddWithValue("@Quantity", "%" + Quantity.Text + "%");
-            }
-            if (!string.IsNullOrWhiteSpace(Published.Text))
-            {
-                query += " AND Published LIKE @Published";
-                cmd.Parameters.AddWithValue("@Published", "%" + Published.Text + "%");
-            }
-            if (!string.IsNullOrWhiteSpace(Category.Text))
-            {
-                query += " AND Category LIKE @Category";
-                cmd.Parameters.AddWithValue("@Category", "%" + Category.Text + "%");
-            }
-
-            cmd.CommandText = query;
-
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-
-            DataGridTotalBooks.DataSource = dt;
-            con.Close();
-
-
-
-
-
-
-
         }
+
+
+
+
+
+
+        
 
         private void SearchBtn_Click(object sender, EventArgs e)
         {
@@ -233,7 +254,26 @@ namespace Library_Final
 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-           
+
+            // TO ENABLE EDITING IN DATAGRID FOR ROWWW
+            DataGridTotalBooks.ReadOnly = false;
+            DataGridTotalBooks.AllowUserToAddRows = false; // optional
+            DataGridTotalBooks.Columns["Update"].ReadOnly = true; // keep button read-only
+
+            // Check if the column is BookID
+            if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "BookID")
+            {
+                MessageBox.Show("BookID cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            
+            }
+
+
+
+            // TO ENABLE EDITING IN DATAGRID FOR ROWWW
+
+
+
+
             if (e.RowIndex >= 0 && DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Action")
             {
                 DataGridViewRow selectedRow = DataGridTotalBooks.Rows[e.RowIndex];
@@ -248,7 +288,60 @@ namespace Library_Final
                 // Refresh grid
                 LoadBooksGrid();
             }
-        
+
+
+
+            // Allow Editing in DATAGRID ROW (UPDATE FUNCTIONNNNNN)
+            
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Update")
+            {
+                // Get the current row
+                DataGridViewRow row = DataGridTotalBooks.Rows[e.RowIndex];
+
+                // Example: retrieve the data
+            
+                string bookTitle = row.Cells["BookTitle"].Value.ToString();
+                string author = row.Cells["Author"].Value.ToString();
+                string isbn = row.Cells["ISBN"].Value.ToString();
+                string publisher = row.Cells["Publisher"].Value.ToString();
+                string source = row.Cells["Source"].Value.ToString();
+
+                string quantity = row.Cells["Quantity"].Value.ToString();
+
+            
+                string published = row.Cells["Published"].Value.ToString();
+                string category = row.Cells["Category"].Value.ToString();
+
+                // Update to database
+                using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+                {
+                    int bookID = Convert.ToInt32(DataGridTotalBooks.CurrentRow.Cells["BookID"].Value);
+
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
+
+                    cmd.Parameters.AddWithValue("@BookTitle", bookTitle);
+                    cmd.Parameters.AddWithValue("@Author", author);
+                    cmd.Parameters.AddWithValue("@ISBN", isbn);
+                    cmd.Parameters.AddWithValue("@Publisher", publisher);
+                    cmd.Parameters.AddWithValue("@Source", source);
+                    cmd.Parameters.AddWithValue("@Quantity", quantity);
+                    cmd.Parameters.AddWithValue("@Published", published);
+                    cmd.Parameters.AddWithValue("@Category", category);
+
+                    // 🔴 This is the missing part
+                    cmd.Parameters.AddWithValue("@BookID", bookID); // Make sure bookID has a value
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("Book updated successfully!");
+
+            }
+
 
         }
 
@@ -264,10 +357,10 @@ namespace Library_Final
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO BooksArchive (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
-                "VALUES (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+            SqlCommand cmd = new SqlCommand("INSERT INTO BooksArchive (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
+                "VALUES ( @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
 
-            cmd.Parameters.AddWithValue("@BookID", BookID.Text);
+          
             cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
             cmd.Parameters.AddWithValue("@Author", Author.Text);
             cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
@@ -285,7 +378,7 @@ namespace Library_Final
             con.Close();
 
             // Clear fields
-            BookID.Text = "";
+          
             BookTitle.Text = "";
             Author.Text = "";
             ISBN.Text = "";
@@ -301,14 +394,16 @@ namespace Library_Final
         private void ArchiveBookFromRow(DataGridViewRow row)
         {
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
-
             {
                 con.Open();
 
                 SqlCommand cmd = new SqlCommand(@"
-            INSERT INTO BooksArchive (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, Status)
-            VALUES (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @Status)", con);
+            INSERT INTO BooksArchive 
+            (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate)
+            VALUES 
+            (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate)", con);
 
+                // BookID from row (if needed)
                 cmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value.ToString());
                 cmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value.ToString());
                 cmd.Parameters.AddWithValue("@Author", row.Cells["Author"].Value.ToString());
@@ -318,12 +413,15 @@ namespace Library_Final
                 cmd.Parameters.AddWithValue("@Quantity", row.Cells["Quantity"].Value.ToString());
                 cmd.Parameters.AddWithValue("@Published", row.Cells["Published"].Value.ToString());
                 cmd.Parameters.AddWithValue("@Category", row.Cells["Category"].Value.ToString());
-                cmd.Parameters.AddWithValue("@Status", "Archived"); // or "Damaged", "Lost", etc.
+
+                // Set ArchivedDate to current datetime
+                cmd.Parameters.AddWithValue("@ArchivedDate", DateTime.Now);
 
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Book archived successfully from row!");
             }
         }
+
 
 
         private void DeleteFromBooksAcq(string bookID) //delete after archive
