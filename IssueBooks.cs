@@ -147,6 +147,7 @@ namespace Library_Final
             DueDate,
             IssueDate,
             StudentName,
+            Source,
             BookTitle,
             OverdueDays,
             Penalty,
@@ -204,7 +205,7 @@ namespace Library_Final
             if (bookID.Length >= 4)
             {
                 string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
-                string query = "SELECT BookTitle FROM BooksAcq WHERE BookID = @BookID";
+                string query = "SELECT BookTitle, Source FROM BooksAcq WHERE BookID = @BookID";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
@@ -217,22 +218,31 @@ namespace Library_Final
 
                         if (reader.Read())
                         {
+                            // Fill BookTitle ComboBox
                             string title = reader["BookTitle"].ToString();
                             BookTitle.Items.Clear();
                             BookTitle.Items.Add(title);
                             BookTitle.SelectedIndex = 0;
+
+                            // Fill Source ComboBox
+                            string source = reader["Source"].ToString();
+                            Source.Items.Clear();
+                            Source.Items.Add(source);
+                            Source.SelectedIndex = 0;
                         }
                         else
                         {
                             BookTitle.Items.Clear();
+                            Source.Items.Clear();
                         }
                     }
                 }
             }
             else
             {
-                // If less than 4 characters, clear the ComboBox
+                // If less than 4 characters, clear the ComboBoxes
                 BookTitle.Items.Clear();
+                Source.Items.Clear();
             }
         }
 
@@ -304,8 +314,8 @@ namespace Library_Final
             // Quantity = number of books borrowed
             int quantity = bookTitles.Count;
 
-            string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle, IssueDate, DueDate, Quantity)
-                     VALUES (@Status, @StudentName, @BookTitle, @IssueDate, @DueDate, @Quantity)";
+            string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle,Source, IssueDate, DueDate, Quantity)
+                     VALUES (@Status, @StudentName, @BookTitle,@Source, @IssueDate, @DueDate, @Quantity)";
 
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
@@ -314,6 +324,7 @@ namespace Library_Final
                     cmd.Parameters.AddWithValue("@Status", Status.Text);
                     cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
                     cmd.Parameters.AddWithValue("@BookTitle", combinedBookTitles);
+                    cmd.Parameters.AddWithValue("@Source", Source.Text);
                     cmd.Parameters.AddWithValue("@IssueDate", issueDate);
                     cmd.Parameters.AddWithValue("@DueDate", dueDate);
                     cmd.Parameters.AddWithValue("@Quantity", quantity);
