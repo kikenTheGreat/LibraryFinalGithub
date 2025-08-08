@@ -23,7 +23,7 @@ namespace Library_Final
 
             LoadIssueBooks(); // Refresh DataGridView
         }
-
+        private List<(string BookID, string BookTitle)> borrowList = new List<(string, string)>();
 
 
 
@@ -41,32 +41,18 @@ namespace Library_Final
 
 
 
+
+
         private void BorrowBooks_Load(object sender, EventArgs e)
         {
 
-
-
-
-
-
-
-
-
-
-
-
-            //add value in combobox STATUS
+            // Status combobox setup
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
 
-
-
-
-
-
-
-
-
+            // Prepare borrow list grid
+            dgvBorrowList.Columns.Add("BookID", "Book ID");
+            dgvBorrowList.Columns.Add("BookTitle", "Book Title");
 
 
         }
@@ -154,15 +140,41 @@ namespace Library_Final
 
         private void LoadIssueBooks()
         {
-            string query = @"SELECT IssueID, StudentName, BookTitle, IssueDate, DueDate,OverdueDays,Penalty, Status FROM IssueBooks";
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            string query = @"
+        SELECT 
+            IssueID,
+            Status,
+            DueDate,
+            IssueDate,
+            StudentName,
+            BookTitle,
+            OverdueDays,
+            Penalty,
+            Quantity
+        FROM IssueBooks
+        ORDER BY IssueID DESC"; // latest entries first
+
+            using (SqlConnection con = new SqlConnection(
+                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 IssueBooksDataGrid.DataSource = dt;
+
+                // Clean and user-friendly appearance
+                IssueBooksDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                IssueBooksDataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                IssueBooksDataGrid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                IssueBooksDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                IssueBooksDataGrid.MultiSelect = false;
+                IssueBooksDataGrid.ReadOnly = true;
+                IssueBooksDataGrid.RowHeadersVisible = false;
             }
         }
+
+
+
 
 
 
@@ -267,7 +279,80 @@ namespace Library_Final
             }
         }
 
+        private void btnConfirmBorrow_Click(object sender, EventArgs e)
+        {
+            if (borrowList.Count == 0)
+            {
+                MessageBox.Show("No books selected to borrow.");
+                return;
+            }
+
+            DateTime issueDate = IssueDate.SelectionStart;
+            DateTime dueDate = DueDate.SelectionStart;
+
+            // Combine all book titles
+            List<string> bookTitles = new List<string>();
+            foreach (DataGridViewRow row in dgvBorrowList.Rows)
+            {
+                if (row.Cells["BookTitle"].Value != null)
+                {
+                    bookTitles.Add(row.Cells["BookTitle"].Value.ToString());
+                }
+            }
+            string combinedBookTitles = string.Join(", ", bookTitles);
+
+            // Quantity = number of books borrowed
+            int quantity = bookTitles.Count;
+
+            string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle, IssueDate, DueDate, Quantity)
+                     VALUES (@Status, @StudentName, @BookTitle, @IssueDate, @DueDate, @Quantity)";
+
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Status", Status.Text);
+                    cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
+                    cmd.Parameters.AddWithValue("@BookTitle", combinedBookTitles);
+                    cmd.Parameters.AddWithValue("@IssueDate", issueDate);
+                    cmd.Parameters.AddWithValue("@DueDate", dueDate);
+                    cmd.Parameters.AddWithValue("@Quantity", quantity);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+
+            MessageBox.Show("Books issued successfully.");
+            borrowList.Clear();
+            dgvBorrowList.Rows.Clear();
+            LoadIssueBooks();
+        }
 
 
+        private void btnAddToList_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(BookID.Text) || BookTitle.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a valid book.");
+                return;
+            }
+
+            // Add to list for later use
+            borrowList.Add((BookID.Text, BookTitle.SelectedItem.ToString()));
+
+            // Add to grid for display
+            dgvBorrowList.Rows.Add(BookID.Text, BookTitle.SelectedItem.ToString());
+
+            // Clear for next entry
+            BookID.Clear();
+            BookTitle.Items.Clear();
+        }
+
+        private void dgvBorrowList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

@@ -34,36 +34,41 @@ namespace Library_Final
 
         private void RestoreBookFromArchive(DataGridViewRow row) // RESTORE METHOD
         {
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection(
+     "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
                 con.Open();
 
-                // Insert back into BooksAcq
+                // Insert back into BooksAcq (NO BookID because it's identity)
                 SqlCommand insertCmd = new SqlCommand(@"
-            INSERT INTO BooksAcq (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category)
-            VALUES (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+        INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category)
+        VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
 
-                insertCmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value.ToString());
-                insertCmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value.ToString());
-                insertCmd.Parameters.AddWithValue("@Author", row.Cells["Author"].Value.ToString());
-                insertCmd.Parameters.AddWithValue("@ISBN", row.Cells["ISBN"].Value.ToString());
-                insertCmd.Parameters.AddWithValue("@Publisher", row.Cells["Publisher"].Value.ToString());
-                insertCmd.Parameters.AddWithValue("@Source", row.Cells["Source"].Value.ToString());
-                insertCmd.Parameters.AddWithValue("@Quantity", row.Cells["Quantity"].Value.ToString());
-                insertCmd.Parameters.AddWithValue("@Published", row.Cells["Published"].Value.ToString());
-                insertCmd.Parameters.AddWithValue("@Category", row.Cells["Category"].Value.ToString());
+                insertCmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value ?? DBNull.Value);
+                insertCmd.Parameters.AddWithValue("@Author", row.Cells["Author"].Value ?? DBNull.Value);
+                insertCmd.Parameters.AddWithValue("@ISBN", row.Cells["ISBN"].Value ?? DBNull.Value);
+                insertCmd.Parameters.AddWithValue("@Publisher", row.Cells["Publisher"].Value ?? DBNull.Value);
+                insertCmd.Parameters.AddWithValue("@Source", row.Cells["Source"].Value ?? DBNull.Value);
+
+                if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int qty))
+                    insertCmd.Parameters.AddWithValue("@Quantity", qty);
+                else
+                    insertCmd.Parameters.AddWithValue("@Quantity", DBNull.Value);
+
+                insertCmd.Parameters.AddWithValue("@Published", row.Cells["Published"].Value ?? DBNull.Value);
+                insertCmd.Parameters.AddWithValue("@Category", row.Cells["Category"].Value ?? DBNull.Value);
 
                 insertCmd.ExecuteNonQuery();
 
-                // Delete from BooksArchive
-                SqlCommand deleteCmd = new SqlCommand("DELETE FROM BooksArchive WHERE BookID = @BookID", con);
-                deleteCmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value.ToString());
+                // Now delete from archive using BookID
+                SqlCommand deleteCmd = new SqlCommand(
+                    "DELETE FROM BooksArchive WHERE BookID = @BookID", con);
+                deleteCmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value ?? DBNull.Value);
                 deleteCmd.ExecuteNonQuery();
 
                 MessageBox.Show("Book restored to acquisition list!");
-
-                con.Close();
             }
+
 
             LoadBooksGrid(); // Reload your DataGridView
         }

@@ -395,33 +395,39 @@ namespace Library_Final
 
         private void ArchiveBookFromRow(DataGridViewRow row)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection(
+    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand(@"
-            INSERT INTO BooksArchive 
-            (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate)
-            VALUES 
-            (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate)", con);
+                using (SqlCommand cmd = new SqlCommand(@"
+        INSERT INTO BooksArchive 
+        (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate)
+        VALUES 
+        (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate)", con))
+                {
+                    cmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Author", row.Cells["Author"].Value ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ISBN", row.Cells["ISBN"].Value ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Publisher", row.Cells["Publisher"].Value ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Source", row.Cells["Source"].Value ?? DBNull.Value);
 
-                // BookID from row (if needed)
-                cmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value.ToString());
-                cmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value.ToString());
-                cmd.Parameters.AddWithValue("@Author", row.Cells["Author"].Value.ToString());
-                cmd.Parameters.AddWithValue("@ISBN", row.Cells["ISBN"].Value.ToString());
-                cmd.Parameters.AddWithValue("@Publisher", row.Cells["Publisher"].Value.ToString());
-                cmd.Parameters.AddWithValue("@Source", row.Cells["Source"].Value.ToString());
-                cmd.Parameters.AddWithValue("@Quantity", row.Cells["Quantity"].Value.ToString());
-                cmd.Parameters.AddWithValue("@Published", row.Cells["Published"].Value.ToString());
-                cmd.Parameters.AddWithValue("@Category", row.Cells["Category"].Value.ToString());
+                    // Convert Quantity from string to int (handle nulls safely)
+                    if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int qty))
+                        cmd.Parameters.AddWithValue("@Quantity", qty);
+                    else
+                        cmd.Parameters.AddWithValue("@Quantity", DBNull.Value);
 
-                // Set ArchivedDate to current datetime
-                cmd.Parameters.AddWithValue("@ArchivedDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@Published", row.Cells["Published"].Value ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Category", row.Cells["Category"].Value ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@ArchivedDate", DateTime.Now);
 
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Book archived successfully from row!");
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Book archived successfully!");
+                }
             }
+
         }
 
 

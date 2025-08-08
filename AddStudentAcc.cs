@@ -89,14 +89,14 @@ namespace Library_Final
             con.Open();
 
             SqlCommand cmd = new SqlCommand(@"INSERT INTO AddStudentAcc 
-(Name, YearLevel, ClientID, SectionSY, Email, StudentNumber, Department, Semester, Role)
+(Name, YearLevel,  SectionSY, Email, StudentNumber, Department, Semester, Role)
 VALUES 
-(@Name, @YearLevel, @ClientID, @SectionSY, @Email, @StudentNumber, @Department, @Semester, @Role)", con);
+(@Name, @YearLevel, @SectionSY, @Email, @StudentNumber, @Department, @Semester, @Role)", con);
 
             // Assign parameters from textboxes
             cmd.Parameters.AddWithValue("@Name", Name.Text);
             cmd.Parameters.AddWithValue("@YearLevel", YearLevel.Text);
-            cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
+
             cmd.Parameters.AddWithValue("@SectionSY", SectionSY.Text);
             cmd.Parameters.AddWithValue("@Email", Email.Text);
             cmd.Parameters.AddWithValue("@StudentNumber", StudentNumber.Text);

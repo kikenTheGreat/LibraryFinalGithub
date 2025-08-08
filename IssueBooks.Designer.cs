@@ -66,7 +66,11 @@
             kryptonLabel18 = new Krypton.Toolkit.KryptonLabel();
             ClientID = new Krypton.Toolkit.KryptonTextBox();
             BookID = new Krypton.Toolkit.KryptonTextBox();
+            dgvBorrowList = new DataGridView();
+            btnAddToList = new Krypton.Toolkit.KryptonButton();
+            btnConfirmBorrow = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvBorrowList).BeginInit();
             SuspendLayout();
             // 
             // kryptonButton2
@@ -150,7 +154,7 @@
             // 
             // IssueBooksButton
             // 
-            IssueBooksButton.Location = new Point(432, 634);
+            IssueBooksButton.Location = new Point(187, 939);
             IssueBooksButton.Margin = new Padding(3, 4, 3, 4);
             IssueBooksButton.Name = "IssueBooksButton";
             IssueBooksButton.Size = new Size(214, 59);
@@ -166,7 +170,7 @@
             // 
             // kryptonLabel6
             // 
-            kryptonLabel6.Location = new Point(652, 660);
+            kryptonLabel6.Location = new Point(454, 409);
             kryptonLabel6.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel6.Name = "kryptonLabel6";
             kryptonLabel6.Size = new Size(256, 33);
@@ -177,7 +181,7 @@
             // 
             // kryptonLabel7
             // 
-            kryptonLabel7.Location = new Point(1004, 677);
+            kryptonLabel7.Location = new Point(806, 426);
             kryptonLabel7.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel7.Name = "kryptonLabel7";
             kryptonLabel7.Size = new Size(174, 33);
@@ -188,7 +192,7 @@
             // 
             // kryptonLabel8
             // 
-            kryptonLabel8.Location = new Point(663, 699);
+            kryptonLabel8.Location = new Point(465, 448);
             kryptonLabel8.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel8.Name = "kryptonLabel8";
             kryptonLabel8.Size = new Size(69, 28);
@@ -199,7 +203,7 @@
             // 
             // kryptonLabel9
             // 
-            kryptonLabel9.Location = new Point(663, 815);
+            kryptonLabel9.Location = new Point(465, 564);
             kryptonLabel9.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel9.Name = "kryptonLabel9";
             kryptonLabel9.Size = new Size(69, 28);
@@ -210,7 +214,7 @@
             // 
             // kryptonLabel10
             // 
-            kryptonLabel10.Location = new Point(663, 777);
+            kryptonLabel10.Location = new Point(465, 526);
             kryptonLabel10.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel10.Name = "kryptonLabel10";
             kryptonLabel10.Size = new Size(124, 28);
@@ -221,7 +225,7 @@
             // 
             // kryptonLabel11
             // 
-            kryptonLabel11.Location = new Point(663, 738);
+            kryptonLabel11.Location = new Point(465, 487);
             kryptonLabel11.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel11.Name = "kryptonLabel11";
             kryptonLabel11.Size = new Size(87, 28);
@@ -232,7 +236,7 @@
             // 
             // kryptonLabel15
             // 
-            kryptonLabel15.Location = new Point(1015, 721);
+            kryptonLabel15.Location = new Point(817, 470);
             kryptonLabel15.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel15.Name = "kryptonLabel15";
             kryptonLabel15.Size = new Size(108, 28);
@@ -243,7 +247,7 @@
             // 
             // kryptonLabel14
             // 
-            kryptonLabel14.Location = new Point(1015, 837);
+            kryptonLabel14.Location = new Point(817, 586);
             kryptonLabel14.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel14.Name = "kryptonLabel14";
             kryptonLabel14.Size = new Size(104, 28);
@@ -254,7 +258,7 @@
             // 
             // kryptonLabel13
             // 
-            kryptonLabel13.Location = new Point(1015, 798);
+            kryptonLabel13.Location = new Point(817, 547);
             kryptonLabel13.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel13.Name = "kryptonLabel13";
             kryptonLabel13.Size = new Size(103, 28);
@@ -265,7 +269,7 @@
             // 
             // kryptonLabel12
             // 
-            kryptonLabel12.Location = new Point(1015, 760);
+            kryptonLabel12.Location = new Point(817, 509);
             kryptonLabel12.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel12.Name = "kryptonLabel12";
             kryptonLabel12.Size = new Size(78, 28);
@@ -287,7 +291,7 @@
             // 
             // kryptonLabel16
             // 
-            kryptonLabel16.Location = new Point(1015, 876);
+            kryptonLabel16.Location = new Point(465, 600);
             kryptonLabel16.Margin = new Padding(3, 4, 3, 4);
             kryptonLabel16.Name = "kryptonLabel16";
             kryptonLabel16.Size = new Size(57, 28);
@@ -298,7 +302,7 @@
             // 
             // kryptonTextBox3
             // 
-            kryptonTextBox3.Location = new Point(416, 77);
+            kryptonTextBox3.Location = new Point(416, 3);
             kryptonTextBox3.Margin = new Padding(3, 4, 3, 4);
             kryptonTextBox3.Name = "kryptonTextBox3";
             kryptonTextBox3.Size = new Size(1022, 33);
@@ -368,10 +372,10 @@
             // IssueBooksDataGrid
             // 
             IssueBooksDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            IssueBooksDataGrid.Location = new Point(416, 127);
+            IssueBooksDataGrid.Location = new Point(139, 674);
             IssueBooksDataGrid.Name = "IssueBooksDataGrid";
             IssueBooksDataGrid.RowHeadersWidth = 51;
-            IssueBooksDataGrid.Size = new Size(1022, 498);
+            IssueBooksDataGrid.Size = new Size(1022, 268);
             IssueBooksDataGrid.TabIndex = 101;
             IssueBooksDataGrid.CellContentClick += IssueBooksDataGrid_CellContentClick;
             // 
@@ -431,13 +435,46 @@
             BookID.TabIndex = 107;
             BookID.TextChanged += BookID_TextChanged;
             // 
+            // dgvBorrowList
+            // 
+            dgvBorrowList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvBorrowList.Location = new Point(432, 69);
+            dgvBorrowList.Name = "dgvBorrowList";
+            dgvBorrowList.RowHeadersWidth = 51;
+            dgvBorrowList.Size = new Size(1006, 221);
+            dgvBorrowList.TabIndex = 108;
+            dgvBorrowList.CellContentClick += dgvBorrowList_CellContentClick;
+            // 
+            // btnAddToList
+            // 
+            btnAddToList.Location = new Point(436, 308);
+            btnAddToList.Name = "btnAddToList";
+            btnAddToList.Size = new Size(112, 31);
+            btnAddToList.TabIndex = 109;
+            btnAddToList.Values.DropDownArrowColor = Color.Empty;
+            btnAddToList.Values.Text = "Add To List";
+            btnAddToList.Click += btnAddToList_Click;
+            // 
+            // btnConfirmBorrow
+            // 
+            btnConfirmBorrow.Location = new Point(554, 308);
+            btnConfirmBorrow.Name = "btnConfirmBorrow";
+            btnConfirmBorrow.Size = new Size(112, 31);
+            btnConfirmBorrow.TabIndex = 110;
+            btnConfirmBorrow.Values.DropDownArrowColor = Color.Empty;
+            btnConfirmBorrow.Values.Text = "Confirm";
+            btnConfirmBorrow.Click += btnConfirmBorrow_Click;
+            // 
             // BorrowBooks
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1475, 1035);
+            ClientSize = new Size(1475, 1102);
+            Controls.Add(btnConfirmBorrow);
+            Controls.Add(btnAddToList);
+            Controls.Add(dgvBorrowList);
             Controls.Add(BookID);
             Controls.Add(ClientID);
             Controls.Add(kryptonLabel18);
@@ -478,6 +515,7 @@
             Text = "BorrowBooks";
             Load += BorrowBooks_Load;
             ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvBorrowList).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -520,5 +558,8 @@
         private Krypton.Toolkit.KryptonLabel kryptonLabel18;
         private Krypton.Toolkit.KryptonTextBox ClientID;
         private Krypton.Toolkit.KryptonTextBox BookID;
+        private DataGridView dgvBorrowList;
+        private Krypton.Toolkit.KryptonButton btnAddToList;
+        private Krypton.Toolkit.KryptonButton btnConfirmBorrow;
     }
 }
