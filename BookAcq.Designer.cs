@@ -33,31 +33,31 @@ namespace Library_Final
             kryptonButton4 = new Krypton.Toolkit.KryptonButton();
             kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             kryptonButton2 = new Krypton.Toolkit.KryptonButton();
-            Author = new Krypton.Toolkit.KryptonTextBox();
+            Author1 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
-            Publisher = new Krypton.Toolkit.KryptonTextBox();
+            Publisher1 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
-            ISBN = new Krypton.Toolkit.KryptonTextBox();
+            ISBN1 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
-            BookTitle = new Krypton.Toolkit.KryptonTextBox();
+            BookTitle1 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel6 = new Krypton.Toolkit.KryptonLabel();
-            Published = new Krypton.Toolkit.KryptonTextBox();
+            Published1 = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel7 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel8 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel9 = new Krypton.Toolkit.KryptonLabel();
-            Quantity = new Krypton.Toolkit.KryptonTextBox();
+            Quantity1 = new Krypton.Toolkit.KryptonTextBox();
             kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             kryptonButton5 = new Krypton.Toolkit.KryptonButton();
-            Source = new Krypton.Toolkit.KryptonComboBox();
+            Source1 = new Krypton.Toolkit.KryptonComboBox();
             DataGridTotalBooks = new Krypton.Toolkit.KryptonDataGridView();
             SearchButton = new Krypton.Toolkit.KryptonButton();
             picCover = new PictureBox();
             txtDesc = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel10 = new Krypton.Toolkit.KryptonLabel();
-            Category = new Krypton.Toolkit.KryptonTextBox();
-            ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
+            Category1 = new Krypton.Toolkit.KryptonTextBox();
+            ((System.ComponentModel.ISupportInitialize)Source1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picCover).BeginInit();
             SuspendLayout();
@@ -107,16 +107,16 @@ namespace Library_Final
             kryptonButton2.Values.DropDownArrowColor = Color.Empty;
             kryptonButton2.Values.Text = "kryptonButton2";
             // 
-            // Author
+            // Author1
             // 
-            Author.Location = new Point(98, 132);
-            Author.Margin = new Padding(3, 4, 3, 4);
-            Author.Name = "Author";
-            Author.Size = new Size(214, 33);
-            Author.StateCommon.Back.Color1 = Color.AliceBlue;
-            Author.StateCommon.Border.Rounding = 10F;
-            Author.StateCommon.Content.Color1 = Color.DarkGray;
-            Author.TabIndex = 24;
+            Author1.Location = new Point(98, 132);
+            Author1.Margin = new Padding(3, 4, 3, 4);
+            Author1.Name = "Author1";
+            Author1.Size = new Size(214, 33);
+            Author1.StateCommon.Back.Color1 = Color.AliceBlue;
+            Author1.StateCommon.Border.Rounding = 10F;
+            Author1.StateCommon.Content.Color1 = Color.DarkGray;
+            Author1.TabIndex = 24;
             // 
             // kryptonLabel2
             // 
@@ -140,16 +140,16 @@ namespace Library_Final
             kryptonLabel3.TabIndex = 28;
             kryptonLabel3.Values.Text = "Publisher";
             // 
-            // Publisher
+            // Publisher1
             // 
-            Publisher.Location = new Point(98, 232);
-            Publisher.Margin = new Padding(3, 4, 3, 4);
-            Publisher.Name = "Publisher";
-            Publisher.Size = new Size(214, 33);
-            Publisher.StateCommon.Back.Color1 = Color.AliceBlue;
-            Publisher.StateCommon.Border.Rounding = 10F;
-            Publisher.StateCommon.Content.Color1 = Color.DarkGray;
-            Publisher.TabIndex = 27;
+            Publisher1.Location = new Point(98, 232);
+            Publisher1.Margin = new Padding(3, 4, 3, 4);
+            Publisher1.Name = "Publisher1";
+            Publisher1.Size = new Size(214, 33);
+            Publisher1.StateCommon.Back.Color1 = Color.AliceBlue;
+            Publisher1.StateCommon.Border.Rounding = 10F;
+            Publisher1.StateCommon.Content.Color1 = Color.DarkGray;
+            Publisher1.TabIndex = 27;
             // 
             // kryptonLabel4
             // 
@@ -162,18 +162,18 @@ namespace Library_Final
             kryptonLabel4.TabIndex = 32;
             kryptonLabel4.Values.Text = "ISBN";
             // 
-            // ISBN
+            // ISBN1
             // 
-            ISBN.Location = new Point(328, 223);
-            ISBN.Margin = new Padding(3, 4, 3, 4);
-            ISBN.Name = "ISBN";
-            ISBN.Size = new Size(214, 33);
-            ISBN.StateCommon.Back.Color1 = Color.AliceBlue;
-            ISBN.StateCommon.Border.Rounding = 10F;
-            ISBN.StateCommon.Content.Color1 = Color.DarkGray;
-            ISBN.TabIndex = 31;
-            ISBN.TextChanged += ISBN_TextChanged_1;
-            ISBN.KeyDown += ISBN_KeyDown;
+            ISBN1.Location = new Point(328, 223);
+            ISBN1.Margin = new Padding(3, 4, 3, 4);
+            ISBN1.Name = "ISBN1";
+            ISBN1.Size = new Size(214, 33);
+            ISBN1.StateCommon.Back.Color1 = Color.AliceBlue;
+            ISBN1.StateCommon.Border.Rounding = 10F;
+            ISBN1.StateCommon.Content.Color1 = Color.DarkGray;
+            ISBN1.TabIndex = 31;
+            ISBN1.TextChanged += ISBN_TextChanged_1;
+            ISBN1.KeyDown += ISBN_KeyDown;
             // 
             // kryptonLabel5
             // 
@@ -186,16 +186,16 @@ namespace Library_Final
             kryptonLabel5.TabIndex = 30;
             kryptonLabel5.Values.Text = "Book Title";
             // 
-            // BookTitle
+            // BookTitle1
             // 
-            BookTitle.Location = new Point(328, 132);
-            BookTitle.Margin = new Padding(3, 4, 3, 4);
-            BookTitle.Name = "BookTitle";
-            BookTitle.Size = new Size(214, 33);
-            BookTitle.StateCommon.Back.Color1 = Color.AliceBlue;
-            BookTitle.StateCommon.Border.Rounding = 10F;
-            BookTitle.StateCommon.Content.Color1 = Color.DarkGray;
-            BookTitle.TabIndex = 29;
+            BookTitle1.Location = new Point(328, 132);
+            BookTitle1.Margin = new Padding(3, 4, 3, 4);
+            BookTitle1.Name = "BookTitle1";
+            BookTitle1.Size = new Size(214, 33);
+            BookTitle1.StateCommon.Back.Color1 = Color.AliceBlue;
+            BookTitle1.StateCommon.Border.Rounding = 10F;
+            BookTitle1.StateCommon.Content.Color1 = Color.DarkGray;
+            BookTitle1.TabIndex = 29;
             // 
             // kryptonLabel6
             // 
@@ -208,16 +208,16 @@ namespace Library_Final
             kryptonLabel6.TabIndex = 40;
             kryptonLabel6.Values.Text = "Published Date";
             // 
-            // Published
+            // Published1
             // 
-            Published.Location = new Point(328, 425);
-            Published.Margin = new Padding(3, 4, 3, 4);
-            Published.Name = "Published";
-            Published.Size = new Size(214, 33);
-            Published.StateCommon.Back.Color1 = Color.AliceBlue;
-            Published.StateCommon.Border.Rounding = 10F;
-            Published.StateCommon.Content.Color1 = Color.DarkGray;
-            Published.TabIndex = 39;
+            Published1.Location = new Point(328, 425);
+            Published1.Margin = new Padding(3, 4, 3, 4);
+            Published1.Name = "Published1";
+            Published1.Size = new Size(214, 33);
+            Published1.StateCommon.Back.Color1 = Color.AliceBlue;
+            Published1.StateCommon.Border.Rounding = 10F;
+            Published1.StateCommon.Content.Color1 = Color.DarkGray;
+            Published1.TabIndex = 39;
             // 
             // kryptonLabel7
             // 
@@ -252,16 +252,16 @@ namespace Library_Final
             kryptonLabel9.TabIndex = 34;
             kryptonLabel9.Values.Text = "Quantity";
             // 
-            // Quantity
+            // Quantity1
             // 
-            Quantity.Location = new Point(98, 334);
-            Quantity.Margin = new Padding(3, 4, 3, 4);
-            Quantity.Name = "Quantity";
-            Quantity.Size = new Size(214, 33);
-            Quantity.StateCommon.Back.Color1 = Color.AliceBlue;
-            Quantity.StateCommon.Border.Rounding = 10F;
-            Quantity.StateCommon.Content.Color1 = Color.DarkGray;
-            Quantity.TabIndex = 33;
+            Quantity1.Location = new Point(98, 334);
+            Quantity1.Margin = new Padding(3, 4, 3, 4);
+            Quantity1.Name = "Quantity1";
+            Quantity1.Size = new Size(214, 33);
+            Quantity1.StateCommon.Back.Color1 = Color.AliceBlue;
+            Quantity1.StateCommon.Border.Rounding = 10F;
+            Quantity1.StateCommon.Content.Color1 = Color.DarkGray;
+            Quantity1.TabIndex = 33;
             // 
             // kryptonButton1
             // 
@@ -295,18 +295,18 @@ namespace Library_Final
             kryptonButton5.Values.Text = "Home";
             kryptonButton5.Click += kryptonButton5_Click;
             // 
-            // Source
+            // Source1
             // 
-            Source.DropDownWidth = 181;
-            Source.Location = new Point(328, 323);
-            Source.Margin = new Padding(3, 4, 3, 4);
-            Source.Name = "Source";
-            Source.Size = new Size(214, 32);
-            Source.StateCommon.ComboBox.Back.Color1 = Color.AliceBlue;
-            Source.StateCommon.ComboBox.Border.Rounding = 8F;
-            Source.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            Source.TabIndex = 45;
-            Source.SelectedIndexChanged += kryptonComboBox2_SelectedIndexChanged;
+            Source1.DropDownWidth = 181;
+            Source1.Location = new Point(328, 323);
+            Source1.Margin = new Padding(3, 4, 3, 4);
+            Source1.Name = "Source1";
+            Source1.Size = new Size(214, 32);
+            Source1.StateCommon.ComboBox.Back.Color1 = Color.AliceBlue;
+            Source1.StateCommon.ComboBox.Border.Rounding = 8F;
+            Source1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            Source1.TabIndex = 45;
+            Source1.SelectedIndexChanged += kryptonComboBox2_SelectedIndexChanged;
             // 
             // DataGridTotalBooks
             // 
@@ -376,16 +376,16 @@ namespace Library_Final
             kryptonLabel10.TabIndex = 53;
             kryptonLabel10.Values.Text = "Book Image";
             // 
-            // Category
+            // Category1
             // 
-            Category.Location = new Point(71, 425);
-            Category.Margin = new Padding(3, 4, 3, 4);
-            Category.Name = "Category";
-            Category.Size = new Size(214, 33);
-            Category.StateCommon.Back.Color1 = Color.AliceBlue;
-            Category.StateCommon.Border.Rounding = 10F;
-            Category.StateCommon.Content.Color1 = Color.DarkGray;
-            Category.TabIndex = 54;
+            Category1.Location = new Point(71, 425);
+            Category1.Margin = new Padding(3, 4, 3, 4);
+            Category1.Name = "Category1";
+            Category1.Size = new Size(214, 33);
+            Category1.StateCommon.Back.Color1 = Color.AliceBlue;
+            Category1.StateCommon.Border.Rounding = 10F;
+            Category1.StateCommon.Content.Color1 = Color.DarkGray;
+            Category1.TabIndex = 54;
             // 
             // BookAcq
             // 
@@ -394,30 +394,30 @@ namespace Library_Final
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1475, 1035);
-            Controls.Add(Category);
+            Controls.Add(Category1);
             Controls.Add(kryptonLabel10);
             Controls.Add(kryptonLabel1);
             Controls.Add(txtDesc);
             Controls.Add(picCover);
             Controls.Add(DataGridTotalBooks);
             Controls.Add(SearchButton);
-            Controls.Add(Source);
+            Controls.Add(Source1);
             Controls.Add(kryptonButton5);
             Controls.Add(kryptonButton1);
             Controls.Add(kryptonLabel6);
-            Controls.Add(Published);
+            Controls.Add(Published1);
             Controls.Add(kryptonLabel7);
             Controls.Add(kryptonLabel8);
             Controls.Add(kryptonLabel9);
-            Controls.Add(Quantity);
+            Controls.Add(Quantity1);
             Controls.Add(kryptonLabel4);
-            Controls.Add(ISBN);
+            Controls.Add(ISBN1);
             Controls.Add(kryptonLabel5);
-            Controls.Add(BookTitle);
+            Controls.Add(BookTitle1);
             Controls.Add(kryptonLabel3);
-            Controls.Add(Publisher);
+            Controls.Add(Publisher1);
             Controls.Add(kryptonLabel2);
-            Controls.Add(Author);
+            Controls.Add(Author1);
             Controls.Add(kryptonButton4);
             Controls.Add(kryptonButton3);
             Controls.Add(kryptonButton2);
@@ -427,7 +427,7 @@ namespace Library_Final
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BookAcq";
             Load += BookAcq_Load;
-            ((System.ComponentModel.ISupportInitialize)Source).EndInit();
+            ((System.ComponentModel.ISupportInitialize)Source1).EndInit();
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).EndInit();
             ((System.ComponentModel.ISupportInitialize)picCover).EndInit();
             ResumeLayout(false);
@@ -444,29 +444,29 @@ namespace Library_Final
         private Krypton.Toolkit.KryptonButton kryptonButton4;
         private Krypton.Toolkit.KryptonButton kryptonButton3;
         private Krypton.Toolkit.KryptonButton kryptonButton2;
-        private Krypton.Toolkit.KryptonTextBox Author;
+        private Krypton.Toolkit.KryptonTextBox Author1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
         private Krypton.Toolkit.KryptonLabel kryptonLabel3;
-        private Krypton.Toolkit.KryptonTextBox Publisher;
+        private Krypton.Toolkit.KryptonTextBox Publisher1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel4;
-        private Krypton.Toolkit.KryptonTextBox ISBN;
+        private Krypton.Toolkit.KryptonTextBox ISBN1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel5;
-        private Krypton.Toolkit.KryptonTextBox BookTitle;
+        private Krypton.Toolkit.KryptonTextBox BookTitle1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel6;
-        private Krypton.Toolkit.KryptonTextBox Published;
+        private Krypton.Toolkit.KryptonTextBox Published1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel7;
         private Krypton.Toolkit.KryptonLabel kryptonLabel8;
         private Krypton.Toolkit.KryptonLabel kryptonLabel9;
-        private Krypton.Toolkit.KryptonTextBox Quantity;
+        private Krypton.Toolkit.KryptonTextBox Quantity1;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
         private Krypton.Toolkit.KryptonButton kryptonButton5;
-        private Krypton.Toolkit.KryptonComboBox Source;
+        private Krypton.Toolkit.KryptonComboBox Source1;
         private Krypton.Toolkit.KryptonDataGridView DataGridTotalBooks;
         private Krypton.Toolkit.KryptonButton SearchButton;
         private PictureBox picCover;
         private Krypton.Toolkit.KryptonTextBox txtDesc;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel10;
-        private Krypton.Toolkit.KryptonTextBox Category;
+        private Krypton.Toolkit.KryptonTextBox Category1;
     }
 }

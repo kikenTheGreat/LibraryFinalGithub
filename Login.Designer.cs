@@ -96,7 +96,7 @@
             // 
             // kryptonTextBox1
             // 
-            kryptonTextBox1.Location = new Point(86, 277);
+            kryptonTextBox1.Location = new Point(350, 218);
             kryptonTextBox1.Margin = new Padding(3, 4, 3, 4);
             kryptonTextBox1.Name = "kryptonTextBox1";
             kryptonTextBox1.Size = new Size(274, 33);

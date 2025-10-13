@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 
+
 namespace Library_Final
 {
     public partial class BookAcq : Form
@@ -43,6 +44,8 @@ namespace Library_Final
             this.Close();
         }
 
+        //HERE NA ME
+
         private void kryptonButton1_Click(object sender, EventArgs e)
         {
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
@@ -54,14 +57,14 @@ namespace Library_Final
 
 
 
-            cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
-            cmd.Parameters.AddWithValue("@Author", Author.Text);
-            cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
-            cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
-            cmd.Parameters.AddWithValue("@Source", Source.Text);
-            cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
-            cmd.Parameters.AddWithValue("@Published", Published.Text);
-            cmd.Parameters.AddWithValue("@Category", Category.Text);
+            cmd.Parameters.AddWithValue("@BookTitle", BookTitle1.Text);
+            cmd.Parameters.AddWithValue("@Author", Author1.Text);
+            cmd.Parameters.AddWithValue("@ISBN", ISBN1.Text);
+            cmd.Parameters.AddWithValue("@Publisher", Publisher1.Text);
+            cmd.Parameters.AddWithValue("@Source", Source1.Text);
+            cmd.Parameters.AddWithValue("@Quantity", Quantity1.Text);
+            cmd.Parameters.AddWithValue("@Published", Published1.Text);
+            cmd.Parameters.AddWithValue("@Category", Category1.Text);
 
             cmd.ExecuteNonQuery();
             MessageBox.Show("Book added successfully!");
@@ -69,14 +72,14 @@ namespace Library_Final
             con.Close();
 
             // what will display after inserting
-            BookTitle.Text = " ";
-            Author.Text = " ";
-            ISBN.Text = " ";
-            Publisher.Text = " ";
-            Source.Text = " ";
-            Quantity.Text = " ";
-            Published.Text = " ";
-            Category.Text = " ";
+            BookTitle1.Text = " ";
+            Author1.Text = " ";
+            ISBN1.Text = " ";
+            Publisher1.Text = " ";
+            Source1.Text = " ";
+            Quantity1.Text = " ";
+            Published1.Text = " ";
+            Category1.Text = " ";
 
         }
 
@@ -94,8 +97,8 @@ namespace Library_Final
 
         }
 
-        private void LoadBooksGrid()          //output the datagriddddddddddddddd
-        {
+        private void LoadBooksGrid(){          //output the datagriddddddddddddddd
+
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
                 string query = "SELECT * FROM BooksAcq";
@@ -146,21 +149,21 @@ namespace Library_Final
 
 
         private void kryptonButton6_Click(object sender, EventArgs e)
-        {
+        {//Done -------------------------------------------------------------------
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
             //use WHERE to specify what record to UPDATE                                                                                              
             SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
 
             // this will be used in WHERE clause
-            cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
-            cmd.Parameters.AddWithValue("@Author", Author.Text);
-            cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
-            cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
-            cmd.Parameters.AddWithValue("@Source", Source.Text);
-            cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
-            cmd.Parameters.AddWithValue("@Published", Published.Text);
-            cmd.Parameters.AddWithValue("@Category", Category.Text);
+            cmd.Parameters.AddWithValue("@BookTitle", BookTitle1.Text);
+            cmd.Parameters.AddWithValue("@Author", Author1.Text);
+            cmd.Parameters.AddWithValue("@ISBN", ISBN1.Text);
+            cmd.Parameters.AddWithValue("@Publisher", Publisher1.Text);
+            cmd.Parameters.AddWithValue("@Source", Source1.Text);
+            cmd.Parameters.AddWithValue("@Quantity", Quantity1.Text);
+            cmd.Parameters.AddWithValue("@Published", Published1.Text);
+            cmd.Parameters.AddWithValue("@Category", Category1.Text);
 
             cmd.ExecuteNonQuery();
             MessageBox.Show("Book updated successfully!");
@@ -169,20 +172,20 @@ namespace Library_Final
 
             // Clear the textboxes after update
 
-            BookTitle.Text = "";
-            Author.Text = "";
-            ISBN.Text = "";
-            Publisher.Text = "";
-            Source.Text = "";
-            Quantity.Text = "";
-            Published.Text = "";
-            Category.Text = "";
+            BookTitle1.Text = "";
+            Author1.Text = "";
+            ISBN1.Text = "";
+            Publisher1.Text = "";
+            Source1.Text = "";
+            Quantity1.Text = "";
+            Published1.Text = "";
+            Category1.Text = "";
 
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-
+            //NOT ALREADY APPLY ----------------------------------------
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
                 con.Open();
@@ -191,45 +194,45 @@ namespace Library_Final
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = con;
 
-                if (!string.IsNullOrWhiteSpace(BookTitle.Text))
+                if (!string.IsNullOrWhiteSpace(BookTitle1.Text))
                 {
                     query += " AND BookTitle LIKE @BookTitle";
-                    cmd.Parameters.AddWithValue("@BookTitle", "%" + BookTitle.Text + "%");
+                    cmd.Parameters.AddWithValue("@BookTitle", "%" + BookTitle1.Text + "%");
                 }
-                if (!string.IsNullOrWhiteSpace(Author.Text))
+                if (!string.IsNullOrWhiteSpace(Author1.Text))
                 {
                     query += " AND Author LIKE @Author";
-                    cmd.Parameters.AddWithValue("@Author", "%" + Author.Text + "%");
+                    cmd.Parameters.AddWithValue("@Author", "%" + Author1.Text + "%");
                 }
-                if (!string.IsNullOrWhiteSpace(ISBN.Text))
+                if (!string.IsNullOrWhiteSpace(ISBN1.Text))
                 {
                     query += " AND ISBN LIKE @ISBN";
-                    cmd.Parameters.AddWithValue("@ISBN", "%" + ISBN.Text + "%");
+                    cmd.Parameters.AddWithValue("@ISBN", "%" + ISBN1.Text + "%");
                 }
-                if (!string.IsNullOrWhiteSpace(Publisher.Text))
+                if (!string.IsNullOrWhiteSpace(Publisher1.Text))
                 {
                     query += " AND Publisher LIKE @Publisher";
-                    cmd.Parameters.AddWithValue("@Publisher", "%" + Publisher.Text + "%");
+                    cmd.Parameters.AddWithValue("@Publisher", "%" + Publisher1.Text + "%");
                 }
-                if (!string.IsNullOrWhiteSpace(Source.Text))
+                if (!string.IsNullOrWhiteSpace(Source1.Text))
                 {
                     query += " AND Source LIKE @Source";
-                    cmd.Parameters.AddWithValue("@Source", "%" + Source.Text + "%");
+                    cmd.Parameters.AddWithValue("@Source", "%" + Source1.Text + "%");
                 }
-                if (!string.IsNullOrWhiteSpace(Quantity.Text))
+                if (!string.IsNullOrWhiteSpace(Quantity1.Text))
                 {
                     query += " AND Quantity LIKE @Quantity";
-                    cmd.Parameters.AddWithValue("@Quantity", "%" + Quantity.Text + "%");
+                    cmd.Parameters.AddWithValue("@Quantity", "%" + Quantity1.Text + "%");
                 }
-                if (!string.IsNullOrWhiteSpace(Published.Text))
+                if (!string.IsNullOrWhiteSpace(Published1.Text))
                 {
                     query += " AND Published LIKE @Published";
-                    cmd.Parameters.AddWithValue("@Published", "%" + Published.Text + "%");
+                    cmd.Parameters.AddWithValue("@Published", "%" + Published1.Text + "%");
                 }
-                if (!string.IsNullOrWhiteSpace(Category.Text))
+                if (!string.IsNullOrWhiteSpace(Category1.Text))
                 {
                     query += " AND Category LIKE @Category";
-                    cmd.Parameters.AddWithValue("@Category", "%" + Category.Text + "%");
+                    cmd.Parameters.AddWithValue("@Category", "%" + Category1.Text + "%");
                 }
 
                 cmd.CommandText = query;
@@ -255,7 +258,7 @@ namespace Library_Final
         }
 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+        {//dONEEEEEEEEEEEEEEEEEEEE
 
             // TO ENABLE EDITING IN DATAGRID FOR ROWWW
             DataGridTotalBooks.ReadOnly = false;
@@ -354,6 +357,7 @@ namespace Library_Final
 
         private void ArchivedButton_Click(object sender, EventArgs e)
         {
+            //not already apply thisssssssssssssssssssssssssssssssssssssss
             // archive function ----------------------
 
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
@@ -363,14 +367,14 @@ namespace Library_Final
                 "VALUES ( @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
 
 
-            cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
-            cmd.Parameters.AddWithValue("@Author", Author.Text);
-            cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
-            cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
-            cmd.Parameters.AddWithValue("@Source", Source.Text);
-            cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
-            cmd.Parameters.AddWithValue("@Published", Published.Text);
-            cmd.Parameters.AddWithValue("@Category", Category.Text);
+            cmd.Parameters.AddWithValue("@BookTitle", BookTitle1.Text);
+            cmd.Parameters.AddWithValue("@Author", Author1.Text);
+            cmd.Parameters.AddWithValue("@ISBN", ISBN1.Text);
+            cmd.Parameters.AddWithValue("@Publisher", Publisher1.Text);
+            cmd.Parameters.AddWithValue("@Source", Source1.Text);
+            cmd.Parameters.AddWithValue("@Quantity", Quantity1.Text);
+            cmd.Parameters.AddWithValue("@Published", Published1.Text);
+            cmd.Parameters.AddWithValue("@Category", Category1.Text);
 
             cmd.ExecuteNonQuery();
             MessageBox.Show("Book archived successfully!");
@@ -381,20 +385,20 @@ namespace Library_Final
 
             // Clear fields
 
-            BookTitle.Text = "";
-            Author.Text = "";
-            ISBN.Text = "";
-            Publisher.Text = "";
-            Source.Text = "";
-            Quantity.Text = "";
-            Published.Text = "";
-            Category.Text = "";
+            BookTitle1.Text = "";
+            Author1.Text = "";
+            ISBN1.Text = "";
+            Publisher1.Text = "";
+            Source1.Text = "";
+            Quantity1.Text = "";
+            Published1.Text = "";
+            Category1.Text = "";
 
         }
 
 
         private void ArchiveBookFromRow(DataGridViewRow row)
-        {
+        {//not already apply thissssssssssssssssssssssssssssssssssssss
             using (SqlConnection con = new SqlConnection(
     "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
@@ -434,6 +438,7 @@ namespace Library_Final
 
         private void DeleteFromBooksAcq(string bookID) //delete after archive
         {
+            //not already apply thisssssssssssssssssss
             SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
             con.Open();
 
@@ -446,11 +451,12 @@ namespace Library_Final
 
         private async void ISBN_KeyDown(object sender, KeyEventArgs e)
         {
+            //doneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
             //retrieve the data through onlineeeeeeeeeeeeeeeeeeeeeeeeeeee
 
             if (e.KeyCode == Keys.Enter)
             {
-                string isbn = ISBN.Text.Trim();
+                string isbn = ISBN1.Text.Trim();
                 string apiUrl = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}";
 
                 using (HttpClient client = new HttpClient())
@@ -463,11 +469,11 @@ namespace Library_Final
                         var book = json["items"]?[0]?["volumeInfo"];
                         if (book != null)
                         {
-                            BookTitle.Text = book["title"]?.ToString();
-                            Author.Text = book["authors"]?[0]?.ToString();
-                            Publisher.Text = book["publisher"]?.ToString();
-                            Published.Text = book["publishedDate"]?.ToString();
-                            Category.Text = book["categories"]?[0]?.ToString();
+                            BookTitle1.Text = book["title"]?.ToString();
+                            Author1.Text = book["authors"]?[0]?.ToString();
+                            Publisher1.Text = book["publisher"]?.ToString();
+                            Published1.Text = book["publishedDate"]?.ToString();
+                            Category1.Text = book["categories"]?[0]?.ToString();
                             txtDesc.Text = book["description"]?.ToString();
 
                             string thumbnail = book["imageLinks"]?["thumbnail"]?.ToString();
