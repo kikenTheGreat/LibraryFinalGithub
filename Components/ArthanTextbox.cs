@@ -114,9 +114,28 @@ namespace LibraryCGC.Components
         [Category("RJ Code Advance")]
         public string Texts
         {
-            get { return isPlaceholder ? "" : textBox1.Text; }
-            set { textBox1.Text = value; SetPlaceholder(); }
+            get => isPlaceholder ? "" : textBox1.Text;
+            set
+            {
+                // ✅ Remove placeholder before setting new text
+                isPlaceholder = false;
+                textBox1.ForeColor = this.ForeColor;
+
+                // ✅ Set the actual internal text
+                textBox1.Text = value ?? string.Empty;
+
+                // ✅ Sync with the base UserControl.Text property
+                base.Text = textBox1.Text;
+
+                // ✅ Trigger text changed manually so forms detect it
+                _TextChanged?.Invoke(this, EventArgs.Empty);
+                OnTextChanged(EventArgs.Empty);
+
+                // ✅ Redraw the control
+                this.Invalidate();
+            }
         }
+
 
         [Category("RJ Code Advance")]
         public int BorderRadius

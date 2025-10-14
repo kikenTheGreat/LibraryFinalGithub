@@ -16,13 +16,121 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace LibraryCGC
 {
     public partial class Book_Aquire : Form
+
     {
+        private System.Windows.Forms.Timer isbnTimer; // add at class level
         public Book_Aquire()
         {
             InitializeComponent();
             LoadBooksGrid(); // refresh grid to show new record
             DataGridTotalBooks.CellBeginEdit += DataGridTotalBooks_CellBeginEdit;
+
+            // Timer setup (to avoid multiple rapid API calls while typing)
+            isbnTimer = new System.Windows.Forms.Timer();
+            isbnTimer.Interval = 1000; // 1 seconds delay
+            isbnTimer.Tick += IsbnTimer_Tick;
+
+            ISBN.TextChanged += ISBN_TextChanged; // trigger when ISBN box changes
         }
+
+        private async void IsbnTimer_Tick(object sender, EventArgs e)
+        {
+            isbnTimer.Stop();
+
+            string isbn = ISBN.Texts.Trim(); // use Texts for ArthanTextBox
+            if (isbn.Length < 10) return;
+
+            string apiUrl = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{Uri.EscapeDataString(isbn)}";
+
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetStringAsync(apiUrl);
+                    JObject json = JObject.Parse(response);
+
+                    var book = json["items"]?[0]?["volumeInfo"];
+                    if (book != null)
+                    {
+                        // ✅ Assign text safely and force UI refresh to commit value
+                        Invoke((Action)(() =>
+                        {
+                            BookTitle.Texts = book["title"]?.ToString() ?? "";
+                            BookTitle.Text = BookTitle.Texts;
+                            BookTitle.Refresh();
+
+                            Author.Texts = book["authors"]?.First?.ToString() ?? "";
+                            Author.Text = Author.Texts;
+                            Author.Refresh();
+
+                            Publisher.Texts = book["publisher"]?.ToString() ?? "";
+                            Publisher.Text = Publisher.Texts;
+                            Publisher.Refresh();
+
+                            Published.Texts = book["publishedDate"]?.ToString() ?? "";
+                            Published.Text = Published.Texts;
+                            Published.Refresh();
+
+                            Category.Texts = book["categories"]?.First?.ToString() ?? "";
+                            Category.Text = Category.Texts;
+                            Category.Refresh();
+
+                            txtDesc.Texts = book["description"]?.ToString() ?? "";
+                            txtDesc.Text = txtDesc.Texts;
+                            txtDesc.Refresh();
+                        }));
+
+
+                        // ✅ Load book thumbnail safely
+                        string thumbnail = book["imageLinks"]?["thumbnail"]?.ToString();
+                        if (!string.IsNullOrEmpty(thumbnail))
+                        {
+                            try
+                            {
+                                using (HttpClient imageClient = new HttpClient())
+                                {
+                                    var stream = await imageClient.GetStreamAsync(thumbnail);
+                                    using (var bmp = new Bitmap(stream))
+                                    {
+                                        picCover.BackgroundImage = new Bitmap(bmp);
+                                        picCover.BackgroundImageLayout = ImageLayout.Zoom;
+                                        picCover.Refresh();
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                picCover.BackgroundImage = null;
+                            }
+                        }
+                        else
+                        {
+                            picCover.BackgroundImage = null;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Book not found.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
+
+
+
+        private void ISBN_TextChanged(object sender, EventArgs e)
+        {
+
+            isbnTimer.Stop();
+            isbnTimer.Start(); // restart timer every time they type
+         
+        }
+
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -44,53 +152,65 @@ namespace LibraryCGC
 
         }
 
-        private void arthanButton1_Click(object sender, EventArgs e)//here dawwwwwwwwwwwwwwwwwwwwww
+        private void arthanButton1_Click(object sender, EventArgs e)
         {
-            //oo
-            foreach (Control ctrl in arthanPanel1.Controls)
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             {
-                Console.WriteLine(ctrl.Name + " = " + ctrl.Text);
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand(@"INSERT INTO BooksAcq 
+        (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) 
+        VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+
+
+
+                
+
+
+
+
+                // ✅ Add this block BEFORE cmd.Parameters.AddWithValue(...)
+
+                // 🔄 Force ArthanTextBoxes to sync their visual text into actual .Text
+                BookTitle.Text = BookTitle.Texts;
+                Author.Text = Author.Texts;
+                Publisher.Text = Publisher.Texts;
+                Quantity.Text = Quantity.Texts;
+                Published.Text = Published.Texts;
+                Category.Text = Category.Texts;
+                txtDesc.Text = txtDesc.Texts;
+                ISBN.Text = ISBN.Texts;
+
+                // ✅ Now use .Text (not .Texts) when saving
+                cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
+                cmd.Parameters.AddWithValue("@Author", Author.Text);
+                cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
+                cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
+                cmd.Parameters.AddWithValue("@Source", Source.Text);
+                cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
+                cmd.Parameters.AddWithValue("@Published", Published.Text);
+                cmd.Parameters.AddWithValue("@Category", Category.Text);
+
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Book added successfully!");
             }
 
+            LoadBooksGrid();
 
-            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
-            con.Open();
-
-            SqlCommand cmd = new SqlCommand("INSERT INTO BooksAcq ( BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
-                                "VALUES ( @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
-
-
-
-
-            cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Texts);
-            cmd.Parameters.AddWithValue("@Author", Author.Texts);
-            cmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
-            cmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
-            cmd.Parameters.AddWithValue("@Source", Source.Text);
-            cmd.Parameters.AddWithValue("@Quantity", Quantity.Texts);
-            cmd.Parameters.AddWithValue("@Published", Published.Texts);
-            cmd.Parameters.AddWithValue("@Category", Category.Texts);
-
-
-
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("Book added successfully!");
-            LoadBooksGrid(); // refresh grid to show new record
-            con.Close();
-
-            // what will display after inserting
-            BookTitle.Text = " ";
-            Author.Text = " ";
-            ISBN.Text = " ";
-            Publisher.Text = " ";
-            Source.Text = " ";
-            Quantity.Text = " ";
-            Published.Text = " ";
-            Category.Text = " ";
-
-
-
+            // clear all fields
+            BookTitle.Texts = "";
+            Author.Texts = "";
+            ISBN.Texts = "";
+            Publisher.Texts = "";
+            Source.Text = "";
+            Quantity.Texts = "";
+            Published.Texts = "";
+            Category.Texts = "";
+            txtDesc.Texts = "";
+            picCover.BackgroundImage = null;
         }
+
+
 
         // All METHOD HERE ---------------------------------------------------------
         private void DataGridTotalBooks_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -101,6 +221,10 @@ namespace LibraryCGC
                 e.Cancel = true; // prevent editing
             }
         }
+
+     
+
+
 
         private void kryptonButton6_Click(object sender, EventArgs e)
         {//NOT ALREADY APPLY -------------------------------------------------------------------
@@ -395,12 +519,12 @@ namespace LibraryCGC
                     var book = json["items"]?[0]?["volumeInfo"];
                     if (book != null)
                     {
-                        BookTitle.Text = book["title"]?.ToString() ?? "";
-                        Author.Text = book["authors"]?.First?.ToString() ?? "";
-                        Publisher.Text = book["publisher"]?.ToString() ?? "";
-                        Published.Text = book["publishedDate"]?.ToString() ?? "";
-                        Category.Text = book["categories"]?.First?.ToString() ?? "";
-                        txtDesc.Text = book["description"]?.ToString() ?? "";
+                        BookTitle.Texts = book["title"]?.ToString() ?? "";
+                        Author.Texts = book["authors"]?.First?.ToString() ?? "";
+                        Publisher.Texts = book["publisher"]?.ToString() ?? "";
+                        Published.Texts = book["publishedDate"]?.ToString() ?? "";
+                        Category.Texts = book["categories"]?.First?.ToString() ?? "";
+                        txtDesc.Texts = book["description"]?.ToString() ?? "";
 
                         string thumbnail = book["imageLinks"]?["thumbnail"]?.ToString();
                         if (!string.IsNullOrEmpty(thumbnail))
@@ -424,9 +548,30 @@ namespace LibraryCGC
             e.SuppressKeyPress = true;
         }
 
+        private void arthanButton1_HomeClick(object sender, EventArgs e)
+        {
+            // Hide this form and show Form1 (Home)
+            Form1 homeForm = new Form1();
+            homeForm.ShowDialog();
+            this.Hide();
+
+        }
+
+
         private void arthanPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void kryptonButton1_Load(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void picCover_Click(object sender, EventArgs e)
+        {
+            picCover.SizeMode = PictureBoxSizeMode.Zoom; // or CenterImage
         }
     } //END OF MAIN METHOD
 

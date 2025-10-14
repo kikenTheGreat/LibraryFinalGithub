@@ -781,7 +781,7 @@
             label3.Name = "label3";
             label3.Size = new Size(79, 102);
             label3.TabIndex = 0;
-            label3.Text = "16";
+            label3.Text = "18";
             // 
             // arthanPanel6
             // 

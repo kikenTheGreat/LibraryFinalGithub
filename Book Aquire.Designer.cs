@@ -69,12 +69,10 @@
             label6 = new Label();
             label10 = new Label();
             txtDesc = new LibraryCGC.Components.ArthanTextBox();
-            picCover = new LibraryCGC.Components.ArthanPanel();
-            label11 = new Label();
-            pictureBox2 = new PictureBox();
             kryptonButton1 = new LibraryCGC.Components.ArthanButton();
             Source = new Krypton.Toolkit.KryptonComboBox();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            picCover = new PictureBox();
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel2.SuspendLayout();
@@ -86,10 +84,9 @@
             arthanPanel8.SuspendLayout();
             arthanPanel6.SuspendLayout();
             arthanPanel5.SuspendLayout();
-            picCover.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
             arthanPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picCover).BeginInit();
             SuspendLayout();
             // 
             // arthanPanel4
@@ -144,7 +141,7 @@
             arthanButton1.TextColor = Color.Black;
             arthanButton1.UseVisualStyleBackColor = false;
             arthanButton1.Load += arthanButton1_Load;
-            arthanButton1.Click += arthanButton1_Click;
+            arthanButton1.Click += arthanButton1_HomeClick;
             // 
             // pictureBox1
             // 
@@ -614,10 +611,10 @@
             Publisher.Padding = new Padding(8, 9, 8, 9);
             Publisher.PasswordChar = false;
             Publisher.PlaceholderColor = Color.DarkGray;
-            Publisher.PlaceholderText = "";
+            Publisher.PlaceholderText = "Enter publisher";
             Publisher.Size = new Size(173, 39);
             Publisher.TabIndex = 4;
-            Publisher.Texts = "Enter publisher";
+            Publisher.Texts = "";
             Publisher.UnderlinedStyle = false;
             // 
             // label5
@@ -647,11 +644,12 @@
             ISBN.Padding = new Padding(8, 9, 8, 9);
             ISBN.PasswordChar = false;
             ISBN.PlaceholderColor = Color.DarkGray;
-            ISBN.PlaceholderText = "";
+            ISBN.PlaceholderText = "Enter ISBN";
             ISBN.Size = new Size(173, 39);
             ISBN.TabIndex = 6;
-            ISBN.Texts = "Enter ISBN";
+            ISBN.Texts = "";
             ISBN.UnderlinedStyle = false;
+            ISBN._TextChanged += ISBN_TextChanged;
             // 
             // label4
             // 
@@ -680,10 +678,10 @@
             Quantity.Padding = new Padding(8, 9, 8, 9);
             Quantity.PasswordChar = false;
             Quantity.PlaceholderColor = Color.DarkGray;
-            Quantity.PlaceholderText = "";
+            Quantity.PlaceholderText = "0";
             Quantity.Size = new Size(173, 39);
             Quantity.TabIndex = 8;
-            Quantity.Texts = "0";
+            Quantity.Texts = "";
             Quantity.UnderlinedStyle = false;
             // 
             // label9
@@ -723,10 +721,10 @@
             Category.Padding = new Padding(8, 9, 8, 9);
             Category.PasswordChar = false;
             Category.PlaceholderColor = Color.DarkGray;
-            Category.PlaceholderText = "";
+            Category.PlaceholderText = "Enter category";
             Category.Size = new Size(173, 39);
             Category.TabIndex = 12;
-            Category.Texts = "Enter category";
+            Category.Texts = "";
             Category.UnderlinedStyle = false;
             // 
             // label7
@@ -756,10 +754,10 @@
             Published.Padding = new Padding(8, 9, 8, 9);
             Published.PasswordChar = false;
             Published.PlaceholderColor = Color.DarkGray;
-            Published.PlaceholderText = "";
+            Published.PlaceholderText = "mm/dd/yyyy";
             Published.Size = new Size(173, 39);
             Published.TabIndex = 14;
-            Published.Texts = "mm/dd/yyyy";
+            Published.Texts = "";
             Published.UnderlinedStyle = false;
             // 
             // label6
@@ -799,59 +797,11 @@
             txtDesc.Padding = new Padding(11, 9, 11, 9);
             txtDesc.PasswordChar = false;
             txtDesc.PlaceholderColor = Color.DarkGray;
-            txtDesc.PlaceholderText = "";
+            txtDesc.PlaceholderText = "Enter description";
             txtDesc.Size = new Size(363, 141);
             txtDesc.TabIndex = 18;
-            txtDesc.Texts = "Enter description";
+            txtDesc.Texts = "";
             txtDesc.UnderlinedStyle = false;
-            // 
-            // picCover
-            // 
-            picCover.AutoSize = true;
-            picCover.BackColor = Color.Transparent;
-            picCover.BorderStyle = BorderStyle.FixedSingle;
-            picCover.BottomLeftRadius = 5;
-            picCover.BottomRightRadius = 5;
-            picCover.Controls.Add(label11);
-            picCover.Controls.Add(pictureBox2);
-            picCover.CornerRadius = 5;
-            picCover.EnableDragging = false;
-            picCover.EnableDropShadow = true;
-            picCover.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            picCover.GradientEndColor = Color.White;
-            picCover.GradientStartColor = Color.White;
-            picCover.Location = new Point(11, 532);
-            picCover.Margin = new Padding(3, 4, 3, 4);
-            picCover.Name = "picCover";
-            picCover.ShadowBlur = 0;
-            picCover.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            picCover.ShadowOffset = 0;
-            picCover.Size = new Size(363, 226);
-            picCover.TabIndex = 19;
-            picCover.TopLeftRadius = 5;
-            picCover.TopRightRadius = 5;
-            picCover.UseIndividualCorners = false;
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Sans Serif Collection", 6.749999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Location = new Point(61, 151);
-            label11.Name = "label11";
-            label11.Size = new Size(190, 41);
-            label11.TabIndex = 7;
-            label11.Text = "Click to upload or scan PNG, JPG";
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
-            pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox2.Location = new Point(146, 65);
-            pictureBox2.Margin = new Padding(3, 4, 3, 4);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(58, 64);
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
             // 
             // kryptonButton1
             // 
@@ -879,7 +829,7 @@
             kryptonButton1.Text = "Add Book";
             kryptonButton1.TextColor = Color.Black;
             kryptonButton1.UseVisualStyleBackColor = false;
-            kryptonButton1.Load += arthanButton1_Click;
+            kryptonButton1.Load += kryptonButton1_Load;
             kryptonButton1.Click += arthanButton1_Click;
             // 
             // Source
@@ -899,9 +849,9 @@
             arthanPanel1.BackColor = Color.Transparent;
             arthanPanel1.BottomLeftRadius = 15;
             arthanPanel1.BottomRightRadius = 15;
+            arthanPanel1.Controls.Add(picCover);
             arthanPanel1.Controls.Add(Source);
             arthanPanel1.Controls.Add(kryptonButton1);
-            arthanPanel1.Controls.Add(picCover);
             arthanPanel1.Controls.Add(txtDesc);
             arthanPanel1.Controls.Add(label10);
             arthanPanel1.Controls.Add(label6);
@@ -938,6 +888,15 @@
             arthanPanel1.UseIndividualCorners = false;
             arthanPanel1.Paint += arthanPanel1_Paint;
             // 
+            // picCover
+            // 
+            picCover.Location = new Point(84, 580);
+            picCover.Name = "picCover";
+            picCover.Size = new Size(224, 161);
+            picCover.TabIndex = 51;
+            picCover.TabStop = false;
+            picCover.Click += picCover_Click;
+            // 
             // Book_Aquire
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -971,12 +930,10 @@
             arthanPanel6.PerformLayout();
             arthanPanel5.ResumeLayout(false);
             arthanPanel5.PerformLayout();
-            picCover.ResumeLayout(false);
-            picCover.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();
             arthanPanel1.ResumeLayout(false);
             arthanPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picCover).EndInit();
             ResumeLayout(false);
         }
 
@@ -1022,11 +979,9 @@
         private Label label6;
         private Label label10;
         private Components.ArthanTextBox txtDesc;
-        private Components.ArthanPanel picCover;
-        private Label label11;
-        private PictureBox pictureBox2;
         private Components.ArthanButton kryptonButton1;
         private Krypton.Toolkit.KryptonComboBox Source;
         private Components.ArthanPanel arthanPanel1;
+        private PictureBox picCover;
     }
 }

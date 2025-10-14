@@ -22,7 +22,7 @@ namespace LibraryCGC
             Book_Aquire bookAcq = new Book_Aquire();
             bookAcq.ShowDialog();
             this.Hide();
-            this.Close();
+           
             
 
         }
