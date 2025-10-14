@@ -512,10 +512,10 @@
             SearchTxtBox.Padding = new Padding(11, 9, 11, 9);
             SearchTxtBox.PasswordChar = false;
             SearchTxtBox.PlaceholderColor = Color.DarkGray;
-            SearchTxtBox.PlaceholderText = "";
+            SearchTxtBox.PlaceholderText = "Search books...";
             SearchTxtBox.Size = new Size(634, 63);
             SearchTxtBox.TabIndex = 21;
-            SearchTxtBox.Texts = "Search books...";
+            SearchTxtBox.Texts = "";
             SearchTxtBox.UnderlinedStyle = false;
             // 
             // label12

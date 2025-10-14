@@ -548,6 +548,28 @@ namespace LibraryCGC
                     DataGridTotalBooks.Columns.Add(updateButton);
                 }
 
+                // ✅ Auto layout and scaling
+                DataGridTotalBooks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                DataGridTotalBooks.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                DataGridTotalBooks.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+                // ✅ Responsive resizing
+                DataGridTotalBooks.Dock = DockStyle.Fill;
+                // (If you have other controls in the same panel, use Anchors instead:)
+                // IssueBooksDataGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+                // 🎨 Bonus — Clean, user-friendly visual settings
+                DataGridTotalBooks.RowHeadersVisible = false;
+                DataGridTotalBooks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                DataGridTotalBooks.MultiSelect = false;
+                DataGridTotalBooks.ReadOnly = true;
+                DataGridTotalBooks.AllowUserToResizeRows = false;
+                DataGridTotalBooks.AllowUserToResizeColumns = false;
+
+                // Optional: center column headers
+                DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                
 
 
             }

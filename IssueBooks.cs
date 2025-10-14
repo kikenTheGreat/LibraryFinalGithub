@@ -97,7 +97,7 @@ namespace Library_Final
 
 
         }
-
+        //not relatedddddddddddddddddddddddddddddddddddd IGNOREEEEEEEEEEEEEEEEEEEEEE
         private void kryptonButton6_Click(object sender, EventArgs e)
         {
             DateTime issueDate = IssueDate.SelectionStart;
@@ -132,7 +132,7 @@ namespace Library_Final
                 }
             }
 
-            MessageBox.Show("Issue Book inserted successfully.");
+            MessageBox.Show("kryptonButton6_Click");
 
             LoadIssueBooks(); // Refresh DataGridView
         }
@@ -197,7 +197,7 @@ namespace Library_Final
 
 
 
-
+        // HERE NA MEEEEEEEEEEEEEEEEEEE
         private void BookID_TextChanged(object sender, EventArgs e)
         {
             string bookID = BookID.Text.Trim();
@@ -289,6 +289,8 @@ namespace Library_Final
             }
         }
 
+
+     
         private void btnConfirmBorrow_Click(object sender, EventArgs e)
         {
             if (borrowList.Count == 0)
@@ -335,7 +337,7 @@ namespace Library_Final
                 }
             }
 
-            MessageBox.Show("Books issued successfully.");
+            MessageBox.Show("btnConfirmBorrow_Click");
             borrowList.Clear();
             dgvBorrowList.Rows.Clear();
             LoadIssueBooks();
