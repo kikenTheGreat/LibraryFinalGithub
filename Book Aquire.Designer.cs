@@ -50,7 +50,7 @@
             label15 = new Label();
             arthanButton4 = new LibraryCGC.Components.ArthanButton();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
-            arthanTextBox9 = new LibraryCGC.Components.ArthanTextBox();
+            SearchTxtBox = new LibraryCGC.Components.ArthanTextBox();
             label12 = new Label();
             Author = new LibraryCGC.Components.ArthanTextBox();
             label2 = new Label();
@@ -180,7 +180,7 @@
             arthanPanel2.Controls.Add(arthanPanel5);
             arthanPanel2.Controls.Add(arthanButton4);
             arthanPanel2.Controls.Add(arthanButton2);
-            arthanPanel2.Controls.Add(arthanTextBox9);
+            arthanPanel2.Controls.Add(SearchTxtBox);
             arthanPanel2.Controls.Add(label12);
             arthanPanel2.CornerRadius = 15;
             arthanPanel2.EnableDragging = false;
@@ -199,6 +199,7 @@
             arthanPanel2.TopLeftRadius = 15;
             arthanPanel2.TopRightRadius = 15;
             arthanPanel2.UseIndividualCorners = false;
+            arthanPanel2.Paint += arthanPanel2_Paint;
             // 
             // arthanPanel11
             // 
@@ -494,28 +495,28 @@
             arthanButton2.TextColor = Color.Black;
             arthanButton2.UseVisualStyleBackColor = false;
             // 
-            // arthanTextBox9
+            // SearchTxtBox
             // 
-            arthanTextBox9.AutoSize = true;
-            arthanTextBox9.BackColor = SystemColors.Window;
-            arthanTextBox9.BorderColor = Color.FromArgb(217, 217, 217);
-            arthanTextBox9.BorderFocusColor = Color.HotPink;
-            arthanTextBox9.BorderRadius = 5;
-            arthanTextBox9.BorderSize = 2;
-            arthanTextBox9.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            arthanTextBox9.ForeColor = Color.DimGray;
-            arthanTextBox9.Location = new Point(30, 65);
-            arthanTextBox9.Margin = new Padding(5);
-            arthanTextBox9.Multiline = true;
-            arthanTextBox9.Name = "arthanTextBox9";
-            arthanTextBox9.Padding = new Padding(11, 9, 11, 9);
-            arthanTextBox9.PasswordChar = false;
-            arthanTextBox9.PlaceholderColor = Color.DarkGray;
-            arthanTextBox9.PlaceholderText = "";
-            arthanTextBox9.Size = new Size(634, 63);
-            arthanTextBox9.TabIndex = 21;
-            arthanTextBox9.Texts = "Search books...";
-            arthanTextBox9.UnderlinedStyle = false;
+            SearchTxtBox.AutoSize = true;
+            SearchTxtBox.BackColor = SystemColors.Window;
+            SearchTxtBox.BorderColor = Color.FromArgb(217, 217, 217);
+            SearchTxtBox.BorderFocusColor = Color.HotPink;
+            SearchTxtBox.BorderRadius = 5;
+            SearchTxtBox.BorderSize = 2;
+            SearchTxtBox.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            SearchTxtBox.ForeColor = Color.DimGray;
+            SearchTxtBox.Location = new Point(30, 65);
+            SearchTxtBox.Margin = new Padding(5);
+            SearchTxtBox.Multiline = true;
+            SearchTxtBox.Name = "SearchTxtBox";
+            SearchTxtBox.Padding = new Padding(11, 9, 11, 9);
+            SearchTxtBox.PasswordChar = false;
+            SearchTxtBox.PlaceholderColor = Color.DarkGray;
+            SearchTxtBox.PlaceholderText = "";
+            SearchTxtBox.Size = new Size(634, 63);
+            SearchTxtBox.TabIndex = 21;
+            SearchTxtBox.Texts = "Search books...";
+            SearchTxtBox.UnderlinedStyle = false;
             // 
             // label12
             // 
@@ -945,7 +946,7 @@
         private Components.ArthanButton arthanButton1;
         private Components.ArthanPanel arthanPanel2;
         private Label label12;
-        private Components.ArthanTextBox arthanTextBox9;
+        private Components.ArthanTextBox SearchTxtBox;
         private Components.ArthanButton arthanButton4;
         private Components.ArthanButton arthanButton2;
         private Label label13;

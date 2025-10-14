@@ -16,8 +16,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace LibraryCGC
 {
     public partial class Book_Aquire : Form
+    {// for autocomplete
+        private ListBox suggestionListBox;  // dropdown list for suggestions
+        private string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 
-    {
         private System.Windows.Forms.Timer isbnTimer; // add at class level
         public Book_Aquire()
         {
@@ -31,7 +33,146 @@ namespace LibraryCGC
             isbnTimer.Tick += IsbnTimer_Tick;
 
             ISBN.TextChanged += ISBN_TextChanged; // trigger when ISBN box changes
+
+
+            // 🔍 Initialize suggestion list for search
+            suggestionListBox = new ListBox();
+            suggestionListBox.Visible = false;
+            suggestionListBox.Font = SearchTxtBox.Font;
+            suggestionListBox.BackColor = Color.White;
+            suggestionListBox.ForeColor = Color.Black;
+            suggestionListBox.BorderStyle = BorderStyle.FixedSingle;
+
+            // Add to form
+            this.Controls.Add(suggestionListBox);
+
+            // Click on suggestion → fill the textbox
+            suggestionListBox.Click += (s, e) =>
+            {
+                if (suggestionListBox.SelectedItem != null)
+                {
+                    SearchTxtBox.Texts = suggestionListBox.SelectedItem.ToString();
+                    suggestionListBox.Visible = false;
+                }
+            };
+
+            // 👇 Connect event to ArthanTextBox’s custom event (_TextChanged)
+            SearchTxtBox._TextChanged += SearchTxtBox_TextChanged;
+            SearchTxtBox.Leave += (s, e) => suggestionListBox.Visible = false;
+
         }
+
+        private async void SearchTxtBox_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = SearchTxtBox.Texts.Trim();
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                suggestionListBox.Visible = false;
+                return;
+            }
+
+            List<string> suggestions = new List<string>();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                await con.OpenAsync();
+                // 🔍 match anywhere in title, not just starting letters
+                string query = "SELECT TOP 10 BookTitle FROM BooksAcq WHERE BookTitle LIKE '%' + @search + '%'";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@search", searchText);
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                            suggestions.Add(reader.GetString(0));
+                    }
+                }
+            }
+
+            if (suggestions.Count > 0)
+            {
+                suggestionListBox.BeginUpdate();
+                suggestionListBox.Items.Clear();
+                foreach (var s in suggestions)
+                    suggestionListBox.Items.Add(s);
+                suggestionListBox.EndUpdate();
+
+                // Position below the search box
+                var tbLocation = SearchTxtBox.PointToScreen(Point.Empty);
+                var formLocation = this.PointToClient(tbLocation);
+
+                suggestionListBox.Location = new Point(formLocation.X, formLocation.Y + SearchTxtBox.Height);
+                suggestionListBox.Width = SearchTxtBox.Width;
+                suggestionListBox.Height = Math.Min(150, suggestions.Count * 25);
+
+                suggestionListBox.Visible = true;
+                suggestionListBox.BringToFront();
+            }
+            else
+            {
+                suggestionListBox.Visible = false;
+            }
+        }
+
+
+        private async void BookTitle_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = BookTitle.Texts.Trim();
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                suggestionListBox.Visible = false;
+                return;
+            }
+
+            // Query the database for matching titles
+            List<string> suggestions = new List<string>();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                await con.OpenAsync();
+
+                string query = "SELECT TOP 10 BookTitle FROM BooksAcq WHERE BookTitle LIKE @search + '%'";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@search", searchText);
+
+                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            suggestions.Add(reader.GetString(0));
+                        }
+                    }
+                }
+            }
+
+            // If there are suggestions, display them
+            if (suggestions.Count > 0)
+            {
+                suggestionListBox.BeginUpdate();
+                suggestionListBox.Items.Clear();
+                foreach (var s in suggestions)
+                    suggestionListBox.Items.Add(s);
+                suggestionListBox.EndUpdate();
+
+                // Position below the BookTitle textbox
+                var tbLocation = BookTitle.PointToScreen(Point.Empty);
+                var formLocation = this.PointToClient(tbLocation);
+
+                suggestionListBox.Location = new Point(formLocation.X, formLocation.Y + BookTitle.Height);
+                suggestionListBox.Width = BookTitle.Width;
+                suggestionListBox.Height = Math.Min(150, suggestions.Count * 25);
+
+                suggestionListBox.Visible = true;
+                suggestionListBox.BringToFront();
+            }
+            else
+            {
+                suggestionListBox.Visible = false;
+            }
+        }
+
 
         private async void IsbnTimer_Tick(object sender, EventArgs e)
         {
@@ -125,10 +266,27 @@ namespace LibraryCGC
 
         private void ISBN_TextChanged(object sender, EventArgs e)
         {
+            string isbn = ISBN.Texts.Trim();
+
+            // 🧹 If ISBN field is cleared, automatically clear all related fields
+            if (string.IsNullOrEmpty(isbn))
+            {
+                BookTitle.Texts = "";
+                Author.Texts = "";
+                Publisher.Texts = "";
+                Published.Texts = "";
+                Category.Texts = "";
+                txtDesc.Texts = "";
+                Quantity.Texts = "";
+                Source.Text = "";
+                picCover.BackgroundImage = null; // clear image
+                isbnTimer.Stop(); // no need to trigger API
+                return;
+            }
 
             isbnTimer.Stop();
             isbnTimer.Start(); // restart timer every time they type
-         
+
         }
 
 
@@ -164,12 +322,6 @@ namespace LibraryCGC
 
 
 
-                
-
-
-
-
-                // ✅ Add this block BEFORE cmd.Parameters.AddWithValue(...)
 
                 // 🔄 Force ArthanTextBoxes to sync their visual text into actual .Text
                 BookTitle.Text = BookTitle.Texts;
@@ -222,7 +374,7 @@ namespace LibraryCGC
             }
         }
 
-     
+
 
 
 
@@ -572,6 +724,11 @@ namespace LibraryCGC
         private void picCover_Click(object sender, EventArgs e)
         {
             picCover.SizeMode = PictureBoxSizeMode.Zoom; // or CenterImage
+        }
+
+        private void arthanPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     } //END OF MAIN METHOD
 
