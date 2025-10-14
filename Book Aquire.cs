@@ -726,7 +726,7 @@ namespace LibraryCGC
         {
             // Hide this form and show Form1 (Home)
             Form1 homeForm = new Form1();
-            homeForm.ShowDialog();
+            homeForm.Show();
             this.Hide();
 
         }

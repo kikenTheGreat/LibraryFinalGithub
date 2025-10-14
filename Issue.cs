@@ -19,7 +19,8 @@ namespace LibraryCGC
             InitializeComponent();
             LoadIssueBooks(); // Refresh DataGridView
         }
-        private List<(string BookID, string BookTitle)> borrowList = new List<(string, string)>();
+        private List<(string BookID, string BookTitle, string Source)> borrowList = new List<(string, string, string)>();
+
 
         private void LoadIssueBooks()
         {
@@ -77,13 +78,13 @@ namespace LibraryCGC
             // Optional: center column headers
             IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-           
+
 
 
         }
 
 
-        
+
 
 
 
@@ -143,6 +144,7 @@ namespace LibraryCGC
             // Prepare borrow list grid
             dgvBorrowList.Columns.Add("BookID", "Book ID");
             dgvBorrowList.Columns.Add("BookTitle", "Book Title");
+            dgvBorrowList.Columns.Add("Source", "Source");
         }
 
         private void BookID_TextChanged(object sender, EventArgs e)
@@ -165,38 +167,32 @@ namespace LibraryCGC
 
                         if (reader.Read())
                         {
-                            // ✅ Retrieve BookTitle
                             string title = reader["BookTitle"].ToString();
                             BookTitle.Items.Clear();
                             BookTitle.Items.Add(title);
                             BookTitle.SelectedIndex = 0;
-                            BookTitle.SelectedItem = title;
-                            BookTitle.Text = title;  // ensures it’s not blank
+                            BookTitle.Text = title;
 
-                            // ✅ Retrieve Source
+                            // ✅ For TextBox:
                             string src = reader["Source"].ToString();
-                            Source.Items.Clear();
-                            Source.Items.Add(src);
-                            Source.SelectedIndex = 0;
-                            Source.SelectedItem = src;
-                            Source.Text = src;  // ensures it’s not blank
+                            Source.Text = src; // Just set the text directly
                         }
                         else
                         {
-                            // Clear controls if no match found
                             BookTitle.Items.Clear();
-                            Source.Items.Clear();
+                            Source.Text = string.Empty; // clear text
                         }
                     }
                 }
             }
             else
             {
-                // Clear ComboBoxes if less than 4 characters
                 BookTitle.Items.Clear();
-                Source.Items.Clear();
+                Source.Text = string.Empty;
             }
         }
+
+
 
 
         private void btnAddToList_Click_1(object sender, EventArgs e)
@@ -207,20 +203,30 @@ namespace LibraryCGC
                 return;
             }
 
-            borrowList.Add((BookID.Text, kupal.Text));
+            // ✅ Add Source along with BookID and BookTitle
+            borrowList.Add((BookID.Text, BookTitle.Text, Source.Text));
 
-            dgvBorrowList.Rows.Add(BookID.Text, BookTitle.Text);
+            // ✅ Add Source as a column in the DataGridView
+            if (dgvBorrowList.Columns.Count < 3)
+            {
+                dgvBorrowList.Columns.Clear();
+                dgvBorrowList.Columns.Add("BookID", "Book ID");
+                dgvBorrowList.Columns.Add("BookTitle", "Book Title");
+                dgvBorrowList.Columns.Add("Source", "Source");
+            }
 
-            // Clear for next entry
+            dgvBorrowList.Rows.Add(BookID.Text, BookTitle.Text, Source.Text);
+
+            // Clear fields for next entry
             BookID.Clear();
-            kupal.Text = "";
+            BookTitle.Items.Clear();
+            BookTitle.Text = "";
+            Source.Text = "";
         }
+
 
         private void btnConfirmBorrow_Click_1(object sender, EventArgs e)
         {
-          
-
-
             if (borrowList.Count == 0)
             {
                 MessageBox.Show("No books selected to borrow.");
@@ -230,41 +236,68 @@ namespace LibraryCGC
             DateTime issueDate = IssueDate.Value;
             DateTime dueDate = DueDate.Value;
 
+            // Gather book titles and sources from the list
             List<string> bookTitles = new List<string>();
-            foreach (DataGridViewRow row in dgvBorrowList.Rows)
+            List<string> bookSources = new List<string>();
+
+            foreach (var item in borrowList)
             {
-                if (row.Cells["BookTitle"].Value != null)
-                    bookTitles.Add(row.Cells["BookTitle"].Value.ToString());
+                bookTitles.Add(item.BookTitle);
+                bookSources.Add(item.Source);
             }
 
             string combinedBookTitles = string.Join(", ", bookTitles);
+            string combinedSources = string.Join(", ", bookSources);
             int quantity = bookTitles.Count;
 
             string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity)
                      VALUES (@Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity)";
 
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlCommand cmd = new SqlCommand(query, con))
             {
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@Status", Status.Text);
-                    cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
-                    cmd.Parameters.AddWithValue("@BookTitle", combinedBookTitles);
-                    cmd.Parameters.AddWithValue("@Source", Source.Text);
-                    cmd.Parameters.AddWithValue("@IssueDate", issueDate);
-                    cmd.Parameters.AddWithValue("@DueDate", dueDate);
-                    cmd.Parameters.AddWithValue("@Quantity", quantity);
+                cmd.Parameters.AddWithValue("@Status", Status.Text);
+                cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
+                cmd.Parameters.AddWithValue("@BookTitle", combinedBookTitles);
+                cmd.Parameters.AddWithValue("@Source", combinedSources); // ✅ Fixed
+                cmd.Parameters.AddWithValue("@IssueDate", issueDate);
+                cmd.Parameters.AddWithValue("@DueDate", dueDate);
+                cmd.Parameters.AddWithValue("@Quantity", quantity);
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                }
+                con.Open();
+                cmd.ExecuteNonQuery();
             }
 
             MessageBox.Show("Book(s) issued successfully!");
             borrowList.Clear();
             dgvBorrowList.Rows.Clear();
             LoadIssueBooks();
+        }
+
+
+        private void IssueBooksDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvBorrowList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void arthanButton1_Click(object sender, EventArgs e)
+        {
+            Form1 f = new Form1();
+            f.Show();
+            this.Hide();
+
+
+
+        }
+
+        private void arthanButton1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -39,9 +39,9 @@ namespace LibraryCGC
         private void arthanButton1_Click(object sender, EventArgs e)
         {
             Form1 f = new Form1();
-            f.ShowDialog();
+            f.Show();
             this.Hide();
-            this.Close();
+         
         }
 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)

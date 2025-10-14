@@ -75,6 +75,7 @@
             arthanPanel16 = new LibraryCGC.Components.ArthanPanel();
             label23 = new Label();
             kupal = new LibraryCGC.Components.ArthanPanel();
+            Source = new Guna.UI2.WinForms.Guna2TextBox();
             btnConfirmBorrow = new Guna.UI2.WinForms.Guna2Button();
             btnAddToList = new Guna.UI2.WinForms.Guna2Button();
             DueDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
@@ -86,7 +87,6 @@
             label2 = new Label();
             Status = new Guna.UI2.WinForms.Guna2ComboBox();
             BookTitle = new Guna.UI2.WinForms.Guna2ComboBox();
-            Source = new Guna.UI2.WinForms.Guna2ComboBox();
             BookID = new Guna.UI2.WinForms.Guna2TextBox();
             ClientID = new Guna.UI2.WinForms.Guna2TextBox();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
@@ -164,6 +164,7 @@
             IssueBooksDataGrid.RowHeadersWidth = 51;
             IssueBooksDataGrid.Size = new Size(1416, 466);
             IssueBooksDataGrid.TabIndex = 33;
+            IssueBooksDataGrid.CellContentClick += IssueBooksDataGrid_CellContentClick;
             // 
             // arthanPanel17
             // 
@@ -492,6 +493,7 @@
             kupal.BackColor = Color.Transparent;
             kupal.BottomLeftRadius = 15;
             kupal.BottomRightRadius = 15;
+            kupal.Controls.Add(Source);
             kupal.Controls.Add(btnConfirmBorrow);
             kupal.Controls.Add(btnAddToList);
             kupal.Controls.Add(DueDate);
@@ -503,7 +505,6 @@
             kupal.Controls.Add(label2);
             kupal.Controls.Add(Status);
             kupal.Controls.Add(BookTitle);
-            kupal.Controls.Add(Source);
             kupal.Controls.Add(BookID);
             kupal.Controls.Add(ClientID);
             kupal.Controls.Add(arthanPanel3);
@@ -531,11 +532,35 @@
             kupal.TopRightRadius = 15;
             kupal.UseIndividualCorners = false;
             // 
+            // Source
+            // 
+            Source.BorderColor = Color.FromArgb(224, 224, 224);
+            Source.BorderRadius = 4;
+            Source.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            Source.BorderThickness = 2;
+            Source.CustomizableEdges = customizableEdges1;
+            Source.DefaultText = "";
+            Source.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            Source.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            Source.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            Source.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            Source.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            Source.Font = new Font("Segoe UI", 9F);
+            Source.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            Source.Location = new Point(22, 428);
+            Source.Margin = new Padding(3, 4, 3, 4);
+            Source.Name = "Source";
+            Source.PlaceholderText = "";
+            Source.SelectedText = "";
+            Source.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            Source.Size = new Size(344, 39);
+            Source.TabIndex = 42;
+            // 
             // btnConfirmBorrow
             // 
             btnConfirmBorrow.BorderRadius = 18;
             btnConfirmBorrow.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnConfirmBorrow.CustomizableEdges = customizableEdges1;
+            btnConfirmBorrow.CustomizableEdges = customizableEdges3;
             btnConfirmBorrow.DisabledState.BorderColor = Color.DarkGray;
             btnConfirmBorrow.DisabledState.CustomBorderColor = Color.DarkGray;
             btnConfirmBorrow.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -545,7 +570,7 @@
             btnConfirmBorrow.ForeColor = Color.Black;
             btnConfirmBorrow.Location = new Point(197, 788);
             btnConfirmBorrow.Name = "btnConfirmBorrow";
-            btnConfirmBorrow.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnConfirmBorrow.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnConfirmBorrow.Size = new Size(157, 63);
             btnConfirmBorrow.TabIndex = 41;
             btnConfirmBorrow.Text = "Confirm";
@@ -555,7 +580,7 @@
             // 
             btnAddToList.BorderRadius = 18;
             btnAddToList.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnAddToList.CustomizableEdges = customizableEdges3;
+            btnAddToList.CustomizableEdges = customizableEdges5;
             btnAddToList.DisabledState.BorderColor = Color.DarkGray;
             btnAddToList.DisabledState.CustomBorderColor = Color.DarkGray;
             btnAddToList.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -565,7 +590,7 @@
             btnAddToList.ForeColor = Color.Black;
             btnAddToList.Location = new Point(22, 788);
             btnAddToList.Name = "btnAddToList";
-            btnAddToList.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnAddToList.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnAddToList.Size = new Size(157, 63);
             btnAddToList.TabIndex = 40;
             btnAddToList.Text = "Add to List";
@@ -576,7 +601,7 @@
             DueDate.BackColor = Color.White;
             DueDate.BorderRadius = 5;
             DueDate.Checked = true;
-            DueDate.CustomizableEdges = customizableEdges5;
+            DueDate.CustomizableEdges = customizableEdges7;
             DueDate.FillColor = Color.White;
             DueDate.Font = new Font("Segoe UI", 9F);
             DueDate.Format = DateTimePickerFormat.Long;
@@ -584,7 +609,7 @@
             DueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             DueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             DueDate.Name = "DueDate";
-            DueDate.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            DueDate.ShadowDecoration.CustomizableEdges = customizableEdges8;
             DueDate.Size = new Size(341, 45);
             DueDate.TabIndex = 39;
             DueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
@@ -594,7 +619,7 @@
             IssueDate.BackColor = Color.White;
             IssueDate.BorderRadius = 5;
             IssueDate.Checked = true;
-            IssueDate.CustomizableEdges = customizableEdges7;
+            IssueDate.CustomizableEdges = customizableEdges9;
             IssueDate.FillColor = Color.White;
             IssueDate.Font = new Font("Segoe UI", 9F);
             IssueDate.Format = DateTimePickerFormat.Long;
@@ -602,7 +627,7 @@
             IssueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             IssueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             IssueDate.Name = "IssueDate";
-            IssueDate.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            IssueDate.ShadowDecoration.CustomizableEdges = customizableEdges10;
             IssueDate.Size = new Size(341, 45);
             IssueDate.TabIndex = 35;
             IssueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
@@ -663,7 +688,7 @@
             Status.BorderRadius = 4;
             Status.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Status.BorderThickness = 2;
-            Status.CustomizableEdges = customizableEdges9;
+            Status.CustomizableEdges = customizableEdges11;
             Status.DrawMode = DrawMode.OwnerDrawFixed;
             Status.DropDownStyle = ComboBoxStyle.DropDownList;
             Status.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -673,7 +698,7 @@
             Status.ItemHeight = 30;
             Status.Location = new Point(22, 515);
             Status.Name = "Status";
-            Status.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            Status.ShadowDecoration.CustomizableEdges = customizableEdges12;
             Status.Size = new Size(344, 36);
             Status.TabIndex = 38;
             // 
@@ -683,7 +708,7 @@
             BookTitle.BorderRadius = 4;
             BookTitle.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             BookTitle.BorderThickness = 2;
-            BookTitle.CustomizableEdges = customizableEdges11;
+            BookTitle.CustomizableEdges = customizableEdges13;
             BookTitle.DrawMode = DrawMode.OwnerDrawFixed;
             BookTitle.DropDownStyle = ComboBoxStyle.DropDownList;
             BookTitle.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -693,29 +718,9 @@
             BookTitle.ItemHeight = 30;
             BookTitle.Location = new Point(22, 357);
             BookTitle.Name = "BookTitle";
-            BookTitle.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            BookTitle.ShadowDecoration.CustomizableEdges = customizableEdges14;
             BookTitle.Size = new Size(344, 36);
             BookTitle.TabIndex = 37;
-            // 
-            // Source
-            // 
-            Source.BackColor = Color.Transparent;
-            Source.BorderRadius = 4;
-            Source.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            Source.BorderThickness = 2;
-            Source.CustomizableEdges = customizableEdges13;
-            Source.DrawMode = DrawMode.OwnerDrawFixed;
-            Source.DropDownStyle = ComboBoxStyle.DropDownList;
-            Source.FocusedColor = Color.FromArgb(94, 148, 255);
-            Source.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            Source.Font = new Font("Segoe UI", 10F);
-            Source.ForeColor = Color.FromArgb(68, 88, 112);
-            Source.ItemHeight = 30;
-            Source.Location = new Point(22, 437);
-            Source.Name = "Source";
-            Source.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            Source.Size = new Size(344, 36);
-            Source.TabIndex = 36;
             // 
             // BookID
             // 
@@ -926,6 +931,8 @@
             arthanButton1.Text = "Home";
             arthanButton1.TextColor = Color.Black;
             arthanButton1.UseVisualStyleBackColor = false;
+            arthanButton1.Load += arthanButton1_Load;
+            arthanButton1.Click += arthanButton1_Click;
             // 
             // pictureBox1
             // 
@@ -1029,6 +1036,7 @@
             dgvBorrowList.RowHeadersWidth = 51;
             dgvBorrowList.Size = new Size(733, 162);
             dgvBorrowList.TabIndex = 24;
+            dgvBorrowList.CellContentClick += dgvBorrowList_CellContentClick;
             // 
             // Issue
             // 
@@ -1117,7 +1125,6 @@
         private Guna.UI2.WinForms.Guna2TextBox BookID;
         private Guna.UI2.WinForms.Guna2ComboBox Status;
         private Guna.UI2.WinForms.Guna2ComboBox BookTitle;
-        private Guna.UI2.WinForms.Guna2ComboBox Source;
         private Guna.UI2.WinForms.Guna2ComboBox ClientName;
         private Guna.UI2.WinForms.Guna2DateTimePicker IssueDate;
         private Guna.UI2.WinForms.Guna2DateTimePicker DueDate;
@@ -1125,5 +1132,6 @@
         private Krypton.Toolkit.KryptonDataGridView dgvBorrowList;
         private Guna.UI2.WinForms.Guna2Button btnConfirmBorrow;
         private Guna.UI2.WinForms.Guna2Button btnAddToList;
+        private Guna.UI2.WinForms.Guna2TextBox Source;
     }
 }
