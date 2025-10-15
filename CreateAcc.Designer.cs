@@ -124,6 +124,7 @@
             arthanButton2.Text = "Home";
             arthanButton2.TextColor = Color.Black;
             arthanButton2.UseVisualStyleBackColor = false;
+            arthanButton2.Click += arthanButton2_Click;
             // 
             // arthanButton1
             // 
@@ -513,7 +514,7 @@
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel4);
             Margin = new Padding(3, 4, 3, 4);
-            
+          
             Text = "CreateAcc";
             Load += CreateAcc_Load;
             arthanPanel4.ResumeLayout(false);

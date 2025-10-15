@@ -903,7 +903,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
-            ClientSize = new Size(1550, 1055);
+            ClientSize = new Size(1902, 1033);
             Controls.Add(arthanPanel2);
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel4);

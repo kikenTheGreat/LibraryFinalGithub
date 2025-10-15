@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using LibraryCGC;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +17,8 @@ namespace Library_Final
         public Return()
         {
             InitializeComponent();
-            LoadIssueIDs();
+
+            LoadClientIDs();      // replaced IssueID with ClientID
             LoadReturnedBooks();
 
         }
@@ -28,78 +30,48 @@ namespace Library_Final
 
         private void kryptonCheckButton1_Click(object sender, EventArgs e)
         {
-            // Parse values
-            int issueId;
-            int quantity = 1;
-            decimal penalty = 0;
-            DateTime returnDate;
-
-            if (!int.TryParse(IssueID.Text, out issueId))
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+            if (string.IsNullOrWhiteSpace(ClientID.Text))
             {
-                MessageBox.Show("Invalid IssueID.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a Client ID.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!DateTime.TryParse(IssueDate.Text, out returnDate))
-            {
-                MessageBox.Show("Invalid Return Date.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (!int.TryParse(Quantity.Text, out quantity))
-            {
-                quantity = 1; // default to 1 if invalid
-            }
-
-          
-
-            string clientId = ClientID.Text.Trim();
-            string clientName = ClientName.Text.Trim();
-            string bookId = BookID.Text.Trim();
-            string bookTitle = BookTitle.Text.Trim();
-            string source = Source.Text.Trim();
-    
-            string status = Status.Text.Trim();
-
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+            DateTime returnDate = DateTime.Now; // auto return date
+            int quantity = int.TryParse(Quantity.Text, out var q) ? q : 1;
 
             string insertQuery = @"
-        INSERT INTO ReturnedBooks
-        (IssueID, ClientID, ClientName,  BookTitle, Source, ReturnDate,  Status, Quantity )
-        VALUES
-        (@IssueID, @ClientID, @ClientName,  @BookTitle, @Source, @ReturnDate, @Status, @Quantity )";
+                INSERT INTO ReturnedBooks
+                ( ClientID, ClientName, BookTitle, Source, ReturnDate, Status, Quantity)
+                VALUES
+                ( @ClientID, @ClientName, @BookTitle, @Source, @ReturnDate, @Status, @Quantity)";
 
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                 {
-                    cmd.Parameters.AddWithValue("@IssueID", issueId);
-                    cmd.Parameters.AddWithValue("@ClientID", clientId);
-                    cmd.Parameters.AddWithValue("@ClientName", clientName);
-                 
-                    cmd.Parameters.AddWithValue("@BookTitle", bookTitle);
-                    cmd.Parameters.AddWithValue("@Source", source);
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand(insertQuery, con);
+
+
+                    cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
+                    cmd.Parameters.AddWithValue("@ClientName", ClientName.Text);
+                    cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
+                    cmd.Parameters.AddWithValue("@Source", Source.Text);
                     cmd.Parameters.AddWithValue("@ReturnDate", returnDate);
-                    
-                    cmd.Parameters.AddWithValue("@Status", status);
+                    cmd.Parameters.AddWithValue("@Status", Status.Text);
                     cmd.Parameters.AddWithValue("@Quantity", quantity);
 
-                 
-                    con.Open();
                     cmd.ExecuteNonQuery();
-                    LoadReturnedBooks();
-                    con.Close();
-
-
-                    MessageBox.Show("Return record saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Optionally, clear your form or refresh your data grid here
                 }
+
+                MessageBox.Show("Return record saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadReturnedBooks();
+                ClearFields();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error saving return record: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error saving return record:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -159,66 +131,33 @@ namespace Library_Final
 
         }
 
-        private void BookID_TextChanged(object sender, EventArgs e)
-        {
-            string bookID = BookID.Text.Trim();
 
-            if (bookID.Length >= 4)
-            {
-                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
-                string query = "SELECT BookTitle FROM BooksAcq WHERE BookID = @BookID";
-
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@BookID", bookID);
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        if (reader.Read())
-                        {
-                            string title = reader["BookTitle"].ToString();
-                            BookTitle.Text = "";
-
-                            BookTitle.Text = title;
-
-
-                        }
-                        else
-                        {
-                            BookTitle.Text = "";
-
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // If less than 4 characters, clear the ComboBox
-                BookTitle.Text = "";
-
-            }
-        }
 
         private void Source_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
-
-        private void IssueID_SelectedIndexChanged(object sender, EventArgs e)
+        // ✅ Load all ClientIDs from IssueBooks
+        private void LoadClientIDs()
         {
-            Console.WriteLine("IssueID SelectedIndexChanged fired");
-            if (IssueID.SelectedItem == null)
-                return;
+            ClientID.Items.Clear();
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT DISTINCT ClientID FROM IssueBooks ORDER BY ClientID";
 
-            string issueID = IssueID.SelectedItem.ToString();
-            Console.WriteLine($"Selected IssueID: {issueID}");
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataReader dr = cmd.ExecuteReader();
 
-            FillIssueDetails(issueID);
-
+                while (dr.Read())
+                {
+                    ClientID.Items.Add(dr["ClientID"].ToString());
+                }
+            }
         }
+
+
 
         private void FillIssueDetails(string issueID)
         {
@@ -259,7 +198,7 @@ namespace Library_Final
                         ClientName.Text = reader["ClientName"].ToString();
                         ClientType.Text = reader["Role"].ToString();
 
-                        BookID.Text = reader["BookID"].ToString();
+
 
                         // This is where you set multi-line book titles
                         string rawTitles = reader["BookTitle"].ToString();
@@ -290,71 +229,139 @@ namespace Library_Final
 
 
 
-        private void LoadIssueIDs()
-        {
-            string query = "SELECT IssueID FROM IssueBooks ORDER BY IssueID";
 
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
-            {
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    con.Open();
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    IssueID.Items.Clear();
-
-                    while (reader.Read())
-                    {
-                        IssueID.Items.Add(reader["IssueID"].ToString());
-                    }
-                }
-            }
-        }
 
 
 
         private void LoadReturnedBooks() // LOAD THE DATAGRIDDDD
         {
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
             string query = @"
-    SELECT 
-        ReturnID,
-        IssueID,
-        ClientID,
-        ClientName,
-        BookTitle,
-        Source,
-        ReturnDate,
-        Status,
-        Quantity
-    FROM ReturnedBooks
-    ORDER BY ReturnID DESC"; // latest returns first
-
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+                SELECT 
+                    ReturnID,
+                  
+                    ClientID,
+                    ClientName,
+                    BookTitle,
+                    Source,
+                    ReturnDate,
+                    Status,
+                    Quantity
+                FROM ReturnedBooks
+                ORDER BY ReturnID DESC";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-
                 DataGridReturnBooks.DataSource = dt;
 
+                // clean UI
                 DataGridReturnBooks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
                 DataGridReturnBooks.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 DataGridReturnBooks.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 DataGridReturnBooks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                DataGridReturnBooks.MultiSelect = false;
                 DataGridReturnBooks.ReadOnly = true;
+                DataGridReturnBooks.MultiSelect = false;
                 DataGridReturnBooks.RowHeadersVisible = false;
             }
         }
+        private void ClearFields()
+        {
 
+            ClientID.Text = "";
+            ClientName.Text = "";
+            BookTitle.Text = "";
+            Source.Text = "";
+            IssueDate.Text = "";
+            DueDate.Text = "";
+            Status.Text = "";
+            Quantity.Text = "";
+
+        }
 
 
 
         private void BookTitle_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Return_Load(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT DISTINCT ClientID FROM IssueBooks", con);
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    ClientID.Items.Add(dr["ClientID"].ToString());
+                }
+                dr.Close();
+            }
+        }
+
+        private void ClientID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+            string clientId = ClientID.Text.Trim();
+
+            if (string.IsNullOrEmpty(clientId))
+                return;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                string query = @"
+                    SELECT TOP 1
+                        ib.IssueID,
+                        ib.ClientID,
+                        ib.StudentName AS ClientName,
+                        ib.BookTitle,
+                        ib.Source,
+                        ib.IssueDate,
+                        ib.DueDate,
+                        ib.Status,
+                        ib.Quantity,
+                        ib.Penalty,
+                        ib.OverdueDays
+                    FROM IssueBooks ib
+                    WHERE ib.ClientID = @ClientID
+                    ORDER BY ib.IssueDate DESC";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@ClientID", clientId);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+
+                    ClientName.Text = reader["ClientName"].ToString();
+                    BookTitle.Text = reader["BookTitle"].ToString();
+                    Source.Text = reader["Source"].ToString();
+                    IssueDate.Text = Convert.ToDateTime(reader["IssueDate"]).ToString("yyyy-MM-dd");
+                    DueDate.Text = Convert.ToDateTime(reader["DueDate"]).ToString("yyyy-MM-dd");
+                    Status.Text = reader["Status"].ToString();
+                    Quantity.Text = reader["Quantity"].ToString();
+
+                }
+                else
+                {
+                    MessageBox.Show("No issue record found for this Client ID.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void arthanButton1_Click(object sender, EventArgs e)
+        {
+            Form1 f = new Form1();
+            f.Show();
+            this.Close();
         }
     }
 }

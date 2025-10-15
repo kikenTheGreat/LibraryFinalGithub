@@ -40,7 +40,8 @@ namespace LibraryCGC
             BookTitle,
             OverdueDays,
             Penalty,
-            Quantity
+            Quantity,
+            ClientID
         FROM IssueBooks
         ORDER BY IssueID DESC"; // latest entries first
 
@@ -262,8 +263,8 @@ namespace LibraryCGC
             string combinedSources = string.Join(", ", bookSources);
             int quantity = bookTitles.Count;
 
-            string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity)
-                     VALUES (@Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity)";
+            string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity,ClientID)
+                     VALUES (@Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity,@ClientID)";
 
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
             using (SqlCommand cmd = new SqlCommand(query, con))
@@ -275,6 +276,7 @@ namespace LibraryCGC
                 cmd.Parameters.AddWithValue("@IssueDate", issueDateValue);
                 cmd.Parameters.AddWithValue("@DueDate", dueDateValue);
                 cmd.Parameters.AddWithValue("@Quantity", quantity);
+                cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
 
                 con.Open();
                 cmd.ExecuteNonQuery();

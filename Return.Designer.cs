@@ -30,7 +30,20 @@ namespace Library_Final
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Return));
-            kryptonTextBox3 = new Krypton.Toolkit.KryptonTextBox();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             kryptonButton4 = new Krypton.Toolkit.KryptonButton();
             kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             kryptonButton2 = new Krypton.Toolkit.KryptonButton();
@@ -38,8 +51,6 @@ namespace Library_Final
             Source = new Krypton.Toolkit.KryptonComboBox();
             kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
-            ClientID = new Krypton.Toolkit.KryptonTextBox();
-            kryptonLabel5 = new Krypton.Toolkit.KryptonLabel();
             kryptonCheckButton1 = new Krypton.Toolkit.KryptonCheckButton();
             IssueDate = new Krypton.Toolkit.KryptonTextBox();
             ClientType = new Krypton.Toolkit.KryptonTextBox();
@@ -53,30 +64,36 @@ namespace Library_Final
             DueDate = new Krypton.Toolkit.KryptonTextBox();
             kryptonLabel9 = new Krypton.Toolkit.KryptonLabel();
             DataGridReturnBooks = new Krypton.Toolkit.KryptonDataGridView();
-            kryptonLabel10 = new Krypton.Toolkit.KryptonLabel();
-            BookID = new Krypton.Toolkit.KryptonTextBox();
             ClientName = new Krypton.Toolkit.KryptonComboBox();
-            IssueID = new Krypton.Toolkit.KryptonComboBox();
             BookTitle = new Krypton.Toolkit.KryptonTextBox();
+            ClientID = new Krypton.Toolkit.KryptonComboBox();
+            arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
+            arthanButton1 = new LibraryCGC.Components.ArthanButton();
+            pictureBox1 = new PictureBox();
+            label1 = new Label();
+            arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            SectionSY = new Guna.UI2.WinForms.Guna2TextBox();
+            Email = new Guna.UI2.WinForms.Guna2TextBox();
+            Name = new Guna.UI2.WinForms.Guna2TextBox();
+            guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
+            Role = new Guna.UI2.WinForms.Guna2TextBox();
+            Department = new Guna.UI2.WinForms.Guna2TextBox();
+            StudentNumber = new Guna.UI2.WinForms.Guna2TextBox();
+            label6 = new Label();
+            label7 = new Label();
+            label9 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label10 = new Label();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
             ((System.ComponentModel.ISupportInitialize)DataGridReturnBooks).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ClientName).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)IssueID).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ClientID).BeginInit();
+            arthanPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            arthanPanel1.SuspendLayout();
             SuspendLayout();
-            // 
-            // kryptonTextBox3
-            // 
-            kryptonTextBox3.Location = new Point(42, 64);
-            kryptonTextBox3.Margin = new Padding(3, 4, 3, 4);
-            kryptonTextBox3.Name = "kryptonTextBox3";
-            kryptonTextBox3.Size = new Size(1398, 33);
-            kryptonTextBox3.StateCommon.Back.Color1 = Color.AliceBlue;
-            kryptonTextBox3.StateCommon.Border.Color1 = Color.White;
-            kryptonTextBox3.StateCommon.Border.Color2 = Color.White;
-            kryptonTextBox3.StateCommon.Border.Rounding = 10F;
-            kryptonTextBox3.StateCommon.Content.Color1 = Color.DarkGray;
-            kryptonTextBox3.TabIndex = 120;
-            kryptonTextBox3.Text = "Search";
             // 
             // kryptonButton4
             // 
@@ -171,34 +188,9 @@ namespace Library_Final
             kryptonLabel4.TabIndex = 129;
             kryptonLabel4.Values.Text = "Status";
             // 
-            // ClientID
-            // 
-            ClientID.Location = new Point(212, 225);
-            ClientID.Margin = new Padding(3, 4, 3, 4);
-            ClientID.Name = "ClientID";
-            ClientID.Size = new Size(214, 33);
-            ClientID.StateCommon.Back.Color1 = Color.AliceBlue;
-            ClientID.StateCommon.Border.Color1 = Color.White;
-            ClientID.StateCommon.Border.Color2 = Color.White;
-            ClientID.StateCommon.Border.Rounding = 10F;
-            ClientID.StateCommon.Content.Color1 = Color.DarkGray;
-            ClientID.TabIndex = 128;
-            ClientID.TextChanged += ClientID_TextChanged;
-            // 
-            // kryptonLabel5
-            // 
-            kryptonLabel5.Location = new Point(40, 105);
-            kryptonLabel5.Margin = new Padding(3, 4, 3, 4);
-            kryptonLabel5.Name = "kryptonLabel5";
-            kryptonLabel5.Size = new Size(104, 33);
-            kryptonLabel5.StateCommon.ShortText.Color1 = Color.White;
-            kryptonLabel5.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            kryptonLabel5.TabIndex = 127;
-            kryptonLabel5.Values.Text = "Issue ID";
-            // 
             // kryptonCheckButton1
             // 
-            kryptonCheckButton1.Location = new Point(1030, 122);
+            kryptonCheckButton1.Location = new Point(913, 178);
             kryptonCheckButton1.Name = "kryptonCheckButton1";
             kryptonCheckButton1.Size = new Size(142, 31);
             kryptonCheckButton1.TabIndex = 141;
@@ -348,31 +340,6 @@ namespace Library_Final
             DataGridReturnBooks.Size = new Size(1229, 274);
             DataGridReturnBooks.TabIndex = 155;
             // 
-            // kryptonLabel10
-            // 
-            kryptonLabel10.Location = new Point(42, 147);
-            kryptonLabel10.Margin = new Padding(3, 4, 3, 4);
-            kryptonLabel10.Name = "kryptonLabel10";
-            kryptonLabel10.Size = new Size(102, 33);
-            kryptonLabel10.StateCommon.ShortText.Color1 = Color.White;
-            kryptonLabel10.StateCommon.ShortText.Font = new Font("Rockwell", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            kryptonLabel10.TabIndex = 157;
-            kryptonLabel10.Values.Text = "Book ID";
-            // 
-            // BookID
-            // 
-            BookID.Location = new Point(170, 145);
-            BookID.Margin = new Padding(3, 4, 3, 4);
-            BookID.Name = "BookID";
-            BookID.Size = new Size(214, 33);
-            BookID.StateCommon.Back.Color1 = Color.AliceBlue;
-            BookID.StateCommon.Border.Color1 = Color.White;
-            BookID.StateCommon.Border.Color2 = Color.White;
-            BookID.StateCommon.Border.Rounding = 10F;
-            BookID.StateCommon.Content.Color1 = Color.DarkGray;
-            BookID.TabIndex = 156;
-            BookID.TextChanged += BookID_TextChanged;
-            // 
             // ClientName
             // 
             ClientName.AllowDrop = true;
@@ -386,21 +353,6 @@ namespace Library_Final
             ClientName.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             ClientName.TabIndex = 158;
             ClientName.SelectedIndexChanged += kryptonComboBox1_SelectedIndexChanged;
-            // 
-            // IssueID
-            // 
-            IssueID.AllowDrop = true;
-            IssueID.DropDownStyle = ComboBoxStyle.DropDownList;
-            IssueID.DropDownWidth = 181;
-            IssueID.Location = new Point(175, 106);
-            IssueID.Margin = new Padding(3, 4, 3, 4);
-            IssueID.Name = "IssueID";
-            IssueID.Size = new Size(214, 32);
-            IssueID.StateCommon.ComboBox.Back.Color1 = Color.AliceBlue;
-            IssueID.StateCommon.ComboBox.Border.Rounding = 8F;
-            IssueID.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
-            IssueID.TabIndex = 160;
-            IssueID.SelectedIndexChanged += IssueID_SelectedIndexChanged;
             // 
             // BookTitle
             // 
@@ -417,18 +369,384 @@ namespace Library_Final
             BookTitle.TabIndex = 161;
             BookTitle.TextChanged += BookTitle_TextChanged;
             // 
+            // ClientID
+            // 
+            ClientID.AllowDrop = true;
+            ClientID.DropDownStyle = ComboBoxStyle.DropDownList;
+            ClientID.DropDownWidth = 181;
+            ClientID.Location = new Point(170, 225);
+            ClientID.Margin = new Padding(3, 4, 3, 4);
+            ClientID.Name = "ClientID";
+            ClientID.Size = new Size(214, 32);
+            ClientID.StateCommon.ComboBox.Back.Color1 = Color.AliceBlue;
+            ClientID.StateCommon.ComboBox.Border.Rounding = 8F;
+            ClientID.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            ClientID.TabIndex = 162;
+            ClientID.SelectedIndexChanged += ClientID_SelectedIndexChanged;
+            // 
+            // arthanPanel4
+            // 
+            arthanPanel4.BackColor = Color.Transparent;
+            arthanPanel4.BottomLeftRadius = 15;
+            arthanPanel4.BottomRightRadius = 15;
+            arthanPanel4.Controls.Add(arthanButton1);
+            arthanPanel4.Controls.Add(pictureBox1);
+            arthanPanel4.Controls.Add(label1);
+            arthanPanel4.CornerRadius = 15;
+            arthanPanel4.EnableDragging = false;
+            arthanPanel4.EnableDropShadow = true;
+            arthanPanel4.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            arthanPanel4.GradientEndColor = Color.FromArgb(238, 66, 66);
+            arthanPanel4.GradientStartColor = Color.FromArgb(220, 38, 38);
+            arthanPanel4.Location = new Point(76, 13);
+            arthanPanel4.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel4.Name = "arthanPanel4";
+            arthanPanel4.ShadowBlur = 5;
+            arthanPanel4.ShadowColor = Color.FromArgb(50, 0, 0, 0);
+            arthanPanel4.ShadowOffset = 3;
+            arthanPanel4.Size = new Size(1860, 133);
+            arthanPanel4.TabIndex = 163;
+            arthanPanel4.TopLeftRadius = 15;
+            arthanPanel4.TopRightRadius = 15;
+            arthanPanel4.UseIndividualCorners = false;
+            // 
+            // arthanButton1
+            // 
+            arthanButton1.BackColor = Color.Transparent;
+            arthanButton1.BackgroundColor = Color.AliceBlue;
+            arthanButton1.BorderColor = Color.PaleVioletRed;
+            arthanButton1.FlatAppearance.BorderColor = Color.Empty;
+            arthanButton1.FlatAppearance.BorderSize = 0;
+            arthanButton1.FlatAppearance.MouseDownBackColor = Color.Empty;
+            arthanButton1.FlatAppearance.MouseOverBackColor = Color.Empty;
+            arthanButton1.FlatStyle = FlatStyle.Flat;
+            arthanButton1.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            arthanButton1.ForeColor = Color.Black;
+            arthanButton1.GradientEndColor = Color.White;
+            arthanButton1.GradientStartColor = Color.White;
+            arthanButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
+            arthanButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
+            arthanButton1.Image = null;
+            arthanButton1.Location = new Point(1734, 25);
+            arthanButton1.Margin = new Padding(3, 4, 3, 4);
+            arthanButton1.Name = "arthanButton1";
+            arthanButton1.Size = new Size(109, 53);
+            arthanButton1.TabIndex = 5;
+            arthanButton1.Text = "Home";
+            arthanButton1.TextColor = Color.Black;
+            arthanButton1.UseVisualStyleBackColor = false;
+            arthanButton1.Click += arthanButton1_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Location = new Point(11, 13);
+            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(78, 91);
+            pictureBox1.TabIndex = 5;
+            pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Sans Serif Collection", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(96, 25);
+            label1.Name = "label1";
+            label1.Size = new Size(217, 102);
+            label1.TabIndex = 0;
+            label1.Text = "Issue Books";
+            // 
+            // arthanPanel1
+            // 
+            arthanPanel1.BackColor = Color.Transparent;
+            arthanPanel1.BorderStyle = BorderStyle.FixedSingle;
+            arthanPanel1.BottomLeftRadius = 0;
+            arthanPanel1.BottomRightRadius = 0;
+            arthanPanel1.Controls.Add(SectionSY);
+            arthanPanel1.Controls.Add(Email);
+            arthanPanel1.Controls.Add(Name);
+            arthanPanel1.Controls.Add(guna2TextBox1);
+            arthanPanel1.Controls.Add(Role);
+            arthanPanel1.Controls.Add(Department);
+            arthanPanel1.Controls.Add(StudentNumber);
+            arthanPanel1.Controls.Add(label6);
+            arthanPanel1.Controls.Add(label7);
+            arthanPanel1.Controls.Add(label9);
+            arthanPanel1.Controls.Add(label5);
+            arthanPanel1.Controls.Add(label4);
+            arthanPanel1.Controls.Add(label3);
+            arthanPanel1.Controls.Add(label10);
+            arthanPanel1.CornerRadius = 0;
+            arthanPanel1.EnableDragging = false;
+            arthanPanel1.EnableDropShadow = true;
+            arthanPanel1.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            arthanPanel1.GradientEndColor = Color.White;
+            arthanPanel1.GradientStartColor = SystemColors.Control;
+            arthanPanel1.Location = new Point(303, 697);
+            arthanPanel1.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel1.Name = "arthanPanel1";
+            arthanPanel1.ShadowBlur = 0;
+            arthanPanel1.ShadowColor = Color.FromArgb(50, 0, 0, 0);
+            arthanPanel1.ShadowOffset = 0;
+            arthanPanel1.Size = new Size(903, 353);
+            arthanPanel1.TabIndex = 164;
+            arthanPanel1.TopLeftRadius = 0;
+            arthanPanel1.TopRightRadius = 0;
+            arthanPanel1.UseIndividualCorners = false;
+            // 
+            // SectionSY
+            // 
+            SectionSY.BorderColor = Color.FromArgb(224, 224, 224);
+            SectionSY.BorderRadius = 4;
+            SectionSY.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            SectionSY.BorderThickness = 2;
+            SectionSY.CustomizableEdges = customizableEdges1;
+            SectionSY.DefaultText = "";
+            SectionSY.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            SectionSY.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            SectionSY.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            SectionSY.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            SectionSY.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            SectionSY.Font = new Font("Segoe UI", 9F);
+            SectionSY.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            SectionSY.Location = new Point(546, 153);
+            SectionSY.Margin = new Padding(3, 4, 3, 4);
+            SectionSY.Name = "SectionSY";
+            SectionSY.PlaceholderText = "";
+            SectionSY.SelectedText = "";
+            SectionSY.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            SectionSY.Size = new Size(246, 37);
+            SectionSY.TabIndex = 50;
+            // 
+            // Email
+            // 
+            Email.BorderColor = Color.FromArgb(224, 224, 224);
+            Email.BorderRadius = 4;
+            Email.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            Email.BorderThickness = 2;
+            Email.CustomizableEdges = customizableEdges3;
+            Email.DefaultText = "";
+            Email.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            Email.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            Email.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            Email.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            Email.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            Email.Font = new Font("Segoe UI", 9F);
+            Email.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            Email.Location = new Point(92, 170);
+            Email.Margin = new Padding(3, 4, 3, 4);
+            Email.Name = "Email";
+            Email.PlaceholderText = "";
+            Email.SelectedText = "";
+            Email.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            Email.Size = new Size(246, 37);
+            Email.TabIndex = 49;
+            // 
+            // Name
+            // 
+            Name.BorderColor = Color.FromArgb(224, 224, 224);
+            Name.BorderRadius = 4;
+            Name.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            Name.BorderThickness = 2;
+            Name.CustomizableEdges = customizableEdges5;
+            Name.DefaultText = "";
+            Name.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            Name.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            Name.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            Name.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            Name.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            Name.Font = new Font("Segoe UI", 9F);
+            Name.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            Name.Location = new Point(92, 125);
+            Name.Margin = new Padding(3, 4, 3, 4);
+            Name.Name = "Name";
+            Name.PlaceholderText = "";
+            Name.SelectedText = "";
+            Name.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            Name.Size = new Size(246, 37);
+            Name.TabIndex = 48;
+            // 
+            // guna2TextBox1
+            // 
+            guna2TextBox1.BorderColor = Color.FromArgb(224, 224, 224);
+            guna2TextBox1.BorderRadius = 4;
+            guna2TextBox1.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2TextBox1.BorderThickness = 2;
+            guna2TextBox1.CustomizableEdges = customizableEdges7;
+            guna2TextBox1.DefaultText = "";
+            guna2TextBox1.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            guna2TextBox1.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            guna2TextBox1.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox1.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox1.Font = new Font("Segoe UI", 9F);
+            guna2TextBox1.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox1.Location = new Point(547, 207);
+            guna2TextBox1.Margin = new Padding(3, 4, 3, 4);
+            guna2TextBox1.Name = "guna2TextBox1";
+            guna2TextBox1.PlaceholderText = "";
+            guna2TextBox1.SelectedText = "";
+            guna2TextBox1.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            guna2TextBox1.Size = new Size(246, 37);
+            guna2TextBox1.TabIndex = 47;
+            // 
+            // Role
+            // 
+            Role.BorderColor = Color.FromArgb(224, 224, 224);
+            Role.BorderRadius = 4;
+            Role.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            Role.BorderThickness = 2;
+            Role.CustomizableEdges = customizableEdges9;
+            Role.DefaultText = "";
+            Role.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            Role.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            Role.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            Role.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            Role.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            Role.Font = new Font("Segoe UI", 9F);
+            Role.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            Role.Location = new Point(546, 108);
+            Role.Margin = new Padding(3, 4, 3, 4);
+            Role.Name = "Role";
+            Role.PlaceholderText = "";
+            Role.SelectedText = "";
+            Role.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            Role.Size = new Size(246, 37);
+            Role.TabIndex = 46;
+            // 
+            // Department
+            // 
+            Department.BorderColor = Color.FromArgb(224, 224, 224);
+            Department.BorderRadius = 4;
+            Department.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            Department.BorderThickness = 2;
+            Department.CustomizableEdges = customizableEdges11;
+            Department.DefaultText = "";
+            Department.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            Department.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            Department.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            Department.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            Department.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            Department.Font = new Font("Segoe UI", 9F);
+            Department.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            Department.Location = new Point(546, 54);
+            Department.Margin = new Padding(3, 4, 3, 4);
+            Department.Name = "Department";
+            Department.PlaceholderText = "";
+            Department.SelectedText = "";
+            Department.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            Department.Size = new Size(246, 37);
+            Department.TabIndex = 45;
+            // 
+            // StudentNumber
+            // 
+            StudentNumber.BorderColor = Color.FromArgb(224, 224, 224);
+            StudentNumber.BorderRadius = 4;
+            StudentNumber.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            StudentNumber.BorderThickness = 2;
+            StudentNumber.CustomizableEdges = customizableEdges13;
+            StudentNumber.DefaultText = "";
+            StudentNumber.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            StudentNumber.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            StudentNumber.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            StudentNumber.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            StudentNumber.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            StudentNumber.Font = new Font("Segoe UI", 9F);
+            StudentNumber.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            StudentNumber.Location = new Point(92, 69);
+            StudentNumber.Margin = new Padding(3, 4, 3, 4);
+            StudentNumber.Name = "StudentNumber";
+            StudentNumber.PlaceholderText = "";
+            StudentNumber.SelectedText = "";
+            StudentNumber.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            StudentNumber.Size = new Size(246, 37);
+            StudentNumber.TabIndex = 34;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label6.Location = new Point(474, 153);
+            label6.Name = "label6";
+            label6.Size = new Size(66, 31);
+            label6.TabIndex = 43;
+            label6.Text = "Class Section";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(487, 108);
+            label7.Name = "label7";
+            label7.Size = new Size(32, 31);
+            label7.TabIndex = 41;
+            label7.Text = "Role";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label9.Location = new Point(481, 60);
+            label9.Name = "label9";
+            label9.Size = new Size(66, 31);
+            label9.TabIndex = 37;
+            label9.Text = "Department";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Location = new Point(26, 176);
+            label5.Name = "label5";
+            label5.Size = new Size(36, 31);
+            label5.TabIndex = 35;
+            label5.Text = "Email";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(481, 207);
+            label4.Name = "label4";
+            label4.Size = new Size(49, 31);
+            label4.TabIndex = 33;
+            label4.Text = "Client ID";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.Location = new Point(26, 131);
+            label3.Name = "label3";
+            label3.Size = new Size(39, 31);
+            label3.TabIndex = 31;
+            label3.Text = "Name";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Location = new Point(27, 75);
+            label10.Name = "label10";
+            label10.Size = new Size(59, 31);
+            label10.TabIndex = 29;
+            label10.Text = "Student ID";
+            // 
             // Return
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(1475, 690);
+            ClientSize = new Size(1920, 1080);
+            Controls.Add(arthanPanel1);
+            Controls.Add(arthanPanel4);
+            Controls.Add(ClientID);
             Controls.Add(BookTitle);
-            Controls.Add(IssueID);
             Controls.Add(ClientName);
-            Controls.Add(kryptonLabel10);
-            Controls.Add(BookID);
             Controls.Add(DataGridReturnBooks);
             Controls.Add(kryptonLabel9);
             Controls.Add(DueDate);
@@ -446,20 +764,23 @@ namespace Library_Final
             Controls.Add(Source);
             Controls.Add(kryptonLabel2);
             Controls.Add(kryptonLabel4);
-            Controls.Add(ClientID);
-            Controls.Add(kryptonLabel5);
             Controls.Add(kryptonButton4);
             Controls.Add(kryptonButton3);
             Controls.Add(kryptonButton2);
-            Controls.Add(kryptonTextBox3);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 4, 3, 4);
-            Name = "Return";
+           // Name = "Return";
             Text = "Return";
+            Load += Return_Load;
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();
             ((System.ComponentModel.ISupportInitialize)DataGridReturnBooks).EndInit();
             ((System.ComponentModel.ISupportInitialize)ClientName).EndInit();
-            ((System.ComponentModel.ISupportInitialize)IssueID).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ClientID).EndInit();
+            arthanPanel4.ResumeLayout(false);
+            arthanPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            arthanPanel1.ResumeLayout(false);
+            arthanPanel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -472,8 +793,6 @@ namespace Library_Final
         }
 
         #endregion
-
-        private Krypton.Toolkit.KryptonTextBox kryptonTextBox3;
         private Krypton.Toolkit.KryptonButton kryptonButton4;
         private Krypton.Toolkit.KryptonButton kryptonButton3;
         private Krypton.Toolkit.KryptonButton kryptonButton2;
@@ -481,8 +800,6 @@ namespace Library_Final
         private Krypton.Toolkit.KryptonComboBox Source;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
         private Krypton.Toolkit.KryptonLabel kryptonLabel4;
-        private Krypton.Toolkit.KryptonTextBox ClientID;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel5;
         private Krypton.Toolkit.KryptonCheckButton kryptonCheckButton1;
         private Krypton.Toolkit.KryptonTextBox IssueDate;
         private Krypton.Toolkit.KryptonTextBox ClientType;
@@ -496,10 +813,27 @@ namespace Library_Final
         private Krypton.Toolkit.KryptonTextBox DueDate;
         private Krypton.Toolkit.KryptonLabel kryptonLabel9;
         private Krypton.Toolkit.KryptonDataGridView DataGridReturnBooks;
-        private Krypton.Toolkit.KryptonLabel kryptonLabel10;
-        private Krypton.Toolkit.KryptonTextBox BookID;
         private Krypton.Toolkit.KryptonComboBox ClientName;
-        private Krypton.Toolkit.KryptonComboBox IssueID;
         private Krypton.Toolkit.KryptonTextBox BookTitle;
+        private Krypton.Toolkit.KryptonComboBox ClientID;
+        private LibraryCGC.Components.ArthanPanel arthanPanel4;
+        private LibraryCGC.Components.ArthanButton arthanButton1;
+        private PictureBox pictureBox1;
+        private Label label1;
+        private LibraryCGC.Components.ArthanPanel arthanPanel1;
+        private Guna.UI2.WinForms.Guna2TextBox SectionSY;
+        private Guna.UI2.WinForms.Guna2TextBox Email;
+        private Guna.UI2.WinForms.Guna2TextBox Name;
+        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
+        private Guna.UI2.WinForms.Guna2TextBox Role;
+        private Guna.UI2.WinForms.Guna2TextBox Department;
+        private Guna.UI2.WinForms.Guna2TextBox StudentNumber;
+        private Label label6;
+        private Label label7;
+        private Label label9;
+        private Label label5;
+        private Label label4;
+        private Label label3;
+        private Label label10;
     }
 }

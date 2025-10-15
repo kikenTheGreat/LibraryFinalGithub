@@ -1,3 +1,5 @@
+using Library_Final;
+
 namespace LibraryCGC
 {
     public partial class Form1 : Form
@@ -84,7 +86,14 @@ namespace LibraryCGC
         {
             CreateAcc ca = new CreateAcc();
             ca.Show();
-            this.Hide();
+            this.Close();
+        }
+
+        private void arthanButton3_Click_1(object sender, EventArgs e)
+        {
+            Return r = new Return();
+            r.Show();
+            this.Close();
         }
     }
 }
