@@ -78,8 +78,8 @@
             Source = new Guna.UI2.WinForms.Guna2TextBox();
             btnConfirmBorrow = new Guna.UI2.WinForms.Guna2Button();
             btnAddToList = new Guna.UI2.WinForms.Guna2Button();
-            DueDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
-            IssueDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            dueDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            issueDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
             label9 = new Label();
             label7 = new Label();
             label3 = new Label();
@@ -496,8 +496,8 @@
             kupal.Controls.Add(Source);
             kupal.Controls.Add(btnConfirmBorrow);
             kupal.Controls.Add(btnAddToList);
-            kupal.Controls.Add(DueDate);
-            kupal.Controls.Add(IssueDate);
+            kupal.Controls.Add(dueDate);
+            kupal.Controls.Add(issueDate);
             kupal.Controls.Add(label9);
             kupal.Controls.Add(label7);
             kupal.Controls.Add(label3);
@@ -596,41 +596,41 @@
             btnAddToList.Text = "Add to List";
             btnAddToList.Click += btnAddToList_Click_1;
             // 
-            // DueDate
+            // dueDate
             // 
-            DueDate.BackColor = Color.White;
-            DueDate.BorderRadius = 5;
-            DueDate.Checked = true;
-            DueDate.CustomizableEdges = customizableEdges7;
-            DueDate.FillColor = Color.White;
-            DueDate.Font = new Font("Segoe UI", 9F);
-            DueDate.Format = DateTimePickerFormat.Long;
-            DueDate.Location = new Point(22, 684);
-            DueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            DueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            DueDate.Name = "DueDate";
-            DueDate.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            DueDate.Size = new Size(341, 45);
-            DueDate.TabIndex = 39;
-            DueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
+            dueDate.BackColor = Color.White;
+            dueDate.BorderRadius = 5;
+            dueDate.Checked = true;
+            dueDate.CustomizableEdges = customizableEdges7;
+            dueDate.FillColor = Color.White;
+            dueDate.Font = new Font("Segoe UI", 9F);
+            dueDate.Format = DateTimePickerFormat.Long;
+            dueDate.Location = new Point(22, 684);
+            dueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            dueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            dueDate.Name = "dueDate";
+            dueDate.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            dueDate.Size = new Size(341, 45);
+            dueDate.TabIndex = 39;
+            dueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
             // 
-            // IssueDate
+            // issueDate
             // 
-            IssueDate.BackColor = Color.White;
-            IssueDate.BorderRadius = 5;
-            IssueDate.Checked = true;
-            IssueDate.CustomizableEdges = customizableEdges9;
-            IssueDate.FillColor = Color.White;
-            IssueDate.Font = new Font("Segoe UI", 9F);
-            IssueDate.Format = DateTimePickerFormat.Long;
-            IssueDate.Location = new Point(25, 588);
-            IssueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            IssueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            IssueDate.Name = "IssueDate";
-            IssueDate.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            IssueDate.Size = new Size(341, 45);
-            IssueDate.TabIndex = 35;
-            IssueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
+            issueDate.BackColor = Color.White;
+            issueDate.BorderRadius = 5;
+            issueDate.Checked = true;
+            issueDate.CustomizableEdges = customizableEdges9;
+            issueDate.FillColor = Color.White;
+            issueDate.Font = new Font("Segoe UI", 9F);
+            issueDate.Format = DateTimePickerFormat.Long;
+            issueDate.Location = new Point(25, 588);
+            issueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            issueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            issueDate.Name = "issueDate";
+            issueDate.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            issueDate.Size = new Size(341, 45);
+            issueDate.TabIndex = 35;
+            issueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
             // 
             // label9
             // 
@@ -923,7 +923,7 @@
             arthanButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton1.Image = null;
-            arthanButton1.Location = new Point(1350, 33);
+            arthanButton1.Location = new Point(1734, 25);
             arthanButton1.Margin = new Padding(3, 4, 3, 4);
             arthanButton1.Name = "arthanButton1";
             arthanButton1.Size = new Size(109, 53);
@@ -970,7 +970,7 @@
             arthanPanel7.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel7.GradientEndColor = Color.White;
             arthanPanel7.GradientStartColor = Color.White;
-            arthanPanel7.Location = new Point(1186, 157);
+            arthanPanel7.Location = new Point(1556, 163);
             arthanPanel7.Margin = new Padding(3, 4, 3, 4);
             arthanPanel7.Name = "arthanPanel7";
             arthanPanel7.ShadowBlur = 8;
@@ -1034,7 +1034,7 @@
             dgvBorrowList.Location = new Point(447, 163);
             dgvBorrowList.Name = "dgvBorrowList";
             dgvBorrowList.RowHeadersWidth = 51;
-            dgvBorrowList.Size = new Size(733, 162);
+            dgvBorrowList.Size = new Size(1103, 162);
             dgvBorrowList.TabIndex = 24;
             dgvBorrowList.CellContentClick += dgvBorrowList_CellContentClick;
             // 
@@ -1126,8 +1126,8 @@
         private Guna.UI2.WinForms.Guna2ComboBox Status;
         private Guna.UI2.WinForms.Guna2ComboBox BookTitle;
         private Guna.UI2.WinForms.Guna2ComboBox ClientName;
-        private Guna.UI2.WinForms.Guna2DateTimePicker IssueDate;
-        private Guna.UI2.WinForms.Guna2DateTimePicker DueDate;
+        private Guna.UI2.WinForms.Guna2DateTimePicker issueDate;
+        private Guna.UI2.WinForms.Guna2DateTimePicker dueDate;
         private Krypton.Toolkit.KryptonDataGridView IssueBooksDataGrid;
         private Krypton.Toolkit.KryptonDataGridView dgvBorrowList;
         private Guna.UI2.WinForms.Guna2Button btnConfirmBorrow;

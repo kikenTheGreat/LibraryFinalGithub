@@ -22,8 +22,8 @@ namespace LibraryCGC
             Book_Aquire bookAcq = new Book_Aquire();
             bookAcq.ShowDialog();
             this.Hide();
-           
-            
+
+
 
         }
 
@@ -44,18 +44,47 @@ namespace LibraryCGC
 
         private void arthanButton2_Click(object sender, EventArgs e)
         {
-              Archive a = new Archive();
+            Archive a = new Archive();
             a.ShowDialog();
-        
+
 
         }
 
         private void arthanButton4_Click(object sender, EventArgs e)
         {
-               Issue i = new Issue();
+            Issue i = new Issue();
             i.ShowDialog();
-            
 
+
+        }
+
+        private void arthanPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void arthanButton3_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void arthanButton3_Click(object sender, EventArgs e)
+        {
+            CreateAcc ca = new CreateAcc();
+            ca.Show();
+            this.Hide();
+        }
+
+        private void arthanPanel27_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void arthanPanel27_Click(object sender, EventArgs e)
+        {
+            CreateAcc ca = new CreateAcc();
+            ca.Show();
+            this.Hide();
         }
     }
 }

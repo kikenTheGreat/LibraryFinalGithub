@@ -18,6 +18,11 @@ namespace LibraryCGC
         {
             InitializeComponent();
             LoadIssueBooks(); // Refresh DataGridView
+            SetupBorrowListGrid(); // Setup borrow list grid
+
+
+
+
         }
         private List<(string BookID, string BookTitle, string Source)> borrowList = new List<(string, string, string)>();
 
@@ -145,6 +150,10 @@ namespace LibraryCGC
             dgvBorrowList.Columns.Add("BookID", "Book ID");
             dgvBorrowList.Columns.Add("BookTitle", "Book Title");
             dgvBorrowList.Columns.Add("Source", "Source");
+
+           
+
+
         }
 
         private void BookID_TextChanged(object sender, EventArgs e)
@@ -233,8 +242,11 @@ namespace LibraryCGC
                 return;
             }
 
-            DateTime issueDate = IssueDate.Value;
-            DateTime dueDate = DueDate.Value;
+            // Fix for CS1061 and CS0165:
+            // Assuming 'issueDate' and 'dueDat
+            // e' are DateTimePicker controls.
+            DateTime issueDateValue = issueDate.Value;
+            DateTime dueDateValue = dueDate.Value;
 
             // Gather book titles and sources from the list
             List<string> bookTitles = new List<string>();
@@ -260,8 +272,8 @@ namespace LibraryCGC
                 cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
                 cmd.Parameters.AddWithValue("@BookTitle", combinedBookTitles);
                 cmd.Parameters.AddWithValue("@Source", combinedSources); // ✅ Fixed
-                cmd.Parameters.AddWithValue("@IssueDate", issueDate);
-                cmd.Parameters.AddWithValue("@DueDate", dueDate);
+                cmd.Parameters.AddWithValue("@IssueDate", issueDateValue);
+                cmd.Parameters.AddWithValue("@DueDate", dueDateValue);
                 cmd.Parameters.AddWithValue("@Quantity", quantity);
 
                 con.Open();
@@ -283,7 +295,29 @@ namespace LibraryCGC
         private void dgvBorrowList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+            
         }
+
+        private void SetupBorrowListGrid()
+        {
+            // Fit columns proportionally to the grid width
+            dgvBorrowList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Allow wrapping if text is long
+            dgvBorrowList.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            // Optional neat settings
+            dgvBorrowList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvBorrowList.MultiSelect = false;
+            dgvBorrowList.ReadOnly = true;
+            dgvBorrowList.RowHeadersVisible = false;
+            dgvBorrowList.AllowUserToResizeRows = false;
+            dgvBorrowList.AllowUserToResizeColumns = false;
+            dgvBorrowList.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        }
+
+
+
 
         private void arthanButton1_Click(object sender, EventArgs e)
         {

@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel14 = new LibraryCGC.Components.ArthanPanel();
-            arthanButton3 = new LibraryCGC.Components.ArthanButton();
             arthanPanel13 = new LibraryCGC.Components.ArthanPanel();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
             arthanPanel15 = new LibraryCGC.Components.ArthanPanel();
@@ -48,6 +46,8 @@
             arthanPanel18 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel19 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel16 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel27 = new LibraryCGC.Components.ArthanPanel();
+            arthanButton8 = new LibraryCGC.Components.ArthanButton();
             arthanPanel17 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel22 = new LibraryCGC.Components.ArthanPanel();
@@ -72,7 +72,6 @@
             arthanPanel9 = new LibraryCGC.Components.ArthanPanel();
             label11 = new Label();
             arthanPanel1.SuspendLayout();
-            arthanPanel14.SuspendLayout();
             arthanPanel13.SuspendLayout();
             arthanPanel15.SuspendLayout();
             arthanPanel12.SuspendLayout();
@@ -81,6 +80,7 @@
             arthanPanel20.SuspendLayout();
             arthanPanel18.SuspendLayout();
             arthanPanel16.SuspendLayout();
+            arthanPanel27.SuspendLayout();
             arthanPanel3.SuspendLayout();
             arthanPanel22.SuspendLayout();
             arthanPanel10.SuspendLayout();
@@ -97,7 +97,7 @@
             arthanPanel1.BackColor = Color.Transparent;
             arthanPanel1.BottomLeftRadius = 0;
             arthanPanel1.BottomRightRadius = 0;
-            arthanPanel1.Controls.Add(arthanPanel14);
+            arthanPanel1.Controls.Add(arthanPanel27);
             arthanPanel1.Controls.Add(arthanPanel13);
             arthanPanel1.Controls.Add(arthanPanel15);
             arthanPanel1.Controls.Add(arthanPanel12);
@@ -122,62 +122,7 @@
             arthanPanel1.TopLeftRadius = 0;
             arthanPanel1.TopRightRadius = 0;
             arthanPanel1.UseIndividualCorners = false;
-            // 
-            // arthanPanel14
-            // 
-            arthanPanel14.BackColor = Color.Transparent;
-            arthanPanel14.BottomLeftRadius = 20;
-            arthanPanel14.BottomRightRadius = 20;
-            arthanPanel14.Controls.Add(arthanButton3);
-            arthanPanel14.CornerRadius = 20;
-            arthanPanel14.EnableDragging = false;
-            arthanPanel14.EnableDropShadow = true;
-            arthanPanel14.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel14.GradientEndColor = Color.White;
-            arthanPanel14.GradientStartColor = Color.White;
-            arthanPanel14.Location = new Point(51, 748);
-            arthanPanel14.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel14.Name = "arthanPanel14";
-            arthanPanel14.ShadowBlur = 0;
-            arthanPanel14.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            arthanPanel14.ShadowOffset = 0;
-            arthanPanel14.Size = new Size(243, 157);
-            arthanPanel14.TabIndex = 9;
-            arthanPanel14.TopLeftRadius = 15;
-            arthanPanel14.TopRightRadius = 15;
-            arthanPanel14.UseIndividualCorners = true;
-            // 
-            // arthanButton3
-            // 
-            arthanButton3.BackColor = Color.Transparent;
-            arthanButton3.BackgroundColor = Color.FromArgb(100, 103, 241);
-            arthanButton3.BorderColor = Color.PaleVioletRed;
-            arthanButton3.BottomLeftRadius = 0;
-            arthanButton3.BottomRightRadius = 0;
-            arthanButton3.Dock = DockStyle.Top;
-            arthanButton3.FlatAppearance.BorderColor = Color.Empty;
-            arthanButton3.FlatAppearance.BorderSize = 0;
-            arthanButton3.FlatAppearance.MouseDownBackColor = Color.Empty;
-            arthanButton3.FlatAppearance.MouseOverBackColor = Color.Empty;
-            arthanButton3.FlatStyle = FlatStyle.Flat;
-            arthanButton3.Font = new Font("Sans Serif Collection", 11.25F, FontStyle.Bold);
-            arthanButton3.ForeColor = Color.White;
-            arthanButton3.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            arthanButton3.GradientEndColor = Color.FromArgb(128, 128, 255);
-            arthanButton3.GradientStartColor = Color.FromArgb(100, 103, 241);
-            arthanButton3.HoverEndColor = Color.FromArgb(147, 211, 251);
-            arthanButton3.HoverStartColor = Color.FromArgb(86, 143, 190);
-            arthanButton3.Image = null;
-            arthanButton3.ImageAlign = ContentAlignment.BottomLeft;
-            arthanButton3.Location = new Point(0, 0);
-            arthanButton3.Margin = new Padding(3, 4, 3, 4);
-            arthanButton3.Name = "arthanButton3";
-            arthanButton3.Size = new Size(243, 111);
-            arthanButton3.TabIndex = 6;
-            arthanButton3.Text = "    Reserve Books";
-            arthanButton3.TextAlign = ContentAlignment.BottomLeft;
-            arthanButton3.UseIndividualCorners = true;
-            arthanButton3.UseVisualStyleBackColor = false;
+            arthanPanel1.Paint += arthanPanel1_Paint;
             // 
             // arthanPanel13
             // 
@@ -191,7 +136,7 @@
             arthanPanel13.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel13.GradientEndColor = Color.White;
             arthanPanel13.GradientStartColor = Color.White;
-            arthanPanel13.Location = new Point(51, 387);
+            arthanPanel13.Location = new Point(52, 328);
             arthanPanel13.Margin = new Padding(3, 4, 3, 4);
             arthanPanel13.Name = "arthanPanel13";
             arthanPanel13.ShadowBlur = 0;
@@ -249,7 +194,7 @@
             arthanPanel15.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel15.GradientEndColor = Color.White;
             arthanPanel15.GradientStartColor = Color.White;
-            arthanPanel15.Location = new Point(51, 568);
+            arthanPanel15.Location = new Point(51, 510);
             arthanPanel15.Margin = new Padding(3, 4, 3, 4);
             arthanPanel15.Name = "arthanPanel15";
             arthanPanel15.ShadowBlur = 0;
@@ -306,7 +251,7 @@
             arthanPanel12.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel12.GradientEndColor = Color.White;
             arthanPanel12.GradientStartColor = Color.White;
-            arthanPanel12.Location = new Point(51, 207);
+            arthanPanel12.Location = new Point(52, 153);
             arthanPanel12.Margin = new Padding(3, 4, 3, 4);
             arthanPanel12.Name = "arthanPanel12";
             arthanPanel12.ShadowBlur = 0;
@@ -348,7 +293,7 @@
             arthanButton1.ShadowOffset = 0;
             arthanButton1.Size = new Size(243, 105);
             arthanButton1.TabIndex = 6;
-            arthanButton1.Text = "    Book Aquire";
+            arthanButton1.Text = "    Book Acquisition";
             arthanButton1.TextAlign = ContentAlignment.BottomLeft;
             arthanButton1.UseIndividualCorners = true;
             arthanButton1.UseVisualStyleBackColor = false;
@@ -557,6 +502,66 @@
             arthanPanel16.TopLeftRadius = 15;
             arthanPanel16.TopRightRadius = 15;
             arthanPanel16.UseIndividualCorners = false;
+            // 
+            // arthanPanel27
+            // 
+            arthanPanel27.BackColor = Color.Transparent;
+            arthanPanel27.BottomLeftRadius = 20;
+            arthanPanel27.BottomRightRadius = 20;
+            arthanPanel27.Controls.Add(arthanButton8);
+            arthanPanel27.CornerRadius = 20;
+            arthanPanel27.EnableDragging = false;
+            arthanPanel27.EnableDropShadow = true;
+            arthanPanel27.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            arthanPanel27.GradientEndColor = Color.White;
+            arthanPanel27.GradientStartColor = Color.White;
+            arthanPanel27.Location = new Point(52, 691);
+            arthanPanel27.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel27.Name = "arthanPanel27";
+            arthanPanel27.ShadowBlur = 0;
+            arthanPanel27.ShadowColor = Color.FromArgb(50, 0, 0, 0);
+            arthanPanel27.ShadowOffset = 0;
+            arthanPanel27.Size = new Size(243, 157);
+            arthanPanel27.TabIndex = 7;
+            arthanPanel27.TopLeftRadius = 15;
+            arthanPanel27.TopRightRadius = 15;
+            arthanPanel27.UseIndividualCorners = true;
+            arthanPanel27.Click += arthanPanel27_Click;
+            arthanPanel27.Paint += arthanPanel27_Paint;
+            // 
+            // arthanButton8
+            // 
+            arthanButton8.BackColor = Color.Transparent;
+            arthanButton8.BackgroundColor = Color.FromArgb(244, 47, 47);
+            arthanButton8.BorderColor = Color.PaleVioletRed;
+            arthanButton8.BottomLeftRadius = 0;
+            arthanButton8.BottomRightRadius = 0;
+            arthanButton8.Dock = DockStyle.Top;
+            arthanButton8.FlatAppearance.BorderColor = Color.Empty;
+            arthanButton8.FlatAppearance.BorderSize = 0;
+            arthanButton8.FlatAppearance.MouseDownBackColor = Color.Empty;
+            arthanButton8.FlatAppearance.MouseOverBackColor = Color.Empty;
+            arthanButton8.FlatStyle = FlatStyle.Flat;
+            arthanButton8.Font = new Font("Sans Serif Collection", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            arthanButton8.ForeColor = Color.DimGray;
+            arthanButton8.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            arthanButton8.GradientEndColor = Color.Brown;
+            arthanButton8.GradientStartColor = Color.FromArgb(244, 47, 47);
+            arthanButton8.HoverEndColor = Color.FromArgb(147, 211, 251);
+            arthanButton8.HoverStartColor = Color.FromArgb(86, 143, 190);
+            arthanButton8.Image = null;
+            arthanButton8.ImageAlign = ContentAlignment.BottomLeft;
+            arthanButton8.Location = new Point(0, 0);
+            arthanButton8.Margin = new Padding(3, 4, 3, 4);
+            arthanButton8.Name = "arthanButton8";
+            arthanButton8.ShadowBlur = 0;
+            arthanButton8.ShadowOffset = 0;
+            arthanButton8.Size = new Size(243, 105);
+            arthanButton8.TabIndex = 6;
+            arthanButton8.Text = "    Create Account";
+            arthanButton8.TextAlign = ContentAlignment.BottomLeft;
+            arthanButton8.UseIndividualCorners = true;
+            arthanButton8.UseVisualStyleBackColor = false;
             // 
             // arthanPanel17
             // 
@@ -781,7 +786,7 @@
             label3.Name = "label3";
             label3.Size = new Size(79, 102);
             label3.TabIndex = 0;
-            label3.Text = "18";
+            label3.Text = "19";
             // 
             // arthanPanel6
             // 
@@ -964,7 +969,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
-            ClientSize = new Size(1550, 1055);
+            ClientSize = new Size(1902, 1033);
             Controls.Add(arthanPanel10);
             Controls.Add(arthanPanel9);
             Controls.Add(arthanPanel8);
@@ -983,7 +988,6 @@
             Load += Form1_Load;
             arthanPanel1.ResumeLayout(false);
             arthanPanel1.PerformLayout();
-            arthanPanel14.ResumeLayout(false);
             arthanPanel13.ResumeLayout(false);
             arthanPanel15.ResumeLayout(false);
             arthanPanel12.ResumeLayout(false);
@@ -992,6 +996,7 @@
             arthanPanel20.ResumeLayout(false);
             arthanPanel18.ResumeLayout(false);
             arthanPanel16.ResumeLayout(false);
+            arthanPanel27.ResumeLayout(false);
             arthanPanel3.ResumeLayout(false);
             arthanPanel22.ResumeLayout(false);
             arthanPanel10.ResumeLayout(false);
@@ -1041,8 +1046,6 @@
         private Components.ArthanPanel arthanPanel11;
         private Components.ArthanPanel arthanPanel12;
         private Components.ArthanButton arthanButton1;
-        private Components.ArthanPanel arthanPanel14;
-        private Components.ArthanButton arthanButton3;
         private Components.ArthanPanel arthanPanel13;
         private Components.ArthanButton arthanButton2;
         private Components.ArthanPanel arthanPanel15;
@@ -1055,5 +1058,7 @@
         private Components.ArthanPanel arthanPanel19;
         private Components.ArthanPanel arthanPanel22;
         private Components.ArthanPanel arthanPanel23;
+        private Components.ArthanPanel arthanPanel27;
+        private Components.ArthanButton arthanButton8;
     }
 }
