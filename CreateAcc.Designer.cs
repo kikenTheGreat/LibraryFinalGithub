@@ -513,7 +513,7 @@
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel4);
             Margin = new Padding(3, 4, 3, 4);
-            Name = "CreateAcc";
+            
             Text = "CreateAcc";
             Load += CreateAcc_Load;
             arthanPanel4.ResumeLayout(false);
