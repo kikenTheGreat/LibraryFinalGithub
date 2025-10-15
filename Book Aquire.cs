@@ -360,6 +360,14 @@ namespace LibraryCGC
             Category.Texts = "";
             txtDesc.Texts = "";
             picCover.BackgroundImage = null;
+
+
+            var dashboardForm = Application.OpenForms["Form1"] as Form1;
+            if (dashboardForm != null)
+            {
+                dashboardForm.UpdateTotalBooksLabel();
+            }
+
         }
 
 

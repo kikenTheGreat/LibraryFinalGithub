@@ -144,6 +144,7 @@
             arthanPanel9.TopLeftRadius = 15;
             arthanPanel9.TopRightRadius = 15;
             arthanPanel9.UseIndividualCorners = true;
+            arthanPanel9.Paint += arthanPanel9_Paint;
             // 
             // pnlActiveBooks
             // 

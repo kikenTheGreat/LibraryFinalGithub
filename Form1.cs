@@ -1,4 +1,6 @@
 using Library_Final;
+using Microsoft.Data.SqlClient;
+using System.Drawing;
 
 namespace LibraryCGC
 {
@@ -16,7 +18,13 @@ namespace LibraryCGC
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            UpdateTotalBorrowedLabel();
+            timer1.Interval = 5000; // update every 5 seconds
+            timer1.Tick += (s, args) => UpdateTotalBorrowedLabel();
+            timer1.Start();
 
+            UpdateTotalBooksLabel();
+            UpdateTotalArchivedLabel();
         }
 
         private void arthanButton1_Click(object sender, EventArgs e)
@@ -95,5 +103,75 @@ namespace LibraryCGC
             r.Show();
             this.Close();
         }
+
+
+        public void UpdateTotalBooksLabel()
+        {
+
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM BooksAcq", con);
+                int totalBooks = (int)cmd.ExecuteScalar();
+                labelTotalBooks.Text = totalBooks.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+
+
+
+        public void UpdateTotalBorrowedLabel()
+        {
+          
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM IssueBooks", con);
+                int totalBorrowed = (int)cmd.ExecuteScalar();
+                labelTotalBorrowed.Text = totalBorrowed.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public void UpdateTotalArchivedLabel()
+        {
+
+            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM BooksArchive", con);
+                int totalarchived = (int)cmd.ExecuteScalar();
+                labelTotalArchived.Text = totalarchived.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+
+
     }
 }

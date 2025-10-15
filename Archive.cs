@@ -12,7 +12,11 @@ namespace LibraryCGC
         {
             InitializeComponent();
             LoadBooksGrid();
-
+            var dashboardForm = Application.OpenForms["Form1"] as Form1;
+            if (dashboardForm != null)
+            {
+                dashboardForm.UpdateTotalArchivedLabel();
+            }
         }
 
         private void Archive_Load(object sender, EventArgs e)
@@ -41,7 +45,7 @@ namespace LibraryCGC
             Form1 f = new Form1();
             f.Show();
             this.Hide();
-         
+
         }
 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -153,6 +157,11 @@ namespace LibraryCGC
         private void Archive_Load_1(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+        }
+
+        private void arthanPanel9_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

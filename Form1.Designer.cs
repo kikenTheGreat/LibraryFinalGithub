@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel14 = new LibraryCGC.Components.ArthanPanel();
@@ -60,19 +61,20 @@
             label2 = new Label();
             label1 = new Label();
             arthanPanel5 = new LibraryCGC.Components.ArthanPanel();
+            labelTotalBorrowed = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label4 = new Label();
-            label3 = new Label();
             arthanPanel6 = new LibraryCGC.Components.ArthanPanel();
+            labelTotalBooks = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label5 = new Label();
-            label6 = new Label();
             arthanPanel7 = new LibraryCGC.Components.ArthanPanel();
+            labelTotalArchived = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label7 = new Label();
-            label8 = new Label();
             arthanPanel8 = new LibraryCGC.Components.ArthanPanel();
             label9 = new Label();
             label10 = new Label();
             arthanPanel9 = new LibraryCGC.Components.ArthanPanel();
             label11 = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
             arthanPanel1.SuspendLayout();
             arthanPanel14.SuspendLayout();
             arthanPanel27.SuspendLayout();
@@ -808,8 +810,8 @@
             arthanPanel5.BackColor = Color.Transparent;
             arthanPanel5.BottomLeftRadius = 15;
             arthanPanel5.BottomRightRadius = 15;
+            arthanPanel5.Controls.Add(labelTotalBorrowed);
             arthanPanel5.Controls.Add(label4);
-            arthanPanel5.Controls.Add(label3);
             arthanPanel5.CornerRadius = 15;
             arthanPanel5.EnableDragging = false;
             arthanPanel5.EnableDropShadow = true;
@@ -829,6 +831,17 @@
             arthanPanel5.TopRightRadius = 15;
             arthanPanel5.UseIndividualCorners = false;
             // 
+            // labelTotalBorrowed
+            // 
+            labelTotalBorrowed.BackColor = Color.Transparent;
+            labelTotalBorrowed.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTotalBorrowed.ForeColor = Color.FromArgb(244, 47, 47);
+            labelTotalBorrowed.Location = new Point(44, 40);
+            labelTotalBorrowed.Name = "labelTotalBorrowed";
+            labelTotalBorrowed.Size = new Size(95, 22);
+            labelTotalBorrowed.TabIndex = 31;
+            labelTotalBorrowed.Text = "Issued Books";
+            // 
             // label4
             // 
             label4.AutoSize = true;
@@ -836,28 +849,17 @@
             label4.ForeColor = Color.FromArgb(117, 117, 117);
             label4.Location = new Point(32, 79);
             label4.Name = "label4";
-            label4.Size = new Size(111, 51);
+            label4.Size = new Size(124, 51);
             label4.TabIndex = 1;
-            label4.Text = "Total Books";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Sans Serif Collection", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.ForeColor = Color.FromArgb(244, 47, 47);
-            label3.Location = new Point(21, 13);
-            label3.Name = "label3";
-            label3.Size = new Size(79, 102);
-            label3.TabIndex = 0;
-            label3.Text = "19";
+            label4.Text = "Issued Books";
             // 
             // arthanPanel6
             // 
             arthanPanel6.BackColor = Color.Transparent;
             arthanPanel6.BottomLeftRadius = 15;
             arthanPanel6.BottomRightRadius = 15;
+            arthanPanel6.Controls.Add(labelTotalBooks);
             arthanPanel6.Controls.Add(label5);
-            arthanPanel6.Controls.Add(label6);
             arthanPanel6.CornerRadius = 15;
             arthanPanel6.EnableDragging = false;
             arthanPanel6.EnableDropShadow = true;
@@ -876,6 +878,17 @@
             arthanPanel6.TopRightRadius = 15;
             arthanPanel6.UseIndividualCorners = false;
             // 
+            // labelTotalBooks
+            // 
+            labelTotalBooks.BackColor = Color.Transparent;
+            labelTotalBooks.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTotalBooks.ForeColor = Color.FromArgb(252, 201, 71);
+            labelTotalBooks.Location = new Point(37, 40);
+            labelTotalBooks.Name = "labelTotalBooks";
+            labelTotalBooks.Size = new Size(86, 22);
+            labelTotalBooks.TabIndex = 32;
+            labelTotalBooks.Text = "Total Books";
+            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -883,28 +896,17 @@
             label5.ForeColor = Color.FromArgb(117, 117, 117);
             label5.Location = new Point(37, 79);
             label5.Name = "label5";
-            label5.Size = new Size(141, 51);
+            label5.Size = new Size(111, 51);
             label5.TabIndex = 3;
-            label5.Text = "Pending Return";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Sans Serif Collection", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.FromArgb(252, 201, 71);
-            label6.Location = new Point(25, 13);
-            label6.Name = "label6";
-            label6.Size = new Size(61, 102);
-            label6.TabIndex = 2;
-            label6.Text = "0";
+            label5.Text = "Total Books";
             // 
             // arthanPanel7
             // 
             arthanPanel7.BackColor = Color.Transparent;
             arthanPanel7.BottomLeftRadius = 15;
             arthanPanel7.BottomRightRadius = 15;
+            arthanPanel7.Controls.Add(labelTotalArchived);
             arthanPanel7.Controls.Add(label7);
-            arthanPanel7.Controls.Add(label8);
             arthanPanel7.CornerRadius = 15;
             arthanPanel7.EnableDragging = false;
             arthanPanel7.EnableDropShadow = true;
@@ -923,6 +925,17 @@
             arthanPanel7.TopRightRadius = 15;
             arthanPanel7.UseIndividualCorners = false;
             // 
+            // labelTotalArchived
+            // 
+            labelTotalArchived.BackColor = Color.Transparent;
+            labelTotalArchived.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTotalArchived.ForeColor = Color.FromArgb(16, 185, 129);
+            labelTotalArchived.Location = new Point(40, 40);
+            labelTotalArchived.Name = "labelTotalArchived";
+            labelTotalArchived.Size = new Size(95, 22);
+            labelTotalArchived.TabIndex = 33;
+            labelTotalArchived.Text = "Issued Books";
+            // 
             // label7
             // 
             label7.AutoSize = true;
@@ -930,20 +943,9 @@
             label7.ForeColor = Color.FromArgb(117, 117, 117);
             label7.Location = new Point(37, 79);
             label7.Name = "label7";
-            label7.Size = new Size(155, 51);
+            label7.Size = new Size(142, 51);
             label7.TabIndex = 5;
-            label7.Text = "Activity Penalties";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Sans Serif Collection", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = Color.FromArgb(16, 185, 129);
-            label8.Location = new Point(25, 13);
-            label8.Name = "label8";
-            label8.Size = new Size(61, 102);
-            label8.TabIndex = 4;
-            label8.Text = "0";
+            label7.Text = "Archived Books";
             // 
             // arthanPanel8
             // 
@@ -1092,12 +1094,9 @@
         private Components.ArthanPanel arthanPanel6;
         private Components.ArthanPanel arthanPanel7;
         private Components.ArthanPanel arthanPanel8;
-        private Label label3;
         private Label label4;
         private Label label5;
-        private Label label6;
         private Label label7;
-        private Label label8;
         private Label label9;
         private Label label10;
         private Components.ArthanPanel arthanPanel9;
@@ -1126,5 +1125,9 @@
         private Components.ArthanButton arthanButton8;
         private Components.ArthanPanel arthanPanel14;
         private Components.ArthanButton arthanButton3;
+        private Guna.UI2.WinForms.Guna2HtmlLabel labelTotalBorrowed;
+        private System.Windows.Forms.Timer timer1;
+        private Guna.UI2.WinForms.Guna2HtmlLabel labelTotalBooks;
+        private Guna.UI2.WinForms.Guna2HtmlLabel labelTotalArchived;
     }
 }

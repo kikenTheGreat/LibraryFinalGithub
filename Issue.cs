@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Library_Final;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 
 namespace LibraryCGC
@@ -285,6 +287,13 @@ namespace LibraryCGC
             MessageBox.Show("Book(s) issued successfully!");
             borrowList.Clear();
             dgvBorrowList.Rows.Clear();
+
+            var dashboardForm = Application.OpenForms["Form1"] as Form1;
+            if (dashboardForm != null)
+            {
+                dashboardForm.UpdateTotalBorrowedLabel();
+            }
+
             LoadIssueBooks();
         }
 
