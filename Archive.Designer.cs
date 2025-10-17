@@ -39,6 +39,7 @@
             pnlArchivedBooks = new LibraryCGC.Components.ArthanPanel();
             label3 = new Label();
             DataGridTotalBooks = new DataGridView();
+            arthanButton2 = new LibraryCGC.Components.ArthanButton();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel4.SuspendLayout();
             pnlActiveBooks.SuspendLayout();
@@ -116,7 +117,7 @@
             arthanPanel4.ShadowBlur = 5;
             arthanPanel4.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel4.ShadowOffset = 3;
-            arthanPanel4.Size = new Size(1779, 133);
+            arthanPanel4.Size = new Size(739, 133);
             arthanPanel4.TabIndex = 24;
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
@@ -222,15 +223,43 @@
             DataGridTotalBooks.Location = new Point(30, 308);
             DataGridTotalBooks.Name = "DataGridTotalBooks";
             DataGridTotalBooks.RowHeadersWidth = 51;
-            DataGridTotalBooks.Size = new Size(1704, 536);
+            DataGridTotalBooks.Size = new Size(1704, 742);
             DataGridTotalBooks.TabIndex = 28;
             DataGridTotalBooks.CellContentClick += DataGridTotalBooks_CellContentClick;
+            // 
+            // arthanButton2
+            // 
+            arthanButton2.BackColor = Color.Transparent;
+            arthanButton2.BackgroundColor = Color.AliceBlue;
+            arthanButton2.BorderColor = Color.PaleVioletRed;
+            arthanButton2.FlatAppearance.BorderColor = Color.Empty;
+            arthanButton2.FlatAppearance.BorderSize = 0;
+            arthanButton2.FlatAppearance.MouseDownBackColor = Color.Empty;
+            arthanButton2.FlatAppearance.MouseOverBackColor = Color.Empty;
+            arthanButton2.FlatStyle = FlatStyle.Flat;
+            arthanButton2.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            arthanButton2.ForeColor = Color.Black;
+            arthanButton2.GradientEndColor = Color.White;
+            arthanButton2.GradientStartColor = Color.White;
+            arthanButton2.HoverEndColor = Color.FromArgb(147, 211, 251);
+            arthanButton2.HoverStartColor = Color.FromArgb(86, 143, 190);
+            arthanButton2.Image = null;
+            arthanButton2.Location = new Point(1609, 41);
+            arthanButton2.Margin = new Padding(3, 4, 3, 4);
+            arthanButton2.Name = "arthanButton2";
+            arthanButton2.Size = new Size(109, 53);
+            arthanButton2.TabIndex = 6;
+            arthanButton2.Text = "Home";
+            arthanButton2.TextColor = Color.Black;
+            arthanButton2.UseVisualStyleBackColor = false;
+            arthanButton2.Click += arthanButton2_Click;
             // 
             // Archive
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1821, 1055);
+            Controls.Add(arthanButton2);
             Controls.Add(DataGridTotalBooks);
             Controls.Add(pnlArchivedBooks);
             Controls.Add(pnlActiveBooks);
@@ -264,5 +293,6 @@
         private Components.ArthanPanel pnlArchivedBooks;
         private Label label3;
         private DataGridView DataGridTotalBooks;
+        private Components.ArthanButton arthanButton2;
     }
 }

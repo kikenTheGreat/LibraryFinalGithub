@@ -14,13 +14,20 @@ using System.Xml.Serialization;
 
 namespace LibraryCGC
 {
+
+
     public partial class Issue : Form
     {
+
+
+
         public Issue()
         {
             InitializeComponent();
             LoadIssueBooks(); // Refresh DataGridView
             SetupBorrowListGrid(); // Setup borrow list grid
+
+          
 
 
 
@@ -47,8 +54,15 @@ namespace LibraryCGC
         FROM IssueBooks
         ORDER BY IssueID DESC"; // latest entries first
 
-            using (SqlConnection con = new SqlConnection(
-                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection(@"  Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+
+"))
+
             {
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
@@ -104,7 +118,7 @@ namespace LibraryCGC
 
             if (clientID.Length >= 4)
             {
-                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+                string connectionString = "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
                 string query = "SELECT Name FROM AddStudentAcc WHERE ClientID = @ClientID";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -154,10 +168,21 @@ namespace LibraryCGC
             dgvBorrowList.Columns.Add("BookTitle", "Book Title");
             dgvBorrowList.Columns.Add("Source", "Source");
 
-           
+            overdueTimer = new System.Windows.Forms.Timer();
+            overdueTimer.Interval = 1000; // every 1 sec (adjust as you like)
+            overdueTimer.Tick += overdueTimer_Tick;
+            overdueTimer.Start();
+
+            UpdateTotalOverdueLabel();
+
 
 
         }
+
+
+       
+
+
 
         private void BookID_TextChanged(object sender, EventArgs e)
         {
@@ -165,7 +190,7 @@ namespace LibraryCGC
 
             if (bookID.Length >= 4)
             {
-                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+                string connectionString = "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
                 string query = "SELECT BookTitle, Source FROM BooksAcq WHERE BookID = @BookID";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -245,57 +270,86 @@ namespace LibraryCGC
                 return;
             }
 
-            // Fix for CS1061 and CS0165:
-            // Assuming 'issueDate' and 'dueDat
-            // e' are DateTimePicker controls.
+            // Fix for DateTimePicker values
             DateTime issueDateValue = issueDate.Value;
             DateTime dueDateValue = dueDate.Value;
 
-            // Gather book titles and sources from the list
-            List<string> bookTitles = new List<string>();
-            List<string> bookSources = new List<string>();
-
-            foreach (var item in borrowList)
+            try
             {
-                bookTitles.Add(item.BookTitle);
-                bookSources.Add(item.Source);
+                using (SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+
+"))
+
+                {
+                    con.Open();
+
+                    // ✅ STEP 1: Check if the user already has active borrowed books (limit 3)
+                    string checkQuery = @"SELECT COUNT(*) FROM IssueBooks 
+                                  WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
+                    using (SqlCommand cmdCheck = new SqlCommand(checkQuery, con))
+                    {
+                        cmdCheck.Parameters.AddWithValue("@ClientID", ClientID.Text);
+                        int currentBorrowed = (int)cmdCheck.ExecuteScalar();
+
+                        int totalAfterBorrow = currentBorrowed + borrowList.Count;
+                        if (totalAfterBorrow > 3)
+                        {
+                            MessageBox.Show("Borrow limit exceeded! Each user can only borrow up to 3 books at a time.",
+                                "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+
+                    // ✅ STEP 2: Insert each selected book as its own row in IssueBooks
+                    string insertQuery = @"INSERT INTO IssueBooks 
+                                   (Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID)
+                                   VALUES (@Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID)";
+
+                    foreach (var item in borrowList)
+                    {
+                        using (SqlCommand cmd = new SqlCommand(insertQuery, con))
+                        {
+                            cmd.Parameters.AddWithValue("@Status", "Issued"); // fixed
+                            cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
+                            cmd.Parameters.AddWithValue("@BookTitle", item.BookTitle);
+                            cmd.Parameters.AddWithValue("@Source", item.Source);
+                            cmd.Parameters.AddWithValue("@IssueDate", issueDateValue);
+                            cmd.Parameters.AddWithValue("@DueDate", dueDateValue);
+                            cmd.Parameters.AddWithValue("@Quantity", 1); // each book = 1 copy
+                            cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Book(s) issued successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                // ✅ STEP 3: Refresh and clear borrow list
+                borrowList.Clear();
+                dgvBorrowList.Rows.Clear();
+
+                var dashboardForm = Application.OpenForms["Form1"] as Form1;
+                if (dashboardForm != null)
+                {
+                    dashboardForm.UpdateTotalBorrowedLabel();
+                }
+
+                LoadIssueBooks(); // refresh DataGridView
             }
-
-            string combinedBookTitles = string.Join(", ", bookTitles);
-            string combinedSources = string.Join(", ", bookSources);
-            int quantity = bookTitles.Count;
-
-            string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity,ClientID)
-                     VALUES (@Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity,@ClientID)";
-
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
-            using (SqlCommand cmd = new SqlCommand(query, con))
+            catch (Exception ex)
             {
-                cmd.Parameters.AddWithValue("@Status", Status.Text);
-                cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
-                cmd.Parameters.AddWithValue("@BookTitle", combinedBookTitles);
-                cmd.Parameters.AddWithValue("@Source", combinedSources); // ✅ Fixed
-                cmd.Parameters.AddWithValue("@IssueDate", issueDateValue);
-                cmd.Parameters.AddWithValue("@DueDate", dueDateValue);
-                cmd.Parameters.AddWithValue("@Quantity", quantity);
-                cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
-
-                con.Open();
-                cmd.ExecuteNonQuery();
+                MessageBox.Show("Error issuing books: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            MessageBox.Show("Book(s) issued successfully!");
-            borrowList.Clear();
-            dgvBorrowList.Rows.Clear();
-
-            var dashboardForm = Application.OpenForms["Form1"] as Form1;
-            if (dashboardForm != null)
-            {
-                dashboardForm.UpdateTotalBorrowedLabel();
-            }
-
-            LoadIssueBooks();
         }
+
+
+
 
 
         private void IssueBooksDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -306,7 +360,7 @@ namespace LibraryCGC
         private void dgvBorrowList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            
+
         }
 
         private void SetupBorrowListGrid()
@@ -341,6 +395,110 @@ namespace LibraryCGC
         }
 
         private void arthanButton1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void issueDate_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void overdueTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    @"Data Source=(LocalDB)\MSSQLLocalDB;
+            Initial Catalog=LibraryDB;
+            Integrated Security=True;
+            Encrypt=True;
+            Trust Server Certificate=True;"))
+                {
+                    con.Open();
+
+                    string query = @"
+                UPDATE IssueBooks
+                SET 
+                    OverdueDays = DATEDIFF(DAY, DueDate, GETDATE()),
+                    Penalty = CASE 
+                                WHEN DATEDIFF(DAY, DueDate, GETDATE()) > 0 
+                                THEN DATEDIFF(DAY, DueDate, GETDATE()) * 5 
+                                ELSE 0 
+                              END,
+                    Status = CASE 
+                                WHEN DATEDIFF(DAY, DueDate, GETDATE()) > 0 THEN 'Overdue'
+                                ELSE 'Issued'
+                             END
+                WHERE 
+                    (Status = 'Issued' OR Status = 'Overdue')  -- ✅ don't touch Returned
+                    AND GETDATE() >= IssueDate;
+            ";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                LoadIssueBooks();
+                UpdateTotalOverdueLabel();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating overdue penalties: " + ex.Message);
+            }
+        }
+
+
+        public void UpdateTotalOverdueLabel()
+        {
+            string connectionString = @" Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+
+";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    con.Open();
+
+                    // ✅ Only count rows where Status = 'Overdue'
+                    // and OverdueDays > 0 or Penalty > 0
+                    string query = @"
+    SELECT COUNT(*) 
+    FROM IssueBooks
+    WHERE 
+        Status = 'Overdue'
+        AND (OverdueDays IS NOT NULL AND OverdueDays > 0)
+";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        int totalOverdue = (int)cmd.ExecuteScalar();
+
+                        // ✅ If no overdue books, display 0
+                        lblOverdueCount.Text = totalOverdue > 0
+                            ? $"Overdue Books: {totalOverdue}"
+                            : "Overdue Books: 0";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error counting overdue books: " + ex.Message);
+                }
+            }
+        }
+
+
+
+
+        private void arthanPanel7_Paint(object sender, PaintEventArgs e)
         {
 
         }

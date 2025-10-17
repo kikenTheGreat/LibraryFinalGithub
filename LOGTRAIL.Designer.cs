@@ -330,6 +330,7 @@
             Margin = new Padding(3, 4, 3, 4);
             Name = "LOGTRAIL";
             Text = "LOGTRAIL";
+            Load += LOGTRAIL_Load;
             ResumeLayout(false);
             PerformLayout();
         }

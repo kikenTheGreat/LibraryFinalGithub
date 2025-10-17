@@ -1,5 +1,6 @@
-using Library_Final;
+﻿using Library_Final;
 using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Drawing;
 
 namespace LibraryCGC
@@ -9,6 +10,7 @@ namespace LibraryCGC
         public Form1()
         {
             InitializeComponent();
+
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -25,13 +27,15 @@ namespace LibraryCGC
 
             UpdateTotalBooksLabel();
             UpdateTotalArchivedLabel();
+            LoadPenaltyCards();
+            UpdateTotalOverdueLabel();
         }
 
         private void arthanButton1_Click(object sender, EventArgs e)
         {
             Book_Aquire bookAcq = new Book_Aquire();
-            bookAcq.ShowDialog();
-            this.Hide();
+            bookAcq.Show();
+            this.Hide(); // ✅ Keeps app running
 
 
 
@@ -55,7 +59,8 @@ namespace LibraryCGC
         private void arthanButton2_Click(object sender, EventArgs e)
         {
             Archive a = new Archive();
-            a.ShowDialog();
+            a.Show();
+            this.Hide(); // ✅ Keeps app running
 
 
         }
@@ -63,7 +68,8 @@ namespace LibraryCGC
         private void arthanButton4_Click(object sender, EventArgs e)
         {
             Issue i = new Issue();
-            i.ShowDialog();
+            i.Show();
+            this.Hide(); // ✅ Keeps app running
 
 
         }
@@ -80,9 +86,7 @@ namespace LibraryCGC
 
         private void arthanButton3_Click(object sender, EventArgs e)
         {
-            CreateAcc ca = new CreateAcc();
-            ca.Show();
-            this.Hide();
+
         }
 
         private void arthanPanel27_Paint(object sender, PaintEventArgs e)
@@ -94,21 +98,27 @@ namespace LibraryCGC
         {
             CreateAcc ca = new CreateAcc();
             ca.Show();
-            this.Close();
+            this.Hide(); // ✅ Keeps app running
         }
 
         private void arthanButton3_Click_1(object sender, EventArgs e)
         {
             Return r = new Return();
             r.Show();
-            this.Close();
+            this.Hide(); // ✅ Keeps app running
         }
 
 
         public void UpdateTotalBooksLabel()
         {
 
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+");
             try
             {
                 con.Open();
@@ -131,8 +141,14 @@ namespace LibraryCGC
 
         public void UpdateTotalBorrowedLabel()
         {
-          
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+
+            SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+");
             try
             {
                 con.Open();
@@ -153,7 +169,13 @@ namespace LibraryCGC
         public void UpdateTotalArchivedLabel()
         {
 
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            SqlConnection con = new SqlConnection(@"  Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+");
             try
             {
                 con.Open();
@@ -173,5 +195,153 @@ namespace LibraryCGC
 
 
 
+
+
+
+        private void LoadPenaltyCards()
+        {
+
+            // Clear all four panels before loading
+            panel1.Controls.Clear();
+            panel2.Controls.Clear();
+            panel3.Controls.Clear();
+            Panel4.Controls.Clear();
+
+            string connectionString = @"  Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+";
+
+            string query = @"
+        SELECT 
+            ib.StudentName,
+            ib.OverdueDays,
+            ib.Penalty,
+            sa.Role,
+            sa.SectionSY,
+            sa.Email
+        FROM IssueBooks ib
+        INNER JOIN AddStudentAcc sa ON ib.ClientID = sa.ClientID
+        WHERE ib.OverdueDays > 0
+        ORDER BY ib.StudentName
+    ";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                con.Open();
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    int cardIndex = 0;
+
+                    while (reader.Read())
+                    {
+                        string studentName = reader["StudentName"].ToString();
+                        string role = reader["Role"].ToString();
+                        string section = reader["SectionSY"].ToString();
+                        string email = reader["Email"].ToString();
+                        int overdueDays = Convert.ToInt32(reader["OverdueDays"]);
+                        decimal penalty = Convert.ToDecimal(reader["Penalty"]);
+
+                        Panel card = new Panel
+                        {
+                            Size = new Size(230, 120),
+                            BackColor = Color.White,
+                            BorderStyle = BorderStyle.FixedSingle,
+                            Margin = new Padding(10),
+                        };
+
+                        Label lblInfo = new Label
+                        {
+                            AutoSize = false,
+                            Dock = DockStyle.Fill,
+                            Font = new Font("Segoe UI", 9, FontStyle.Regular),
+                            TextAlign = ContentAlignment.MiddleLeft,
+                            Padding = new Padding(10),
+                            Text = $"👤 {studentName}\n" +
+                                   $"{role} - {section}\n" +
+                                   $"{email}\n\n" +
+                                   $"📅 Overdue: {overdueDays} days\n" +
+                                   $"💰 Penalty: ₱{penalty:F2}"
+                        };
+
+                        card.Controls.Add(lblInfo);
+
+                        // ✅ Distribute cards across 4 panels
+                        switch (cardIndex % 4)
+                        {
+                            case 0: panel1.Controls.Add(card); break;
+                            case 1: panel2.Controls.Add(card); break;
+                            case 2: panel3.Controls.Add(card); break;
+                            case 3: Panel4.Controls.Add(card); break;
+                        }
+
+                        cardIndex++;
+                    }
+                }
+            }
+
+        }
+
+
+        public void UpdateTotalOverdueLabel()
+        {
+            string connectionString = @" Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    con.Open();
+
+                    // ✅ Only count rows where Status = 'Overdue'
+                    // and OverdueDays > 0 or Penalty > 0
+                    string query = @"
+    SELECT COUNT(*) 
+    FROM IssueBooks
+    WHERE 
+        Status = 'Overdue'
+        AND (OverdueDays IS NOT NULL AND OverdueDays > 0)
+";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        int totalOverdue = (int)cmd.ExecuteScalar();
+
+                        // ✅ If no overdue books, display 0
+                        lblOverdueCount.Text = totalOverdue > 0
+                            ? $"Overdue Books: {totalOverdue}"
+                            : "Overdue Books: 0";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error counting overdue books: " + ex.Message);
+                }
+            }
+        }
+
+
+
+
+
+        private void arthanPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void arthanButton8_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

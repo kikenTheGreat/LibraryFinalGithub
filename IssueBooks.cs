@@ -116,7 +116,7 @@ namespace Library_Final
             string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle, IssueDate, DueDate)
                      VALUES (@Status, @StudentName, @BookTitle, @IssueDate, @DueDate)";
 
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection("  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
@@ -156,7 +156,7 @@ namespace Library_Final
         ORDER BY IssueID DESC"; // latest entries first
 
             using (SqlConnection con = new SqlConnection(
-                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+                " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
@@ -204,7 +204,7 @@ namespace Library_Final
 
             if (bookID.Length >= 4)
             {
-                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+                string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
                 string query = "SELECT BookTitle, Source FROM BooksAcq WHERE BookID = @BookID";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -256,7 +256,7 @@ namespace Library_Final
 
             if (clientID.Length >= 4)
             {
-                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+                string connectionString = "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
                 string query = "SELECT Name FROM AddStudentAcc WHERE ClientID = @ClientID";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -319,7 +319,7 @@ namespace Library_Final
             string query = @"INSERT INTO IssueBooks (Status, StudentName, BookTitle,Source, IssueDate, DueDate, Quantity)
                      VALUES (@Status, @StudentName, @BookTitle,@Source, @IssueDate, @DueDate, @Quantity)";
 
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {

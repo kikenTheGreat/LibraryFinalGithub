@@ -30,6 +30,8 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel14 = new LibraryCGC.Components.ArthanPanel();
             arthanButton3 = new LibraryCGC.Components.ArthanButton();
@@ -45,13 +47,6 @@
             label14 = new Label();
             label13 = new Label();
             pictureBox1 = new PictureBox();
-            arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel20 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel21 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel18 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel19 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel16 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel17 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel22 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel23 = new LibraryCGC.Components.ArthanPanel();
@@ -70,11 +65,21 @@
             labelTotalArchived = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label7 = new Label();
             arthanPanel8 = new LibraryCGC.Components.ArthanPanel();
-            label9 = new Label();
-            label10 = new Label();
+            lblOverdueCount = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            BookbOO = new Label();
             arthanPanel9 = new LibraryCGC.Components.ArthanPanel();
             label11 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
+            arthanPanel18 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel19 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel20 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel21 = new LibraryCGC.Components.ArthanPanel();
+            Panel4 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            flowLayoutPanelPenalties = new FlowLayoutPanel();
+            arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
+            panel2 = new Panel();
+            panel3 = new Panel();
+            panel1 = new Panel();
             arthanPanel1.SuspendLayout();
             arthanPanel14.SuspendLayout();
             arthanPanel27.SuspendLayout();
@@ -82,10 +87,6 @@
             arthanPanel15.SuspendLayout();
             arthanPanel12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            arthanPanel2.SuspendLayout();
-            arthanPanel20.SuspendLayout();
-            arthanPanel18.SuspendLayout();
-            arthanPanel16.SuspendLayout();
             arthanPanel3.SuspendLayout();
             arthanPanel22.SuspendLayout();
             arthanPanel10.SuspendLayout();
@@ -95,6 +96,10 @@
             arthanPanel7.SuspendLayout();
             arthanPanel8.SuspendLayout();
             arthanPanel9.SuspendLayout();
+            arthanPanel18.SuspendLayout();
+            arthanPanel20.SuspendLayout();
+            Panel4.SuspendLayout();
+            arthanPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // arthanPanel1
@@ -248,6 +253,7 @@
             arthanButton8.TextAlign = ContentAlignment.BottomLeft;
             arthanButton8.UseIndividualCorners = true;
             arthanButton8.UseVisualStyleBackColor = false;
+            arthanButton8.Load += arthanButton8_Load;
             // 
             // arthanPanel13
             // 
@@ -483,174 +489,6 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // arthanPanel2
-            // 
-            arthanPanel2.BackColor = Color.Transparent;
-            arthanPanel2.BottomLeftRadius = 0;
-            arthanPanel2.BottomRightRadius = 0;
-            arthanPanel2.Controls.Add(arthanPanel20);
-            arthanPanel2.Controls.Add(arthanPanel18);
-            arthanPanel2.Controls.Add(arthanPanel16);
-            arthanPanel2.CornerRadius = 0;
-            arthanPanel2.EnableDragging = false;
-            arthanPanel2.EnableDropShadow = false;
-            arthanPanel2.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            arthanPanel2.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel2.GradientEndColor = Color.White;
-            arthanPanel2.GradientStartColor = Color.White;
-            arthanPanel2.Location = new Point(366, 385);
-            arthanPanel2.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel2.Name = "arthanPanel2";
-            arthanPanel2.ShadowBlur = 5;
-            arthanPanel2.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            arthanPanel2.ShadowOffset = 3;
-            arthanPanel2.Size = new Size(735, 692);
-            arthanPanel2.TabIndex = 1;
-            arthanPanel2.TopLeftRadius = 0;
-            arthanPanel2.TopRightRadius = 0;
-            arthanPanel2.UseIndividualCorners = false;
-            // 
-            // arthanPanel20
-            // 
-            arthanPanel20.BackColor = Color.Transparent;
-            arthanPanel20.BottomLeftRadius = 15;
-            arthanPanel20.BottomRightRadius = 15;
-            arthanPanel20.Controls.Add(arthanPanel21);
-            arthanPanel20.CornerRadius = 15;
-            arthanPanel20.EnableDragging = false;
-            arthanPanel20.EnableDropShadow = true;
-            arthanPanel20.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel20.GradientEndColor = Color.Transparent;
-            arthanPanel20.GradientStartColor = Color.Transparent;
-            arthanPanel20.Location = new Point(799, 208);
-            arthanPanel20.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel20.Name = "arthanPanel20";
-            arthanPanel20.ShadowBlur = 0;
-            arthanPanel20.ShadowColor = Color.FromArgb(0, 0, 0, 0);
-            arthanPanel20.ShadowOffset = 0;
-            arthanPanel20.Size = new Size(357, 400);
-            arthanPanel20.TabIndex = 30;
-            arthanPanel20.TopLeftRadius = 15;
-            arthanPanel20.TopRightRadius = 15;
-            arthanPanel20.UseIndividualCorners = false;
-            // 
-            // arthanPanel21
-            // 
-            arthanPanel21.BackColor = Color.Transparent;
-            arthanPanel21.BottomLeftRadius = 15;
-            arthanPanel21.BottomRightRadius = 15;
-            arthanPanel21.CornerRadius = 15;
-            arthanPanel21.EnableDragging = false;
-            arthanPanel21.EnableDropShadow = true;
-            arthanPanel21.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel21.GradientEndColor = Color.Transparent;
-            arthanPanel21.GradientStartColor = Color.Transparent;
-            arthanPanel21.Location = new Point(760, 0);
-            arthanPanel21.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel21.Name = "arthanPanel21";
-            arthanPanel21.ShadowBlur = 0;
-            arthanPanel21.ShadowColor = Color.FromArgb(0, 0, 0, 0);
-            arthanPanel21.ShadowOffset = 0;
-            arthanPanel21.Size = new Size(379, 568);
-            arthanPanel21.TabIndex = 30;
-            arthanPanel21.TopLeftRadius = 15;
-            arthanPanel21.TopRightRadius = 15;
-            arthanPanel21.UseIndividualCorners = false;
-            // 
-            // arthanPanel18
-            // 
-            arthanPanel18.BackColor = Color.Transparent;
-            arthanPanel18.BottomLeftRadius = 15;
-            arthanPanel18.BottomRightRadius = 15;
-            arthanPanel18.Controls.Add(arthanPanel19);
-            arthanPanel18.CornerRadius = 15;
-            arthanPanel18.EnableDragging = false;
-            arthanPanel18.EnableDropShadow = true;
-            arthanPanel18.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel18.GradientEndColor = Color.Transparent;
-            arthanPanel18.GradientStartColor = Color.Transparent;
-            arthanPanel18.Location = new Point(770, 121);
-            arthanPanel18.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel18.Name = "arthanPanel18";
-            arthanPanel18.ShadowBlur = 0;
-            arthanPanel18.ShadowColor = Color.FromArgb(0, 0, 0, 0);
-            arthanPanel18.ShadowOffset = 0;
-            arthanPanel18.Size = new Size(387, 560);
-            arthanPanel18.TabIndex = 30;
-            arthanPanel18.TopLeftRadius = 15;
-            arthanPanel18.TopRightRadius = 15;
-            arthanPanel18.UseIndividualCorners = false;
-            // 
-            // arthanPanel19
-            // 
-            arthanPanel19.BackColor = Color.Transparent;
-            arthanPanel19.BottomLeftRadius = 15;
-            arthanPanel19.BottomRightRadius = 15;
-            arthanPanel19.CornerRadius = 15;
-            arthanPanel19.EnableDragging = false;
-            arthanPanel19.EnableDropShadow = true;
-            arthanPanel19.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel19.GradientEndColor = Color.Transparent;
-            arthanPanel19.GradientStartColor = Color.Transparent;
-            arthanPanel19.Location = new Point(760, 0);
-            arthanPanel19.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel19.Name = "arthanPanel19";
-            arthanPanel19.ShadowBlur = 0;
-            arthanPanel19.ShadowColor = Color.FromArgb(0, 0, 0, 0);
-            arthanPanel19.ShadowOffset = 0;
-            arthanPanel19.Size = new Size(379, 568);
-            arthanPanel19.TabIndex = 30;
-            arthanPanel19.TopLeftRadius = 15;
-            arthanPanel19.TopRightRadius = 15;
-            arthanPanel19.UseIndividualCorners = false;
-            // 
-            // arthanPanel16
-            // 
-            arthanPanel16.BackColor = Color.Transparent;
-            arthanPanel16.BottomLeftRadius = 15;
-            arthanPanel16.BottomRightRadius = 15;
-            arthanPanel16.Controls.Add(arthanPanel17);
-            arthanPanel16.CornerRadius = 15;
-            arthanPanel16.EnableDragging = false;
-            arthanPanel16.EnableDropShadow = true;
-            arthanPanel16.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel16.GradientEndColor = Color.Transparent;
-            arthanPanel16.GradientStartColor = Color.Transparent;
-            arthanPanel16.Location = new Point(16, 124);
-            arthanPanel16.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel16.Name = "arthanPanel16";
-            arthanPanel16.ShadowBlur = 0;
-            arthanPanel16.ShadowColor = Color.FromArgb(0, 0, 0, 0);
-            arthanPanel16.ShadowOffset = 0;
-            arthanPanel16.Size = new Size(703, 560);
-            arthanPanel16.TabIndex = 29;
-            arthanPanel16.TopLeftRadius = 15;
-            arthanPanel16.TopRightRadius = 15;
-            arthanPanel16.UseIndividualCorners = false;
-            // 
-            // arthanPanel17
-            // 
-            arthanPanel17.BackColor = Color.Transparent;
-            arthanPanel17.BottomLeftRadius = 15;
-            arthanPanel17.BottomRightRadius = 15;
-            arthanPanel17.CornerRadius = 15;
-            arthanPanel17.EnableDragging = false;
-            arthanPanel17.EnableDropShadow = true;
-            arthanPanel17.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel17.GradientEndColor = Color.Transparent;
-            arthanPanel17.GradientStartColor = Color.Transparent;
-            arthanPanel17.Location = new Point(760, 0);
-            arthanPanel17.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel17.Name = "arthanPanel17";
-            arthanPanel17.ShadowBlur = 0;
-            arthanPanel17.ShadowColor = Color.FromArgb(0, 0, 0, 0);
-            arthanPanel17.ShadowOffset = 0;
-            arthanPanel17.Size = new Size(379, 568);
-            arthanPanel17.TabIndex = 30;
-            arthanPanel17.TopLeftRadius = 15;
-            arthanPanel17.TopRightRadius = 15;
-            arthanPanel17.UseIndividualCorners = false;
-            // 
             // arthanPanel3
             // 
             arthanPanel3.BackColor = Color.Transparent;
@@ -818,7 +656,7 @@
             arthanPanel5.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel5.GradientEndColor = Color.White;
             arthanPanel5.GradientStartColor = Color.White;
-            arthanPanel5.Location = new Point(383, 179);
+            arthanPanel5.Location = new Point(470, 236);
             arthanPanel5.Margin = new Padding(3, 4, 3, 4);
             arthanPanel5.Name = "arthanPanel5";
             arthanPanel5.RightToLeft = RightToLeft.No;
@@ -932,9 +770,9 @@
             labelTotalArchived.ForeColor = Color.FromArgb(16, 185, 129);
             labelTotalArchived.Location = new Point(40, 40);
             labelTotalArchived.Name = "labelTotalArchived";
-            labelTotalArchived.Size = new Size(95, 22);
+            labelTotalArchived.Size = new Size(112, 22);
             labelTotalArchived.TabIndex = 33;
-            labelTotalArchived.Text = "Issued Books";
+            labelTotalArchived.Text = "Archived Books";
             // 
             // label7
             // 
@@ -952,15 +790,15 @@
             arthanPanel8.BackColor = Color.Transparent;
             arthanPanel8.BottomLeftRadius = 15;
             arthanPanel8.BottomRightRadius = 15;
-            arthanPanel8.Controls.Add(label9);
-            arthanPanel8.Controls.Add(label10);
+            arthanPanel8.Controls.Add(lblOverdueCount);
+            arthanPanel8.Controls.Add(BookbOO);
             arthanPanel8.CornerRadius = 15;
             arthanPanel8.EnableDragging = false;
             arthanPanel8.EnableDropShadow = true;
             arthanPanel8.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel8.GradientEndColor = Color.White;
             arthanPanel8.GradientStartColor = Color.White;
-            arthanPanel8.Location = new Point(1617, 179);
+            arthanPanel8.Location = new Point(1326, 179);
             arthanPanel8.Margin = new Padding(3, 4, 3, 4);
             arthanPanel8.Name = "arthanPanel8";
             arthanPanel8.ShadowBlur = 5;
@@ -972,27 +810,27 @@
             arthanPanel8.TopRightRadius = 15;
             arthanPanel8.UseIndividualCorners = false;
             // 
-            // label9
+            // lblOverdueCount
             // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Sans Serif Collection", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.ForeColor = Color.FromArgb(117, 117, 117);
-            label9.Location = new Point(17, 79);
-            label9.Name = "label9";
-            label9.Size = new Size(190, 51);
-            label9.TabIndex = 5;
-            label9.Text = "Active Book Borrower";
+            lblOverdueCount.BackColor = Color.Transparent;
+            lblOverdueCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOverdueCount.ForeColor = Color.FromArgb(100, 103, 241);
+            lblOverdueCount.Location = new Point(72, 40);
+            lblOverdueCount.Name = "lblOverdueCount";
+            lblOverdueCount.Size = new Size(62, 22);
+            lblOverdueCount.TabIndex = 35;
+            lblOverdueCount.Text = "Overdue";
             // 
-            // label10
+            // BookbOO
             // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Sans Serif Collection", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.ForeColor = Color.FromArgb(100, 103, 241);
-            label10.Location = new Point(27, 13);
-            label10.Name = "label10";
-            label10.Size = new Size(61, 102);
-            label10.TabIndex = 4;
-            label10.Text = "0";
+            BookbOO.AutoSize = true;
+            BookbOO.Font = new Font("Sans Serif Collection", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            BookbOO.ForeColor = Color.FromArgb(117, 117, 117);
+            BookbOO.Location = new Point(17, 79);
+            BookbOO.Name = "BookbOO";
+            BookbOO.Size = new Size(177, 51);
+            BookbOO.TabIndex = 5;
+            BookbOO.Text = "Total Book Penalties";
             // 
             // arthanPanel9
             // 
@@ -1029,6 +867,174 @@
             label11.TabIndex = 2;
             label11.Text = "Book Borrower Penalties";
             // 
+            // arthanPanel18
+            // 
+            arthanPanel18.BackColor = Color.Transparent;
+            arthanPanel18.BottomLeftRadius = 15;
+            arthanPanel18.BottomRightRadius = 15;
+            arthanPanel18.Controls.Add(arthanPanel19);
+            arthanPanel18.CornerRadius = 15;
+            arthanPanel18.EnableDragging = false;
+            arthanPanel18.EnableDropShadow = true;
+            arthanPanel18.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            arthanPanel18.GradientEndColor = Color.Transparent;
+            arthanPanel18.GradientStartColor = Color.Transparent;
+            arthanPanel18.Location = new Point(770, 121);
+            arthanPanel18.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel18.Name = "arthanPanel18";
+            arthanPanel18.ShadowBlur = 0;
+            arthanPanel18.ShadowColor = Color.FromArgb(0, 0, 0, 0);
+            arthanPanel18.ShadowOffset = 0;
+            arthanPanel18.Size = new Size(387, 560);
+            arthanPanel18.TabIndex = 30;
+            arthanPanel18.TopLeftRadius = 15;
+            arthanPanel18.TopRightRadius = 15;
+            arthanPanel18.UseIndividualCorners = false;
+            // 
+            // arthanPanel19
+            // 
+            arthanPanel19.BackColor = Color.Transparent;
+            arthanPanel19.BottomLeftRadius = 15;
+            arthanPanel19.BottomRightRadius = 15;
+            arthanPanel19.CornerRadius = 15;
+            arthanPanel19.EnableDragging = false;
+            arthanPanel19.EnableDropShadow = true;
+            arthanPanel19.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            arthanPanel19.GradientEndColor = Color.Transparent;
+            arthanPanel19.GradientStartColor = Color.Transparent;
+            arthanPanel19.Location = new Point(760, 0);
+            arthanPanel19.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel19.Name = "arthanPanel19";
+            arthanPanel19.ShadowBlur = 0;
+            arthanPanel19.ShadowColor = Color.FromArgb(0, 0, 0, 0);
+            arthanPanel19.ShadowOffset = 0;
+            arthanPanel19.Size = new Size(379, 568);
+            arthanPanel19.TabIndex = 30;
+            arthanPanel19.TopLeftRadius = 15;
+            arthanPanel19.TopRightRadius = 15;
+            arthanPanel19.UseIndividualCorners = false;
+            // 
+            // arthanPanel20
+            // 
+            arthanPanel20.BackColor = Color.Transparent;
+            arthanPanel20.BottomLeftRadius = 15;
+            arthanPanel20.BottomRightRadius = 15;
+            arthanPanel20.Controls.Add(arthanPanel21);
+            arthanPanel20.CornerRadius = 15;
+            arthanPanel20.EnableDragging = false;
+            arthanPanel20.EnableDropShadow = true;
+            arthanPanel20.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            arthanPanel20.GradientEndColor = Color.Transparent;
+            arthanPanel20.GradientStartColor = Color.Transparent;
+            arthanPanel20.Location = new Point(799, 208);
+            arthanPanel20.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel20.Name = "arthanPanel20";
+            arthanPanel20.ShadowBlur = 0;
+            arthanPanel20.ShadowColor = Color.FromArgb(0, 0, 0, 0);
+            arthanPanel20.ShadowOffset = 0;
+            arthanPanel20.Size = new Size(357, 400);
+            arthanPanel20.TabIndex = 30;
+            arthanPanel20.TopLeftRadius = 15;
+            arthanPanel20.TopRightRadius = 15;
+            arthanPanel20.UseIndividualCorners = false;
+            // 
+            // arthanPanel21
+            // 
+            arthanPanel21.BackColor = Color.Transparent;
+            arthanPanel21.BottomLeftRadius = 15;
+            arthanPanel21.BottomRightRadius = 15;
+            arthanPanel21.CornerRadius = 15;
+            arthanPanel21.EnableDragging = false;
+            arthanPanel21.EnableDropShadow = true;
+            arthanPanel21.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            arthanPanel21.GradientEndColor = Color.Transparent;
+            arthanPanel21.GradientStartColor = Color.Transparent;
+            arthanPanel21.Location = new Point(760, 0);
+            arthanPanel21.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel21.Name = "arthanPanel21";
+            arthanPanel21.ShadowBlur = 0;
+            arthanPanel21.ShadowColor = Color.FromArgb(0, 0, 0, 0);
+            arthanPanel21.ShadowOffset = 0;
+            arthanPanel21.Size = new Size(379, 568);
+            arthanPanel21.TabIndex = 30;
+            arthanPanel21.TopLeftRadius = 15;
+            arthanPanel21.TopRightRadius = 15;
+            arthanPanel21.UseIndividualCorners = false;
+            // 
+            // Panel4
+            // 
+            Panel4.Controls.Add(flowLayoutPanelPenalties);
+            Panel4.CustomizableEdges = customizableEdges1;
+            Panel4.Location = new Point(35, 175);
+            Panel4.Name = "Panel4";
+            Panel4.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            Panel4.Size = new Size(291, 166);
+            Panel4.TabIndex = 32;
+            // 
+            // flowLayoutPanelPenalties
+            // 
+            flowLayoutPanelPenalties.AutoScroll = true;
+            flowLayoutPanelPenalties.BackColor = Color.WhiteSmoke;
+            flowLayoutPanelPenalties.Dock = DockStyle.Fill;
+            flowLayoutPanelPenalties.Location = new Point(0, 0);
+            flowLayoutPanelPenalties.Name = "flowLayoutPanelPenalties";
+            flowLayoutPanelPenalties.Padding = new Padding(10);
+            flowLayoutPanelPenalties.Size = new Size(291, 166);
+            flowLayoutPanelPenalties.TabIndex = 31;
+            // 
+            // arthanPanel2
+            // 
+            arthanPanel2.BackColor = Color.Transparent;
+            arthanPanel2.BottomLeftRadius = 0;
+            arthanPanel2.BottomRightRadius = 0;
+            arthanPanel2.Controls.Add(panel2);
+            arthanPanel2.Controls.Add(panel3);
+            arthanPanel2.Controls.Add(panel1);
+            arthanPanel2.Controls.Add(Panel4);
+            arthanPanel2.Controls.Add(arthanPanel20);
+            arthanPanel2.Controls.Add(arthanPanel18);
+            arthanPanel2.CornerRadius = 0;
+            arthanPanel2.EnableDragging = false;
+            arthanPanel2.EnableDropShadow = false;
+            arthanPanel2.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            arthanPanel2.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            arthanPanel2.GradientEndColor = Color.White;
+            arthanPanel2.GradientStartColor = Color.White;
+            arthanPanel2.Location = new Point(366, 385);
+            arthanPanel2.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel2.Name = "arthanPanel2";
+            arthanPanel2.ShadowBlur = 5;
+            arthanPanel2.ShadowColor = Color.FromArgb(50, 0, 0, 0);
+            arthanPanel2.ShadowOffset = 3;
+            arthanPanel2.Size = new Size(735, 692);
+            arthanPanel2.TabIndex = 1;
+            arthanPanel2.TopLeftRadius = 0;
+            arthanPanel2.TopRightRadius = 0;
+            arthanPanel2.UseIndividualCorners = false;
+            arthanPanel2.Paint += arthanPanel2_Paint;
+            // 
+            // panel2
+            // 
+            panel2.Location = new Point(35, 417);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(291, 163);
+            panel2.TabIndex = 34;
+            // 
+            // panel3
+            // 
+            panel3.Location = new Point(401, 417);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(291, 163);
+            panel3.TabIndex = 34;
+            // 
+            // panel1
+            // 
+            panel1.AutoScroll = true;
+            panel1.Location = new Point(401, 178);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(291, 163);
+            panel1.TabIndex = 33;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1059,10 +1065,6 @@
             arthanPanel15.ResumeLayout(false);
             arthanPanel12.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            arthanPanel2.ResumeLayout(false);
-            arthanPanel20.ResumeLayout(false);
-            arthanPanel18.ResumeLayout(false);
-            arthanPanel16.ResumeLayout(false);
             arthanPanel3.ResumeLayout(false);
             arthanPanel22.ResumeLayout(false);
             arthanPanel10.ResumeLayout(false);
@@ -1079,13 +1081,16 @@
             arthanPanel8.PerformLayout();
             arthanPanel9.ResumeLayout(false);
             arthanPanel9.PerformLayout();
+            arthanPanel18.ResumeLayout(false);
+            arthanPanel20.ResumeLayout(false);
+            Panel4.ResumeLayout(false);
+            arthanPanel2.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private Components.ArthanPanel arthanPanel1;
-        private Components.ArthanPanel arthanPanel2;
         private Components.ArthanPanel arthanPanel3;
         private Components.ArthanPanel arthanPanel4;
         private Label label2;
@@ -1097,8 +1102,7 @@
         private Label label4;
         private Label label5;
         private Label label7;
-        private Label label9;
-        private Label label10;
+        private Label BookbOO;
         private Components.ArthanPanel arthanPanel9;
         private Label label11;
         private Components.ArthanPanel arthanPanel10;
@@ -1113,12 +1117,6 @@
         private Components.ArthanButton arthanButton2;
         private Components.ArthanPanel arthanPanel15;
         private Components.ArthanButton arthanButton4;
-        private Components.ArthanPanel arthanPanel16;
-        private Components.ArthanPanel arthanPanel17;
-        private Components.ArthanPanel arthanPanel20;
-        private Components.ArthanPanel arthanPanel21;
-        private Components.ArthanPanel arthanPanel18;
-        private Components.ArthanPanel arthanPanel19;
         private Components.ArthanPanel arthanPanel22;
         private Components.ArthanPanel arthanPanel23;
         private Components.ArthanPanel arthanPanel27;
@@ -1129,5 +1127,16 @@
         private System.Windows.Forms.Timer timer1;
         private Guna.UI2.WinForms.Guna2HtmlLabel labelTotalBooks;
         private Guna.UI2.WinForms.Guna2HtmlLabel labelTotalArchived;
+        private Components.ArthanPanel arthanPanel18;
+        private Components.ArthanPanel arthanPanel19;
+        private Components.ArthanPanel arthanPanel20;
+        private Components.ArthanPanel arthanPanel21;
+        private Guna.UI2.WinForms.Guna2CustomGradientPanel Panel4;
+        private FlowLayoutPanel flowLayoutPanelPenalties;
+        private Components.ArthanPanel arthanPanel2;
+        private Panel panel2;
+        private Panel panel3;
+        private Panel panel1;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblOverdueCount;
     }
 }

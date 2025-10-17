@@ -23,5 +23,10 @@ namespace Library_Final
             dashboard.ShowDialog();
             this.Close();
         }
+
+        private void ManageBooks_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

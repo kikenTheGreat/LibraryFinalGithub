@@ -38,5 +38,10 @@ namespace Library_Final
         {
 
         }
+
+        private void LOGTRAIL_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

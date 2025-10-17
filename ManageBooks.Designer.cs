@@ -402,6 +402,7 @@
             Name = "ManageBooks";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ManageBooks";
+            Load += ManageBooks_Load;
             ((System.ComponentModel.ISupportInitialize)kryptonComboBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)kryptonComboBox1).EndInit();
             ResumeLayout(false);

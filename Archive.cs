@@ -64,7 +64,7 @@ namespace LibraryCGC
             try
             {
                 using (SqlConnection con = new SqlConnection(
-                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+                    "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
                 {
                     con.Open();
 
@@ -119,7 +119,7 @@ namespace LibraryCGC
 
         private void LoadBooksGrid()          //output the datagrid 
         {
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 string query = "SELECT * FROM BooksArchive";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
@@ -157,11 +157,29 @@ namespace LibraryCGC
         private void Archive_Load_1(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+
         }
 
         private void arthanPanel9_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+
+        // to delete nowwww
+
+
+
+        private void flowLayoutPanelPenalties_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void arthanButton2_Click(object sender, EventArgs e)
+        {
+            Form1 f = new Form1();
+            f.Show();
+            this.Hide();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace LibraryCGC
 
         private void LoadStudentAccounts()   //output data grid
         {
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection("  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 con.Open();
 
@@ -62,7 +62,7 @@ namespace LibraryCGC
 
         private void arthanButton5_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n");
             con.Open();
 
             SqlCommand cmd = new SqlCommand(@"INSERT INTO AddStudentAcc 

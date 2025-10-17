@@ -27,5 +27,10 @@ namespace Library_Final
             Dashboard dashboard = new Dashboard();
             dashboard.ShowDialog();
         }
+
+        private void Overdue_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

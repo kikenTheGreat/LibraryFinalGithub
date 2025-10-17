@@ -34,6 +34,7 @@
         private void InitializeComponent()
 
         {
+            components = new System.ComponentModel.Container();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -101,10 +102,11 @@
             pictureBox1 = new PictureBox();
             label1 = new Label();
             arthanPanel7 = new LibraryCGC.Components.ArthanPanel();
+            lblOverdueCount = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label16 = new Label();
             arthanPanel10 = new LibraryCGC.Components.ArthanPanel();
-            label17 = new Label();
             dgvBorrowList = new Krypton.Toolkit.KryptonDataGridView();
+            overdueTimer = new System.Windows.Forms.Timer(components);
             arthanPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).BeginInit();
             arthanPanel17.SuspendLayout();
@@ -631,6 +633,7 @@
             issueDate.Size = new Size(341, 45);
             issueDate.TabIndex = 35;
             issueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
+            issueDate.ValueChanged += issueDate_ValueChanged;
             // 
             // label9
             // 
@@ -961,9 +964,9 @@
             arthanPanel7.BackColor = Color.Transparent;
             arthanPanel7.BottomLeftRadius = 15;
             arthanPanel7.BottomRightRadius = 15;
+            arthanPanel7.Controls.Add(lblOverdueCount);
             arthanPanel7.Controls.Add(label16);
             arthanPanel7.Controls.Add(arthanPanel10);
-            arthanPanel7.Controls.Add(label17);
             arthanPanel7.CornerRadius = 15;
             arthanPanel7.EnableDragging = false;
             arthanPanel7.EnableDropShadow = true;
@@ -981,17 +984,29 @@
             arthanPanel7.TopLeftRadius = 15;
             arthanPanel7.TopRightRadius = 15;
             arthanPanel7.UseIndividualCorners = false;
+            arthanPanel7.Paint += arthanPanel7_Paint;
+            // 
+            // lblOverdueCount
+            // 
+            lblOverdueCount.BackColor = Color.Transparent;
+            lblOverdueCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOverdueCount.ForeColor = Color.FromArgb(244, 47, 47);
+            lblOverdueCount.Location = new Point(99, 64);
+            lblOverdueCount.Name = "lblOverdueCount";
+            lblOverdueCount.Size = new Size(62, 22);
+            lblOverdueCount.TabIndex = 34;
+            lblOverdueCount.Text = "Overdue";
             // 
             // label16
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Sans Serif Collection", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label16.ForeColor = Color.FromArgb(117, 117, 117);
-            label16.Location = new Point(99, 105);
+            label16.Location = new Point(67, 89);
             label16.Name = "label16";
-            label16.Size = new Size(94, 51);
+            label16.Size = new Size(135, 51);
             label16.TabIndex = 36;
-            label16.Text = "Over Due";
+            label16.Text = "Total Over Due";
             // 
             // arthanPanel10
             // 
@@ -1016,17 +1031,6 @@
             arthanPanel10.TopRightRadius = 50;
             arthanPanel10.UseIndividualCorners = false;
             // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Sans Serif Collection", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label17.ForeColor = Color.FromArgb(244, 47, 47);
-            label17.Location = new Point(141, 36);
-            label17.Name = "label17";
-            label17.Size = new Size(61, 102);
-            label17.TabIndex = 35;
-            label17.Text = "0";
-            // 
             // dgvBorrowList
             // 
             dgvBorrowList.BorderStyle = BorderStyle.None;
@@ -1037,6 +1041,10 @@
             dgvBorrowList.Size = new Size(1103, 162);
             dgvBorrowList.TabIndex = 24;
             dgvBorrowList.CellContentClick += dgvBorrowList_CellContentClick;
+            // 
+            // overdueTimer
+            // 
+            overdueTimer.Tick += overdueTimer_Tick;
             // 
             // Issue
             // 
@@ -1102,7 +1110,6 @@
         private Components.ArthanPanel arthanPanel7;
         private Components.ArthanPanel arthanPanel10;
         private Label label16;
-        private Label label17;
         private Components.ArthanPanel arthanPanel11;
         private Label label18;
         private Components.ArthanPanel arthanPanel12;
@@ -1133,5 +1140,7 @@
         private Guna.UI2.WinForms.Guna2Button btnConfirmBorrow;
         private Guna.UI2.WinForms.Guna2Button btnAddToList;
         private Guna.UI2.WinForms.Guna2TextBox Source;
+        private System.Windows.Forms.Timer overdueTimer;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblOverdueCount;
     }
 }

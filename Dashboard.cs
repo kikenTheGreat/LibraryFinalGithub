@@ -83,7 +83,17 @@ namespace Library_Final
 
         private void TotalBooks_Click(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void Dashboard_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void kryptonButton9_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

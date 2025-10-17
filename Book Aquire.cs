@@ -18,7 +18,7 @@ namespace LibraryCGC
     public partial class Book_Aquire : Form
     {// for autocomplete
         private ListBox suggestionListBox;  // dropdown list for suggestions
-        private string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
+        private string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
 
         private System.Windows.Forms.Timer isbnTimer; // add at class level
         public Book_Aquire()
@@ -312,7 +312,7 @@ namespace LibraryCGC
 
         private void arthanButton1_Click(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection("  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 con.Open();
 
@@ -388,7 +388,7 @@ namespace LibraryCGC
 
         private void kryptonButton6_Click(object sender, EventArgs e)
         {//NOT ALREADY APPLY -------------------------------------------------------------------
-            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n");
             con.Open();
             //use WHERE to specify what record to UPDATE                                                                                              
             SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
@@ -427,7 +427,7 @@ namespace LibraryCGC
             //not already apply thisssssssssssssssssssssssssssssssssssssss
             // archive function ----------------------
 
-            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n");
             con.Open();
 
             SqlCommand cmd = new SqlCommand("INSERT INTO BooksArchive (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
@@ -466,7 +466,7 @@ namespace LibraryCGC
         private void ArchiveBookFromRow(DataGridViewRow row)
         {//not already apply thissssssssssssssssssssssssssssssssssssss
             using (SqlConnection con = new SqlConnection(
-    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+    "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 con.Open();
 
@@ -503,7 +503,7 @@ namespace LibraryCGC
         private void DeleteFromBooksAcq(string bookID) //delete after archive
         {
             //not already apply thisssssssssssssssssss
-            SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            SqlConnection con = new SqlConnection("   Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n");
             con.Open();
 
             SqlCommand cmd = new SqlCommand("DELETE FROM BooksAcq WHERE BookID = @BookID", con);
@@ -517,7 +517,7 @@ namespace LibraryCGC
         private void LoadBooksGrid()
         {
             //output the datagriddddddddddddddd
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection("  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 string query = "SELECT * FROM BooksAcq";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
@@ -648,7 +648,7 @@ namespace LibraryCGC
                 string category = row.Cells["Category"].Value.ToString();
 
                 // Update to database
-                using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+                using (SqlConnection con = new SqlConnection("   Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
                 {
                     int bookID = Convert.ToInt32(DataGridTotalBooks.CurrentRow.Cells["BookID"].Value);
 

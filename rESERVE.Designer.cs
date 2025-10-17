@@ -385,6 +385,7 @@
             Name = "rESERVE";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "rESERVE";
+            Load += rESERVE_Load;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -133,6 +133,7 @@
             Controls.Add(dataGridView1);
             Name = "Overdue";
             Text = "Overdue";
+            Load += Overdue_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }

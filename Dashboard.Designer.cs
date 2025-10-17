@@ -328,6 +328,7 @@
             kryptonButton9.TabIndex = 26;
             kryptonButton9.Values.DropDownArrowColor = Color.Empty;
             kryptonButton9.Values.Text = "";
+            kryptonButton9.Click += kryptonButton9_Click;
             // 
             // Dashboard
             // 
@@ -351,6 +352,7 @@
             Name = "Dashboard";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Dashboard";
+            Load += Dashboard_Load;
             ((System.ComponentModel.ISupportInitialize)kryptonPanel1).EndInit();
             kryptonPanel1.ResumeLayout(false);
             kryptonPanel1.PerformLayout();

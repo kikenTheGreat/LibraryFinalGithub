@@ -35,7 +35,7 @@ namespace Library_Final
         private void RestoreBookFromArchive(DataGridViewRow row) // RESTORE METHOD
         {
             using (SqlConnection con = new SqlConnection(
-     "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+     " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 con.Open();
 
@@ -76,7 +76,7 @@ namespace Library_Final
 
         private void LoadBooksGrid()          //output the datagrid 
         {
-            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            using (SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
                 string query = "SELECT * FROM BooksArchive";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);

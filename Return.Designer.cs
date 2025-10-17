@@ -44,6 +44,8 @@ namespace Library_Final
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             kryptonButton4 = new Krypton.Toolkit.KryptonButton();
             kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             kryptonButton2 = new Krypton.Toolkit.KryptonButton();
@@ -86,6 +88,7 @@ namespace Library_Final
             label4 = new Label();
             label3 = new Label();
             label10 = new Label();
+            cmbIssueSelector = new Guna.UI2.WinForms.Guna2ComboBox();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
             ((System.ComponentModel.ISupportInitialize)DataGridReturnBooks).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ClientName).BeginInit();
@@ -735,6 +738,24 @@ namespace Library_Final
             label10.TabIndex = 29;
             label10.Text = "Student ID";
             // 
+            // cmbIssueSelector
+            // 
+            cmbIssueSelector.BackColor = Color.Transparent;
+            cmbIssueSelector.CustomizableEdges = customizableEdges15;
+            cmbIssueSelector.DrawMode = DrawMode.OwnerDrawFixed;
+            cmbIssueSelector.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbIssueSelector.FocusedColor = Color.FromArgb(94, 148, 255);
+            cmbIssueSelector.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cmbIssueSelector.Font = new Font("Segoe UI", 10F);
+            cmbIssueSelector.ForeColor = Color.FromArgb(68, 88, 112);
+            cmbIssueSelector.ItemHeight = 30;
+            cmbIssueSelector.Location = new Point(113, 170);
+            cmbIssueSelector.Name = "cmbIssueSelector";
+            cmbIssueSelector.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            cmbIssueSelector.Size = new Size(388, 36);
+            cmbIssueSelector.TabIndex = 166;
+            cmbIssueSelector.SelectedIndexChanged += cmbIssueSelector_SelectedIndexChanged;
+            // 
             // Return
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -742,6 +763,7 @@ namespace Library_Final
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1920, 1080);
+            Controls.Add(cmbIssueSelector);
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel4);
             Controls.Add(ClientID);
@@ -769,7 +791,7 @@ namespace Library_Final
             Controls.Add(kryptonButton2);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 4, 3, 4);
-           // Name = "Return";
+           
             Text = "Return";
             Load += Return_Load;
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();
@@ -835,5 +857,6 @@ namespace Library_Final
         private Label label4;
         private Label label3;
         private Label label10;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbIssueSelector;
     }
 }
