@@ -1055,10 +1055,11 @@
             // 
             flowLayoutPanelPenalties.AutoScroll = true;
             flowLayoutPanelPenalties.BackColor = Color.WhiteSmoke;
-            flowLayoutPanelPenalties.Location = new Point(50, 18);
+            flowLayoutPanelPenalties.Dock = DockStyle.Fill;
+            flowLayoutPanelPenalties.Location = new Point(0, 0);
             flowLayoutPanelPenalties.Name = "flowLayoutPanelPenalties";
             flowLayoutPanelPenalties.Padding = new Padding(10);
-            flowLayoutPanelPenalties.Size = new Size(291, 95);
+            flowLayoutPanelPenalties.Size = new Size(291, 166);
             flowLayoutPanelPenalties.TabIndex = 31;
             flowLayoutPanelPenalties.Paint += flowLayoutPanelPenalties_Paint;
             // 

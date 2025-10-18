@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Library_Final;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -86,13 +87,15 @@ VALUES
             // Clear the fields after insert
             Name.Text = "";
 
-           
+
             SectionSY.Text = "";
             Email.Text = "";
             StudentNumber.Text = "";
             Department.Text = "";
 
             Role.Text = "";
+
+            GlobalEvents.RaiseBooksDataChanged();
 
         }
 
@@ -122,6 +125,11 @@ VALUES
             Form1 form1 = new Form1();
             form1.Show();
             this.Hide();
+        }
+
+        private void arthanButton5_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

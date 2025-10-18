@@ -187,6 +187,8 @@ Trust Server Certificate=True;
                 BookTitle.Text = "";
                 cmbIssueSelector.Items.Clear();
             }
+
+            GlobalEvents.RaiseBorrowedDataChanged();
         }
 
         // 🧾 Method to add entry in FlowLayoutPanel (activity trail)

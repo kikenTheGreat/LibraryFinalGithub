@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Library_Final;
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -345,6 +346,7 @@ namespace LibraryCGC
 
                 cmd.ExecuteNonQuery();
                 MessageBox.Show("Book added successfully!");
+                GlobalEvents.RaiseBooksDataChanged();
             }
 
             LoadBooksGrid();
@@ -367,6 +369,8 @@ namespace LibraryCGC
             {
                 dashboardForm.UpdateTotalBooksLabel();
             }
+
+            
 
         }
 
@@ -495,6 +499,11 @@ namespace LibraryCGC
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Book archived successfully!");
+                    GlobalEvents.RaiseBooksDataChanged();
+                    GlobalEvents.RaiseBorrowedDataChanged();
+                    GlobalEvents.RaiseArchivedDataChanged();
+                  
+
                 }
             }
 
@@ -511,6 +520,10 @@ namespace LibraryCGC
             cmd.ExecuteNonQuery();
 
             con.Close();
+            GlobalEvents.RaiseBooksDataChanged();
+            GlobalEvents.RaiseBorrowedDataChanged();
+            GlobalEvents.RaiseArchivedDataChanged();
+          
         }
 
 
@@ -752,12 +765,6 @@ namespace LibraryCGC
 
         private void arthanPanel1_Paint(object sender, PaintEventArgs e)
         {
-
-        }
-
-        private void kryptonButton1_Load(object sender, EventArgs e)
-        {
-
 
         }
 

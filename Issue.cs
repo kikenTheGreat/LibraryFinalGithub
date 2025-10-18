@@ -266,7 +266,7 @@ Trust Server Certificate=True;
         }
 
 
-        private void btnConfirmBorrow_Click_1(object sender, EventArgs e)
+        private void btnConfirmBorrow_Click_1(object sender, EventArgs e)//test
         {
             if (borrowList.Count == 0)
             {
@@ -331,8 +331,14 @@ Trust Server Certificate=True;
                         }
                     }
 
+                    
                     MessageBox.Show("Book(s) issued successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    GlobalEvents.RaiseBorrowedDataChanged();
+                    GlobalEvents.RaiseOverdueDataChanged();
+
+
                 }
+
 
                 // ✅ STEP 3: Refresh and clear borrow list
                 borrowList.Clear();

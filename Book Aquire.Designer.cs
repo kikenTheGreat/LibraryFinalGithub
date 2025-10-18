@@ -830,7 +830,6 @@
             kryptonButton1.Text = "Add Book";
             kryptonButton1.TextColor = Color.Black;
             kryptonButton1.UseVisualStyleBackColor = false;
-            kryptonButton1.Load += kryptonButton1_Load;
             kryptonButton1.Click += arthanButton1_Click;
             // 
             // Source

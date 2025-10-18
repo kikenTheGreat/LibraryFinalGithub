@@ -24,12 +24,21 @@ namespace LibraryCGC
         private void Form1_Load(object sender, EventArgs e)
         {
             UpdateTotalBorrowedLabel();
-            timer1.Interval = 1000; // update every 5 seconds
-            timer1.Tick += (s, args) => UpdateTotalBorrowedLabel();
-            timer1.Start();
+            UpdateTotalBooksLabel();
+            UpdateTotalArchivedLabel();
+            LoadPenaltyCards();
+            UpdateTotalOverdueLabel();
 
-            
-            
+            // ✅ Subscribe to live overdue update
+            GlobalEvents.OverdueDataChanged += () => UpdateTotalOverdueLabel();
+            GlobalEvents.BooksDataChanged += () => UpdateTotalBooksLabel();
+            GlobalEvents.BorrowedDataChanged += () => UpdateTotalBorrowedLabel();
+            GlobalEvents.ArchivedDataChanged += () => UpdateTotalArchivedLabel();
+            GlobalEvents.PenaltiesDataChanged += () => LoadPenaltyCards(); // 👈 new
+
+
+
+
         }
 
         private void arthanButton1_Click(object sender, EventArgs e)

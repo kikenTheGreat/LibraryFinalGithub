@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Library_Final;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
-using Microsoft.Data.SqlClient;
 
 namespace LibraryCGC
 {
@@ -101,6 +102,8 @@ namespace LibraryCGC
 
                             MessageBox.Show("✅ Book restored successfully!");
                             LoadBooksGrid(); // Refresh grid only after success
+                            GlobalEvents.RaiseBooksDataChanged();
+                            GlobalEvents.RaiseArchivedDataChanged();
                         }
                         else
                         {
@@ -113,6 +116,8 @@ namespace LibraryCGC
             {
                 MessageBox.Show("Error restoring book: " + ex.Message);
             }
+            GlobalEvents.RaiseArchivedDataChanged();
+
         }
 
 
@@ -142,6 +147,9 @@ namespace LibraryCGC
                     restoreButton.Name = "RestoreButton";
                     restoreButton.UseColumnTextForButtonValue = true;
                     DataGridTotalBooks.Columns.Add(restoreButton);
+
+                    GlobalEvents.RaiseBooksDataChanged();
+                    GlobalEvents.RaiseArchivedDataChanged();
                 }
 
                 DataGridTotalBooks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
