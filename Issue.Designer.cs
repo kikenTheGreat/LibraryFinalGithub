@@ -996,6 +996,7 @@
             lblOverdueCount.Size = new Size(62, 22);
             lblOverdueCount.TabIndex = 34;
             lblOverdueCount.Text = "Overdue";
+            lblOverdueCount.Click += lblOverdueCount_Click;
             // 
             // label16
             // 

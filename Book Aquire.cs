@@ -732,9 +732,19 @@ namespace LibraryCGC
 
         private void arthanButton1_HomeClick(object sender, EventArgs e)
         {
-            // Hide this form and show Form1 (Home)
-            Form1 homeForm = new Form1();
-            homeForm.Show();
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Form1)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
+            // If not open, create it
+            Form1 form1 = new Form1();
+            form1.Show();
             this.Hide();
 
         }

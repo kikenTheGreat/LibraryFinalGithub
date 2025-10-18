@@ -177,8 +177,19 @@ namespace LibraryCGC
 
         private void arthanButton2_Click(object sender, EventArgs e)
         {
-            Form1 f = new Form1();
-            f.Show();
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Form1)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
+            // If not open, create it
+            Form1 form1 = new Form1();
+            form1.Show();
             this.Hide();
         }
     }

@@ -41,8 +41,6 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
@@ -52,7 +50,6 @@
             SectionSY = new Guna.UI2.WinForms.Guna2TextBox();
             Email = new Guna.UI2.WinForms.Guna2TextBox();
             Name = new Guna.UI2.WinForms.Guna2TextBox();
-            ClientID = new Guna.UI2.WinForms.Guna2TextBox();
             Role = new Guna.UI2.WinForms.Guna2TextBox();
             Department = new Guna.UI2.WinForms.Guna2TextBox();
             StudentNumber = new Guna.UI2.WinForms.Guna2TextBox();
@@ -60,7 +57,6 @@
             label7 = new Label();
             label9 = new Label();
             label5 = new Label();
-            label4 = new Label();
             label3 = new Label();
             label10 = new Label();
             label2 = new Label();
@@ -183,7 +179,6 @@
             arthanPanel1.Controls.Add(SectionSY);
             arthanPanel1.Controls.Add(Email);
             arthanPanel1.Controls.Add(Name);
-            arthanPanel1.Controls.Add(ClientID);
             arthanPanel1.Controls.Add(Role);
             arthanPanel1.Controls.Add(Department);
             arthanPanel1.Controls.Add(StudentNumber);
@@ -191,7 +186,6 @@
             arthanPanel1.Controls.Add(label7);
             arthanPanel1.Controls.Add(label9);
             arthanPanel1.Controls.Add(label5);
-            arthanPanel1.Controls.Add(label4);
             arthanPanel1.Controls.Add(label3);
             arthanPanel1.Controls.Add(label10);
             arthanPanel1.CornerRadius = 0;
@@ -285,37 +279,13 @@
             Name.Size = new Size(246, 37);
             Name.TabIndex = 48;
             // 
-            // ClientID
-            // 
-            ClientID.BorderColor = Color.FromArgb(224, 224, 224);
-            ClientID.BorderRadius = 4;
-            ClientID.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            ClientID.BorderThickness = 2;
-            ClientID.CustomizableEdges = customizableEdges7;
-            ClientID.DefaultText = "";
-            ClientID.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            ClientID.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            ClientID.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            ClientID.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            ClientID.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            ClientID.Font = new Font("Segoe UI", 9F);
-            ClientID.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ClientID.Location = new Point(547, 207);
-            ClientID.Margin = new Padding(3, 4, 3, 4);
-            ClientID.Name = "ClientID";
-            ClientID.PlaceholderText = "";
-            ClientID.SelectedText = "";
-            ClientID.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            ClientID.Size = new Size(246, 37);
-            ClientID.TabIndex = 47;
-            // 
             // Role
             // 
             Role.BorderColor = Color.FromArgb(224, 224, 224);
             Role.BorderRadius = 4;
             Role.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Role.BorderThickness = 2;
-            Role.CustomizableEdges = customizableEdges9;
+            Role.CustomizableEdges = customizableEdges7;
             Role.DefaultText = "";
             Role.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Role.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -329,7 +299,7 @@
             Role.Name = "Role";
             Role.PlaceholderText = "";
             Role.SelectedText = "";
-            Role.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            Role.ShadowDecoration.CustomizableEdges = customizableEdges8;
             Role.Size = new Size(246, 37);
             Role.TabIndex = 46;
             // 
@@ -339,7 +309,7 @@
             Department.BorderRadius = 4;
             Department.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Department.BorderThickness = 2;
-            Department.CustomizableEdges = customizableEdges11;
+            Department.CustomizableEdges = customizableEdges9;
             Department.DefaultText = "";
             Department.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Department.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -353,7 +323,7 @@
             Department.Name = "Department";
             Department.PlaceholderText = "";
             Department.SelectedText = "";
-            Department.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            Department.ShadowDecoration.CustomizableEdges = customizableEdges10;
             Department.Size = new Size(246, 37);
             Department.TabIndex = 45;
             // 
@@ -363,7 +333,7 @@
             StudentNumber.BorderRadius = 4;
             StudentNumber.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             StudentNumber.BorderThickness = 2;
-            StudentNumber.CustomizableEdges = customizableEdges13;
+            StudentNumber.CustomizableEdges = customizableEdges11;
             StudentNumber.DefaultText = "";
             StudentNumber.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             StudentNumber.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -377,7 +347,7 @@
             StudentNumber.Name = "StudentNumber";
             StudentNumber.PlaceholderText = "";
             StudentNumber.SelectedText = "";
-            StudentNumber.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            StudentNumber.ShadowDecoration.CustomizableEdges = customizableEdges12;
             StudentNumber.Size = new Size(246, 37);
             StudentNumber.TabIndex = 34;
             StudentNumber.TextChanged += ClientID_TextChanged;
@@ -422,16 +392,6 @@
             label5.Size = new Size(36, 31);
             label5.TabIndex = 35;
             label5.Text = "Email";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(481, 207);
-            label4.Name = "label4";
-            label4.Size = new Size(49, 31);
-            label4.TabIndex = 33;
-            label4.Text = "Client ID";
             // 
             // label3
             // 
@@ -541,14 +501,12 @@
         private Label label7;
         private Label label9;
         private Label label5;
-        private Label label4;
         private Label label3;
         private Components.ArthanButton arthanButton5;
         private Guna.UI2.WinForms.Guna2TextBox StudentNumber;
         private Guna.UI2.WinForms.Guna2TextBox SectionSY;
         private Guna.UI2.WinForms.Guna2TextBox Email;
         private Guna.UI2.WinForms.Guna2TextBox Name;
-        private Guna.UI2.WinForms.Guna2TextBox ClientID;
         private Guna.UI2.WinForms.Guna2TextBox Role;
         private Guna.UI2.WinForms.Guna2TextBox Department;
         private Krypton.Toolkit.KryptonDataGridView AddStudentAccDataGrid;

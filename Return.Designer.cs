@@ -30,22 +30,22 @@ namespace Library_Final
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Return));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             kryptonButton4 = new Krypton.Toolkit.KryptonButton();
             kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             kryptonButton2 = new Krypton.Toolkit.KryptonButton();
@@ -89,6 +89,7 @@ namespace Library_Final
             label3 = new Label();
             label10 = new Label();
             cmbIssueSelector = new Guna.UI2.WinForms.Guna2ComboBox();
+            flowLayoutPanel2 = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
             ((System.ComponentModel.ISupportInitialize)DataGridReturnBooks).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ClientName).BeginInit();
@@ -506,7 +507,7 @@ namespace Library_Final
             SectionSY.BorderRadius = 4;
             SectionSY.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             SectionSY.BorderThickness = 2;
-            SectionSY.CustomizableEdges = customizableEdges1;
+            SectionSY.CustomizableEdges = customizableEdges17;
             SectionSY.DefaultText = "";
             SectionSY.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             SectionSY.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -520,7 +521,7 @@ namespace Library_Final
             SectionSY.Name = "SectionSY";
             SectionSY.PlaceholderText = "";
             SectionSY.SelectedText = "";
-            SectionSY.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            SectionSY.ShadowDecoration.CustomizableEdges = customizableEdges18;
             SectionSY.Size = new Size(246, 37);
             SectionSY.TabIndex = 50;
             // 
@@ -530,7 +531,7 @@ namespace Library_Final
             Email.BorderRadius = 4;
             Email.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Email.BorderThickness = 2;
-            Email.CustomizableEdges = customizableEdges3;
+            Email.CustomizableEdges = customizableEdges19;
             Email.DefaultText = "";
             Email.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Email.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -544,7 +545,7 @@ namespace Library_Final
             Email.Name = "Email";
             Email.PlaceholderText = "";
             Email.SelectedText = "";
-            Email.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            Email.ShadowDecoration.CustomizableEdges = customizableEdges20;
             Email.Size = new Size(246, 37);
             Email.TabIndex = 49;
             // 
@@ -554,7 +555,7 @@ namespace Library_Final
             Name.BorderRadius = 4;
             Name.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Name.BorderThickness = 2;
-            Name.CustomizableEdges = customizableEdges5;
+            Name.CustomizableEdges = customizableEdges21;
             Name.DefaultText = "";
             Name.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Name.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -568,7 +569,7 @@ namespace Library_Final
             Name.Name = "Name";
             Name.PlaceholderText = "";
             Name.SelectedText = "";
-            Name.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            Name.ShadowDecoration.CustomizableEdges = customizableEdges22;
             Name.Size = new Size(246, 37);
             Name.TabIndex = 48;
             // 
@@ -578,7 +579,7 @@ namespace Library_Final
             guna2TextBox1.BorderRadius = 4;
             guna2TextBox1.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             guna2TextBox1.BorderThickness = 2;
-            guna2TextBox1.CustomizableEdges = customizableEdges7;
+            guna2TextBox1.CustomizableEdges = customizableEdges23;
             guna2TextBox1.DefaultText = "";
             guna2TextBox1.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             guna2TextBox1.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -592,7 +593,7 @@ namespace Library_Final
             guna2TextBox1.Name = "guna2TextBox1";
             guna2TextBox1.PlaceholderText = "";
             guna2TextBox1.SelectedText = "";
-            guna2TextBox1.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            guna2TextBox1.ShadowDecoration.CustomizableEdges = customizableEdges24;
             guna2TextBox1.Size = new Size(246, 37);
             guna2TextBox1.TabIndex = 47;
             // 
@@ -602,7 +603,7 @@ namespace Library_Final
             Role.BorderRadius = 4;
             Role.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Role.BorderThickness = 2;
-            Role.CustomizableEdges = customizableEdges9;
+            Role.CustomizableEdges = customizableEdges25;
             Role.DefaultText = "";
             Role.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Role.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -616,7 +617,7 @@ namespace Library_Final
             Role.Name = "Role";
             Role.PlaceholderText = "";
             Role.SelectedText = "";
-            Role.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            Role.ShadowDecoration.CustomizableEdges = customizableEdges26;
             Role.Size = new Size(246, 37);
             Role.TabIndex = 46;
             // 
@@ -626,7 +627,7 @@ namespace Library_Final
             Department.BorderRadius = 4;
             Department.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Department.BorderThickness = 2;
-            Department.CustomizableEdges = customizableEdges11;
+            Department.CustomizableEdges = customizableEdges27;
             Department.DefaultText = "";
             Department.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Department.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -640,7 +641,7 @@ namespace Library_Final
             Department.Name = "Department";
             Department.PlaceholderText = "";
             Department.SelectedText = "";
-            Department.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            Department.ShadowDecoration.CustomizableEdges = customizableEdges28;
             Department.Size = new Size(246, 37);
             Department.TabIndex = 45;
             // 
@@ -650,7 +651,7 @@ namespace Library_Final
             StudentNumber.BorderRadius = 4;
             StudentNumber.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             StudentNumber.BorderThickness = 2;
-            StudentNumber.CustomizableEdges = customizableEdges13;
+            StudentNumber.CustomizableEdges = customizableEdges29;
             StudentNumber.DefaultText = "";
             StudentNumber.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             StudentNumber.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -664,7 +665,7 @@ namespace Library_Final
             StudentNumber.Name = "StudentNumber";
             StudentNumber.PlaceholderText = "";
             StudentNumber.SelectedText = "";
-            StudentNumber.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            StudentNumber.ShadowDecoration.CustomizableEdges = customizableEdges30;
             StudentNumber.Size = new Size(246, 37);
             StudentNumber.TabIndex = 34;
             // 
@@ -741,7 +742,7 @@ namespace Library_Final
             // cmbIssueSelector
             // 
             cmbIssueSelector.BackColor = Color.Transparent;
-            cmbIssueSelector.CustomizableEdges = customizableEdges15;
+            cmbIssueSelector.CustomizableEdges = customizableEdges31;
             cmbIssueSelector.DrawMode = DrawMode.OwnerDrawFixed;
             cmbIssueSelector.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbIssueSelector.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -751,10 +752,20 @@ namespace Library_Final
             cmbIssueSelector.ItemHeight = 30;
             cmbIssueSelector.Location = new Point(113, 170);
             cmbIssueSelector.Name = "cmbIssueSelector";
-            cmbIssueSelector.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            cmbIssueSelector.ShadowDecoration.CustomizableEdges = customizableEdges32;
             cmbIssueSelector.Size = new Size(388, 36);
             cmbIssueSelector.TabIndex = 166;
             cmbIssueSelector.SelectedIndexChanged += cmbIssueSelector_SelectedIndexChanged;
+            // 
+            // flowLayoutPanel2
+            // 
+            flowLayoutPanel2.AutoScroll = true;
+            flowLayoutPanel2.BackColor = Color.Black;
+            flowLayoutPanel2.Location = new Point(1321, 216);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Padding = new Padding(10);
+            flowLayoutPanel2.Size = new Size(540, 381);
+            flowLayoutPanel2.TabIndex = 167;
             // 
             // Return
             // 
@@ -763,6 +774,7 @@ namespace Library_Final
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1920, 1080);
+            Controls.Add(flowLayoutPanel2);
             Controls.Add(cmbIssueSelector);
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel4);
@@ -791,7 +803,7 @@ namespace Library_Final
             Controls.Add(kryptonButton2);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 4, 3, 4);
-           
+         
             Text = "Return";
             Load += Return_Load;
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();
@@ -858,5 +870,6 @@ namespace Library_Final
         private Label label3;
         private Label label10;
         private Guna.UI2.WinForms.Guna2ComboBox cmbIssueSelector;
+        private FlowLayoutPanel flowLayoutPanel2;
     }
 }

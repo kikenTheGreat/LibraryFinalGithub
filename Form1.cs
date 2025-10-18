@@ -10,7 +10,10 @@ namespace LibraryCGC
         public Form1()
         {
             InitializeComponent();
-
+            UpdateTotalBooksLabel();
+            UpdateTotalArchivedLabel();
+            LoadPenaltyCards();
+            UpdateTotalOverdueLabel();
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -21,14 +24,12 @@ namespace LibraryCGC
         private void Form1_Load(object sender, EventArgs e)
         {
             UpdateTotalBorrowedLabel();
-            timer1.Interval = 5000; // update every 5 seconds
+            timer1.Interval = 1000; // update every 5 seconds
             timer1.Tick += (s, args) => UpdateTotalBorrowedLabel();
             timer1.Start();
 
-            UpdateTotalBooksLabel();
-            UpdateTotalArchivedLabel();
-            LoadPenaltyCards();
-            UpdateTotalOverdueLabel();
+            
+            
         }
 
         private void arthanButton1_Click(object sender, EventArgs e)
@@ -40,6 +41,9 @@ namespace LibraryCGC
 
 
         }
+
+
+
 
         private void arthanButton1_Load(object sender, EventArgs e)
         {
@@ -198,35 +202,35 @@ Trust Server Certificate=True;
 
 
 
-        private void LoadPenaltyCards()
+        public void LoadPenaltyCards()
         {
-
             // Clear all four panels before loading
             panel1.Controls.Clear();
             panel2.Controls.Clear();
             panel3.Controls.Clear();
             Panel4.Controls.Clear();
 
-            string connectionString = @"  Data Source=(LocalDB)\MSSQLLocalDB;
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
 Integrated Security=True;
 Encrypt=True;
-Trust Server Certificate=True;
-
-";
+Trust Server Certificate=True;";
 
             string query = @"
         SELECT 
-            ib.StudentName,
-            ib.OverdueDays,
-            ib.Penalty,
+            sa.ClientID,
+            sa.Name AS StudentName,
             sa.Role,
             sa.SectionSY,
-            sa.Email
+            sa.Email,
+            SUM(ib.OverdueDays) AS TotalOverdueDays,
+            SUM(ib.Penalty) AS TotalPenalty
         FROM IssueBooks ib
         INNER JOIN AddStudentAcc sa ON ib.ClientID = sa.ClientID
-        WHERE ib.OverdueDays > 0
-        ORDER BY ib.StudentName
+        WHERE ib.OverdueDays > 0 
+          AND ib.Status <> 'Returned'    -- ✅ exclude returned books
+        GROUP BY sa.ClientID, sa.Name, sa.Role, sa.SectionSY, sa.Email
+        ORDER BY sa.Name;
     ";
 
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -243,8 +247,10 @@ Trust Server Certificate=True;
                         string role = reader["Role"].ToString();
                         string section = reader["SectionSY"].ToString();
                         string email = reader["Email"].ToString();
-                        int overdueDays = Convert.ToInt32(reader["OverdueDays"]);
-                        decimal penalty = Convert.ToDecimal(reader["Penalty"]);
+
+                        // ✅ use the new aggregated column names
+                        int overdueDays = Convert.ToInt32(reader["TotalOverdueDays"]);
+                        decimal penalty = Convert.ToDecimal(reader["TotalPenalty"]);
 
                         Panel card = new Panel
                         {
@@ -264,8 +270,8 @@ Trust Server Certificate=True;
                             Text = $"👤 {studentName}\n" +
                                    $"{role} - {section}\n" +
                                    $"{email}\n\n" +
-                                   $"📅 Overdue: {overdueDays} days\n" +
-                                   $"💰 Penalty: ₱{penalty:F2}"
+                                   $"📅 Total Overdue: {overdueDays} days\n" +
+                                   $"💰 Total Penalty: ₱{penalty:F2}"
                         };
 
                         card.Controls.Add(lblInfo);
@@ -283,8 +289,8 @@ Trust Server Certificate=True;
                     }
                 }
             }
-
         }
+
 
 
         public void UpdateTotalOverdueLabel()
@@ -310,7 +316,7 @@ Trust Server Certificate=True;
     FROM IssueBooks
     WHERE 
         Status = 'Overdue'
-        AND (OverdueDays IS NOT NULL AND OverdueDays > 0)
+
 ";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
@@ -340,6 +346,73 @@ Trust Server Certificate=True;
         }
 
         private void arthanButton8_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanelPenalties_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+        private void arthanPanel16_Click(object sender, EventArgs e)
+        {
+            ReturnedHistory returnedHistory = new ReturnedHistory();
+            returnedHistory.Show();
+            this.Hide();
+        }
+
+        private void arthanPanel14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void arthanPanel14_Click_1(object sender, EventArgs e)
+        {
+            Return @return = new Return();
+            @return.Show();
+            this.Hide();
+        }
+
+        private void arthanPanel15_Click(object sender, EventArgs e)
+        {
+            Issue i = new Issue();
+            i.Show();
+            this.Hide();
+        }
+
+        private void arthanButton2_Click_1(object sender, EventArgs e)
+        {
+            Archive a = new Archive();
+            a.Show();
+            this.Hide(); // ✅ Keeps app running
+        }
+
+        private void arthanButton1_Click_1(object sender, EventArgs e)
+        {
+            Book_Aquire bookAcq = new Book_Aquire();
+            bookAcq.Show();
+            this.Hide(); // ✅ Keeps app running
+        }
+
+        private void arthanPanel13_Click(object sender, EventArgs e)
+        {
+            Archive a = new Archive();
+            a.Show();
+            this.Hide(); // ✅ Keeps app running
+        }
+
+        private void arthanPanel12_Click(object sender, EventArgs e)
+        {
+            Book_Aquire bookAcq = new Book_Aquire();
+            bookAcq.Show();
+            this.Hide(); // ✅ Keeps app running
+        }
+
+        private void lblOverdueCount_Click(object sender, EventArgs e)
         {
 
         }

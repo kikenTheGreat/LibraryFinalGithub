@@ -27,7 +27,7 @@ namespace LibraryCGC
             LoadIssueBooks(); // Refresh DataGridView
             SetupBorrowListGrid(); // Setup borrow list grid
 
-          
+
 
 
 
@@ -180,7 +180,7 @@ Trust Server Certificate=True;
         }
 
 
-       
+
 
 
 
@@ -251,6 +251,10 @@ Trust Server Certificate=True;
                 dgvBorrowList.Columns.Add("BookTitle", "Book Title");
                 dgvBorrowList.Columns.Add("Source", "Source");
             }
+
+            //remove later yah
+            MessageBox.Show($"Borrow list contains {borrowList.Count} books.");
+
 
             dgvBorrowList.Rows.Add(BookID.Text, BookTitle.Text, Source.Text);
 
@@ -346,6 +350,12 @@ Trust Server Certificate=True;
             {
                 MessageBox.Show("Error issuing books: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            LoadIssueBooks(); // refresh DataGridView
+            IssueBooksDataGrid.Refresh();
+            IssueBooksDataGrid.Update();
+
+
         }
 
 
@@ -386,8 +396,19 @@ Trust Server Certificate=True;
 
         private void arthanButton1_Click(object sender, EventArgs e)
         {
-            Form1 f = new Form1();
-            f.Show();
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Form1)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
+            // If not open, create it
+            Form1 form1 = new Form1();
+            form1.Show();
             this.Hide();
 
 
@@ -499,6 +520,11 @@ Trust Server Certificate=True;
 
 
         private void arthanPanel7_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblOverdueCount_Click(object sender, EventArgs e)
         {
 
         }

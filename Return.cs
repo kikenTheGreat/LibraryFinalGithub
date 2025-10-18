@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace Library_Final
 {
@@ -59,70 +61,156 @@ Trust Server Certificate=True;
 
         private void kryptonCheckButton1_Click(object sender, EventArgs e)
         {
-            if (cmbIssueSelector.SelectedIndex == -1)
+            if (cmbIssueSelector.SelectedItem == null)
             {
-                MessageBox.Show("Please select a book to return first.");
+                MessageBox.Show("Please select a book to mark as returned.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Extract IssueID from ComboBox text
-            string selectedText = cmbIssueSelector.SelectedItem.ToString();
-            string selectedIssueID = selectedText.Split('-')[0].Trim();
+            // Extract IssueID from ComboBox text (e.g., "1005 - Book Title (Issued)")
+            string selectedItem = cmbIssueSelector.SelectedItem.ToString();
+            string issueID = selectedItem.Split('-')[0].Trim();
 
-            using (SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;
-Initial Catalog=LibraryDB;
-Integrated Security=True;
-Encrypt=True;
-Trust Server Certificate=True;
-
-"))
+            using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
+        Initial Catalog=LibraryDB;
+        Integrated Security=True;
+        Encrypt=True;
+        Trust Server Certificate=True;"))
             {
                 con.Open();
-                SqlTransaction tx = con.BeginTransaction();
 
-                try
+                // ✅ Insert into ReturnedBooks (matches your DB)
+                string insertQuery = @"
+            INSERT INTO ReturnedBooks (
+                IssueID, ClientID, ClientName, ClientType, BookTitle,
+                Quantity, Source, IssueDate, DueDate, ReturnDate, Status
+            )
+            SELECT 
+                ib.IssueID,
+                ib.ClientID,
+                sa.Name AS ClientName,
+                sa.Role AS ClientType,
+                ib.BookTitle,
+                ib.Quantity,
+                ib.Source,
+                ib.IssueDate,
+                ib.DueDate,
+                GETDATE() AS ReturnDate,
+                'Returned' AS Status
+            FROM IssueBooks ib
+            LEFT JOIN AddStudentAcc sa ON ib.ClientID = sa.ClientID
+            WHERE ib.IssueID = @IssueID;
+        ";
+
+                // ✅ Delete from IssueBooks
+                string deleteQuery = "DELETE FROM IssueBooks WHERE IssueID = @IssueID;";
+
+                using (SqlTransaction trans = con.BeginTransaction())
                 {
-                    // 1️⃣ Insert into ReturnedBooks
-                    string insertQuery = @"INSERT INTO ReturnedBooks (ClientID, ClientName, BookTitle, Source, ReturnDate, Status, Quantity)
-                                   VALUES (@ClientID, @ClientName, @BookTitle, @Source, @ReturnDate, @Status, @Quantity)";
-                    using (SqlCommand cmdInsert = new SqlCommand(insertQuery, con, tx))
+                    try
                     {
-                        cmdInsert.Parameters.AddWithValue("@ClientID", Convert.ToInt32(ClientID.Text));
-                        cmdInsert.Parameters.AddWithValue("@ClientName", ClientName.Text.Trim());
-                        cmdInsert.Parameters.AddWithValue("@BookTitle", BookTitle.Text.Trim());
-                        cmdInsert.Parameters.AddWithValue("@Source", Source.Text.Trim());
-                        cmdInsert.Parameters.AddWithValue("@ReturnDate", DateTime.Now);
-                        cmdInsert.Parameters.AddWithValue("@Status", "Returned");
-                        cmdInsert.Parameters.AddWithValue("@Quantity", Convert.ToInt32(Quantity.Text));
-                        cmdInsert.ExecuteNonQuery();
-                    }
-
-                    // 2️⃣ Update IssueBooks to Returned
-                    string updateQuery = @"UPDATE IssueBooks
-                                   SET Status = 'Returned'
-                                   WHERE IssueID = @IssueID
-                                   AND (Status = 'Issued' OR Status = 'Overdue')";
-                    using (SqlCommand cmdUpdate = new SqlCommand(updateQuery, con, tx))
-                    {
-                        cmdUpdate.Parameters.AddWithValue("@IssueID", Convert.ToInt32(selectedIssueID));
-                        int rowsAffected = cmdUpdate.ExecuteNonQuery();
-
-                        if (rowsAffected == 0)
+                        using (SqlCommand insertCmd = new SqlCommand(insertQuery, con, trans))
                         {
-                            throw new Exception("No issued record found or already returned.");
+                            insertCmd.Parameters.AddWithValue("@IssueID", issueID);
+                            insertCmd.ExecuteNonQuery();
                         }
-                    }
 
-                    tx.Commit();
-                    MessageBox.Show("Book successfully returned and status updated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    tx.Rollback();
-                    MessageBox.Show("Error processing return: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, con, trans))
+                        {
+                            deleteCmd.Parameters.AddWithValue("@IssueID", issueID);
+                            deleteCmd.ExecuteNonQuery();
+                        }
+
+                        trans.Commit();
+                        MessageBox.Show("Book moved to ReturnedBooks successfully!", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // ✅ Log to activity panel
+                        AddActivityLog($"📗 {ClientName.Text} returned \"{BookTitle.Text}\" on {DateTime.Now:MMM dd, yyyy hh:mm tt}");
+                    }
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        MessageBox.Show("Error during return process: " + ex.Message);
+                    }
                 }
             }
+
+            // ✅ Refresh the book list for the selected client
+            LoadIssuedBooksForClient(ClientID.Text.Trim());
+
+            // ✅ Check if the client still has any remaining borrowed books
+            bool hasRemainingBooks = false;
+            using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
+        Initial Catalog=LibraryDB;
+        Integrated Security=True;
+        Encrypt=True;
+        Trust Server Certificate=True;"))
+            {
+                con.Open();
+                string checkQuery = @"
+            SELECT COUNT(*) 
+            FROM IssueBooks
+            WHERE ClientID = @ClientID 
+              AND (Status = 'Issued' OR Status = 'Overdue')";
+                using (SqlCommand cmd = new SqlCommand(checkQuery, con))
+                {
+                    cmd.Parameters.AddWithValue("@ClientID", ClientID.Text.Trim());
+                    int remaining = (int)cmd.ExecuteScalar();
+                    hasRemainingBooks = remaining > 0;
+                }
+            }
+
+            // ✅ Refresh dashboard (Form1)
+            var form1 = Application.OpenForms["Form1"] as Form1;
+            if (form1 != null)
+            {
+                form1.LoadPenaltyCards();
+                form1.UpdateTotalOverdueLabel();
+            }
+
+            // ✅ Refresh ClientID dropdown
+            LoadClientIDs();
+
+            // ✅ If no books remain, clear all related fields
+            if (!hasRemainingBooks)
+            {
+                ClientID.Text = "";
+                ClientName.Text = "";
+                Quantity.Text = "";
+                ClientType.Text = "";
+                Status.Text = "";
+                IssueDate.Text = "";
+                DueDate.Text = "";
+                Source.Text = "";
+                BookTitle.Text = "";
+                cmbIssueSelector.Items.Clear();
+            }
         }
+
+        // 🧾 Method to add entry in FlowLayoutPanel (activity trail)
+        private void AddActivityLog(string message)
+        {
+            Label logEntry = new Label
+            {
+                AutoSize = true,
+                Font = new Font("Segoe UI", 9, FontStyle.Regular),
+                ForeColor = Color.White,
+                Text = $"{DateTime.Now:HH:mm:ss} — {message}",
+                Padding = new Padding(5)
+            };
+
+            // Suppose your FlowLayoutPanel name is "flowActivityPanel"
+            flowLayoutPanel2.Controls.Add(logEntry);
+            flowLayoutPanel2.ScrollControlIntoView(logEntry); // auto-scroll to bottom
+        }
+
+
+
+
+
+
 
 
 
@@ -199,7 +287,11 @@ Trust Server Certificate=True;
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                string query = "SELECT DISTINCT ClientID FROM IssueBooks ORDER BY ClientID";
+                string query = @"
+                SELECT DISTINCT ClientID
+                FROM IssueBooks
+                WHERE Status IN ('Issued', 'Overdue')
+                ORDER BY ClientID"; ;
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -307,7 +399,12 @@ Trust Server Certificate=True;
 "))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT DISTINCT ClientID FROM IssueBooks", con);
+                SqlCommand cmd = new SqlCommand(@"
+SELECT DISTINCT ClientID
+FROM IssueBooks
+WHERE Status IN ('Issued', 'Overdue')
+ORDER BY ClientID", con);
+
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
@@ -320,30 +417,34 @@ Trust Server Certificate=True;
             UpdateOverdueBooks();
 
         }
+
+
         // ✅ This version loads all books that the selected client still has borrowed
         private void ClientID_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LoadIssuedBooksForClient(ClientID.Text.Trim());
+        }
+
+        private void LoadIssuedBooksForClient(string clientId)
+        {
             cmbIssueSelector.Items.Clear(); // clear old items first
 
-            string clientId = ClientID.Text.Trim();
             if (string.IsNullOrEmpty(clientId))
                 return;
 
-            using (SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;
-Initial Catalog=LibraryDB;
-Integrated Security=True;
-Encrypt=True;
-Trust Server Certificate=True;
-"))
+            using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
+        Initial Catalog=LibraryDB;
+        Integrated Security=True;
+        Encrypt=True;
+        Trust Server Certificate=True;"))
             {
                 con.Open();
 
-                // Get all books with "Issued" or "Overdue" status for this client
                 string query = @"
             SELECT IssueID, BookTitle, Status
             FROM IssueBooks
             WHERE ClientID = @ClientID
-            AND (Status = 'Issued' OR Status = 'Overdue')
+              AND (Status = 'Issued' OR Status = 'Overdue')
             ORDER BY IssueDate DESC";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
@@ -357,29 +458,43 @@ Trust Server Certificate=True;
                         string bookTitle = dr["BookTitle"].ToString();
                         string status = dr["Status"].ToString();
 
-                        // Show IssueID and BookTitle (plus status for clarity)
                         cmbIssueSelector.Items.Add($"{issueID} - {bookTitle} ({status})");
                     }
 
-                    if (cmbIssueSelector.Items.Count == 0)
-                    {
-                        MessageBox.Show("This client has no issued or overdue books to return.",
-                            "No Active Borrows", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        cmbIssueSelector.SelectedIndex = 0; // auto-select the first item
-                    }
+                    dr.Close();
                 }
+            }
+
+            // show message only if user is manually selecting a client
+            if (cmbIssueSelector.Items.Count == 0)
+            {
+                MessageBox.Show("This client has no issued or overdue books to return.",
+                    "No Active Borrows", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                cmbIssueSelector.SelectedIndex = 0;
             }
         }
 
 
+
         private void arthanButton1_Click(object sender, EventArgs e)
         {
-            Form1 f = new Form1();
-            f.Show();
-            this.Close();
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Form1)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
+            // If not open, create it
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Hide();
         }
 
         private void cmbIssueSelector_SelectedIndexChanged(object sender, EventArgs e)

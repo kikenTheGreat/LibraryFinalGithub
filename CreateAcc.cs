@@ -86,7 +86,7 @@ VALUES
             // Clear the fields after insert
             Name.Text = "";
 
-            ClientID.Text = "";
+           
             SectionSY.Text = "";
             Email.Text = "";
             StudentNumber.Text = "";
@@ -108,9 +108,20 @@ VALUES
 
         private void arthanButton2_Click(object sender, EventArgs e)
         {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Form1)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
+            // If not open, create it
             Form1 form1 = new Form1();
             form1.Show();
-            this.Close();
+            this.Hide();
         }
     }
 }
