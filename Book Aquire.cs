@@ -20,6 +20,7 @@ namespace LibraryCGC
 {
     public partial class Book_Aquire : Form
     {
+
         private bool scannerMode = true; // default: Scanner Mode
 
         // for autocomplete
@@ -313,13 +314,17 @@ namespace LibraryCGC
 
         private void Book_Aquire_Load(object sender, EventArgs e)
         {
+            scannerMode = true;
+            // Set default button text
+            btnManualMode.Text = "📡 Scanner Mode Active";
+
+            Quantity.Value = 1; // numeric value default value
             LoadBooksGrid();
             btnManualMode.Text = "📡 Scanner Mode Active";
 
-            // 🔹 List of all ArthanTextBox controls you want to lock/unlock
-            var boxes = new ArthanTextBox[]
+            // 🔹 List all textboxes you want to lock/unlock
+            var boxes = new LibraryCGC.Components.ArthanTextBox[]
             {
-
         BookTitle,
         Publisher,
         Author,
@@ -328,7 +333,7 @@ namespace LibraryCGC
         txtDesc
             };
 
-            // 🔹 Attach the same KeyPress event to all textboxes
+            // 🔹 Attach KeyPress event handler to all textboxes
             foreach (var box in boxes)
             {
                 box.KeyPress += AnyTextBox_KeyPress;
@@ -832,17 +837,26 @@ namespace LibraryCGC
 
         private void btnManualMode_Click(object sender, EventArgs e)
         {
-            if (scannerMode)
+            scannerMode = !scannerMode; // toggle true/false
+
+            btnManualMode.Text = scannerMode
+                ? "📡 Scanner Mode Active"
+                : "⌨️ Manual Mode Active";
+
+            // Optional visual feedback
+            var boxes = new LibraryCGC.Components.ArthanTextBox[]
             {
-                // Switch to Manual Mode
-                scannerMode = false;
-                btnManualMode.Text = "⌨️ Manual Mode Active";
-            }
-            else
+        BookTitle,
+        Publisher,
+        Author,
+        Category,
+        Published,
+        txtDesc
+            };
+
+            foreach (var box in boxes)
             {
-                // Switch back to Scanner Mode
-                scannerMode = true;
-                btnManualMode.Text = "📡 Scanner Mode Active";
+                box.BackColor = scannerMode ? Color.LightGray : Color.White;
             }
         }
 
