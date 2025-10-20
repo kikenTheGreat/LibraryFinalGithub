@@ -28,12 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Book_Aquire));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
             label1 = new Label();
             arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
+            AnyTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             arthanPanel11 = new LibraryCGC.Components.ArthanPanel();
             DataGridTotalBooks = new Krypton.Toolkit.KryptonDataGridView();
             arthanPanel10 = new LibraryCGC.Components.ArthanPanel();
@@ -60,7 +68,6 @@
             label5 = new Label();
             ISBN = new LibraryCGC.Components.ArthanTextBox();
             label4 = new Label();
-            Quantity = new LibraryCGC.Components.ArthanTextBox();
             label9 = new Label();
             label8 = new Label();
             Category = new LibraryCGC.Components.ArthanTextBox();
@@ -72,7 +79,10 @@
             kryptonButton1 = new LibraryCGC.Components.ArthanButton();
             Source = new Krypton.Toolkit.KryptonComboBox();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            Quantity = new Guna.UI2.WinForms.Guna2NumericUpDown();
             picCover = new PictureBox();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            btnManualMode = new Guna.UI2.WinForms.Guna2Button();
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel2.SuspendLayout();
@@ -86,6 +96,7 @@
             arthanPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
             arthanPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)Quantity).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picCover).BeginInit();
             SuspendLayout();
             // 
@@ -171,6 +182,7 @@
             arthanPanel2.BackColor = Color.Transparent;
             arthanPanel2.BottomLeftRadius = 15;
             arthanPanel2.BottomRightRadius = 15;
+            arthanPanel2.Controls.Add(AnyTextBox);
             arthanPanel2.Controls.Add(arthanPanel11);
             arthanPanel2.Controls.Add(arthanPanel10);
             arthanPanel2.Controls.Add(arthanPanel9);
@@ -188,7 +200,7 @@
             arthanPanel2.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel2.GradientEndColor = Color.White;
             arthanPanel2.GradientStartColor = Color.White;
-            arthanPanel2.Location = new Point(448, 180);
+            arthanPanel2.Location = new Point(457, 157);
             arthanPanel2.Margin = new Padding(3, 4, 3, 4);
             arthanPanel2.Name = "arthanPanel2";
             arthanPanel2.ShadowBlur = 8;
@@ -200,6 +212,27 @@
             arthanPanel2.TopRightRadius = 15;
             arthanPanel2.UseIndividualCorners = false;
             arthanPanel2.Paint += arthanPanel2_Paint;
+            // 
+            // AnyTextBox
+            // 
+            AnyTextBox.CustomizableEdges = customizableEdges1;
+            AnyTextBox.DefaultText = "";
+            AnyTextBox.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            AnyTextBox.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            AnyTextBox.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            AnyTextBox.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            AnyTextBox.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            AnyTextBox.Font = new Font("Segoe UI", 9F);
+            AnyTextBox.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            AnyTextBox.Location = new Point(278, 4);
+            AnyTextBox.Margin = new Padding(3, 4, 3, 4);
+            AnyTextBox.Name = "AnyTextBox";
+            AnyTextBox.PlaceholderText = "";
+            AnyTextBox.SelectedText = "";
+            AnyTextBox.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            AnyTextBox.Size = new Size(286, 60);
+            AnyTextBox.TabIndex = 30;
+            AnyTextBox.KeyPress += AnyTextBox_KeyPress;
             // 
             // arthanPanel11
             // 
@@ -219,7 +252,7 @@
             arthanPanel11.ShadowBlur = 0;
             arthanPanel11.ShadowColor = Color.FromArgb(0, 0, 0, 0);
             arthanPanel11.ShadowOffset = 0;
-            arthanPanel11.Size = new Size(1030, 637);
+            arthanPanel11.Size = new Size(1030, 576);
             arthanPanel11.TabIndex = 29;
             arthanPanel11.TopLeftRadius = 15;
             arthanPanel11.TopRightRadius = 15;
@@ -538,7 +571,7 @@
             Author.BorderSize = 2;
             Author.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Author.ForeColor = Color.DimGray;
-            Author.Location = new Point(11, 47);
+            Author.Location = new Point(202, 125);
             Author.Margin = new Padding(5);
             Author.Multiline = false;
             Author.Name = "Author";
@@ -551,12 +584,13 @@
             Author.Tag = "";
             Author.Texts = "";
             Author.UnderlinedStyle = false;
+            Author._TextChanged += Author__TextChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(11, 27);
+            label2.Location = new Point(202, 104);
             label2.Name = "label2";
             label2.Size = new Size(44, 31);
             label2.TabIndex = 1;
@@ -584,6 +618,7 @@
             BookTitle.TabIndex = 2;
             BookTitle.Texts = "";
             BookTitle.UnderlinedStyle = false;
+            BookTitle.KeyPress += BookTitle_KeyPress;
             // 
             // label3
             // 
@@ -638,7 +673,7 @@
             ISBN.BorderSize = 2;
             ISBN.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             ISBN.ForeColor = Color.DimGray;
-            ISBN.Location = new Point(202, 125);
+            ISBN.Location = new Point(11, 47);
             ISBN.Margin = new Padding(5);
             ISBN.Multiline = false;
             ISBN.Name = "ISBN";
@@ -656,34 +691,11 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(202, 105);
+            label4.Location = new Point(11, 27);
             label4.Name = "label4";
             label4.Size = new Size(35, 31);
             label4.TabIndex = 7;
             label4.Text = "ISBN";
-            // 
-            // Quantity
-            // 
-            Quantity.AutoSize = true;
-            Quantity.BackColor = SystemColors.Window;
-            Quantity.BorderColor = Color.FromArgb(217, 217, 217);
-            Quantity.BorderFocusColor = Color.HotPink;
-            Quantity.BorderRadius = 5;
-            Quantity.BorderSize = 2;
-            Quantity.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Quantity.ForeColor = Color.DimGray;
-            Quantity.Location = new Point(11, 204);
-            Quantity.Margin = new Padding(5);
-            Quantity.Multiline = false;
-            Quantity.Name = "Quantity";
-            Quantity.Padding = new Padding(8, 9, 8, 9);
-            Quantity.PasswordChar = false;
-            Quantity.PlaceholderColor = Color.DarkGray;
-            Quantity.PlaceholderText = "0";
-            Quantity.Size = new Size(173, 39);
-            Quantity.TabIndex = 8;
-            Quantity.Texts = "";
-            Quantity.UnderlinedStyle = false;
             // 
             // label9
             // 
@@ -822,7 +834,7 @@
             kryptonButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
             kryptonButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
             kryptonButton1.Image = null;
-            kryptonButton1.Location = new Point(137, 787);
+            kryptonButton1.Location = new Point(27, 535);
             kryptonButton1.Margin = new Padding(3, 4, 3, 4);
             kryptonButton1.Name = "kryptonButton1";
             kryptonButton1.Size = new Size(109, 53);
@@ -830,6 +842,7 @@
             kryptonButton1.Text = "Add Book";
             kryptonButton1.TextColor = Color.Black;
             kryptonButton1.UseVisualStyleBackColor = false;
+            kryptonButton1.Load += kryptonButton1_Load;
             kryptonButton1.Click += arthanButton1_Click;
             // 
             // Source
@@ -843,12 +856,14 @@
             Source.StateCommon.ComboBox.Border.Rounding = 8F;
             Source.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             Source.TabIndex = 46;
+            Source.SelectedIndexChanged += Source_SelectedIndexChanged;
             // 
             // arthanPanel1
             // 
             arthanPanel1.BackColor = Color.Transparent;
             arthanPanel1.BottomLeftRadius = 15;
             arthanPanel1.BottomRightRadius = 15;
+            arthanPanel1.Controls.Add(Quantity);
             arthanPanel1.Controls.Add(picCover);
             arthanPanel1.Controls.Add(Source);
             arthanPanel1.Controls.Add(kryptonButton1);
@@ -860,7 +875,6 @@
             arthanPanel1.Controls.Add(Category);
             arthanPanel1.Controls.Add(label8);
             arthanPanel1.Controls.Add(label9);
-            arthanPanel1.Controls.Add(Quantity);
             arthanPanel1.Controls.Add(label4);
             arthanPanel1.Controls.Add(ISBN);
             arthanPanel1.Controls.Add(label5);
@@ -875,7 +889,7 @@
             arthanPanel1.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel1.GradientEndColor = Color.White;
             arthanPanel1.GradientStartColor = Color.White;
-            arthanPanel1.Location = new Point(31, 180);
+            arthanPanel1.Location = new Point(31, 231);
             arthanPanel1.Margin = new Padding(3, 4, 3, 4);
             arthanPanel1.Name = "arthanPanel1";
             arthanPanel1.ShadowBlur = 8;
@@ -888,6 +902,18 @@
             arthanPanel1.UseIndividualCorners = false;
             arthanPanel1.Paint += arthanPanel1_Paint;
             // 
+            // Quantity
+            // 
+            Quantity.BackColor = Color.Transparent;
+            Quantity.CustomizableEdges = customizableEdges3;
+            Quantity.Font = new Font("Segoe UI", 9F);
+            Quantity.Location = new Point(11, 199);
+            Quantity.Margin = new Padding(3, 4, 3, 4);
+            Quantity.Name = "Quantity";
+            Quantity.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            Quantity.Size = new Size(125, 50);
+            Quantity.TabIndex = 30;
+            // 
             // picCover
             // 
             picCover.Location = new Point(84, 580);
@@ -897,12 +923,40 @@
             picCover.TabStop = false;
             picCover.Click += picCover_Click;
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Font = new Font("Segoe UI", 9F);
+            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(61, 4);
+            // 
+            // btnManualMode
+            // 
+            btnManualMode.BorderRadius = 18;
+            btnManualMode.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            btnManualMode.CustomizableEdges = customizableEdges5;
+            btnManualMode.DisabledState.BorderColor = Color.DarkGray;
+            btnManualMode.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnManualMode.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnManualMode.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnManualMode.FillColor = Color.Orange;
+            btnManualMode.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnManualMode.ForeColor = Color.Black;
+            btnManualMode.Location = new Point(58, 161);
+            btnManualMode.Name = "btnManualMode";
+            btnManualMode.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnManualMode.Size = new Size(157, 63);
+            btnManualMode.TabIndex = 41;
+            btnManualMode.Text = " ";
+            btnManualMode.Click += btnManualMode_Click;
+            // 
             // Book_Aquire
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
             ClientSize = new Size(1902, 1033);
+            Controls.Add(btnManualMode);
             Controls.Add(arthanPanel2);
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel4);
@@ -933,6 +987,7 @@
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();
             arthanPanel1.ResumeLayout(false);
             arthanPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)Quantity).EndInit();
             ((System.ComponentModel.ISupportInitialize)picCover).EndInit();
             ResumeLayout(false);
         }
@@ -970,7 +1025,6 @@
         private Label label5;
         private Components.ArthanTextBox ISBN;
         private Label label4;
-        private Components.ArthanTextBox Quantity;
         private Label label9;
         private Label label8;
         private Components.ArthanTextBox Category;
@@ -983,5 +1037,9 @@
         private Krypton.Toolkit.KryptonComboBox Source;
         private Components.ArthanPanel arthanPanel1;
         private PictureBox picCover;
+        private ContextMenuStrip contextMenuStrip1;
+        private Guna.UI2.WinForms.Guna2Button btnManualMode;
+        private Guna.UI2.WinForms.Guna2NumericUpDown Quantity;
+        private Guna.UI2.WinForms.Guna2TextBox AnyTextBox;
     }
 }

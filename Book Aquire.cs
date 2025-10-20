@@ -1,4 +1,5 @@
 ﻿using Library_Final;
+using LibraryCGC.Components;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json.Linq;
 using System;
@@ -13,11 +14,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LibraryCGC
 {
     public partial class Book_Aquire : Form
-    {// for autocomplete
+    {
+        private bool scannerMode = true; // default: Scanner Mode
+
+        // for autocomplete
         private ListBox suggestionListBox;  // dropdown list for suggestions
         private string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
 
@@ -61,7 +66,17 @@ namespace LibraryCGC
             SearchTxtBox._TextChanged += SearchTxtBox_TextChanged;
             SearchTxtBox.Leave += (s, e) => suggestionListBox.Visible = false;
 
+            //Source Combobox fill
+            Source.Items.AddRange(new string[] { "Purchased ", "Donate " });
+            Source.SelectedIndex = 0;
+
+
         }
+
+
+        // 🔹 Manual Mode setup
+
+
 
         private async void SearchTxtBox_TextChanged(object sender, EventArgs e)
         {
@@ -278,8 +293,8 @@ namespace LibraryCGC
                 Published.Texts = "";
                 Category.Texts = "";
                 txtDesc.Texts = "";
-                Quantity.Texts = "";
-                Source.Text = "";
+                //Quantity.Texts = ""; ------------------
+
                 picCover.BackgroundImage = null; // clear image
                 isbnTimer.Stop(); // no need to trigger API
                 return;
@@ -299,6 +314,26 @@ namespace LibraryCGC
         private void Book_Aquire_Load(object sender, EventArgs e)
         {
             LoadBooksGrid();
+            btnManualMode.Text = "📡 Scanner Mode Active";
+
+            // 🔹 List of all ArthanTextBox controls you want to lock/unlock
+            var boxes = new ArthanTextBox[]
+            {
+
+        BookTitle,
+        Publisher,
+        Author,
+        Category,
+        Published,
+        txtDesc
+            };
+
+            // 🔹 Attach the same KeyPress event to all textboxes
+            foreach (var box in boxes)
+            {
+                box.KeyPress += AnyTextBox_KeyPress;
+            }
+
         }
 
         private void label15_Click(object sender, EventArgs e)
@@ -328,7 +363,7 @@ namespace LibraryCGC
                 BookTitle.Text = BookTitle.Texts;
                 Author.Text = Author.Texts;
                 Publisher.Text = Publisher.Texts;
-                Quantity.Text = Quantity.Texts;
+                //Quantity.Text = Quantity.Texts; ------------------------
                 Published.Text = Published.Texts;
                 Category.Text = Category.Texts;
                 txtDesc.Text = txtDesc.Texts;
@@ -356,8 +391,9 @@ namespace LibraryCGC
             Author.Texts = "";
             ISBN.Texts = "";
             Publisher.Texts = "";
-            Source.Text = "";
-            Quantity.Texts = "";
+
+
+            //Quantity.Texts = "";---------------------------------------------
             Published.Texts = "";
             Category.Texts = "";
             txtDesc.Texts = "";
@@ -370,7 +406,7 @@ namespace LibraryCGC
                 dashboardForm.UpdateTotalBooksLabel();
             }
 
-            
+
 
         }
 
@@ -418,7 +454,7 @@ namespace LibraryCGC
             Author.Text = "";
             ISBN.Text = "";
             Publisher.Text = "";
-            Source.Text = "";
+
             Quantity.Text = "";
             Published.Text = "";
             Category.Text = "";
@@ -460,7 +496,7 @@ namespace LibraryCGC
             Author.Text = "";
             ISBN.Text = "";
             Publisher.Text = "";
-            Source.Text = "";
+
             Quantity.Text = "";
             Published.Text = "";
             Category.Text = "";
@@ -502,7 +538,7 @@ namespace LibraryCGC
                     GlobalEvents.RaiseBooksDataChanged();
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseArchivedDataChanged();
-                  
+
 
                 }
             }
@@ -523,7 +559,7 @@ namespace LibraryCGC
             GlobalEvents.RaiseBooksDataChanged();
             GlobalEvents.RaiseBorrowedDataChanged();
             GlobalEvents.RaiseArchivedDataChanged();
-          
+
         }
 
 
@@ -590,7 +626,7 @@ namespace LibraryCGC
                 // Optional: center column headers
                 DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                
+
 
 
             }
@@ -776,6 +812,51 @@ namespace LibraryCGC
         private void arthanPanel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void Author__TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Source_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void kryptonButton1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnManualMode_Click(object sender, EventArgs e)
+        {
+            if (scannerMode)
+            {
+                // Switch to Manual Mode
+                scannerMode = false;
+                btnManualMode.Text = "⌨️ Manual Mode Active";
+            }
+            else
+            {
+                // Switch back to Scanner Mode
+                scannerMode = true;
+                btnManualMode.Text = "📡 Scanner Mode Active";
+            }
+        }
+
+        private void BookTitle_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void AnyTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (scannerMode)
+            {
+                e.Handled = true; // 🚫 Block manual keyboard typing
+            }
         }
     } //END OF MAIN METHOD
 
