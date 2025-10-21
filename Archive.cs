@@ -18,6 +18,9 @@ namespace LibraryCGC
             {
                 dashboardForm.UpdateTotalArchivedLabel();
             }
+
+       
+
         }
 
         private void Archive_Load(object sender, EventArgs e)
@@ -473,7 +476,14 @@ namespace LibraryCGC
             }
         }
 
+        private void btnIssueBooks_Click(object sender, EventArgs e)
+        {
+     
+        }
 
-
+        private void btnReturnBooks_Click(object sender, EventArgs e)
+        {
+      
+        }
     }
 }

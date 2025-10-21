@@ -55,6 +55,30 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges41 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges43 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Issue));
             arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
             IssueBooksDataGrid = new Krypton.Toolkit.KryptonDataGridView();
@@ -97,7 +121,32 @@
             label8 = new Label();
             label5 = new Label();
             ClientName = new Guna.UI2.WinForms.Guna2ComboBox();
+            panelReturnBooks = new Panel();
+            arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            label11 = new Label();
+            guna2ComboBox3 = new Guna.UI2.WinForms.Guna2ComboBox();
+            arthanTextBox1 = new LibraryCGC.Components.ArthanTextBox();
+            label13 = new Label();
+            guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
+            label14 = new Label();
+            guna2ComboBox2 = new Guna.UI2.WinForms.Guna2ComboBox();
+            label15 = new Label();
+            guna2ComboBox1 = new Guna.UI2.WinForms.Guna2ComboBox();
+            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
+            label17 = new Label();
+            label24 = new Label();
+            label25 = new Label();
+            guna2ComboBox4 = new Guna.UI2.WinForms.Guna2ComboBox();
+            guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
+            guna2TextBox3 = new Guna.UI2.WinForms.Guna2TextBox();
+            arthanPanel5 = new LibraryCGC.Components.ArthanPanel();
+            arthanTextBox2 = new LibraryCGC.Components.ArthanTextBox();
+            label26 = new Label();
+            guna2ComboBox5 = new Guna.UI2.WinForms.Guna2ComboBox();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
+            btnReturnBooks = new Guna.UI2.WinForms.Guna2Button();
+            btnIssueBooks = new Guna.UI2.WinForms.Guna2Button();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
             label1 = new Label();
@@ -107,6 +156,7 @@
             arthanPanel10 = new LibraryCGC.Components.ArthanPanel();
             dgvBorrowList = new Krypton.Toolkit.KryptonDataGridView();
             overdueTimer = new System.Windows.Forms.Timer(components);
+            panelIssueBooks = new Panel();
             arthanPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).BeginInit();
             arthanPanel17.SuspendLayout();
@@ -117,10 +167,13 @@
             arthanPanel15.SuspendLayout();
             arthanPanel16.SuspendLayout();
             kupal.SuspendLayout();
+            panelReturnBooks.SuspendLayout();
+            arthanPanel1.SuspendLayout();
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvBorrowList).BeginInit();
+            panelIssueBooks.SuspendLayout();
             SuspendLayout();
             // 
             // arthanPanel2
@@ -517,18 +570,19 @@
             kupal.Controls.Add(label5);
             kupal.Controls.Add(ClientName);
             kupal.CornerRadius = 15;
+            kupal.Dock = DockStyle.Fill;
             kupal.EnableDragging = false;
             kupal.EnableDropShadow = true;
             kupal.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             kupal.GradientEndColor = Color.White;
             kupal.GradientStartColor = Color.White;
-            kupal.Location = new Point(30, 157);
+            kupal.Location = new Point(0, 0);
             kupal.Margin = new Padding(3, 4, 3, 4);
             kupal.Name = "kupal";
             kupal.ShadowBlur = 8;
             kupal.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             kupal.ShadowOffset = 1;
-            kupal.Size = new Size(399, 912);
+            kupal.Size = new Size(424, 848);
             kupal.TabIndex = 8;
             kupal.TopLeftRadius = 15;
             kupal.TopRightRadius = 15;
@@ -883,11 +937,424 @@
             ClientName.Size = new Size(344, 36);
             ClientName.TabIndex = 35;
             // 
+            // panelReturnBooks
+            // 
+            panelReturnBooks.Controls.Add(arthanPanel1);
+            panelReturnBooks.Location = new Point(18, 156);
+            panelReturnBooks.Name = "panelReturnBooks";
+            panelReturnBooks.Size = new Size(425, 864);
+            panelReturnBooks.TabIndex = 43;
+            // 
+            // arthanPanel1
+            // 
+            arthanPanel1.BackColor = Color.Transparent;
+            arthanPanel1.BottomLeftRadius = 15;
+            arthanPanel1.BottomRightRadius = 15;
+            arthanPanel1.Controls.Add(label11);
+            arthanPanel1.Controls.Add(guna2ComboBox3);
+            arthanPanel1.Controls.Add(arthanTextBox1);
+            arthanPanel1.Controls.Add(label13);
+            arthanPanel1.Controls.Add(guna2TextBox1);
+            arthanPanel1.Controls.Add(label14);
+            arthanPanel1.Controls.Add(guna2ComboBox2);
+            arthanPanel1.Controls.Add(label15);
+            arthanPanel1.Controls.Add(guna2ComboBox1);
+            arthanPanel1.Controls.Add(guna2Button1);
+            arthanPanel1.Controls.Add(guna2Button2);
+            arthanPanel1.Controls.Add(label17);
+            arthanPanel1.Controls.Add(label24);
+            arthanPanel1.Controls.Add(label25);
+            arthanPanel1.Controls.Add(guna2ComboBox4);
+            arthanPanel1.Controls.Add(guna2TextBox2);
+            arthanPanel1.Controls.Add(guna2TextBox3);
+            arthanPanel1.Controls.Add(arthanPanel5);
+            arthanPanel1.Controls.Add(arthanTextBox2);
+            arthanPanel1.Controls.Add(label26);
+            arthanPanel1.Controls.Add(guna2ComboBox5);
+            arthanPanel1.CornerRadius = 15;
+            arthanPanel1.Dock = DockStyle.Fill;
+            arthanPanel1.EnableDragging = false;
+            arthanPanel1.EnableDropShadow = true;
+            arthanPanel1.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
+            arthanPanel1.GradientEndColor = Color.White;
+            arthanPanel1.GradientStartColor = Color.White;
+            arthanPanel1.Location = new Point(0, 0);
+            arthanPanel1.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel1.Name = "arthanPanel1";
+            arthanPanel1.ShadowBlur = 8;
+            arthanPanel1.ShadowColor = Color.FromArgb(50, 0, 0, 0);
+            arthanPanel1.ShadowOffset = 1;
+            arthanPanel1.Size = new Size(425, 864);
+            arthanPanel1.TabIndex = 28;
+            arthanPanel1.TopLeftRadius = 15;
+            arthanPanel1.TopRightRadius = 15;
+            arthanPanel1.UseIndividualCorners = false;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label11.Location = new Point(18, 237);
+            label11.Name = "label11";
+            label11.Size = new Size(116, 31);
+            label11.TabIndex = 48;
+            label11.Text = "Book Quantity Borrowed";
+            // 
+            // guna2ComboBox3
+            // 
+            guna2ComboBox3.BackColor = Color.Transparent;
+            guna2ComboBox3.BorderRadius = 4;
+            guna2ComboBox3.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2ComboBox3.BorderThickness = 2;
+            guna2ComboBox3.CustomizableEdges = customizableEdges21;
+            guna2ComboBox3.DrawMode = DrawMode.OwnerDrawFixed;
+            guna2ComboBox3.DropDownStyle = ComboBoxStyle.DropDownList;
+            guna2ComboBox3.FocusedColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox3.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox3.Font = new Font("Segoe UI", 10F);
+            guna2ComboBox3.ForeColor = Color.FromArgb(68, 88, 112);
+            guna2ComboBox3.ItemHeight = 30;
+            guna2ComboBox3.Location = new Point(18, 266);
+            guna2ComboBox3.Name = "guna2ComboBox3";
+            guna2ComboBox3.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            guna2ComboBox3.Size = new Size(344, 36);
+            guna2ComboBox3.TabIndex = 50;
+            // 
+            // arthanTextBox1
+            // 
+            arthanTextBox1.BackColor = SystemColors.Window;
+            arthanTextBox1.BorderColor = Color.FromArgb(217, 217, 217);
+            arthanTextBox1.BorderFocusColor = Color.HotPink;
+            arthanTextBox1.BorderRadius = 5;
+            arthanTextBox1.BorderSize = 2;
+            arthanTextBox1.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            arthanTextBox1.ForeColor = Color.DimGray;
+            arthanTextBox1.Location = new Point(7, 278);
+            arthanTextBox1.Margin = new Padding(5);
+            arthanTextBox1.Multiline = true;
+            arthanTextBox1.Name = "arthanTextBox1";
+            arthanTextBox1.Padding = new Padding(11, 9, 11, 9);
+            arthanTextBox1.PasswordChar = false;
+            arthanTextBox1.PlaceholderColor = Color.DarkGray;
+            arthanTextBox1.PlaceholderText = "";
+            arthanTextBox1.Size = new Size(0, 0);
+            arthanTextBox1.TabIndex = 49;
+            arthanTextBox1.Texts = "Enter description";
+            arthanTextBox1.UnderlinedStyle = false;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label13.Location = new Point(28, 655);
+            label13.Name = "label13";
+            label13.Size = new Size(77, 31);
+            label13.TabIndex = 47;
+            label13.Text = "Book Condition";
+            // 
+            // guna2TextBox1
+            // 
+            guna2TextBox1.BorderColor = Color.FromArgb(224, 224, 224);
+            guna2TextBox1.BorderRadius = 4;
+            guna2TextBox1.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2TextBox1.BorderThickness = 2;
+            guna2TextBox1.CustomizableEdges = customizableEdges23;
+            guna2TextBox1.DefaultText = "";
+            guna2TextBox1.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            guna2TextBox1.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            guna2TextBox1.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox1.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox1.Font = new Font("Segoe UI", 9F);
+            guna2TextBox1.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox1.Location = new Point(25, 582);
+            guna2TextBox1.Margin = new Padding(3, 4, 3, 4);
+            guna2TextBox1.Name = "guna2TextBox1";
+            guna2TextBox1.PlaceholderText = "";
+            guna2TextBox1.SelectedText = "";
+            guna2TextBox1.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            guna2TextBox1.Size = new Size(344, 39);
+            guna2TextBox1.TabIndex = 46;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label14.Location = new Point(25, 557);
+            label14.Name = "label14";
+            label14.Size = new Size(45, 31);
+            label14.TabIndex = 44;
+            label14.Text = "Penalty";
+            // 
+            // guna2ComboBox2
+            // 
+            guna2ComboBox2.BackColor = Color.Transparent;
+            guna2ComboBox2.BorderRadius = 4;
+            guna2ComboBox2.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2ComboBox2.BorderThickness = 2;
+            guna2ComboBox2.CustomizableEdges = customizableEdges25;
+            guna2ComboBox2.DrawMode = DrawMode.OwnerDrawFixed;
+            guna2ComboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
+            guna2ComboBox2.FocusedColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox2.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox2.Font = new Font("Segoe UI", 10F);
+            guna2ComboBox2.ForeColor = Color.FromArgb(68, 88, 112);
+            guna2ComboBox2.ItemHeight = 30;
+            guna2ComboBox2.Location = new Point(25, 689);
+            guna2ComboBox2.Name = "guna2ComboBox2";
+            guna2ComboBox2.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            guna2ComboBox2.Size = new Size(344, 36);
+            guna2ComboBox2.TabIndex = 45;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label15.Location = new Point(25, 476);
+            label15.Name = "label15";
+            label15.Size = new Size(40, 31);
+            label15.TabIndex = 42;
+            label15.Text = "Status";
+            // 
+            // guna2ComboBox1
+            // 
+            guna2ComboBox1.BackColor = Color.Transparent;
+            guna2ComboBox1.BorderRadius = 4;
+            guna2ComboBox1.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2ComboBox1.BorderThickness = 2;
+            guna2ComboBox1.CustomizableEdges = customizableEdges27;
+            guna2ComboBox1.DrawMode = DrawMode.OwnerDrawFixed;
+            guna2ComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            guna2ComboBox1.FocusedColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox1.Font = new Font("Segoe UI", 10F);
+            guna2ComboBox1.ForeColor = Color.FromArgb(68, 88, 112);
+            guna2ComboBox1.ItemHeight = 30;
+            guna2ComboBox1.Location = new Point(25, 505);
+            guna2ComboBox1.Name = "guna2ComboBox1";
+            guna2ComboBox1.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            guna2ComboBox1.Size = new Size(344, 36);
+            guna2ComboBox1.TabIndex = 43;
+            // 
+            // guna2Button1
+            // 
+            guna2Button1.BorderRadius = 18;
+            guna2Button1.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2Button1.CustomizableEdges = customizableEdges29;
+            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button1.FillColor = Color.Orange;
+            guna2Button1.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            guna2Button1.ForeColor = Color.Black;
+            guna2Button1.Location = new Point(197, 750);
+            guna2Button1.Name = "guna2Button1";
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            guna2Button1.Size = new Size(157, 63);
+            guna2Button1.TabIndex = 41;
+            guna2Button1.Text = "Confirm";
+            // 
+            // guna2Button2
+            // 
+            guna2Button2.BorderRadius = 18;
+            guna2Button2.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2Button2.CustomizableEdges = customizableEdges31;
+            guna2Button2.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button2.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button2.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button2.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button2.FillColor = Color.Orange;
+            guna2Button2.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2Button2.ForeColor = Color.Black;
+            guna2Button2.Location = new Point(22, 750);
+            guna2Button2.Name = "guna2Button2";
+            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            guna2Button2.Size = new Size(157, 63);
+            guna2Button2.TabIndex = 40;
+            guna2Button2.Text = "Add to List";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label17.Location = new Point(25, 300);
+            label17.Name = "label17";
+            label17.Size = new Size(46, 31);
+            label17.TabIndex = 9;
+            label17.Text = "Book ID";
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label24.Location = new Point(25, 390);
+            label24.Name = "label24";
+            label24.Size = new Size(53, 31);
+            label24.TabIndex = 13;
+            label24.Text = "Book Title";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label25.Location = new Point(22, 70);
+            label25.Name = "label25";
+            label25.Size = new Size(49, 31);
+            label25.TabIndex = 1;
+            label25.Text = "Client ID";
+            // 
+            // guna2ComboBox4
+            // 
+            guna2ComboBox4.BackColor = Color.Transparent;
+            guna2ComboBox4.BorderRadius = 4;
+            guna2ComboBox4.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2ComboBox4.BorderThickness = 2;
+            guna2ComboBox4.CustomizableEdges = customizableEdges33;
+            guna2ComboBox4.DrawMode = DrawMode.OwnerDrawFixed;
+            guna2ComboBox4.DropDownStyle = ComboBoxStyle.DropDownList;
+            guna2ComboBox4.FocusedColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox4.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox4.Font = new Font("Segoe UI", 10F);
+            guna2ComboBox4.ForeColor = Color.FromArgb(68, 88, 112);
+            guna2ComboBox4.ItemHeight = 30;
+            guna2ComboBox4.Location = new Point(25, 419);
+            guna2ComboBox4.Name = "guna2ComboBox4";
+            guna2ComboBox4.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            guna2ComboBox4.Size = new Size(344, 36);
+            guna2ComboBox4.TabIndex = 37;
+            // 
+            // guna2TextBox2
+            // 
+            guna2TextBox2.BorderColor = Color.FromArgb(224, 224, 224);
+            guna2TextBox2.BorderRadius = 4;
+            guna2TextBox2.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2TextBox2.BorderThickness = 2;
+            guna2TextBox2.CustomizableEdges = customizableEdges35;
+            guna2TextBox2.DefaultText = "";
+            guna2TextBox2.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            guna2TextBox2.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            guna2TextBox2.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox2.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox2.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox2.Font = new Font("Segoe UI", 9F);
+            guna2TextBox2.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox2.Location = new Point(25, 326);
+            guna2TextBox2.Margin = new Padding(3, 4, 3, 4);
+            guna2TextBox2.Name = "guna2TextBox2";
+            guna2TextBox2.PlaceholderText = "";
+            guna2TextBox2.SelectedText = "";
+            guna2TextBox2.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            guna2TextBox2.Size = new Size(344, 39);
+            guna2TextBox2.TabIndex = 34;
+            // 
+            // guna2TextBox3
+            // 
+            guna2TextBox3.BorderColor = Color.FromArgb(224, 224, 224);
+            guna2TextBox3.BorderRadius = 4;
+            guna2TextBox3.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2TextBox3.BorderThickness = 2;
+            guna2TextBox3.CustomizableEdges = customizableEdges37;
+            guna2TextBox3.DefaultText = "";
+            guna2TextBox3.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            guna2TextBox3.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            guna2TextBox3.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox3.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox3.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox3.Font = new Font("Segoe UI", 9F);
+            guna2TextBox3.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox3.Location = new Point(22, 99);
+            guna2TextBox3.Margin = new Padding(3, 4, 3, 4);
+            guna2TextBox3.Name = "guna2TextBox3";
+            guna2TextBox3.PlaceholderText = "";
+            guna2TextBox3.SelectedText = "";
+            guna2TextBox3.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            guna2TextBox3.Size = new Size(344, 39);
+            guna2TextBox3.TabIndex = 33;
+            // 
+            // arthanPanel5
+            // 
+            arthanPanel5.AutoSize = true;
+            arthanPanel5.BackColor = Color.Transparent;
+            arthanPanel5.BottomLeftRadius = 50;
+            arthanPanel5.BottomRightRadius = 50;
+            arthanPanel5.CornerRadius = 50;
+            arthanPanel5.EnableDragging = false;
+            arthanPanel5.EnableDropShadow = true;
+            arthanPanel5.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            arthanPanel5.GradientEndColor = Color.FromArgb(252, 201, 71);
+            arthanPanel5.GradientStartColor = Color.FromArgb(220, 38, 38);
+            arthanPanel5.Location = new Point(22, 59);
+            arthanPanel5.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel5.Name = "arthanPanel5";
+            arthanPanel5.ShadowBlur = 0;
+            arthanPanel5.ShadowColor = Color.FromArgb(50, 0, 0, 0);
+            arthanPanel5.ShadowOffset = 0;
+            arthanPanel5.Size = new Size(344, 7);
+            arthanPanel5.TabIndex = 28;
+            arthanPanel5.TopLeftRadius = 50;
+            arthanPanel5.TopRightRadius = 50;
+            arthanPanel5.UseIndividualCorners = false;
+            // 
+            // arthanTextBox2
+            // 
+            arthanTextBox2.BackColor = SystemColors.Window;
+            arthanTextBox2.BorderColor = Color.FromArgb(217, 217, 217);
+            arthanTextBox2.BorderFocusColor = Color.HotPink;
+            arthanTextBox2.BorderRadius = 5;
+            arthanTextBox2.BorderSize = 2;
+            arthanTextBox2.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            arthanTextBox2.ForeColor = Color.DimGray;
+            arthanTextBox2.Location = new Point(14, 431);
+            arthanTextBox2.Margin = new Padding(5);
+            arthanTextBox2.Multiline = true;
+            arthanTextBox2.Name = "arthanTextBox2";
+            arthanTextBox2.Padding = new Padding(11, 9, 11, 9);
+            arthanTextBox2.PasswordChar = false;
+            arthanTextBox2.PlaceholderColor = Color.DarkGray;
+            arthanTextBox2.PlaceholderText = "";
+            arthanTextBox2.Size = new Size(0, 0);
+            arthanTextBox2.TabIndex = 18;
+            arthanTextBox2.Texts = "Enter description";
+            arthanTextBox2.UnderlinedStyle = false;
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label26.Location = new Point(22, 150);
+            label26.Name = "label26";
+            label26.Size = new Size(64, 31);
+            label26.TabIndex = 5;
+            label26.Text = "Client Name";
+            // 
+            // guna2ComboBox5
+            // 
+            guna2ComboBox5.BackColor = Color.Transparent;
+            guna2ComboBox5.BorderRadius = 4;
+            guna2ComboBox5.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2ComboBox5.BorderThickness = 2;
+            guna2ComboBox5.CustomizableEdges = customizableEdges39;
+            guna2ComboBox5.DrawMode = DrawMode.OwnerDrawFixed;
+            guna2ComboBox5.DropDownStyle = ComboBoxStyle.DropDownList;
+            guna2ComboBox5.FocusedColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox5.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox5.Font = new Font("Segoe UI", 10F);
+            guna2ComboBox5.ForeColor = Color.FromArgb(68, 88, 112);
+            guna2ComboBox5.ItemHeight = 30;
+            guna2ComboBox5.Location = new Point(22, 184);
+            guna2ComboBox5.Name = "guna2ComboBox5";
+            guna2ComboBox5.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            guna2ComboBox5.Size = new Size(344, 36);
+            guna2ComboBox5.TabIndex = 35;
+            // 
             // arthanPanel4
             // 
             arthanPanel4.BackColor = Color.Transparent;
             arthanPanel4.BottomLeftRadius = 15;
             arthanPanel4.BottomRightRadius = 15;
+            arthanPanel4.Controls.Add(btnReturnBooks);
+            arthanPanel4.Controls.Add(btnIssueBooks);
             arthanPanel4.Controls.Add(arthanButton1);
             arthanPanel4.Controls.Add(pictureBox1);
             arthanPanel4.Controls.Add(label1);
@@ -908,6 +1375,46 @@
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
             arthanPanel4.UseIndividualCorners = false;
+            // 
+            // btnReturnBooks
+            // 
+            btnReturnBooks.BorderRadius = 18;
+            btnReturnBooks.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            btnReturnBooks.CustomizableEdges = customizableEdges41;
+            btnReturnBooks.DisabledState.BorderColor = Color.DarkGray;
+            btnReturnBooks.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnReturnBooks.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnReturnBooks.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnReturnBooks.FillColor = Color.Orange;
+            btnReturnBooks.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnReturnBooks.ForeColor = Color.Black;
+            btnReturnBooks.Location = new Point(548, 25);
+            btnReturnBooks.Name = "btnReturnBooks";
+            btnReturnBooks.ShadowDecoration.CustomizableEdges = customizableEdges42;
+            btnReturnBooks.Size = new Size(157, 63);
+            btnReturnBooks.TabIndex = 44;
+            btnReturnBooks.Text = "Return Books";
+            btnReturnBooks.Click += btnReturnBooks_Click;
+            // 
+            // btnIssueBooks
+            // 
+            btnIssueBooks.BorderRadius = 18;
+            btnIssueBooks.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            btnIssueBooks.CustomizableEdges = customizableEdges43;
+            btnIssueBooks.DisabledState.BorderColor = Color.DarkGray;
+            btnIssueBooks.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnIssueBooks.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnIssueBooks.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnIssueBooks.FillColor = Color.Orange;
+            btnIssueBooks.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnIssueBooks.ForeColor = Color.Black;
+            btnIssueBooks.Location = new Point(358, 25);
+            btnIssueBooks.Name = "btnIssueBooks";
+            btnIssueBooks.ShadowDecoration.CustomizableEdges = customizableEdges44;
+            btnIssueBooks.Size = new Size(157, 63);
+            btnIssueBooks.TabIndex = 43;
+            btnIssueBooks.Text = "Issue Books";
+            btnIssueBooks.Click += btnIssueBooks_Click;
             // 
             // arthanButton1
             // 
@@ -1047,15 +1554,24 @@
             // 
             overdueTimer.Tick += overdueTimer_Tick;
             // 
+            // panelIssueBooks
+            // 
+            panelIssueBooks.Controls.Add(kupal);
+            panelIssueBooks.Location = new Point(17, 156);
+            panelIssueBooks.Name = "panelIssueBooks";
+            panelIssueBooks.Size = new Size(424, 848);
+            panelIssueBooks.TabIndex = 25;
+            // 
             // Issue
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(panelReturnBooks);
+            Controls.Add(panelIssueBooks);
             Controls.Add(dgvBorrowList);
             Controls.Add(arthanPanel7);
             Controls.Add(arthanPanel2);
-            Controls.Add(kupal);
             Controls.Add(arthanPanel4);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Issue";
@@ -1080,12 +1596,16 @@
             arthanPanel16.PerformLayout();
             kupal.ResumeLayout(false);
             kupal.PerformLayout();
+            panelReturnBooks.ResumeLayout(false);
+            arthanPanel1.ResumeLayout(false);
+            arthanPanel1.PerformLayout();
             arthanPanel4.ResumeLayout(false);
             arthanPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             arthanPanel7.ResumeLayout(false);
             arthanPanel7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvBorrowList).EndInit();
+            panelIssueBooks.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -1143,5 +1663,31 @@
         private Guna.UI2.WinForms.Guna2TextBox Source;
         private System.Windows.Forms.Timer overdueTimer;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblOverdueCount;
+        private Panel panelIssueBooks;
+        private Guna.UI2.WinForms.Guna2Button btnReturnBooks;
+        private Guna.UI2.WinForms.Guna2Button btnIssueBooks;
+        private Panel panelReturnBooks;
+        private Components.ArthanPanel arthanPanel1;
+        private Label label11;
+        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox3;
+        private Components.ArthanTextBox arthanTextBox1;
+        private Label label13;
+        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
+        private Label label14;
+        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox2;
+        private Label label15;
+        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox1;
+        private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Guna.UI2.WinForms.Guna2Button guna2Button2;
+        private Label label17;
+        private Label label24;
+        private Label label25;
+        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox4;
+        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox2;
+        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox3;
+        private Components.ArthanPanel arthanPanel5;
+        private Components.ArthanTextBox arthanTextBox2;
+        private Label label26;
+        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox5;
     }
 }

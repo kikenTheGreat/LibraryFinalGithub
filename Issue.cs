@@ -284,7 +284,9 @@ Trust Server Certificate=True;
 
             UpdateTotalOverdueLabel();
 
-
+            //Issue and Return Panel Visibility
+            panelIssueBooks.Visible = true;
+            panelReturnBooks.Visible = false;
 
         }
 
@@ -440,7 +442,7 @@ Trust Server Certificate=True;
                         }
                     }
 
-                    
+
                     MessageBox.Show("Book(s) issued successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseOverdueDataChanged();
@@ -645,6 +647,24 @@ Trust Server Certificate=True;
         private void lblOverdueCount_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnIssueBooks_Click(object sender, EventArgs e)
+        {
+            // Show Issue Books panel
+            panelIssueBooks.Visible = true;
+
+            // Hide Return Books panel
+            panelReturnBooks.Visible = false;
+        }
+
+        private void btnReturnBooks_Click(object sender, EventArgs e)
+        {
+            // Show Return Books panel
+            panelReturnBooks.Visible = true;
+
+            // Hide Issue Books panel
+            panelIssueBooks.Visible = false;
         }
     }
 }

@@ -237,7 +237,7 @@
             DataGridTotalBooks.Location = new Point(30, 308);
             DataGridTotalBooks.Name = "DataGridTotalBooks";
             DataGridTotalBooks.RowHeadersWidth = 51;
-            DataGridTotalBooks.Size = new Size(1860, 742);
+            DataGridTotalBooks.Size = new Size(1860, 251);
             DataGridTotalBooks.TabIndex = 28;
             // 
             // Archive
