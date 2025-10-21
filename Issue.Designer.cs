@@ -570,7 +570,7 @@
             btnConfirmBorrow.FillColor = Color.Orange;
             btnConfirmBorrow.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnConfirmBorrow.ForeColor = Color.Black;
-            btnConfirmBorrow.Location = new Point(197, 788);
+            btnConfirmBorrow.Location = new Point(197, 750);
             btnConfirmBorrow.Name = "btnConfirmBorrow";
             btnConfirmBorrow.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnConfirmBorrow.Size = new Size(157, 63);
@@ -590,7 +590,7 @@
             btnAddToList.FillColor = Color.Orange;
             btnAddToList.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnAddToList.ForeColor = Color.Black;
-            btnAddToList.Location = new Point(22, 788);
+            btnAddToList.Location = new Point(22, 750);
             btnAddToList.Name = "btnAddToList";
             btnAddToList.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnAddToList.Size = new Size(157, 63);
@@ -1039,7 +1039,7 @@
             dgvBorrowList.Location = new Point(447, 163);
             dgvBorrowList.Name = "dgvBorrowList";
             dgvBorrowList.RowHeadersWidth = 51;
-            dgvBorrowList.Size = new Size(1103, 162);
+            dgvBorrowList.Size = new Size(1088, 162);
             dgvBorrowList.TabIndex = 24;
             dgvBorrowList.CellContentClick += dgvBorrowList_CellContentClick;
             // 

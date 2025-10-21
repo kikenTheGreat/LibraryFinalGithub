@@ -49,15 +49,7 @@ namespace LibraryCGC
 
         }
 
-        private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // If clicked column is the Restore button
-            if (e.RowIndex >= 0 && DataGridTotalBooks.Columns[e.ColumnIndex].Name == "RestoreButton")
-            {
-                DataGridViewRow row = DataGridTotalBooks.Rows[e.RowIndex];
-                RestoreBookFromArchive(row);
-            }
-        }
+
 
 
         private void RestoreBookFromArchive(DataGridViewRow row)
@@ -139,18 +131,7 @@ namespace LibraryCGC
                     DataGridTotalBooks.ClearSelection(); // Optional
                 }
 
-                if (!DataGridTotalBooks.Columns.Contains("RestoreButton"))
-                {
-                    DataGridViewButtonColumn restoreButton = new DataGridViewButtonColumn();
-                    restoreButton.HeaderText = "Action";
-                    restoreButton.Text = "Restore";
-                    restoreButton.Name = "RestoreButton";
-                    restoreButton.UseColumnTextForButtonValue = true;
-                    DataGridTotalBooks.Columns.Add(restoreButton);
 
-                    GlobalEvents.RaiseBooksDataChanged();
-                    GlobalEvents.RaiseArchivedDataChanged();
-                }
 
                 DataGridTotalBooks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
@@ -166,7 +147,113 @@ namespace LibraryCGC
         {
             this.WindowState = FormWindowState.Maximized;
 
+            SetupArchiveGrid();
+
+            // 🟢 Load data from database
+            LoadBooksGrid();
+
         }
+
+        private void SetupArchiveGrid()
+        {
+            DataGridTotalBooks.Columns.Clear();
+            DataGridTotalBooks.AutoGenerateColumns = false;
+            DataGridTotalBooks.ReadOnly = true;
+            DataGridTotalBooks.RowHeadersVisible = false;
+            DataGridTotalBooks.BorderStyle = BorderStyle.None;
+            DataGridTotalBooks.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            DataGridTotalBooks.EnableHeadersVisualStyles = false;
+
+            // --- Book ID (hidden) ---
+            var colBookID = new DataGridViewTextBoxColumn();
+            colBookID.HeaderText = "Book ID";
+            colBookID.DataPropertyName = "BookID";
+            colBookID.Name = "BookID";     // 🔹 make sure name matches row.Cells["BookID"]
+            colBookID.Visible = false;
+            DataGridTotalBooks.Columns.Add(colBookID);
+
+            // --- Book Title ---
+            var colBookTitle = new DataGridViewTextBoxColumn();
+            colBookTitle.HeaderText = "Book Title";
+            colBookTitle.DataPropertyName = "BookTitle";
+            colBookTitle.Name = "BookTitle";
+            colBookTitle.Width = 200;
+            DataGridTotalBooks.Columns.Add(colBookTitle);
+
+            // --- Author ---
+            var colAuthor = new DataGridViewTextBoxColumn();
+            colAuthor.HeaderText = "Author";
+            colAuthor.DataPropertyName = "Author";
+            colAuthor.Name = "Author";
+            colAuthor.Width = 150;
+            DataGridTotalBooks.Columns.Add(colAuthor);
+
+            // --- ISBN ---
+            var colISBN = new DataGridViewTextBoxColumn();
+            colISBN.HeaderText = "ISBN";
+            colISBN.DataPropertyName = "ISBN";
+            colISBN.Name = "ISBN";
+            colISBN.Width = 120;
+            DataGridTotalBooks.Columns.Add(colISBN);
+
+            // --- Publisher ---
+            var colPublisher = new DataGridViewTextBoxColumn();
+            colPublisher.HeaderText = "Publisher";
+            colPublisher.DataPropertyName = "Publisher";
+            colPublisher.Name = "Publisher";
+            colPublisher.Width = 150;
+            DataGridTotalBooks.Columns.Add(colPublisher);
+
+            // --- Source ---
+            var colSource = new DataGridViewTextBoxColumn();
+            colSource.HeaderText = "Source";
+            colSource.DataPropertyName = "Source";
+            colSource.Name = "Source";
+            colSource.Width = 100;
+            DataGridTotalBooks.Columns.Add(colSource);
+
+            // --- Quantity ---
+            var colQuantity = new DataGridViewTextBoxColumn();
+            colQuantity.HeaderText = "Quantity";
+            colQuantity.DataPropertyName = "Quantity";
+            colQuantity.Name = "Quantity";
+            colQuantity.Width = 80;
+            DataGridTotalBooks.Columns.Add(colQuantity);
+
+            // --- Published ---
+            var colPublished = new DataGridViewTextBoxColumn();
+            colPublished.HeaderText = "Published";
+            colPublished.DataPropertyName = "Published";
+            colPublished.Name = "Published";
+            colPublished.Width = 120;
+            DataGridTotalBooks.Columns.Add(colPublished);
+
+            // --- Category ---
+            var colCategory = new DataGridViewTextBoxColumn();
+            colCategory.HeaderText = "Category";
+            colCategory.DataPropertyName = "Category";
+            colCategory.Name = "Category";
+            colCategory.Width = 150;
+            DataGridTotalBooks.Columns.Add(colCategory);
+
+            // --- Archived Date ---
+            var colArchivedDate = new DataGridViewTextBoxColumn();
+            colArchivedDate.HeaderText = "Archived Date";
+            colArchivedDate.DataPropertyName = "ArchivedDate";
+            colArchivedDate.Name = "ArchivedDate";
+            colArchivedDate.Width = 120;
+            DataGridTotalBooks.Columns.Add(colArchivedDate);
+
+            // --- Styling (same as Book_Acquire) ---
+            DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridTotalBooks.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridTotalBooks.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(253, 242, 194);
+            DataGridTotalBooks.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridTotalBooks.DefaultCellStyle.BackColor = Color.White;
+            DataGridTotalBooks.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 250, 230);
+        }
+
 
         private void arthanPanel9_Paint(object sender, PaintEventArgs e)
         {
@@ -200,5 +287,193 @@ namespace LibraryCGC
             form1.Show();
             this.Hide();
         }
+
+        private void arthanButton2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRestoreBook_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRestoreBook_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtISBNRestore.Text))
+            {
+                MessageBox.Show("⚠️ Please enter a Book ID to restore.");
+                return;
+            }
+
+            int bookId;
+            if (!int.TryParse(txtISBNRestore.Text, out bookId))
+            {
+                MessageBox.Show("⚠️ Invalid Book ID. Please enter a number.");
+                return;
+            }
+
+            RestoreBookByID(bookId);
+        }
+
+
+        private void RestoreBookByID(int bookId)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                {
+                    con.Open();
+
+                    // Retrieve the archived book details
+                    SqlCommand selectCmd = new SqlCommand("SELECT * FROM BooksArchive WHERE BookID = @BookID", con);
+                    selectCmd.Parameters.AddWithValue("@BookID", bookId);
+
+                    SqlDataReader reader = selectCmd.ExecuteReader();
+                    if (!reader.Read())
+                    {
+                        MessageBox.Show("❌ Book ID not found in archive.");
+                        return;
+                    }
+
+                    // Extract values safely
+                    string title = reader["BookTitle"].ToString();
+                    string author = reader["Author"].ToString();
+                    string isbn = reader["ISBN"].ToString();
+                    string publisher = reader["Publisher"].ToString();
+                    string source = reader["Source"].ToString();
+                    int quantity = Convert.ToInt32(reader["Quantity"]);
+                    string published = reader["Published"].ToString();
+                    string category = reader["Category"].ToString();
+
+                    reader.Close();
+
+                    // Insert into BooksAcq
+                    SqlCommand insertCmd = new SqlCommand(@"
+                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category)
+                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+
+                    insertCmd.Parameters.AddWithValue("@BookTitle", title);
+                    insertCmd.Parameters.AddWithValue("@Author", author);
+                    insertCmd.Parameters.AddWithValue("@ISBN", isbn);
+                    insertCmd.Parameters.AddWithValue("@Publisher", publisher);
+                    insertCmd.Parameters.AddWithValue("@Source", source);
+                    insertCmd.Parameters.AddWithValue("@Quantity", quantity);
+                    insertCmd.Parameters.AddWithValue("@Published", published);
+                    insertCmd.Parameters.AddWithValue("@Category", category);
+
+                    int result = insertCmd.ExecuteNonQuery();
+                    if (result > 0)
+                    {
+                        // Delete from archive
+                        SqlCommand deleteCmd = new SqlCommand("DELETE FROM BooksArchive WHERE BookID = @BookID", con);
+                        deleteCmd.Parameters.AddWithValue("@BookID", bookId);
+                        deleteCmd.ExecuteNonQuery();
+
+                        MessageBox.Show("✅ Book restored successfully!");
+                        LoadBooksGrid(); // Refresh grid
+                        txtISBNRestore.Clear();
+                        GlobalEvents.RaiseBooksDataChanged();
+                        GlobalEvents.RaiseArchivedDataChanged();
+                    }
+                    else
+                    {
+                        MessageBox.Show("⚠️ Restore failed. Please check the database.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error restoring book: " + ex.Message);
+            }
+        }
+
+        private void btnRestoreBook_Click_1(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtISBNRestore.Text))
+            {
+                MessageBox.Show("⚠️ Please enter the ISBN to restore.");
+                return;
+            }
+
+            string isbn = txtISBNRestore.Text.Trim();
+            RestoreBookByISBN(isbn);
+        }
+
+        private void RestoreBookByISBN(string isbn)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                {
+                    con.Open();
+
+                    // Find the book in the archive by ISBN
+                    SqlCommand selectCmd = new SqlCommand("SELECT * FROM BooksArchive WHERE ISBN = @ISBN", con);
+                    selectCmd.Parameters.AddWithValue("@ISBN", isbn);
+
+                    SqlDataReader reader = selectCmd.ExecuteReader();
+                    if (!reader.Read())
+                    {
+                        MessageBox.Show("❌ No archived book found with that ISBN.");
+                        return;
+                    }
+
+                    // Extract book data
+                    string title = reader["BookTitle"].ToString();
+                    string author = reader["Author"].ToString();
+                    string publisher = reader["Publisher"].ToString();
+                    string source = reader["Source"].ToString();
+                    int quantity = Convert.ToInt32(reader["Quantity"]);
+                    string published = reader["Published"].ToString();
+                    string category = reader["Category"].ToString();
+                    int bookId = Convert.ToInt32(reader["BookID"]);
+
+                    reader.Close();
+
+                    // Insert back into BooksAcq
+                    SqlCommand insertCmd = new SqlCommand(@"
+                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category)
+                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+
+                    insertCmd.Parameters.AddWithValue("@BookTitle", title);
+                    insertCmd.Parameters.AddWithValue("@Author", author);
+                    insertCmd.Parameters.AddWithValue("@ISBN", isbn);
+                    insertCmd.Parameters.AddWithValue("@Publisher", publisher);
+                    insertCmd.Parameters.AddWithValue("@Source", source);
+                    insertCmd.Parameters.AddWithValue("@Quantity", quantity);
+                    insertCmd.Parameters.AddWithValue("@Published", published);
+                    insertCmd.Parameters.AddWithValue("@Category", category);
+
+                    int result = insertCmd.ExecuteNonQuery();
+                    if (result > 0)
+                    {
+                        // Delete from archive
+                        SqlCommand deleteCmd = new SqlCommand("DELETE FROM BooksArchive WHERE BookID = @BookID", con);
+                        deleteCmd.Parameters.AddWithValue("@BookID", bookId);
+                        deleteCmd.ExecuteNonQuery();
+
+                        MessageBox.Show("✅ Book restored successfully!");
+                        txtISBNRestore.Clear();
+                        LoadBooksGrid(); // Refresh DataGrid
+                        GlobalEvents.RaiseBooksDataChanged();
+                        GlobalEvents.RaiseArchivedDataChanged();
+                    }
+                    else
+                    {
+                        MessageBox.Show("⚠️ Restore failed. Please check the database.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error restoring book: " + ex.Message);
+            }
+        }
+
+
+
     }
 }

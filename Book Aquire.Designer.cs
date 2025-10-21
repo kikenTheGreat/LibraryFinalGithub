@@ -34,28 +34,12 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
             label1 = new Label();
             arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
-            AnyTextBox = new Guna.UI2.WinForms.Guna2TextBox();
-            arthanPanel11 = new LibraryCGC.Components.ArthanPanel();
             DataGridTotalBooks = new Krypton.Toolkit.KryptonDataGridView();
-            arthanPanel10 = new LibraryCGC.Components.ArthanPanel();
-            label18 = new Label();
-            arthanPanel9 = new LibraryCGC.Components.ArthanPanel();
-            label13 = new Label();
-            arthanPanel7 = new LibraryCGC.Components.ArthanPanel();
-            label14 = new Label();
-            arthanPanel8 = new LibraryCGC.Components.ArthanPanel();
-            label16 = new Label();
-            arthanPanel6 = new LibraryCGC.Components.ArthanPanel();
-            label17 = new Label();
-            arthanPanel5 = new LibraryCGC.Components.ArthanPanel();
-            label15 = new Label();
             arthanButton4 = new LibraryCGC.Components.ArthanButton();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
             SearchTxtBox = new LibraryCGC.Components.ArthanTextBox();
@@ -86,14 +70,7 @@
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel2.SuspendLayout();
-            arthanPanel11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).BeginInit();
-            arthanPanel10.SuspendLayout();
-            arthanPanel9.SuspendLayout();
-            arthanPanel7.SuspendLayout();
-            arthanPanel8.SuspendLayout();
-            arthanPanel6.SuspendLayout();
-            arthanPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Source).BeginInit();
             arthanPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Quantity).BeginInit();
@@ -120,7 +97,7 @@
             arthanPanel4.ShadowBlur = 5;
             arthanPanel4.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel4.ShadowOffset = 3;
-            arthanPanel4.Size = new Size(1490, 133);
+            arthanPanel4.Size = new Size(1859, 133);
             arthanPanel4.TabIndex = 4;
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
@@ -143,7 +120,7 @@
             arthanButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton1.Image = null;
-            arthanButton1.Location = new Point(1350, 33);
+            arthanButton1.Location = new Point(1722, 32);
             arthanButton1.Margin = new Padding(3, 4, 3, 4);
             arthanButton1.Name = "arthanButton1";
             arthanButton1.Size = new Size(109, 53);
@@ -182,14 +159,7 @@
             arthanPanel2.BackColor = Color.Transparent;
             arthanPanel2.BottomLeftRadius = 15;
             arthanPanel2.BottomRightRadius = 15;
-            arthanPanel2.Controls.Add(AnyTextBox);
-            arthanPanel2.Controls.Add(arthanPanel11);
-            arthanPanel2.Controls.Add(arthanPanel10);
-            arthanPanel2.Controls.Add(arthanPanel9);
-            arthanPanel2.Controls.Add(arthanPanel7);
-            arthanPanel2.Controls.Add(arthanPanel8);
-            arthanPanel2.Controls.Add(arthanPanel6);
-            arthanPanel2.Controls.Add(arthanPanel5);
+            arthanPanel2.Controls.Add(DataGridTotalBooks);
             arthanPanel2.Controls.Add(arthanButton4);
             arthanPanel2.Controls.Add(arthanButton2);
             arthanPanel2.Controls.Add(SearchTxtBox);
@@ -206,273 +176,24 @@
             arthanPanel2.ShadowBlur = 8;
             arthanPanel2.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel2.ShadowOffset = 1;
-            arthanPanel2.Size = new Size(1073, 889);
+            arthanPanel2.Size = new Size(1433, 889);
             arthanPanel2.TabIndex = 6;
             arthanPanel2.TopLeftRadius = 15;
             arthanPanel2.TopRightRadius = 15;
             arthanPanel2.UseIndividualCorners = false;
             arthanPanel2.Paint += arthanPanel2_Paint;
             // 
-            // AnyTextBox
-            // 
-            AnyTextBox.CustomizableEdges = customizableEdges1;
-            AnyTextBox.DefaultText = "";
-            AnyTextBox.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            AnyTextBox.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            AnyTextBox.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            AnyTextBox.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            AnyTextBox.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            AnyTextBox.Font = new Font("Segoe UI", 9F);
-            AnyTextBox.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            AnyTextBox.Location = new Point(278, 4);
-            AnyTextBox.Margin = new Padding(3, 4, 3, 4);
-            AnyTextBox.Name = "AnyTextBox";
-            AnyTextBox.PlaceholderText = "";
-            AnyTextBox.SelectedText = "";
-            AnyTextBox.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            AnyTextBox.Size = new Size(286, 60);
-            AnyTextBox.TabIndex = 30;
-            AnyTextBox.KeyPress += AnyTextBox_KeyPress;
-            // 
-            // arthanPanel11
-            // 
-            arthanPanel11.BackColor = Color.Transparent;
-            arthanPanel11.BottomLeftRadius = 15;
-            arthanPanel11.BottomRightRadius = 15;
-            arthanPanel11.Controls.Add(DataGridTotalBooks);
-            arthanPanel11.CornerRadius = 15;
-            arthanPanel11.EnableDragging = false;
-            arthanPanel11.EnableDropShadow = true;
-            arthanPanel11.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            arthanPanel11.GradientEndColor = Color.Transparent;
-            arthanPanel11.GradientStartColor = Color.Transparent;
-            arthanPanel11.Location = new Point(18, 229);
-            arthanPanel11.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel11.Name = "arthanPanel11";
-            arthanPanel11.ShadowBlur = 0;
-            arthanPanel11.ShadowColor = Color.FromArgb(0, 0, 0, 0);
-            arthanPanel11.ShadowOffset = 0;
-            arthanPanel11.Size = new Size(1030, 576);
-            arthanPanel11.TabIndex = 29;
-            arthanPanel11.TopLeftRadius = 15;
-            arthanPanel11.TopRightRadius = 15;
-            arthanPanel11.UseIndividualCorners = false;
-            // 
             // DataGridTotalBooks
             // 
             DataGridTotalBooks.BorderStyle = BorderStyle.None;
             DataGridTotalBooks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DataGridTotalBooks.Location = new Point(1, 0);
+            DataGridTotalBooks.Location = new Point(30, 337);
             DataGridTotalBooks.Name = "DataGridTotalBooks";
             DataGridTotalBooks.RowHeadersWidth = 51;
-            DataGridTotalBooks.Size = new Size(1029, 567);
+            DataGridTotalBooks.Size = new Size(1383, 527);
             DataGridTotalBooks.TabIndex = 47;
             DataGridTotalBooks.CellContentClick += DataGridTotalBooks_CellContentClick;
-            // 
-            // arthanPanel10
-            // 
-            arthanPanel10.BackColor = Color.Transparent;
-            arthanPanel10.BottomLeftRadius = 0;
-            arthanPanel10.BottomRightRadius = 0;
-            arthanPanel10.Controls.Add(label18);
-            arthanPanel10.CornerRadius = 0;
-            arthanPanel10.EnableDragging = false;
-            arthanPanel10.EnableDropShadow = true;
-            arthanPanel10.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            arthanPanel10.GradientEndColor = Color.FromArgb(253, 231, 144);
-            arthanPanel10.GradientStartColor = Color.FromArgb(253, 242, 194);
-            arthanPanel10.Location = new Point(376, 155);
-            arthanPanel10.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel10.Name = "arthanPanel10";
-            arthanPanel10.ShadowBlur = 0;
-            arthanPanel10.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            arthanPanel10.ShadowOffset = 0;
-            arthanPanel10.Size = new Size(161, 65);
-            arthanPanel10.TabIndex = 24;
-            arthanPanel10.TopLeftRadius = 0;
-            arthanPanel10.TopRightRadius = 0;
-            arthanPanel10.UseIndividualCorners = false;
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label18.Location = new Point(37, 9);
-            label18.Name = "label18";
-            label18.Size = new Size(81, 58);
-            label18.TabIndex = 32;
-            label18.Text = "Author";
-            // 
-            // arthanPanel9
-            // 
-            arthanPanel9.BackColor = Color.Transparent;
-            arthanPanel9.BottomLeftRadius = 0;
-            arthanPanel9.BottomRightRadius = 0;
-            arthanPanel9.Controls.Add(label13);
-            arthanPanel9.CornerRadius = 0;
-            arthanPanel9.EnableDragging = false;
-            arthanPanel9.EnableDropShadow = true;
-            arthanPanel9.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            arthanPanel9.GradientEndColor = Color.FromArgb(253, 231, 144);
-            arthanPanel9.GradientStartColor = Color.FromArgb(253, 242, 194);
-            arthanPanel9.Location = new Point(933, 155);
-            arthanPanel9.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel9.Name = "arthanPanel9";
-            arthanPanel9.ShadowBlur = 0;
-            arthanPanel9.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            arthanPanel9.ShadowOffset = 0;
-            arthanPanel9.Size = new Size(129, 65);
-            arthanPanel9.TabIndex = 26;
-            arthanPanel9.TopLeftRadius = 0;
-            arthanPanel9.TopRightRadius = 0;
-            arthanPanel9.UseIndividualCorners = false;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.Location = new Point(23, 9);
-            label13.Name = "label13";
-            label13.Size = new Size(75, 58);
-            label13.TabIndex = 27;
-            label13.Text = "Status";
-            // 
-            // arthanPanel7
-            // 
-            arthanPanel7.BackColor = Color.Transparent;
-            arthanPanel7.BottomLeftRadius = 0;
-            arthanPanel7.BottomRightRadius = 0;
-            arthanPanel7.Controls.Add(label14);
-            arthanPanel7.CornerRadius = 0;
-            arthanPanel7.EnableDragging = false;
-            arthanPanel7.EnableDropShadow = true;
-            arthanPanel7.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            arthanPanel7.GradientEndColor = Color.FromArgb(253, 231, 144);
-            arthanPanel7.GradientStartColor = Color.FromArgb(253, 242, 194);
-            arthanPanel7.Location = new Point(786, 155);
-            arthanPanel7.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel7.Name = "arthanPanel7";
-            arthanPanel7.ShadowBlur = 0;
-            arthanPanel7.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            arthanPanel7.ShadowOffset = 0;
-            arthanPanel7.Size = new Size(150, 65);
-            arthanPanel7.TabIndex = 26;
-            arthanPanel7.TopLeftRadius = 0;
-            arthanPanel7.TopRightRadius = 0;
-            arthanPanel7.UseIndividualCorners = false;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(22, 9);
-            label14.Name = "label14";
-            label14.Size = new Size(95, 58);
-            label14.TabIndex = 28;
-            label14.Text = "Quantity";
-            // 
-            // arthanPanel8
-            // 
-            arthanPanel8.BackColor = Color.Transparent;
-            arthanPanel8.BottomLeftRadius = 0;
-            arthanPanel8.BottomRightRadius = 0;
-            arthanPanel8.Controls.Add(label16);
-            arthanPanel8.CornerRadius = 0;
-            arthanPanel8.EnableDragging = false;
-            arthanPanel8.EnableDropShadow = true;
-            arthanPanel8.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            arthanPanel8.GradientEndColor = Color.FromArgb(253, 231, 144);
-            arthanPanel8.GradientStartColor = Color.FromArgb(253, 242, 194);
-            arthanPanel8.Location = new Point(654, 155);
-            arthanPanel8.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel8.Name = "arthanPanel8";
-            arthanPanel8.ShadowBlur = 0;
-            arthanPanel8.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            arthanPanel8.ShadowOffset = 0;
-            arthanPanel8.Size = new Size(136, 65);
-            arthanPanel8.TabIndex = 25;
-            arthanPanel8.TopLeftRadius = 0;
-            arthanPanel8.TopRightRadius = 0;
-            arthanPanel8.UseIndividualCorners = false;
-            // 
-            // label16
-            // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(17, 9);
-            label16.Name = "label16";
-            label16.Size = new Size(80, 58);
-            label16.TabIndex = 30;
-            label16.Text = "Source";
-            // 
-            // arthanPanel6
-            // 
-            arthanPanel6.BackColor = Color.Transparent;
-            arthanPanel6.BottomLeftRadius = 0;
-            arthanPanel6.BottomRightRadius = 0;
-            arthanPanel6.Controls.Add(label17);
-            arthanPanel6.CornerRadius = 0;
-            arthanPanel6.EnableDragging = false;
-            arthanPanel6.EnableDropShadow = true;
-            arthanPanel6.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            arthanPanel6.GradientEndColor = Color.FromArgb(253, 231, 144);
-            arthanPanel6.GradientStartColor = Color.FromArgb(253, 242, 194);
-            arthanPanel6.Location = new Point(535, 155);
-            arthanPanel6.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel6.Name = "arthanPanel6";
-            arthanPanel6.ShadowBlur = 0;
-            arthanPanel6.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            arthanPanel6.ShadowOffset = 0;
-            arthanPanel6.Size = new Size(129, 65);
-            arthanPanel6.TabIndex = 24;
-            arthanPanel6.TopLeftRadius = 0;
-            arthanPanel6.TopRightRadius = 0;
-            arthanPanel6.UseIndividualCorners = false;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label17.Location = new Point(27, 9);
-            label17.Name = "label17";
-            label17.Size = new Size(64, 58);
-            label17.TabIndex = 31;
-            label17.Text = "ISBN";
-            // 
-            // arthanPanel5
-            // 
-            arthanPanel5.BackColor = Color.Transparent;
-            arthanPanel5.BottomLeftRadius = 0;
-            arthanPanel5.BottomRightRadius = 0;
-            arthanPanel5.Controls.Add(label15);
-            arthanPanel5.CornerRadius = 0;
-            arthanPanel5.EnableDragging = false;
-            arthanPanel5.EnableDropShadow = true;
-            arthanPanel5.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            arthanPanel5.GradientEndColor = Color.FromArgb(253, 231, 144);
-            arthanPanel5.GradientStartColor = Color.FromArgb(253, 242, 194);
-            arthanPanel5.Location = new Point(0, 155);
-            arthanPanel5.Margin = new Padding(3, 4, 3, 4);
-            arthanPanel5.Name = "arthanPanel5";
-            arthanPanel5.ShadowBlur = 0;
-            arthanPanel5.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            arthanPanel5.ShadowOffset = 0;
-            arthanPanel5.Size = new Size(378, 65);
-            arthanPanel5.TabIndex = 23;
-            arthanPanel5.TopLeftRadius = 0;
-            arthanPanel5.TopRightRadius = 0;
-            arthanPanel5.UseIndividualCorners = false;
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.Location = new Point(30, 9);
-            label15.Name = "label15";
-            label15.Size = new Size(100, 58);
-            label15.TabIndex = 29;
-            label15.Text = "Book Title";
-            label15.Click += label15_Click;
+            DataGridTotalBooks.CellPainting += DataGridTotalBooks_CellPainting;
             // 
             // arthanButton4
             // 
@@ -492,7 +213,7 @@
             arthanButton4.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton4.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton4.Image = null;
-            arthanButton4.Location = new Point(885, 65);
+            arthanButton4.Location = new Point(1248, 69);
             arthanButton4.Margin = new Padding(3, 4, 3, 4);
             arthanButton4.Name = "arthanButton4";
             arthanButton4.Size = new Size(157, 63);
@@ -519,7 +240,7 @@
             arthanButton2.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton2.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton2.Image = null;
-            arthanButton2.Location = new Point(704, 65);
+            arthanButton2.Location = new Point(1067, 69);
             arthanButton2.Margin = new Padding(3, 4, 3, 4);
             arthanButton2.Name = "arthanButton2";
             arthanButton2.Size = new Size(157, 63);
@@ -538,7 +259,7 @@
             SearchTxtBox.BorderSize = 2;
             SearchTxtBox.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             SearchTxtBox.ForeColor = Color.DimGray;
-            SearchTxtBox.Location = new Point(30, 65);
+            SearchTxtBox.Location = new Point(30, 69);
             SearchTxtBox.Margin = new Padding(5);
             SearchTxtBox.Multiline = true;
             SearchTxtBox.Name = "SearchTxtBox";
@@ -546,7 +267,7 @@
             SearchTxtBox.PasswordChar = false;
             SearchTxtBox.PlaceholderColor = Color.DarkGray;
             SearchTxtBox.PlaceholderText = "Search books...";
-            SearchTxtBox.Size = new Size(634, 63);
+            SearchTxtBox.Size = new Size(1012, 63);
             SearchTxtBox.TabIndex = 21;
             SearchTxtBox.Texts = "";
             SearchTxtBox.UnderlinedStyle = false;
@@ -555,7 +276,7 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(19, 13);
+            label12.Location = new Point(30, 19);
             label12.Name = "label12";
             label12.Size = new Size(169, 68);
             label12.TabIndex = 21;
@@ -905,12 +626,12 @@
             // Quantity
             // 
             Quantity.BackColor = Color.Transparent;
-            Quantity.CustomizableEdges = customizableEdges3;
+            Quantity.CustomizableEdges = customizableEdges1;
             Quantity.Font = new Font("Segoe UI", 9F);
             Quantity.Location = new Point(11, 199);
             Quantity.Margin = new Padding(3, 4, 3, 4);
             Quantity.Name = "Quantity";
-            Quantity.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            Quantity.ShadowDecoration.CustomizableEdges = customizableEdges2;
             Quantity.Size = new Size(125, 50);
             Quantity.TabIndex = 30;
             // 
@@ -934,7 +655,7 @@
             // 
             btnManualMode.BorderRadius = 18;
             btnManualMode.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnManualMode.CustomizableEdges = customizableEdges5;
+            btnManualMode.CustomizableEdges = customizableEdges3;
             btnManualMode.DisabledState.BorderColor = Color.DarkGray;
             btnManualMode.DisabledState.CustomBorderColor = Color.DarkGray;
             btnManualMode.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -942,10 +663,10 @@
             btnManualMode.FillColor = Color.Orange;
             btnManualMode.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnManualMode.ForeColor = Color.Black;
-            btnManualMode.Location = new Point(58, 161);
+            btnManualMode.Location = new Point(31, 161);
             btnManualMode.Name = "btnManualMode";
-            btnManualMode.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            btnManualMode.Size = new Size(157, 63);
+            btnManualMode.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnManualMode.Size = new Size(372, 63);
             btnManualMode.TabIndex = 41;
             btnManualMode.Text = " ";
             btnManualMode.Click += btnManualMode_Click;
@@ -970,20 +691,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             arthanPanel2.ResumeLayout(false);
             arthanPanel2.PerformLayout();
-            arthanPanel11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).EndInit();
-            arthanPanel10.ResumeLayout(false);
-            arthanPanel10.PerformLayout();
-            arthanPanel9.ResumeLayout(false);
-            arthanPanel9.PerformLayout();
-            arthanPanel7.ResumeLayout(false);
-            arthanPanel7.PerformLayout();
-            arthanPanel8.ResumeLayout(false);
-            arthanPanel8.PerformLayout();
-            arthanPanel6.ResumeLayout(false);
-            arthanPanel6.PerformLayout();
-            arthanPanel5.ResumeLayout(false);
-            arthanPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();
             arthanPanel1.ResumeLayout(false);
             arthanPanel1.PerformLayout();
@@ -1003,19 +711,6 @@
         private Components.ArthanTextBox SearchTxtBox;
         private Components.ArthanButton arthanButton4;
         private Components.ArthanButton arthanButton2;
-        private Label label13;
-        private Components.ArthanPanel arthanPanel9;
-        private Components.ArthanPanel arthanPanel7;
-        private Components.ArthanPanel arthanPanel8;
-        private Components.ArthanPanel arthanPanel6;
-        private Components.ArthanPanel arthanPanel5;
-        private Label label15;
-        private Label label14;
-        private Components.ArthanPanel arthanPanel10;
-        private Label label18;
-        private Label label16;
-        private Label label17;
-        private Components.ArthanPanel arthanPanel11;
         private Krypton.Toolkit.KryptonDataGridView DataGridTotalBooks;
         private Components.ArthanTextBox Author;
         private Label label2;
@@ -1040,6 +735,5 @@
         private ContextMenuStrip contextMenuStrip1;
         private Guna.UI2.WinForms.Guna2Button btnManualMode;
         private Guna.UI2.WinForms.Guna2NumericUpDown Quantity;
-        private Guna.UI2.WinForms.Guna2TextBox AnyTextBox;
     }
 }

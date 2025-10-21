@@ -312,8 +312,14 @@ namespace LibraryCGC
 
         }
 
+
         private void Book_Aquire_Load(object sender, EventArgs e)
         {
+            SetupDataGridView();  // 🔹 call this first
+            LoadBooksGrid();
+            DataGridTotalBooks.CellPainting += DataGridTotalBooks_CellPainting;
+
+
             scannerMode = true;
             // Set default button text
             btnManualMode.Text = "📡 Scanner Mode Active";
@@ -336,7 +342,9 @@ namespace LibraryCGC
             // 🔹 Attach KeyPress event handler to all textboxes
             foreach (var box in boxes)
             {
+                box.KeyPress -= AnyTextBox_KeyPress; // remove duplicates
                 box.KeyPress += AnyTextBox_KeyPress;
+                box.BackColor = Color.LightGray;
             }
 
         }
@@ -837,13 +845,14 @@ namespace LibraryCGC
 
         private void btnManualMode_Click(object sender, EventArgs e)
         {
-            scannerMode = !scannerMode; // toggle true/false
+            scannerMode = !scannerMode; // toggle the mode
 
+            // Update button text
             btnManualMode.Text = scannerMode
                 ? "📡 Scanner Mode Active"
                 : "⌨️ Manual Mode Active";
 
-            // Optional visual feedback
+            // Optional: visual feedback for textbox background
             var boxes = new LibraryCGC.Components.ArthanTextBox[]
             {
         BookTitle,
@@ -870,6 +879,126 @@ namespace LibraryCGC
             if (scannerMode)
             {
                 e.Handled = true; // 🚫 Block manual keyboard typing
+            }
+        }
+
+
+        private void SetupDataGridView()
+        {
+            DataGridTotalBooks.Columns.Clear();
+            DataGridTotalBooks.AutoGenerateColumns = false;
+            DataGridTotalBooks.ReadOnly = true;
+            DataGridTotalBooks.RowHeadersVisible = false;
+            DataGridTotalBooks.BorderStyle = BorderStyle.None;
+            DataGridTotalBooks.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            DataGridTotalBooks.EnableHeadersVisualStyles = false;
+
+            // --- Book ID (hidden) ---
+            var colBookID = new DataGridViewTextBoxColumn();
+            colBookID.HeaderText = "Book ID";
+            colBookID.DataPropertyName = "BookID";
+            colBookID.Name = "BookID";      // 🔹 must have this
+            colBookID.Visible = false;
+            DataGridTotalBooks.Columns.Add(colBookID);
+
+            // --- Book Title ---
+            var colBookTitle = new DataGridViewTextBoxColumn();
+            colBookTitle.HeaderText = "Book Title";
+            colBookTitle.DataPropertyName = "BookTitle";
+            colBookTitle.Name = "BookTitle"; // 🔹 name must match the one you use in code
+            colBookTitle.Width = 200;
+            DataGridTotalBooks.Columns.Add(colBookTitle);
+
+            // --- Author ---
+            var colAuthor = new DataGridViewTextBoxColumn();
+            colAuthor.HeaderText = "Author";
+            colAuthor.DataPropertyName = "Author";
+            colAuthor.Name = "Author";
+            colAuthor.Width = 150;
+            DataGridTotalBooks.Columns.Add(colAuthor);
+
+            // --- ISBN ---
+            var colISBN = new DataGridViewTextBoxColumn();
+            colISBN.HeaderText = "ISBN";
+            colISBN.DataPropertyName = "ISBN";
+            colISBN.Name = "ISBN";
+            colISBN.Width = 120;
+            DataGridTotalBooks.Columns.Add(colISBN);
+
+            // --- Publisher ---
+            var colPublisher = new DataGridViewTextBoxColumn();
+            colPublisher.HeaderText = "Publisher";
+            colPublisher.DataPropertyName = "Publisher";
+            colPublisher.Name = "Publisher";
+            colPublisher.Width = 150;
+            DataGridTotalBooks.Columns.Add(colPublisher);
+
+            // --- Source ---
+            var colSource = new DataGridViewTextBoxColumn();
+            colSource.HeaderText = "Source";
+            colSource.DataPropertyName = "Source";
+            colSource.Name = "Source";
+            colSource.Width = 100;
+            DataGridTotalBooks.Columns.Add(colSource);
+
+            // --- Quantity ---
+            var colQuantity = new DataGridViewTextBoxColumn();
+            colQuantity.HeaderText = "Quantity";
+            colQuantity.DataPropertyName = "Quantity";
+            colQuantity.Name = "Quantity";
+            colQuantity.Width = 80;
+            DataGridTotalBooks.Columns.Add(colQuantity);
+
+            // --- Published ---
+            var colPublished = new DataGridViewTextBoxColumn();
+            colPublished.HeaderText = "Published";
+            colPublished.DataPropertyName = "Published";
+            colPublished.Name = "Published";
+            colPublished.Width = 120;
+            DataGridTotalBooks.Columns.Add(colPublished);
+
+            // --- Category ---
+            var colCategory = new DataGridViewTextBoxColumn();
+            colCategory.HeaderText = "Category";
+            colCategory.DataPropertyName = "Category";
+            colCategory.Name = "Category";
+            colCategory.Width = 150;
+            DataGridTotalBooks.Columns.Add(colCategory);
+
+            // --- Styling ---
+            DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridTotalBooks.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridTotalBooks.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(253, 242, 194);
+            DataGridTotalBooks.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            DataGridTotalBooks.DefaultCellStyle.BackColor = Color.White;
+            DataGridTotalBooks.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 250, 230);
+
+
+        }
+
+
+
+        private void DataGridTotalBooks_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex == -1 && e.ColumnIndex >= 0)
+            {
+                using (var brush = new System.Drawing.Drawing2D.LinearGradientBrush(
+                    e.CellBounds,
+                    Color.FromArgb(255, 253, 242, 194), // light yellow
+                    Color.FromArgb(255, 253, 231, 144), // darker yellow
+                    System.Drawing.Drawing2D.LinearGradientMode.Horizontal))
+                {
+                    e.Graphics.FillRectangle(brush, e.CellBounds);
+                    e.Graphics.DrawRectangle(Pens.LightGray, e.CellBounds);
+                    e.Graphics.DrawString(
+                        e.FormattedValue?.ToString(),
+                        e.CellStyle.Font,
+                        Brushes.Black,
+                        e.CellBounds.X + 5,
+                        e.CellBounds.Y + 5);
+                    e.Handled = true;
+                }
             }
         }
     } //END OF MAIN METHOD

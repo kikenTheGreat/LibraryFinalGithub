@@ -7,6 +7,8 @@ namespace LibraryCGC
 {
     public partial class Form1 : Form
     {
+
+
         public Form1()
         {
             InitializeComponent();
@@ -14,7 +16,14 @@ namespace LibraryCGC
             UpdateTotalArchivedLabel();
             LoadPenaltyCards();
             UpdateTotalOverdueLabel();
+
         }
+
+
+
+
+
+
 
         private void label2_Click(object sender, EventArgs e)
         {
@@ -23,10 +32,10 @@ namespace LibraryCGC
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            LoadPenaltyCards();
             UpdateTotalBorrowedLabel();
             UpdateTotalBooksLabel();
             UpdateTotalArchivedLabel();
-            LoadPenaltyCards();
             UpdateTotalOverdueLabel();
 
             // ✅ Subscribe to live overdue update
@@ -35,6 +44,8 @@ namespace LibraryCGC
             GlobalEvents.BorrowedDataChanged += () => UpdateTotalBorrowedLabel();
             GlobalEvents.ArchivedDataChanged += () => UpdateTotalArchivedLabel();
             GlobalEvents.PenaltiesDataChanged += () => LoadPenaltyCards(); // 👈 new
+
+
 
 
 
@@ -213,11 +224,23 @@ Trust Server Certificate=True;
 
         public void LoadPenaltyCards()
         {
-            // Clear all four panels before loading
-            panel1.Controls.Clear();
-            panel2.Controls.Clear();
-            panel3.Controls.Clear();
-            Panel4.Controls.Clear();
+            if (InvokeRequired)
+            {
+                Invoke(new Action(LoadPenaltyCards));
+                return;
+            }
+
+            // Optional: reduce flicker during reload
+            flowPanel1.SuspendLayout();
+            flowPanel2.SuspendLayout();
+            flowPanel3.SuspendLayout();
+            flowPanel4.SuspendLayout();
+
+            // Clear existing cards
+            flowPanel1.Controls.Clear();
+            flowPanel2.Controls.Clear();
+            flowPanel3.Controls.Clear();
+            flowPanel4.Controls.Clear();
 
             string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
@@ -228,7 +251,7 @@ Trust Server Certificate=True;";
             string query = @"
         SELECT 
             sa.ClientID,
-            sa.Name AS StudentName,
+            ib.StudentName,
             sa.Role,
             sa.SectionSY,
             sa.Email,
@@ -236,10 +259,9 @@ Trust Server Certificate=True;";
             SUM(ib.Penalty) AS TotalPenalty
         FROM IssueBooks ib
         INNER JOIN AddStudentAcc sa ON ib.ClientID = sa.ClientID
-        WHERE ib.OverdueDays > 0 
-          AND ib.Status <> 'Returned'    -- ✅ exclude returned books
-        GROUP BY sa.ClientID, sa.Name, sa.Role, sa.SectionSY, sa.Email
-        ORDER BY sa.Name;
+        WHERE ib.OverdueDays > 0 AND ib.Status <> 'Returned'
+        GROUP BY sa.ClientID, ib.StudentName, sa.Role, sa.SectionSY, sa.Email
+        ORDER BY ib.StudentName;
     ";
 
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -248,16 +270,12 @@ Trust Server Certificate=True;";
                 con.Open();
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    int cardIndex = 0;
-
                     while (reader.Read())
                     {
                         string studentName = reader["StudentName"].ToString();
                         string role = reader["Role"].ToString();
                         string section = reader["SectionSY"].ToString();
                         string email = reader["Email"].ToString();
-
-                        // ✅ use the new aggregated column names
                         int overdueDays = Convert.ToInt32(reader["TotalOverdueDays"]);
                         decimal penalty = Convert.ToDecimal(reader["TotalPenalty"]);
 
@@ -266,14 +284,14 @@ Trust Server Certificate=True;";
                             Size = new Size(230, 120),
                             BackColor = Color.White,
                             BorderStyle = BorderStyle.FixedSingle,
-                            Margin = new Padding(10),
+                            Margin = new Padding(8)
                         };
 
                         Label lblInfo = new Label
                         {
                             AutoSize = false,
                             Dock = DockStyle.Fill,
-                            Font = new Font("Segoe UI", 9, FontStyle.Regular),
+                            Font = new Font("Segoe UI", 9),
                             TextAlign = ContentAlignment.MiddleLeft,
                             Padding = new Padding(10),
                             Text = $"👤 {studentName}\n" +
@@ -285,20 +303,21 @@ Trust Server Certificate=True;";
 
                         card.Controls.Add(lblInfo);
 
-                        // ✅ Distribute cards across 4 panels
-                        switch (cardIndex % 4)
-                        {
-                            case 0: panel1.Controls.Add(card); break;
-                            case 1: panel2.Controls.Add(card); break;
-                            case 2: panel3.Controls.Add(card); break;
-                            case 3: Panel4.Controls.Add(card); break;
-                        }
-
-                        cardIndex++;
+                        // distribute dynamically to the column with fewest cards
+                        FlowLayoutPanel[] columns = { flowPanel1, flowPanel2, flowPanel3, flowPanel4 };
+                        FlowLayoutPanel target = columns.OrderBy(p => p.Controls.Count).First();
+                        target.Controls.Add(card);
                     }
                 }
             }
+
+            flowPanel1.ResumeLayout();
+            flowPanel2.ResumeLayout();
+            flowPanel3.ResumeLayout();
+            flowPanel4.ResumeLayout();
         }
+
+
 
 
 
@@ -422,6 +441,16 @@ Trust Server Certificate=True;
         }
 
         private void lblOverdueCount_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void arthanPanel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void arthanButton1_Load_1(object sender, EventArgs e)
         {
 
         }

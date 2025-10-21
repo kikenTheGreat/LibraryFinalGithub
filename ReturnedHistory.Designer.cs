@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReturnedHistory));
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
-            arthanButton1 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
             label1 = new Label();
             pnlActiveBooks = new LibraryCGC.Components.ArthanPanel();
@@ -49,7 +48,7 @@
             arthanPanel4.BackColor = Color.Transparent;
             arthanPanel4.BottomLeftRadius = 15;
             arthanPanel4.BottomRightRadius = 15;
-            arthanPanel4.Controls.Add(arthanButton1);
+            arthanPanel4.Controls.Add(arthanButton2);
             arthanPanel4.Controls.Add(pictureBox1);
             arthanPanel4.Controls.Add(label1);
             arthanPanel4.CornerRadius = 15;
@@ -64,37 +63,11 @@
             arthanPanel4.ShadowBlur = 5;
             arthanPanel4.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel4.ShadowOffset = 3;
-            arthanPanel4.Size = new Size(739, 133);
+            arthanPanel4.Size = new Size(1847, 133);
             arthanPanel4.TabIndex = 25;
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
             arthanPanel4.UseIndividualCorners = false;
-            // 
-            // arthanButton1
-            // 
-            arthanButton1.BackColor = Color.Transparent;
-            arthanButton1.BackgroundColor = Color.AliceBlue;
-            arthanButton1.BorderColor = Color.PaleVioletRed;
-            arthanButton1.FlatAppearance.BorderColor = Color.Empty;
-            arthanButton1.FlatAppearance.BorderSize = 0;
-            arthanButton1.FlatAppearance.MouseDownBackColor = Color.Empty;
-            arthanButton1.FlatAppearance.MouseOverBackColor = Color.Empty;
-            arthanButton1.FlatStyle = FlatStyle.Flat;
-            arthanButton1.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            arthanButton1.ForeColor = Color.Black;
-            arthanButton1.GradientEndColor = Color.White;
-            arthanButton1.GradientStartColor = Color.White;
-            arthanButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
-            arthanButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
-            arthanButton1.Image = null;
-            arthanButton1.Location = new Point(1650, 34);
-            arthanButton1.Margin = new Padding(3, 4, 3, 4);
-            arthanButton1.Name = "arthanButton1";
-            arthanButton1.Size = new Size(109, 53);
-            arthanButton1.TabIndex = 5;
-            arthanButton1.Text = "Home";
-            arthanButton1.TextColor = Color.Black;
-            arthanButton1.UseVisualStyleBackColor = false;
             // 
             // pictureBox1
             // 
@@ -169,7 +142,7 @@
             arthanPanel9.ShadowBlur = 5;
             arthanPanel9.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel9.ShadowOffset = 0;
-            arthanPanel9.Size = new Size(1704, 113);
+            arthanPanel9.Size = new Size(1847, 113);
             arthanPanel9.TabIndex = 30;
             arthanPanel9.TopLeftRadius = 15;
             arthanPanel9.TopRightRadius = 15;
@@ -181,7 +154,7 @@
             DataGridReturnBooks.Location = new Point(43, 334);
             DataGridReturnBooks.Name = "DataGridReturnBooks";
             DataGridReturnBooks.RowHeadersWidth = 51;
-            DataGridReturnBooks.Size = new Size(1704, 557);
+            DataGridReturnBooks.Size = new Size(1847, 687);
             DataGridReturnBooks.TabIndex = 31;
             DataGridReturnBooks.CellContentClick += DataGridReturnBooks_CellContentClick;
             // 
@@ -202,7 +175,7 @@
             arthanButton2.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton2.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton2.Image = null;
-            arthanButton2.Location = new Point(1638, 28);
+            arthanButton2.Location = new Point(1706, 36);
             arthanButton2.Margin = new Padding(3, 4, 3, 4);
             arthanButton2.Name = "arthanButton2";
             arthanButton2.Size = new Size(109, 53);
@@ -218,7 +191,6 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
-            Controls.Add(arthanButton2);
             Controls.Add(DataGridReturnBooks);
             Controls.Add(pnlActiveBooks);
             Controls.Add(arthanPanel9);
@@ -238,7 +210,6 @@
         #endregion
 
         private LibraryCGC.Components.ArthanPanel arthanPanel4;
-        private LibraryCGC.Components.ArthanButton arthanButton1;
         private PictureBox pictureBox1;
         private Label label1;
         private LibraryCGC.Components.ArthanPanel pnlActiveBooks;

@@ -156,9 +156,118 @@ Trust Server Certificate=True;
         {
 
         }
+        private void SetupIssueBooksGrid()
+        {
+            IssueBooksDataGrid.Columns.Clear();
+            IssueBooksDataGrid.AutoGenerateColumns = false;
+            IssueBooksDataGrid.ReadOnly = true;
+            IssueBooksDataGrid.RowHeadersVisible = false;
+            IssueBooksDataGrid.BorderStyle = BorderStyle.None;
+            IssueBooksDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            IssueBooksDataGrid.EnableHeadersVisualStyles = false;
+
+            // --- Issue ID (hidden or visible, your choice) ---
+            var colIssueID = new DataGridViewTextBoxColumn();
+            colIssueID.HeaderText = "Issue ID";
+            colIssueID.DataPropertyName = "IssueID";
+            colIssueID.Name = "IssueID";
+            colIssueID.Visible = false; // set to true if you want to see the ID
+            IssueBooksDataGrid.Columns.Add(colIssueID);
+
+            // --- Student Name ---
+            var colStudentName = new DataGridViewTextBoxColumn();
+            colStudentName.HeaderText = "Student Name";
+            colStudentName.DataPropertyName = "StudentName";
+            colStudentName.Name = "StudentName";
+            colStudentName.Width = 180;
+            IssueBooksDataGrid.Columns.Add(colStudentName);
+
+            // --- Client ID ---
+            var colClientID = new DataGridViewTextBoxColumn();
+            colClientID.HeaderText = "Client ID";
+            colClientID.DataPropertyName = "ClientID";
+            colClientID.Name = "ClientID";
+            colClientID.Width = 100;
+            IssueBooksDataGrid.Columns.Add(colClientID);
+
+            // --- Book Title ---
+            var colBookTitle = new DataGridViewTextBoxColumn();
+            colBookTitle.HeaderText = "Book Title";
+            colBookTitle.DataPropertyName = "BookTitle";
+            colBookTitle.Name = "BookTitle";
+            colBookTitle.Width = 200;
+            IssueBooksDataGrid.Columns.Add(colBookTitle);
+
+            // --- Source ---
+            var colSource = new DataGridViewTextBoxColumn();
+            colSource.HeaderText = "Source";
+            colSource.DataPropertyName = "Source";
+            colSource.Name = "Source";
+            colSource.Width = 100;
+            IssueBooksDataGrid.Columns.Add(colSource);
+
+            // --- Quantity ---
+            var colQuantity = new DataGridViewTextBoxColumn();
+            colQuantity.HeaderText = "Quantity";
+            colQuantity.DataPropertyName = "Quantity";
+            colQuantity.Name = "Quantity";
+            colQuantity.Width = 80;
+            IssueBooksDataGrid.Columns.Add(colQuantity);
+
+            // --- Issue Date ---
+            var colIssueDate = new DataGridViewTextBoxColumn();
+            colIssueDate.HeaderText = "Issue Date";
+            colIssueDate.DataPropertyName = "IssueDate";
+            colIssueDate.Name = "IssueDate";
+            colIssueDate.Width = 120;
+            IssueBooksDataGrid.Columns.Add(colIssueDate);
+
+            // --- Due Date ---
+            var colDueDate = new DataGridViewTextBoxColumn();
+            colDueDate.HeaderText = "Due Date";
+            colDueDate.DataPropertyName = "DueDate";
+            colDueDate.Name = "DueDate";
+            colDueDate.Width = 120;
+            IssueBooksDataGrid.Columns.Add(colDueDate);
+
+            // --- Overdue Days ---
+            var colOverdue = new DataGridViewTextBoxColumn();
+            colOverdue.HeaderText = "Overdue Days";
+            colOverdue.DataPropertyName = "OverdueDays";
+            colOverdue.Name = "OverdueDays";
+            colOverdue.Width = 120;
+            IssueBooksDataGrid.Columns.Add(colOverdue);
+
+            // --- Penalty ---
+            var colPenalty = new DataGridViewTextBoxColumn();
+            colPenalty.HeaderText = "Penalty";
+            colPenalty.DataPropertyName = "Penalty";
+            colPenalty.Name = "Penalty";
+            colPenalty.Width = 100;
+            IssueBooksDataGrid.Columns.Add(colPenalty);
+
+            // --- Status ---
+            var colStatus = new DataGridViewTextBoxColumn();
+            colStatus.HeaderText = "Status";
+            colStatus.DataPropertyName = "Status";
+            colStatus.Name = "Status";
+            colStatus.Width = 100;
+            IssueBooksDataGrid.Columns.Add(colStatus);
+
+            // --- Styling (yellow theme) ---
+            IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            IssueBooksDataGrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(253, 242, 194);
+            IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            IssueBooksDataGrid.DefaultCellStyle.BackColor = Color.White;
+            IssueBooksDataGrid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 250, 230);
+        }
+
 
         private void Issue_Load(object sender, EventArgs e)
         {
+            SetupIssueBooksGrid();
             // Status combobox setup
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
@@ -335,6 +444,9 @@ Trust Server Certificate=True;
                     MessageBox.Show("Book(s) issued successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseOverdueDataChanged();
+                    GlobalEvents.RaisePenaltiesDataChanged();
+
+
 
 
                 }
@@ -360,7 +472,7 @@ Trust Server Certificate=True;
             LoadIssueBooks(); // refresh DataGridView
             IssueBooksDataGrid.Refresh();
             IssueBooksDataGrid.Update();
-
+            GlobalEvents.RaiseBorrowedDataChanged();
 
         }
 
