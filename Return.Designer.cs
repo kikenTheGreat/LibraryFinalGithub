@@ -352,7 +352,7 @@ namespace Library_Final
             BookTitle.Margin = new Padding(3, 4, 3, 4);
             BookTitle.Multiline = true;
             BookTitle.Name = "BookTitle";
-            BookTitle.Size = new Size(271, 121);
+            BookTitle.Size = new Size(271, 151);
             BookTitle.StateCommon.Back.Color1 = Color.AliceBlue;
             BookTitle.StateCommon.Border.Color1 = Color.White;
             BookTitle.StateCommon.Border.Color2 = Color.White;
@@ -790,7 +790,7 @@ namespace Library_Final
             Controls.Add(kryptonButton2);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 4, 3, 4);
-          
+            //Name = "Return";
             Text = "Return";
             Load += Return_Load;
             ((System.ComponentModel.ISupportInitialize)Source).EndInit();

@@ -36,6 +36,7 @@ namespace LibraryCGC
         private List<(string BookID, string BookTitle, string Source)> borrowList = new List<(string, string, string)>();
 
 
+
         private void LoadIssueBooks()
         {
             string query = @"
@@ -420,10 +421,11 @@ Trust Server Certificate=True;
                         }
                     }
 
-                    // ✅ STEP 2: Insert each selected book as its own row in IssueBooks
                     string insertQuery = @"INSERT INTO IssueBooks 
-                                   (Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID)
-                                   VALUES (@Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID)";
+   (BookID, Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID)
+   VALUES (@BookID, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID)";
+
+
 
                     foreach (var item in borrowList)
                     {
@@ -437,6 +439,7 @@ Trust Server Certificate=True;
                             cmd.Parameters.AddWithValue("@DueDate", dueDateValue);
                             cmd.Parameters.AddWithValue("@Quantity", 1); // each book = 1 copy
                             cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
+                            cmd.Parameters.AddWithValue("@BookID", item.BookID);
 
                             cmd.ExecuteNonQuery();
                         }
@@ -665,6 +668,186 @@ Trust Server Certificate=True;
 
             // Hide Issue Books panel
             panelIssueBooks.Visible = false;
+        }
+
+        private void ReturnClientID_TextChanged(object sender, EventArgs e)
+        {
+            string clientID = ReturnClientID.Text.Trim();
+
+            if (clientID.Length >= 4)
+            {
+                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+
+                    // ✅ 1. Get Student Name from IssueBooks
+                    string queryName = @"
+                SELECT TOP 1 StudentName 
+                FROM IssueBooks 
+                WHERE ClientID = @ClientID 
+                ORDER BY IssueDate DESC";
+
+                    using (SqlCommand cmdName = new SqlCommand(queryName, con))
+                    {
+                        cmdName.Parameters.AddWithValue("@ClientID", clientID);
+                        object result = cmdName.ExecuteScalar();
+
+                        ReturnClientName.Items.Clear();
+                        if (result != null)
+                        {
+                            ReturnClientName.Items.Add(result.ToString());
+                            ReturnClientName.SelectedIndex = 0;
+                        }
+                    }
+
+                    // ✅ 2. Get Borrowed Books Info
+                    string queryBorrow = @"
+                SELECT 
+                    BookID,       -- ✅ Added this
+                    BookTitle,
+                    Status,
+                    Penalty,
+                    Quantity,
+                    IssueID,
+                    Source,
+                    ClientID
+                FROM IssueBooks
+                WHERE ClientID = @ClientID
+                  AND (Status = 'Issued' OR Status = 'Overdue')";
+
+                    using (SqlCommand cmdBorrow = new SqlCommand(queryBorrow, con))
+                    {
+                        cmdBorrow.Parameters.AddWithValue("@ClientID", clientID);
+
+                        using (SqlDataReader reader = cmdBorrow.ExecuteReader())
+                        {
+                            // Prepare holders
+                            int bookCount = 0;
+                            double totalPenalty = 0;
+                            List<string> bookIDsAndTitles = new List<string>();
+                            List<string> statuses = new List<string>();
+
+                            // ✅ Clear combo boxes before filling
+                            ReturnedBookID.Items.Clear();
+
+                            while (reader.Read())
+                            {
+                                bookCount++;
+
+                                // ✅ Safe read (avoid null values)
+                                string bookID = reader["BookID"] != DBNull.Value ? reader["BookID"].ToString() : "N/A";
+                                string bookTitle = reader["BookTitle"] != DBNull.Value ? reader["BookTitle"].ToString() : "Unknown";
+
+                                bookIDsAndTitles.Add($"{bookID} - {bookTitle}");
+                                statuses.Add(reader["Status"].ToString());
+
+                                if (double.TryParse(reader["Penalty"].ToString(), out double penalty))
+                                    totalPenalty += penalty;
+                            }
+
+                            // ✅ Fill ComboBoxes and TextBox
+                            ReturnBookQty.Items.Clear();
+                            ReturnBookQty.Items.Add(bookCount.ToString());
+                            ReturnBookQty.SelectedIndex = 0;
+
+                            foreach (var entry in bookIDsAndTitles)
+                                ReturnedBookID.Items.Add(entry);
+                            if (ReturnedBookID.Items.Count > 0)
+                                ReturnedBookID.SelectedIndex = 0;
+
+                            ReturnBookStatus.Items.Clear();
+                            foreach (var status in statuses.Distinct())
+                                ReturnBookStatus.Items.Add(status);
+                            if (ReturnBookStatus.Items.Count > 0)
+                                ReturnBookStatus.SelectedIndex = 0;
+
+                            ReturnPenalty.Text = totalPenalty.ToString("0.00");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Clear all if ClientID too short
+                ReturnClientName.Items.Clear();
+                ReturnBookQty.Items.Clear();
+                ReturnedBookID.Items.Clear();
+                ReturnBookStatus.Items.Clear();
+                ReturnPenalty.Clear();
+            }
+        }
+
+
+
+        private void ReturnBookID_TextChanged(object sender, EventArgs e)
+        {
+            string bookID = ReturnedBookID.Text.Trim();
+
+            if (bookID.Length >= 4)
+            {
+                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT BookTitle FROM BooksAcq WHERE BookID = @BookID";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@BookID", bookID);
+                        con.Open();
+                        var result = cmd.ExecuteScalar();
+                        ReturnBookTitle.Text = result != null ? result.ToString() : "";
+                    }
+                }
+            }
+            else
+            {
+                ReturnBookTitle.Text = "";
+            }
+        }
+
+        private void LoadBorrowedBooksForReturn(string clientID)
+        {
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = @"
+            SELECT 
+                BookTitle, Source, IssueDate, DueDate, Status, Penalty 
+            FROM IssueBooks
+            WHERE ClientID = @ClientID 
+              AND (Status = 'Issued' OR Status = 'Overdue')";
+
+                using (SqlDataAdapter da = new SqlDataAdapter())
+                {
+                    da.SelectCommand = new SqlCommand(query, con);
+                    da.SelectCommand.Parameters.AddWithValue("@ClientID", clientID);
+
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    dgvReturnList.DataSource = dt;
+                }
+            }
+        }
+
+
+        private void dgvReturnList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
