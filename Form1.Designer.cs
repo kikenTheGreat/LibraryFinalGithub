@@ -173,6 +173,7 @@
             arthanPanel14.TopRightRadius = 15;
             arthanPanel14.UseIndividualCorners = true;
             arthanPanel14.Click += arthanPanel14_Click_1;
+            arthanPanel14.Paint += arthanPanel14_Paint;
             // 
             // arthanButton3
             // 
@@ -201,10 +202,11 @@
             arthanButton3.Name = "arthanButton3";
             arthanButton3.Size = new Size(210, 111);
             arthanButton3.TabIndex = 6;
-            arthanButton3.Text = "Returned Book";
+            arthanButton3.Text = "Report";
             arthanButton3.TextAlign = ContentAlignment.BottomLeft;
             arthanButton3.UseIndividualCorners = true;
             arthanButton3.UseVisualStyleBackColor = false;
+            arthanButton3.Load += arthanButton3_Load_1;
             // 
             // arthanPanel16
             // 

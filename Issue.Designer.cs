@@ -990,6 +990,7 @@
             arthanPanel1.TopLeftRadius = 15;
             arthanPanel1.TopRightRadius = 15;
             arthanPanel1.UseIndividualCorners = false;
+            arthanPanel1.Paint += arthanPanel1_Paint;
             // 
             // lblReturnDate
             // 

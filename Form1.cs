@@ -413,9 +413,12 @@ Trust Server Certificate=True;
 
         private void arthanPanel14_Click_1(object sender, EventArgs e)
         {
-            Return @return = new Return();
-            @return.Show();
+            Report report = new Report();
+            report.Show();
             this.Hide();
+            //Return @return = new Return();
+            //@return.Show();
+            //this.Hide();
         }
 
         private void arthanPanel15_Click(object sender, EventArgs e)
@@ -466,6 +469,16 @@ Trust Server Certificate=True;
         private void arthanButton1_Load_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void arthanButton3_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void arthanPanel14_Paint(object sender, PaintEventArgs e)
+        {
+            
         }
     }
 }

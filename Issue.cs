@@ -953,10 +953,10 @@ Trust Server Certificate=True;";
                         cmdInsert.ExecuteNonQuery();
                     }
 
-              
 
 
-                   
+
+
 
                     // ✅ Commit
                     transaction.Commit();
@@ -1011,6 +1011,11 @@ Trust Server Certificate=True;";
         }
 
         private void label24_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void arthanPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
