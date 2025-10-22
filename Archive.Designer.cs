@@ -194,7 +194,6 @@
             btnRestoreBook.Size = new Size(157, 63);
             btnRestoreBook.TabIndex = 41;
             btnRestoreBook.Text = "Restore Book";
-            btnRestoreBook.Click += btnRestoreBook_Click_1;
             // 
             // pnlActiveBooks
             // 
@@ -237,7 +236,7 @@
             DataGridTotalBooks.Location = new Point(30, 308);
             DataGridTotalBooks.Name = "DataGridTotalBooks";
             DataGridTotalBooks.RowHeadersWidth = 51;
-            DataGridTotalBooks.Size = new Size(1860, 251);
+            DataGridTotalBooks.Size = new Size(1860, 703);
             DataGridTotalBooks.TabIndex = 28;
             // 
             // Archive

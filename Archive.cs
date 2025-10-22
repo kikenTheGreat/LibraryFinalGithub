@@ -53,70 +53,6 @@ namespace LibraryCGC
         }
 
 
-
-
-        private void RestoreBookFromArchive(DataGridViewRow row)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(
-                    "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
-                {
-                    con.Open();
-
-
-
-                    // Insert into BooksAcq
-                    using (SqlCommand insertCmd = new SqlCommand(@"
-                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category)
-                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con))
-                    {
-                        insertCmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value ?? DBNull.Value);
-                        insertCmd.Parameters.AddWithValue("@Author", row.Cells["Author"].Value ?? DBNull.Value);
-                        insertCmd.Parameters.AddWithValue("@ISBN", row.Cells["ISBN"].Value ?? DBNull.Value);
-                        insertCmd.Parameters.AddWithValue("@Publisher", row.Cells["Publisher"].Value ?? DBNull.Value);
-                        insertCmd.Parameters.AddWithValue("@Source", row.Cells["Source"].Value ?? DBNull.Value);
-
-                        if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int qty))
-                            insertCmd.Parameters.AddWithValue("@Quantity", qty);
-                        else
-                            insertCmd.Parameters.AddWithValue("@Quantity", DBNull.Value);
-
-                        insertCmd.Parameters.AddWithValue("@Published", row.Cells["Published"].Value ?? DBNull.Value);
-                        insertCmd.Parameters.AddWithValue("@Category", row.Cells["Category"].Value ?? DBNull.Value);
-
-                        int result = insertCmd.ExecuteNonQuery();
-                        if (result > 0)
-                        {
-                            // Delete from archive
-                            using (SqlCommand deleteCmd = new SqlCommand("DELETE FROM BooksArchive WHERE BookID = @BookID", con))
-                            {
-                                deleteCmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value ?? DBNull.Value);
-                                deleteCmd.ExecuteNonQuery();
-                            }
-
-                            MessageBox.Show("✅ Book restored successfully!");
-                            LoadBooksGrid(); // Refresh grid only after success
-                            GlobalEvents.RaiseBooksDataChanged();
-                            GlobalEvents.RaiseArchivedDataChanged();
-                        }
-                        else
-                        {
-                            MessageBox.Show("⚠️ No rows inserted. Check your database columns.");
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error restoring book: " + ex.Message);
-            }
-            GlobalEvents.RaiseArchivedDataChanged();
-
-        }
-
-
-
         private void LoadBooksGrid()          //output the datagrid 
         {
             using (SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
@@ -239,6 +175,15 @@ namespace LibraryCGC
             colCategory.Width = 150;
             DataGridTotalBooks.Columns.Add(colCategory);
 
+            // --- Book Type ---
+            var colBookType = new DataGridViewTextBoxColumn();
+            colBookType.HeaderText = "Book Type";
+            colBookType.DataPropertyName = "BookType";
+            colBookType.Name = "BookType";
+            colBookType.Width = 130;
+            DataGridTotalBooks.Columns.Add(colBookType);
+
+
             // --- Archived Date ---
             var colArchivedDate = new DataGridViewTextBoxColumn();
             colArchivedDate.HeaderText = "Archived Date";
@@ -262,11 +207,6 @@ namespace LibraryCGC
         {
 
         }
-
-
-        // to delete nowwww
-
-
 
         private void flowLayoutPanelPenalties_Paint(object sender, PaintEventArgs e)
         {
@@ -299,97 +239,6 @@ namespace LibraryCGC
         private void btnRestoreBook_Load(object sender, EventArgs e)
         {
 
-        }
-
-        private void btnRestoreBook_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtISBNRestore.Text))
-            {
-                MessageBox.Show("⚠️ Please enter a Book ID to restore.");
-                return;
-            }
-
-            int bookId;
-            if (!int.TryParse(txtISBNRestore.Text, out bookId))
-            {
-                MessageBox.Show("⚠️ Invalid Book ID. Please enter a number.");
-                return;
-            }
-
-            RestoreBookByID(bookId);
-        }
-
-
-        private void RestoreBookByID(int bookId)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(
-                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
-                {
-                    con.Open();
-
-                    // Retrieve the archived book details
-                    SqlCommand selectCmd = new SqlCommand("SELECT * FROM BooksArchive WHERE BookID = @BookID", con);
-                    selectCmd.Parameters.AddWithValue("@BookID", bookId);
-
-                    SqlDataReader reader = selectCmd.ExecuteReader();
-                    if (!reader.Read())
-                    {
-                        MessageBox.Show("❌ Book ID not found in archive.");
-                        return;
-                    }
-
-                    // Extract values safely
-                    string title = reader["BookTitle"].ToString();
-                    string author = reader["Author"].ToString();
-                    string isbn = reader["ISBN"].ToString();
-                    string publisher = reader["Publisher"].ToString();
-                    string source = reader["Source"].ToString();
-                    int quantity = Convert.ToInt32(reader["Quantity"]);
-                    string published = reader["Published"].ToString();
-                    string category = reader["Category"].ToString();
-
-                    reader.Close();
-
-                    // Insert into BooksAcq
-                    SqlCommand insertCmd = new SqlCommand(@"
-                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category)
-                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
-
-                    insertCmd.Parameters.AddWithValue("@BookTitle", title);
-                    insertCmd.Parameters.AddWithValue("@Author", author);
-                    insertCmd.Parameters.AddWithValue("@ISBN", isbn);
-                    insertCmd.Parameters.AddWithValue("@Publisher", publisher);
-                    insertCmd.Parameters.AddWithValue("@Source", source);
-                    insertCmd.Parameters.AddWithValue("@Quantity", quantity);
-                    insertCmd.Parameters.AddWithValue("@Published", published);
-                    insertCmd.Parameters.AddWithValue("@Category", category);
-
-                    int result = insertCmd.ExecuteNonQuery();
-                    if (result > 0)
-                    {
-                        // Delete from archive
-                        SqlCommand deleteCmd = new SqlCommand("DELETE FROM BooksArchive WHERE BookID = @BookID", con);
-                        deleteCmd.Parameters.AddWithValue("@BookID", bookId);
-                        deleteCmd.ExecuteNonQuery();
-
-                        MessageBox.Show("✅ Book restored successfully!");
-                        LoadBooksGrid(); // Refresh grid
-                        txtISBNRestore.Clear();
-                        GlobalEvents.RaiseBooksDataChanged();
-                        GlobalEvents.RaiseArchivedDataChanged();
-                    }
-                    else
-                    {
-                        MessageBox.Show("⚠️ Restore failed. Please check the database.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error restoring book: " + ex.Message);
-            }
         }
 
         private void btnRestoreBook_Click_1(object sender, EventArgs e)
@@ -433,13 +282,14 @@ namespace LibraryCGC
                     string published = reader["Published"].ToString();
                     string category = reader["Category"].ToString();
                     int bookId = Convert.ToInt32(reader["BookID"]);
+                    string booktype = reader["BookType"].ToString();
 
                     reader.Close();
 
                     // Insert back into BooksAcq
                     SqlCommand insertCmd = new SqlCommand(@"
-                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category)
-                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category,BookType)
+                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category,@BookType)", con);
 
                     insertCmd.Parameters.AddWithValue("@BookTitle", title);
                     insertCmd.Parameters.AddWithValue("@Author", author);
@@ -449,6 +299,7 @@ namespace LibraryCGC
                     insertCmd.Parameters.AddWithValue("@Quantity", quantity);
                     insertCmd.Parameters.AddWithValue("@Published", published);
                     insertCmd.Parameters.AddWithValue("@Category", category);
+                    insertCmd.Parameters.AddWithValue("@BookType", booktype);
 
                     int result = insertCmd.ExecuteNonQuery();
                     if (result > 0)

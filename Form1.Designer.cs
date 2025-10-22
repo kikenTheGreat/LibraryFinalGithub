@@ -744,7 +744,7 @@
             arthanPanel5.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel5.GradientEndColor = Color.White;
             arthanPanel5.GradientStartColor = Color.White;
-            arthanPanel5.Location = new Point(558, 174);
+            arthanPanel5.Location = new Point(546, 174);
             arthanPanel5.Margin = new Padding(3, 4, 3, 4);
             arthanPanel5.Name = "arthanPanel5";
             arthanPanel5.RightToLeft = RightToLeft.No;

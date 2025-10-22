@@ -366,34 +366,39 @@ namespace LibraryCGC
                 con.Open();
 
                 SqlCommand cmd = new SqlCommand(@"INSERT INTO BooksAcq 
-        (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) 
-        VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+(BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType) 
+VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType)", con);
 
-
-
-
-                // 🔄 Force ArthanTextBoxes to sync their visual text into actual .Text
-                BookTitle.Text = BookTitle.Texts;
-                Author.Text = Author.Texts;
-                Publisher.Text = Publisher.Texts;
-                //Quantity.Text = Quantity.Texts; ------------------------
-                Published.Text = Published.Texts;
-                Category.Text = Category.Texts;
-                txtDesc.Text = txtDesc.Texts;
-                ISBN.Text = ISBN.Texts;
-
-                // ✅ Now use .Text (not .Texts) when saving
-                cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
-                cmd.Parameters.AddWithValue("@Author", Author.Text);
-                cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
-                cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
+                // Your parameters...
+                cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Texts);
+                cmd.Parameters.AddWithValue("@Author", Author.Texts);
+                cmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
+                cmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
                 cmd.Parameters.AddWithValue("@Source", Source.Text);
                 cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
-                cmd.Parameters.AddWithValue("@Published", Published.Text);
-                cmd.Parameters.AddWithValue("@Category", Category.Text);
+                cmd.Parameters.AddWithValue("@Published", Published.Texts);
+                cmd.Parameters.AddWithValue("@Category", Category.Texts);
+
+                // Detect and add BookType
+                string typeOfBook = "Book";
+                string category = Category.Text.ToLower();
+
+                if (category.Contains("magazine") || category.Contains("journal"))
+                    typeOfBook = "Magazine";
+                else if (category.Contains("newspaper") || category.Contains("news"))
+                    typeOfBook = "Newspaper";
+                else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
+                    typeOfBook = "Report / Document";
+                else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
+                    typeOfBook = "Catalog / Pamphlet";
+                else
+                    typeOfBook = "Book";
+
+                cmd.Parameters.AddWithValue("@BookType", typeOfBook);
 
                 cmd.ExecuteNonQuery();
-                MessageBox.Show("Book added successfully!");
+                MessageBox.Show($"{typeOfBook} added successfully!");
+
                 GlobalEvents.RaiseBooksDataChanged();
             }
 
@@ -477,57 +482,72 @@ namespace LibraryCGC
 
         private void ArchivedButton_Click(object sender, EventArgs e)
         {
-            //not already apply thisssssssssssssssssssssssssssssssssssssss
-            // archive function ----------------------
+            using (SqlConnection con = new SqlConnection(
+                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+            {
+                con.Open();
 
-            SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n");
-            con.Open();
+                SqlCommand cmd = new SqlCommand(@"
+            INSERT INTO BooksArchive 
+            (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType)
+            VALUES 
+            (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType)", con);
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO BooksArchive (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category) " +
-                "VALUES ( @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category)", con);
+                cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
+                cmd.Parameters.AddWithValue("@Author", Author.Text);
+                cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
+                cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
+                cmd.Parameters.AddWithValue("@Source", Source.Text);
+                cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
+                cmd.Parameters.AddWithValue("@Published", Published.Text);
+                cmd.Parameters.AddWithValue("@Category", Category.Text);
 
+                // 🟢 Detect BookType (same logic as Book_Acquire insert)
+                string typeOfBook = "Book";
+                string category = Category.Text.ToLower();
 
-            cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
-            cmd.Parameters.AddWithValue("@Author", Author.Text);
-            cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
-            cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
-            cmd.Parameters.AddWithValue("@Source", Source.Text);
-            cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
-            cmd.Parameters.AddWithValue("@Published", Published.Text);
-            cmd.Parameters.AddWithValue("@Category", Category.Text);
+                if (category.Contains("magazine") || category.Contains("journal"))
+                    typeOfBook = "Magazine";
+                else if (category.Contains("newspaper") || category.Contains("news"))
+                    typeOfBook = "Newspaper";
+                else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
+                    typeOfBook = "Report / Document";
+                else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
+                    typeOfBook = "Catalog / Pamphlet";
+                else
+                    typeOfBook = "Book";
 
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("Book archived successfully!");
+                cmd.Parameters.AddWithValue("@BookType", typeOfBook);
 
-            LoadBooksGrid(); // Optional: reload if showing archived books
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Book archived successfully!");
 
-            con.Close();
+                LoadBooksGrid();
+            }
 
-            // Clear fields
-
+            // Clear input fields after archiving
             BookTitle.Text = "";
             Author.Text = "";
             ISBN.Text = "";
             Publisher.Text = "";
-
             Quantity.Text = "";
             Published.Text = "";
             Category.Text = "";
-
         }
 
+
         private void ArchiveBookFromRow(DataGridViewRow row)
-        {//not already apply thissssssssssssssssssssssssssssssssssssss
+        {
             using (SqlConnection con = new SqlConnection(
-    "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
+                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
             {
                 con.Open();
 
                 using (SqlCommand cmd = new SqlCommand(@"
-        INSERT INTO BooksArchive 
-        (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate)
-        VALUES 
-        (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate)", con))
+            INSERT INTO BooksArchive 
+            (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate, BookType)
+            VALUES 
+            (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate, @BookType)", con))
                 {
                     cmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value ?? DBNull.Value);
@@ -536,7 +556,6 @@ namespace LibraryCGC
                     cmd.Parameters.AddWithValue("@Publisher", row.Cells["Publisher"].Value ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Source", row.Cells["Source"].Value ?? DBNull.Value);
 
-                    // Convert Quantity from string to int (handle nulls safely)
                     if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int qty))
                         cmd.Parameters.AddWithValue("@Quantity", qty);
                     else
@@ -546,17 +565,22 @@ namespace LibraryCGC
                     cmd.Parameters.AddWithValue("@Category", row.Cells["Category"].Value ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@ArchivedDate", DateTime.Now);
 
+                    if (row.Cells["BookType"] != null)
+                        cmd.Parameters.AddWithValue("@BookType", row.Cells["BookType"].Value ?? DBNull.Value);
+                    else
+                        cmd.Parameters.AddWithValue("@BookType", DBNull.Value);
+
+
+
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Book archived successfully!");
                     GlobalEvents.RaiseBooksDataChanged();
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseArchivedDataChanged();
-
-
                 }
             }
-
         }
+
 
         private void DeleteFromBooksAcq(string bookID) //delete after archive
         {
@@ -964,6 +988,14 @@ namespace LibraryCGC
             colCategory.Name = "Category";
             colCategory.Width = 150;
             DataGridTotalBooks.Columns.Add(colCategory);
+
+            // --- Book Type ---
+            var colBookType = new DataGridViewTextBoxColumn();
+            colBookType.HeaderText = "Book Type";
+            colBookType.DataPropertyName = "BookType";  // must match column name in DB
+            colBookType.Name = "BookType";
+            colBookType.Width = 130;
+            DataGridTotalBooks.Columns.Add(colBookType);
 
             // --- Styling ---
             DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
