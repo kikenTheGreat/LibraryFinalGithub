@@ -221,7 +221,6 @@ Trust Server Certificate=True;
 
 
 
-
         public void LoadPenaltyCards()
         {
             if (InvokeRequired)
@@ -230,17 +229,21 @@ Trust Server Certificate=True;
                 return;
             }
 
-            // Optional: reduce flicker during reload
+            // Reduce flicker during reload
             flowPanel1.SuspendLayout();
             flowPanel2.SuspendLayout();
             flowPanel3.SuspendLayout();
             flowPanel4.SuspendLayout();
+            flowLayoutPanel11111.SuspendLayout();
+            flowLayoutPanel22222.SuspendLayout();
 
             // Clear existing cards
             flowPanel1.Controls.Clear();
             flowPanel2.Controls.Clear();
             flowPanel3.Controls.Clear();
             flowPanel4.Controls.Clear();
+            flowLayoutPanel11111.Controls.Clear();
+            flowLayoutPanel22222.Controls.Clear();
 
             string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
@@ -303,19 +306,29 @@ Trust Server Certificate=True;";
 
                         card.Controls.Add(lblInfo);
 
-                        // distribute dynamically to the column with fewest cards
-                        FlowLayoutPanel[] columns = { flowPanel1, flowPanel2, flowPanel3, flowPanel4 };
+                        // Distribute dynamically to the column with the fewest cards
+                        FlowLayoutPanel[] columns =
+                        {
+                    flowPanel1, flowPanel2, flowPanel3, flowPanel4,
+                    flowLayoutPanel11111, flowLayoutPanel22222
+                };
+
                         FlowLayoutPanel target = columns.OrderBy(p => p.Controls.Count).First();
                         target.Controls.Add(card);
                     }
                 }
             }
 
+            // Resume layouts
             flowPanel1.ResumeLayout();
             flowPanel2.ResumeLayout();
             flowPanel3.ResumeLayout();
             flowPanel4.ResumeLayout();
+            flowLayoutPanel11111.ResumeLayout();
+            flowLayoutPanel22222.ResumeLayout();
         }
+
+
 
 
 

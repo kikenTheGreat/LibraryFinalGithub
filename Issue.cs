@@ -289,6 +289,10 @@ Trust Server Certificate=True;
             panelIssueBooks.Visible = true;
             panelReturnBooks.Visible = false;
 
+            // Add multiple items at once
+            BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged", "Lost" });
+            BookCondition.SelectedIndex = 0;
+
         }
 
 
@@ -805,13 +809,13 @@ Trust Server Certificate=True;";
                         cmd.Parameters.AddWithValue("@BookID", bookID);
                         con.Open();
                         var result = cmd.ExecuteScalar();
-                        ReturnBookTitle.Text = result != null ? result.ToString() : "";
+
                     }
                 }
             }
             else
             {
-                ReturnBookTitle.Text = "";
+
             }
         }
 
@@ -846,6 +850,167 @@ Trust Server Certificate=True;";
 
 
         private void dgvReturnList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void ReturnButton_Click(object sender, EventArgs e)
+        {
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+    Initial Catalog=LibraryDB;
+    Integrated Security=True;
+    Encrypt=True;
+    Trust Server Certificate=True;";
+
+            if (ReturnedBookID.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a book to return.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Extract values from UI
+            string selectedBook = ReturnedBookID.SelectedItem.ToString();
+            string bookID = selectedBook.Split('-')[0].Trim();
+            string clientID = ReturnClientID.Text.Trim();
+            string clientName = ReturnClientName.Text;
+            string role = ReturnBookStatus.Text; // assuming this shows Role or Status
+            string source = "Library";
+            string bookTitle = selectedBook.Split('-').Length > 1 ? selectedBook.Split('-')[1].Trim() : "Unknown";
+            int quantity = int.TryParse(ReturnBookQty.Text, out int q) ? q : 1;
+            decimal penalty = decimal.TryParse(ReturnPenalty.Text, out decimal p) ? p : 0;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                SqlTransaction transaction = con.BeginTransaction();
+
+                try
+                {
+                    // 1️⃣ Get IssueID, IssueDate, and DueDate
+                    int issueID = 0;
+                    DateTime issueDate = DateTime.Now;
+                    DateTime dueDate = DateTime.Now;
+
+                    string getIssueQuery = @"
+                SELECT TOP 1 IssueID, IssueDate, DueDate, Source
+                FROM IssueBooks
+                WHERE ClientID = @ClientID AND BookID = @BookID
+                AND (Status = 'Issued' OR Status = 'Overdue')
+                ORDER BY IssueDate DESC";
+
+                    using (SqlCommand cmdGet = new SqlCommand(getIssueQuery, con, transaction))
+                    {
+                        cmdGet.Parameters.AddWithValue("@ClientID", clientID);
+                        cmdGet.Parameters.AddWithValue("@BookID", bookID);
+
+                        using (SqlDataReader reader = cmdGet.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                issueID = Convert.ToInt32(reader["IssueID"]);
+                                issueDate = Convert.ToDateTime(reader["IssueDate"]);
+                                dueDate = Convert.ToDateTime(reader["DueDate"]);
+                                source = reader["Source"].ToString();
+                            }
+                        }
+                    }
+
+                    // 2️⃣ Update IssueBooks table
+                    DateTime returnDate = DateTime.Now;
+                    string updateIssueQuery = @"
+                UPDATE IssueBooks
+                SET Status = 'Returned', ReturnDate = @ReturnDate
+                WHERE IssueID = @IssueID";
+
+                    using (SqlCommand cmdUpdate = new SqlCommand(updateIssueQuery, con, transaction))
+                    {
+                        cmdUpdate.Parameters.AddWithValue("@ReturnDate", returnDate);
+                        cmdUpdate.Parameters.AddWithValue("@IssueID", issueID);
+                        cmdUpdate.ExecuteNonQuery();
+                    }
+
+                    // 3️⃣ Insert record into ReturnedBooks table
+                    string insertReturnQuery = @"
+                INSERT INTO ReturnedBooks 
+                    (IssueID, ClientID, ClientName, ClientType, BookTitle, Quantity, Source, IssueDate, DueDate, ReturnDate, Status)
+                VALUES 
+                    (@IssueID, @ClientID, @ClientName, @ClientType, @BookTitle, @Quantity, @Source, @IssueDate, @DueDate, @ReturnDate, @Status)";
+
+                    using (SqlCommand cmdInsert = new SqlCommand(insertReturnQuery, con, transaction))
+                    {
+                        cmdInsert.Parameters.AddWithValue("@IssueID", issueID);
+                        cmdInsert.Parameters.AddWithValue("@ClientID", clientID);
+                        cmdInsert.Parameters.AddWithValue("@ClientName", clientName);
+                        cmdInsert.Parameters.AddWithValue("@ClientType", role);
+                        cmdInsert.Parameters.AddWithValue("@BookTitle", bookTitle);
+                        cmdInsert.Parameters.AddWithValue("@Quantity", quantity);
+                        cmdInsert.Parameters.AddWithValue("@Source", source);
+                        cmdInsert.Parameters.AddWithValue("@IssueDate", issueDate);
+                        cmdInsert.Parameters.AddWithValue("@DueDate", dueDate);
+                        cmdInsert.Parameters.AddWithValue("@ReturnDate", returnDate);
+                        cmdInsert.Parameters.AddWithValue("@Status", "Returned");
+
+                        cmdInsert.ExecuteNonQuery();
+                    }
+
+              
+
+
+                   
+
+                    // ✅ Commit
+                    transaction.Commit();
+
+                    // ✅ Retrieve actual saved ReturnDate from ReturnedBooks (not IssueBooks)
+                    string selectQuery = @"
+    SELECT TOP 1 ReturnDate
+    FROM ReturnedBooks
+    WHERE IssueID = @IssueID
+    ORDER BY ReturnID DESC"; // ensures we get the latest return record
+
+                    using (SqlCommand cmdSelect = new SqlCommand(selectQuery, con))
+                    {
+                        cmdSelect.Parameters.AddWithValue("@IssueID", issueID);
+                        object result = cmdSelect.ExecuteScalar();
+
+                        if (result != null && result != DBNull.Value)
+                        {
+                            DateTime actualReturnDate = Convert.ToDateTime(result);
+                            lblReturnDate.Text = $"Returned on: {actualReturnDate:MMMM dd, yyyy hh:mm tt}";
+                        }
+                        else
+                        {
+                            // fallback if ReturnDate not found
+                            lblReturnDate.Text = $"Returned on: {DateTime.Now:MMMM dd, yyyy hh:mm tt}";
+                        }
+                    }
+
+                    // ✅ Success message
+                    MessageBox.Show("Book returned successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // ✅ Optional: clear other fields but keep the Return Date visible
+                    ReturnClientID.Clear();
+                    ReturnClientName.Items.Clear();
+                    ReturnedBookID.Items.Clear();
+                    ReturnBookStatus.Items.Clear();
+                    ReturnPenalty.Clear();
+
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show("Error returning book:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
+        private void guna2TextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label24_Click(object sender, EventArgs e)
         {
 
         }

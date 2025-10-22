@@ -433,7 +433,7 @@
             arthanButton4.Name = "arthanButton4";
             arthanButton4.Size = new Size(211, 111);
             arthanButton4.TabIndex = 6;
-            arthanButton4.Text = "    Issue Books";
+            arthanButton4.Text = "Issue / Returned Books";
             arthanButton4.TextAlign = ContentAlignment.BottomLeft;
             arthanButton4.UseIndividualCorners = true;
             arthanButton4.UseVisualStyleBackColor = false;
