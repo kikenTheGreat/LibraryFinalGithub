@@ -40,6 +40,7 @@ namespace LibraryCGC
 
         private void LoadIssueBooks()
         {
+
             string query = @"
         SELECT 
             IssueID,
@@ -70,6 +71,7 @@ Trust Server Certificate=True;
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 IssueBooksDataGrid.DataSource = dt;
+                HighlightOverdueRows();
 
                 // Clean and user-friendly appearance
                 IssueBooksDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -79,6 +81,12 @@ Trust Server Certificate=True;
                 IssueBooksDataGrid.MultiSelect = false;
                 IssueBooksDataGrid.ReadOnly = true;
                 IssueBooksDataGrid.RowHeadersVisible = false;
+
+     
+
+
+
+
             }
 
             // ✅ Auto layout and scaling
@@ -101,6 +109,20 @@ Trust Server Certificate=True;
 
             // Optional: center column headers
             IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            // ✅ Highlight overdue rows in red
+            foreach (DataGridViewRow row in IssueBooksDataGrid.Rows)
+            {
+                if (row.Cells["Status"].Value != null)
+                {
+                    string status = row.Cells["Status"].Value.ToString();
+                    if (status.Equals("Overdue", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightCoral; // red shade
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                }
+            }
 
         }
 
@@ -170,6 +192,31 @@ Trust Server Certificate=True;
 
 
 
+        private void HighlightOverdueRows()
+        {
+            foreach (DataGridViewRow row in IssueBooksDataGrid.Rows)
+            {
+                if (row.Cells["Status"].Value != null)
+                {
+                    string status = row.Cells["Status"].Value.ToString();
+                    if (status.Equals("Overdue", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightCoral; // red
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    else if (status.Equals("Returned", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightGreen; // green
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = Color.White; // default
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
 
 
 
@@ -343,6 +390,13 @@ Trust Server Certificate=True;
             overdueTimer.Interval = 1000; // every 1 sec (adjust as you like)
             overdueTimer.Tick += overdueTimer_Tick;
             overdueTimer.Start();
+            HighlightOverdueRows();
+
+            overdueTimer = new System.Windows.Forms.Timer();
+            overdueTimer.Interval = 1000; // every 1 sec (adjust as you like)
+            overdueTimer.Tick += overdueTimer_Tick;
+            overdueTimer.Start();
+
 
             UpdateTotalOverdueLabel();
 
@@ -364,11 +418,43 @@ Trust Server Certificate=True;
 
             LoadReturnedBooks();
 
+            issueDate.Value = DateTime.Now;
+            issueDate.Format = DateTimePickerFormat.Custom;
+            issueDate.CustomFormat = "dddd, MMMM dd, yyyy"; // Example: Friday, October 25, 2025
+
+            StartDateTimeUpdater(); // ✅ Live update the Issue Date picker
+
+
         }
 
 
 
-     
+        private void StartDateTimeUpdater()
+        {
+            // ✅ Use Windows Forms Timer
+            System.Windows.Forms.Timer dateTimer = new System.Windows.Forms.Timer();
+            dateTimer.Interval = 1000; // every 1 second
+            dateTimer.Tick += (s, e) =>
+            {
+                // ⏰ Update Issue Date to current date and time
+                issueDate.Value = DateTime.Now;
+
+                // 📅 Automatically set Due Date to 7 days after Issue Date
+                dueDate.Value = DateTime.Now.AddDays(3);
+            };
+            dateTimer.Start();
+
+            // ✅ Format display for both date pickers
+            issueDate.Format = DateTimePickerFormat.Custom;
+            issueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt"; // Example: Friday, October 25, 2025 06:45 PM
+
+            dueDate.Format = DateTimePickerFormat.Custom;
+            dueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt";   // Example: Friday, November 1, 2025 06:45 PM
+        }
+
+
+
+
 
 
 
@@ -955,16 +1041,12 @@ Trust Server Certificate=True;";
                 return;
             }
 
-            // Extract values from UI
             string selectedBook = ReturnedBookID.SelectedItem.ToString();
             string bookID = selectedBook.Split('-')[0].Trim();
             string clientID = ReturnClientID.Text.Trim();
             string clientName = ReturnClientName.Text;
-            string role = ReturnBookStatus.Text; // assuming this shows Role or Status
-            string source = "Library";
+            string clientType = "Student"; // or another dropdown if available
             string bookTitle = selectedBook.Split('-').Length > 1 ? selectedBook.Split('-')[1].Trim() : "Unknown";
-            int quantity = int.TryParse(ReturnBookQty.Text, out int q) ? q : 1;
-            decimal penalty = decimal.TryParse(ReturnPenalty.Text, out decimal p) ? p : 0;
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -973,10 +1055,11 @@ Trust Server Certificate=True;";
 
                 try
                 {
-                    // 1️⃣ Get IssueID, IssueDate, and DueDate
+                    // 1️⃣ Get Issue details
                     int issueID = 0;
                     DateTime issueDate = DateTime.Now;
                     DateTime dueDate = DateTime.Now;
+                    string source = "";
 
                     string getIssueQuery = @"
                 SELECT TOP 1 IssueID, IssueDate, DueDate, Source
@@ -1002,89 +1085,47 @@ Trust Server Certificate=True;";
                         }
                     }
 
-                    // 2️⃣ Update IssueBooks table
-                    DateTime returnDate = DateTime.Now;
-                    string updateIssueQuery = @"
-                UPDATE IssueBooks
-                SET Status = 'Returned', ReturnDate = @ReturnDate
-                WHERE IssueID = @IssueID";
-
-                    using (SqlCommand cmdUpdate = new SqlCommand(updateIssueQuery, con, transaction))
-                    {
-                        cmdUpdate.Parameters.AddWithValue("@ReturnDate", returnDate);
-                        cmdUpdate.Parameters.AddWithValue("@IssueID", issueID);
-                        cmdUpdate.ExecuteNonQuery();
-                    }
-
-                    // 3️⃣ Insert record into ReturnedBooks table
-                    string insertReturnQuery = @"
+                    // 2️⃣ Move from IssueBooks → ReturnedBooks, then delete from IssueBooks
+                    string moveQuery = @"
                 INSERT INTO ReturnedBooks 
                     (IssueID, ClientID, ClientName, ClientType, BookTitle, Quantity, Source, IssueDate, DueDate, ReturnDate, Status)
-                VALUES 
-                    (@IssueID, @ClientID, @ClientName, @ClientType, @BookTitle, @Quantity, @Source, @IssueDate, @DueDate, @ReturnDate, @Status)";
+                SELECT 
+                    IssueID, 
+                    ClientID, 
+                    StudentName AS ClientName, 
+                    @ClientType AS ClientType, 
+                    BookTitle, 
+                    Quantity, 
+                    Source, 
+                    IssueDate, 
+                    DueDate, 
+                    GETDATE() AS ReturnDate, 
+                    'Returned' AS Status
+                FROM IssueBooks
+                WHERE IssueID = @IssueID;
 
-                    using (SqlCommand cmdInsert = new SqlCommand(insertReturnQuery, con, transaction))
+                DELETE FROM IssueBooks
+                WHERE IssueID = @IssueID;
+            ";
+
+                    using (SqlCommand cmdMove = new SqlCommand(moveQuery, con, transaction))
                     {
-                        cmdInsert.Parameters.AddWithValue("@IssueID", issueID);
-                        cmdInsert.Parameters.AddWithValue("@ClientID", clientID);
-                        cmdInsert.Parameters.AddWithValue("@ClientName", clientName);
-                        cmdInsert.Parameters.AddWithValue("@ClientType", role);
-                        cmdInsert.Parameters.AddWithValue("@BookTitle", bookTitle);
-                        cmdInsert.Parameters.AddWithValue("@Quantity", quantity);
-                        cmdInsert.Parameters.AddWithValue("@Source", source);
-                        cmdInsert.Parameters.AddWithValue("@IssueDate", issueDate);
-                        cmdInsert.Parameters.AddWithValue("@DueDate", dueDate);
-                        cmdInsert.Parameters.AddWithValue("@ReturnDate", returnDate);
-                        cmdInsert.Parameters.AddWithValue("@Status", "Returned");
-
-                        cmdInsert.ExecuteNonQuery();
+                        cmdMove.Parameters.AddWithValue("@IssueID", issueID);
+                        cmdMove.Parameters.AddWithValue("@ClientType", clientType);
+                        cmdMove.ExecuteNonQuery();
                     }
 
-
-
-
-
-
-                    // ✅ Commit
+                    // ✅ Commit changes
                     transaction.Commit();
 
-                    // ✅ Retrieve actual saved ReturnDate from ReturnedBooks (not IssueBooks)
-                    string selectQuery = @"
-    SELECT TOP 1 ReturnDate
-    FROM ReturnedBooks
-    WHERE IssueID = @IssueID
-    ORDER BY ReturnID DESC"; // ensures we get the latest return record
-
-                    using (SqlCommand cmdSelect = new SqlCommand(selectQuery, con))
-                    {
-                        cmdSelect.Parameters.AddWithValue("@IssueID", issueID);
-                        object result = cmdSelect.ExecuteScalar();
-
-                        if (result != null && result != DBNull.Value)
-                        {
-                            DateTime actualReturnDate = Convert.ToDateTime(result);
-                            lblReturnDate.Text = $"Returned on: {actualReturnDate:MMMM dd, yyyy hh:mm tt}";
-                        }
-                        else
-                        {
-                            // fallback if ReturnDate not found
-                            lblReturnDate.Text = $"Returned on: {DateTime.Now:MMMM dd, yyyy hh:mm tt}";
-                        }
-                    }
-
-                    // ✅ Success message
                     MessageBox.Show("Book returned successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    GlobalEvents.RaiseBorrowedDataChanged();
-                    GlobalEvents.RaiseOverdueDataChanged();
-                    GlobalEvents.RaisePenaltiesDataChanged();
+                    lblReturnDate.Text = $"Returned on: {DateTime.Now:MMMM dd, yyyy hh:mm tt}";
 
-                    // ✅ Optional: clear other fields but keep the Return Date visible
                     ReturnClientID.Clear();
                     ReturnClientName.Items.Clear();
                     ReturnedBookID.Items.Clear();
                     ReturnBookStatus.Items.Clear();
                     ReturnPenalty.Clear();
-
                 }
                 catch (Exception ex)
                 {
@@ -1097,6 +1138,7 @@ Trust Server Certificate=True;";
             GlobalEvents.RaiseOverdueDataChanged();
             GlobalEvents.RaisePenaltiesDataChanged();
         }
+
 
 
         private void guna2TextBox1_TextChanged(object sender, EventArgs e)
