@@ -23,6 +23,7 @@ namespace LibraryCGC
     public partial class Book_Aquire : Form
     {
         private DataTable booksTable = new DataTable();
+        private int? editingRowIndex = null;
 
         private bool scannerMode = true; // default: Scanner Mode
 
@@ -644,6 +645,30 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 FillComboBox(cmbCategory, "Category");
                 FillComboBox(cmbBookType, "BookType");
 
+                // Bind grid
+                DataGridTotalBooks.DataSource = booksTable.DefaultView;
+
+                // ✅ Re-add button columns if they were removed
+                if (!DataGridTotalBooks.Columns.Contains("Update"))
+                {
+                    DataGridViewButtonColumn updateBtn = new DataGridViewButtonColumn();
+                    updateBtn.HeaderText = "Action";
+                    updateBtn.Name = "Update";
+                    updateBtn.Text = "Update";
+                    updateBtn.UseColumnTextForButtonValue = true;
+                    DataGridTotalBooks.Columns.Add(updateBtn);
+                }
+
+                if (!DataGridTotalBooks.Columns.Contains("Archive"))
+                {
+                    DataGridViewButtonColumn archiveBtn = new DataGridViewButtonColumn();
+                    archiveBtn.HeaderText = " ";
+                    archiveBtn.Name = "Archive";
+                    archiveBtn.Text = "Archive";
+                    archiveBtn.UseColumnTextForButtonValue = true;
+                    DataGridTotalBooks.Columns.Add(archiveBtn);
+                }
+
 
             }
         }
@@ -764,95 +789,193 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            // TO ENABLE EDITING IN DATAGRID FOR ROWWW
-            DataGridTotalBooks.ReadOnly = false;
-            DataGridTotalBooks.AllowUserToAddRows = false; // optional
-            DataGridTotalBooks.Columns["Update"].ReadOnly = true; // keep button read-only
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            // Check if the column is BookID
+            DataGridViewRow row = DataGridTotalBooks.Rows[e.RowIndex]; // ✅ always declare this once
+
+            // Prevent editing BookID
             if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "BookID")
             {
                 MessageBox.Show("BookID cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
+                return;
             }
 
-
-
-            // TO ENABLE EDITING IN DATAGRID FOR ROWWW
-
+          
 
 
 
-            if (e.RowIndex >= 0 && DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Action")
+            // Archive/Delete logic
+            if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Archive")
             {
-                DataGridViewRow selectedRow = DataGridTotalBooks.Rows[e.RowIndex];
+                string bookID = row.Cells["BookID"].Value.ToString();
 
-                // Archive it
-                ArchiveBookFromRow(selectedRow);
+                // 🟡 Ask for confirmation first
+                var confirm = MessageBox.Show(
+                    "Are you sure you want to archive this book?",
+                    "Confirm Archive",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
 
-                // Optionally delete it from BooksAcq
-                string bookID = selectedRow.Cells["BookID"].Value.ToString();
+                if (confirm == DialogResult.No)
+                    return; // stop if the user canceled
+
+                // ✅ Proceed with archiving
+                ArchiveBookFromRow(row);
                 DeleteFromBooksAcq(bookID);
-
-                // Refresh grid
                 LoadBooksGrid();
+                return;
             }
 
 
-
-
-
-            // Allow Editing in DATAGRID ROW (UPDATE FUNCTIONNNNNN)
-
-            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
+            // Update logic
             if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Update")
             {
-                // Get the current row
-                DataGridViewRow row = DataGridTotalBooks.Rows[e.RowIndex];
-
-                // Example: retrieve the data
-
-                string bookTitle = row.Cells["BookTitle"].Value.ToString();
-                string author = row.Cells["Author"].Value.ToString();
-                string isbn = row.Cells["ISBN"].Value.ToString();
-                string publisher = row.Cells["Publisher"].Value.ToString();
-                string source = row.Cells["Source"].Value.ToString();
-
-                string quantity = row.Cells["Quantity"].Value.ToString();
-
-
-                string published = row.Cells["Published"].Value.ToString();
-                string category = row.Cells["Category"].Value.ToString();
-
-                // Update to database
-                using (SqlConnection con = new SqlConnection("   Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
+                // 🟡 Step 1: If no row is being edited yet — enable editing
+                if (editingRowIndex == null)
                 {
-                    int bookID = Convert.ToInt32(DataGridTotalBooks.CurrentRow.Cells["BookID"].Value);
+                    editingRowIndex = e.RowIndex;
+                    DataGridTotalBooks.ReadOnly = false; // allow editing
+                    DataGridTotalBooks.Rows[e.RowIndex].ReadOnly = false;
 
-                    con.Open();
+                    // Disable editing for other rows
+                    foreach (DataGridViewRow r in DataGridTotalBooks.Rows)
+                    {
+                        if (r.Index != e.RowIndex)
+                            r.ReadOnly = true;
+                    }
 
-                    SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
-
-                    cmd.Parameters.AddWithValue("@BookTitle", bookTitle);
-                    cmd.Parameters.AddWithValue("@Author", author);
-                    cmd.Parameters.AddWithValue("@ISBN", isbn);
-                    cmd.Parameters.AddWithValue("@Publisher", publisher);
-                    cmd.Parameters.AddWithValue("@Source", source);
-                    cmd.Parameters.AddWithValue("@Quantity", quantity);
-                    cmd.Parameters.AddWithValue("@Published", published);
-                    cmd.Parameters.AddWithValue("@Category", category);
-
-
-                    cmd.Parameters.AddWithValue("@BookID", bookID); // Make sure bookID has a value
-
-                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("You can now edit this row. Click the Update button again to save changes.",
+                                    "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
 
-                MessageBox.Show("Book updated successfully!");
+                // 🟢 Step 2: If the same row is being edited — save changes
+                if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Update")
+                {
+                    // 🟡 Step 1: If no row is being edited yet — enable editing
+                    if (editingRowIndex == null)
+                    {
+                        editingRowIndex = e.RowIndex;
+
+                        // Enable editing only for this row
+                        DataGridTotalBooks.ReadOnly = false;
+                        foreach (DataGridViewRow r in DataGridTotalBooks.Rows)
+                        {
+                            r.ReadOnly = r.Index != e.RowIndex; // lock others
+                        }
+
+                        // Change button text to "Save"
+                        DataGridTotalBooks.Rows[e.RowIndex].Cells["Update"].Value = "Save";
+
+                        MessageBox.Show("You can now edit this row. Click the Save button to confirm changes.",
+                                        "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    // 🟢 Step 2: If the same row is being edited — save changes
+                    if (editingRowIndex == e.RowIndex)
+                    {
+                        var confirm = MessageBox.Show("Do you want to save the changes to this book?",
+                                                      "Confirm Save",
+                                                      MessageBoxButtons.YesNo,
+                                                      MessageBoxIcon.Question);
+                        if (confirm == DialogResult.No)
+                            return;
+
+                        try
+                        {
+                            DataGridViewRow editRow = DataGridTotalBooks.Rows[e.RowIndex];
+
+
+
+                            int bookID = Convert.ToInt32(editRow.Cells["BookID"].Value);
+                            string bookTitle = editRow.Cells["BookTitle"].Value?.ToString() ?? "";
+                            string author = editRow.Cells["Author"].Value?.ToString() ?? "";
+                            string isbn = editRow.Cells["ISBN"].Value?.ToString() ?? "";
+                            string publisher = editRow.Cells["Publisher"].Value?.ToString() ?? "";
+                            string source = editRow.Cells["Source"].Value?.ToString() ?? "";
+                            int quantity = Convert.ToInt32(editRow.Cells["Quantity"].Value);
+                            string published = editRow.Cells["Published"].Value?.ToString() ?? "";
+                            string category = editRow.Cells["Category"].Value?.ToString() ?? "";
+
+
+                            if (string.IsNullOrWhiteSpace(bookTitle) || string.IsNullOrWhiteSpace(author))
+                            {
+                                MessageBox.Show("Book Title and Author cannot be empty.",
+                                                "Validation Error",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Warning);
+                                return;
+                            }
+
+                            // 🧠 Auto-detect BookType
+                            string bookType = "Book";
+                            string lowerCategory = category.ToLower();
+                            if (lowerCategory.Contains("magazine") || lowerCategory.Contains("journal"))
+                                bookType = "Magazine";
+                            else if (lowerCategory.Contains("newspaper") || lowerCategory.Contains("news"))
+                                bookType = "Newspaper";
+                            else if (lowerCategory.Contains("catalog") || lowerCategory.Contains("pamphlet"))
+                                bookType = "Catalog / Pamphlet";
+                            else if (lowerCategory.Contains("report") || lowerCategory.Contains("document"))
+                                bookType = "Report / Document";
+
+                            using (SqlConnection con = new SqlConnection(
+                                @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;
+                  Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                            {
+                                con.Open();
+                                SqlCommand cmd = new SqlCommand(@"
+                    UPDATE BooksAcq
+                    SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher,
+                        Source = @Source, Quantity = @Quantity, Published = @Published,
+                        Category = @Category, BookType = @BookType
+                    WHERE BookID = @BookID", con);
+
+                                cmd.Parameters.AddWithValue("@BookTitle", bookTitle);
+                                cmd.Parameters.AddWithValue("@Author", author);
+                                cmd.Parameters.AddWithValue("@ISBN", isbn);
+                                cmd.Parameters.AddWithValue("@Publisher", publisher);
+                                cmd.Parameters.AddWithValue("@Source", source);
+                                cmd.Parameters.AddWithValue("@Quantity", quantity);
+                                cmd.Parameters.AddWithValue("@Published", published);
+                                cmd.Parameters.AddWithValue("@Category", category);
+                                cmd.Parameters.AddWithValue("@BookType", bookType);
+                                cmd.Parameters.AddWithValue("@BookID", bookID);
+
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            MessageBox.Show("Book updated successfully!",
+                                            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            // 🔒 Reset everything back
+                            editingRowIndex = null;
+                            DataGridTotalBooks.ReadOnly = true;
+                            DataGridTotalBooks.Rows[e.RowIndex].Cells["Update"].Value = "Update"; // revert text
+
+                            LoadBooksGrid();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error updating book: {ex.Message}",
+                                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+
+
 
             }
-        }
+
+
+
+            }
+
+
+
+
 
         // Make sure this is the method assigned to the ISBN TextBox KeyDown event
         private async void ISBN_KeyDown(object sender, KeyEventArgs e)
