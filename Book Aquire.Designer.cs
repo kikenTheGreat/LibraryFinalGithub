@@ -739,6 +739,8 @@
             cmbSource.Name = "cmbSource";
             cmbSource.Size = new Size(151, 28);
             cmbSource.TabIndex = 69;
+            cmbSource.SelectedIndexChanged += cmbSource_SelectedIndexChanged;
+            cmbSource.TextChanged += cmbSource_TextChanged;
             // 
             // cmbPublished
             // 

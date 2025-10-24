@@ -51,6 +51,13 @@ namespace LibraryCGC
             Source.Items.AddRange(new string[] { "Purchased ", "Donate " });
             Source.SelectedIndex = 0;
 
+            cmbSource.DataSource = null;   // 👈 break data-binding
+            cmbSource.Items.Clear();
+            cmbSource.Items.Add("All");
+            cmbSource.Items.Add("Purchased");
+            cmbSource.Items.Add("Donate");
+            cmbSource.SelectedIndex = 0; // default to All
+
 
         }
 
@@ -312,72 +319,98 @@ namespace LibraryCGC
 
         private void arthanButton1_Click(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection("  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
+            using (SqlConnection con = new SqlConnection(
+                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand(@"INSERT INTO BooksAcq 
+                // 🧠 Step 1: Check if ISBN already exists
+                string checkQuery = "SELECT Quantity FROM BooksAcq WHERE ISBN = @ISBN";
+                using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
+                {
+                    checkCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
+
+                    object existingQtyObj = checkCmd.ExecuteScalar();
+
+                    if (existingQtyObj != null)
+                    {
+                        // ✅ ISBN exists → just update quantity
+                        int existingQty = Convert.ToInt32(existingQtyObj);
+                        int newQty = existingQty + Convert.ToInt32(Quantity.Value);
+
+                        string updateQuery = "UPDATE BooksAcq SET Quantity = @Quantity WHERE ISBN = @ISBN";
+                        using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
+                        {
+                            updateCmd.Parameters.AddWithValue("@Quantity", newQty);
+                            updateCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
+                            updateCmd.ExecuteNonQuery();
+                        }
+
+                        MessageBox.Show("Quantity updated successfully (same ISBN found).",
+                                        "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        // 🆕 ISBN not found → insert new record
+                        string insertQuery = @"INSERT INTO BooksAcq 
 (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType) 
-VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType)", con);
+VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType)";
 
-                // Your parameters...
-                cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Texts);
-                cmd.Parameters.AddWithValue("@Author", Author.Texts);
-                cmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
-                cmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
-                cmd.Parameters.AddWithValue("@Source", Source.Text);
-                cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
-                cmd.Parameters.AddWithValue("@Published", Published.Texts);
-                cmd.Parameters.AddWithValue("@Category", Category.Texts);
+                        using (SqlCommand insertCmd = new SqlCommand(insertQuery, con))
+                        {
+                            insertCmd.Parameters.AddWithValue("@BookTitle", BookTitle.Texts);
+                            insertCmd.Parameters.AddWithValue("@Author", Author.Texts);
+                            insertCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
+                            insertCmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
+                            insertCmd.Parameters.AddWithValue("@Source", Source.Text);
+                            insertCmd.Parameters.AddWithValue("@Quantity", Quantity.Value);
+                            insertCmd.Parameters.AddWithValue("@Published", Published.Texts);
+                            insertCmd.Parameters.AddWithValue("@Category", Category.Texts);
 
-                // Detect and add BookType
-                string typeOfBook = "Book";
-                string category = Category.Text.ToLower();
+                            // Detect BookType
+                            string typeOfBook;
+                            string category = Category.Text.ToLower();
+                            if (category.Contains("magazine") || category.Contains("journal"))
+                                typeOfBook = "Magazine";
+                            else if (category.Contains("newspaper") || category.Contains("news"))
+                                typeOfBook = "Newspaper";
+                            else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
+                                typeOfBook = "Report / Document";
+                            else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
+                                typeOfBook = "Catalog / Pamphlet";
+                            else
+                                typeOfBook = "Book";
 
-                if (category.Contains("magazine") || category.Contains("journal"))
-                    typeOfBook = "Magazine";
-                else if (category.Contains("newspaper") || category.Contains("news"))
-                    typeOfBook = "Newspaper";
-                else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
-                    typeOfBook = "Report / Document";
-                else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
-                    typeOfBook = "Catalog / Pamphlet";
-                else
-                    typeOfBook = "Book";
+                            insertCmd.Parameters.AddWithValue("@BookType", typeOfBook);
+                            insertCmd.ExecuteNonQuery();
 
-                cmd.Parameters.AddWithValue("@BookType", typeOfBook);
-
-                cmd.ExecuteNonQuery();
-                MessageBox.Show($"{typeOfBook} added successfully!");
-
-                GlobalEvents.RaiseBooksDataChanged();
+                            MessageBox.Show($"{typeOfBook} added successfully!");
+                        }
+                    }
+                }
             }
 
+            // 🔄 Refresh grid
             LoadBooksGrid();
+            GlobalEvents.RaiseBooksDataChanged();
 
-            // clear all fields
+            // 🧹 Clear input fields
             BookTitle.Texts = "";
             Author.Texts = "";
             ISBN.Texts = "";
             Publisher.Texts = "";
-
-
-            //Quantity.Texts = "";---------------------------------------------
             Published.Texts = "";
             Category.Texts = "";
             txtDesc.Texts = "";
             picCover.BackgroundImage = null;
+            Quantity.Value = 1;
 
-
+            // 🔁 Update dashboard if open
             var dashboardForm = Application.OpenForms["Form1"] as Form1;
             if (dashboardForm != null)
-            {
                 dashboardForm.UpdateTotalBooksLabel();
-            }
-
-
-
         }
+
 
 
 
@@ -557,10 +590,21 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             {
                 string query = "SELECT * FROM BooksAcq";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
+
                 booksTable.Clear();
                 da.Fill(booksTable);
+
+                // ✅ Must be right after Fill()
                 booksTable.CaseSensitive = false;
-                DataGridTotalBooks.DataSource = booksTable;
+
+                // ✅ Clear any old filters
+                booksTable.DefaultView.RowFilter = "";
+
+                // ✅ IMPORTANT: Bind to DefaultView (not the table)
+                DataGridTotalBooks.DataSource = booksTable.DefaultView;
+
+
+
 
                 // ✅ Fill ComboBoxes with distinct values
                 FillComboBox(cmbBookTitle, "BookTitle");
@@ -629,31 +673,39 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
         {
             try
             {
-                DataView dv = new DataView(booksTable);
+                DataView dv = booksTable.DefaultView;
+                booksTable.CaseSensitive = false;
 
                 List<string> filters = new List<string>();
 
-                if (cmbAuthor.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbAuthor.Text))
-                    filters.Add($"Author LIKE '%{cmbAuthor.Text.Replace("'", "''")}%'");
+                // Helper for LIKE filters
+                void AddLikeFilter(string column, string value)
+                {
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        string safe = value.Replace("'", "''");
+                        filters.Add($"[{column}] LIKE '%{safe}%'");
+                    }
+                }
 
-                if (cmbPublisher.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbPublisher.Text))
-                    filters.Add($"Publisher LIKE '%{cmbPublisher.Text.Replace("'", "''")}%'");
+                // 🔹 Normal filters
+                AddLikeFilter("BookTitle", cmbBookTitle.Text);
+                AddLikeFilter("Author", cmbAuthor.Text);
+                AddLikeFilter("Publisher", cmbPublisher.Text);
+                AddLikeFilter("Published", cmbPublished.Text);
+                AddLikeFilter("Category", cmbCategory.Text);
+                AddLikeFilter("BookType", cmbBookType.Text);
 
-                if (cmbSource.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbSource.Text))
-                    filters.Add($"Source LIKE '%{cmbSource.Text.Replace("'", "''")}%'");
+                // 🔹 Special handling for Source
+                if (cmbSource.SelectedItem != null && cmbSource.Text != "All")
+                {
+                    string selected = cmbSource.Text.Replace("'", "''");
+                    // exact match (no LIKE)
+                    filters.Add($"Source = '{selected}'");
+                }
 
-                if (cmbPublished.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbPublished.Text))
-                    filters.Add($"Published LIKE '%{cmbPublished.Text.Replace("'", "''")}%'");
-
-                if (cmbCategory.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbCategory.Text))
-                    filters.Add($"Category LIKE '%{cmbCategory.Text.Replace("'", "''")}%'");
-
-                if (cmbBookType.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbBookType.Text))
-                    filters.Add($"BookType LIKE '%{cmbBookType.Text.Replace("'", "''")}%'");
-
-                // Combine all filters with AND
+                // Apply all filters
                 dv.RowFilter = string.Join(" AND ", filters);
-
                 DataGridTotalBooks.DataSource = dv;
             }
             catch (Exception ex)
@@ -663,34 +715,50 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
         }
 
 
+
+
+
+
+
+
+
+
         private void ApplyFilters()
         {
-            DataView dv = booksTable.DefaultView;
-            List<string> filters = new List<string>();
+            try
+            {
+                DataView dv = booksTable.DefaultView;
+                booksTable.CaseSensitive = false;
 
-            if (cmbBookTitle.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbBookTitle.Text))
-                filters.Add($"BookTitle LIKE '%{cmbBookTitle.Text.Replace("'", "''")}%'");
+                List<string> filters = new List<string>();
 
-            if (cmbAuthor.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbAuthor.Text))
-                filters.Add($"Author LIKE '%{cmbAuthor.Text.Replace("'", "''")}%'");
+                void AddFilter(string column, string value)
+                {
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        string safe = value.Replace("'", "''");
+                        filters.Add($"[{column}] LIKE '%{safe}%'");
+                    }
+                }
 
-            if (cmbPublisher.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbPublisher.Text))
-                filters.Add($"Publisher LIKE '%{cmbPublisher.Text.Replace("'", "''")}%'");
+                AddFilter("BookTitle", cmbBookTitle.Text);
+                AddFilter("Author", cmbAuthor.Text);
+                AddFilter("Publisher", cmbPublisher.Text);
+                AddFilter("Source", cmbSource.Text);
+                AddFilter("Published", cmbPublished.Text);
+                AddFilter("Category", cmbCategory.Text);
+                AddFilter("BookType", cmbBookType.Text);
 
-            if (cmbSource.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbSource.Text))
-                filters.Add($"Source LIKE '%{cmbSource.Text.Replace("'", "''")}%'");
-
-            if (cmbPublished.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbPublished.Text))
-                filters.Add($"Published LIKE '%{cmbPublished.Text.Replace("'", "''")}%'");
-
-            if (cmbCategory.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbCategory.Text))
-                filters.Add($"Category LIKE '%{cmbCategory.Text.Replace("'", "''")}%'");
-
-            if (cmbBookType.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbBookType.Text))
-                filters.Add($"BookType LIKE '%{cmbBookType.Text.Replace("'", "''")}%'");
-
-            dv.RowFilter = string.Join(" AND ", filters);
+                dv.RowFilter = string.Join(" AND ", filters);
+                DataGridTotalBooks.DataSource = dv;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error applying filters: " + ex.Message);
+            }
         }
+
+
 
 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -1110,7 +1178,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
         }
 
-     
+
 
         private void cmbAuthor_TextChanged(object sender, EventArgs e)
         {
@@ -1122,7 +1190,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             ApplyComboBoxFilters();
         }
 
-        private void cmbSource_TextChanged(object sender, EventArgs e)
+        private void a(object sender, EventArgs e)
         {
             ApplyComboBoxFilters();
         }
@@ -1147,7 +1215,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
         }
 
-       
+
 
 
 
@@ -1183,6 +1251,16 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
         private void cmbPublisher_DropDown(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbSource_TextChanged(object sender, EventArgs e)
+        {
+            ApplyComboBoxFilters();
+        }
+
+        private void cmbSource_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyComboBoxFilters();
         }
     }
 
