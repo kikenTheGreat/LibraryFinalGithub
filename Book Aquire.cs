@@ -195,87 +195,110 @@ namespace LibraryCGC
         {
             isbnTimer.Stop();
 
-            string isbn = ISBN.Texts.Trim(); // use Texts for ArthanTextBox
-            if (isbn.Length < 10) return;
+            string isbn = ISBN.Texts.Trim();
+            if (isbn.Length < 5) return;
 
-            string apiUrl = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{Uri.EscapeDataString(isbn)}";
-
-            using (HttpClient client = new HttpClient())
+            try
             {
-                try
-                {
-                    var response = await client.GetStringAsync(apiUrl);
-                    JObject json = JObject.Parse(response);
+                // 🧠 Detect the item type dynamically
+                string category = Category.Text.ToLower();
+                string type = DetectBookType(category); // will return Book / Magazine / Newspaper / Catalog
 
+                // 🌐 Fetch metadata based on type
+                JObject? json = await FetchMetadataByTypeAsync(isbn, type);
+                if (json == null)
+                {
+                    MessageBox.Show("No metadata found.");
+                    return;
+                }
+
+                // 🧩 Parse metadata based on type
+                if (type == "Book")
+                {
                     var book = json["items"]?[0]?["volumeInfo"];
                     if (book != null)
                     {
-                        // ✅ Assign text safely and force UI refresh to commit value
                         Invoke((Action)(() =>
                         {
                             BookTitle.Texts = book["title"]?.ToString() ?? "";
-                            BookTitle.Text = BookTitle.Texts;
-                            BookTitle.Refresh();
-
                             Author.Texts = book["authors"]?.First?.ToString() ?? "";
-                            Author.Text = Author.Texts;
-                            Author.Refresh();
-
                             Publisher.Texts = book["publisher"]?.ToString() ?? "";
-                            Publisher.Text = Publisher.Texts;
-                            Publisher.Refresh();
-
                             Published.Texts = book["publishedDate"]?.ToString() ?? "";
-                            Published.Text = Published.Texts;
-                            Published.Refresh();
-
                             Category.Texts = book["categories"]?.First?.ToString() ?? "";
-                            Category.Text = Category.Texts;
-                            Category.Refresh();
-
                             txtDesc.Texts = book["description"]?.ToString() ?? "";
-                            txtDesc.Text = txtDesc.Texts;
-                            txtDesc.Refresh();
                         }));
 
-
-                        // ✅ Load book thumbnail safely
+                        // ✅ Load thumbnail
                         string thumbnail = book["imageLinks"]?["thumbnail"]?.ToString();
                         if (!string.IsNullOrEmpty(thumbnail))
                         {
-                            try
+                            using (HttpClient imageClient = new HttpClient())
                             {
-                                using (HttpClient imageClient = new HttpClient())
+                                var stream = await imageClient.GetStreamAsync(thumbnail);
+                                using (var bmp = new Bitmap(stream))
                                 {
-                                    var stream = await imageClient.GetStreamAsync(thumbnail);
-                                    using (var bmp = new Bitmap(stream))
-                                    {
-                                        picCover.BackgroundImage = new Bitmap(bmp);
-                                        picCover.BackgroundImageLayout = ImageLayout.Zoom;
-                                        picCover.Refresh();
-                                    }
+                                    picCover.BackgroundImage = new Bitmap(bmp);
+                                    picCover.BackgroundImageLayout = ImageLayout.Zoom;
+                                    picCover.Refresh();
                                 }
                             }
-                            catch
-                            {
-                                picCover.BackgroundImage = null;
-                            }
                         }
-                        else
-                        {
-                            picCover.BackgroundImage = null;
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Book not found.");
+                        else picCover.BackgroundImage = null;
                     }
                 }
-                catch (Exception ex)
+                else if (type == "Magazine" || type == "Newspaper")
                 {
-                    MessageBox.Show("Error: " + ex.Message);
+                    var article = json["articles"]?[0];
+                    if (article != null)
+                    {
+                        Invoke((Action)(() =>
+                        {
+                            BookTitle.Texts = article["title"]?.ToString() ?? "";
+                            Author.Texts = article["source"]?["name"]?.ToString() ?? "";
+                            Publisher.Texts = article["author"]?.ToString() ?? "";
+                            Published.Texts = article["publishedAt"]?.ToString() ?? "";
+                            Category.Texts = type;
+                            txtDesc.Texts = article["description"]?.ToString() ?? "";
+                        }));
+                        picCover.BackgroundImage = null; // NewsAPI doesn’t provide thumbnails
+                    }
+                }
+                else if (type.Contains("Catalog"))
+                {
+                    var item = json["items"]?[0];
+                    if (item != null)
+                    {
+                        Invoke((Action)(() =>
+                        {
+                            BookTitle.Texts = item["title"]?.ToString() ?? "";
+                            Author.Texts = item["dataProvider"]?.ToString() ?? "";
+                            Publisher.Texts = item["provider"]?.ToString() ?? "";
+                            Published.Texts = item["year"]?.ToString() ?? "";
+                            Category.Texts = "Catalog / Pamphlet";
+                            txtDesc.Texts = item["edmPreview"]?.First?.ToString() ?? "";
+                        }));
+                        picCover.BackgroundImage = null;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        private string DetectBookType(string category)
+        {
+            category = category.ToLower();
+
+            if (category.Contains("magazine") || category.Contains("journal"))
+                return "Magazine";
+            if (category.Contains("newspaper") || category.Contains("news"))
+                return "Newspaper";
+            if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
+                return "Catalog / Pamphlet";
+
+            return "Book";
         }
 
 
@@ -815,6 +838,44 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             // optionally prevent 'ding' sound on Enter
             e.SuppressKeyPress = true;
         }
+
+
+        private async Task<JObject?> FetchMetadataByTypeAsync(string identifier, string type)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    if (type == "Book")
+                    {
+                        string url = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{Uri.EscapeDataString(identifier)}";
+                        string response = await client.GetStringAsync(url);
+                        return JObject.Parse(response);
+                    }
+                    else if (type == "Magazine" || type == "Newspaper")
+                    {
+                        string apiKey = "YOUR_NEWSAPI_KEY"; // 🔑 Replace with your NewsAPI key
+                        string url = $"https://newsapi.org/v2/everything?q={Uri.EscapeDataString(identifier)}&apiKey={apiKey}";
+                        string response = await client.GetStringAsync(url);
+                        return JObject.Parse(response);
+                    }
+                    else if (type.Contains("Catalog"))
+                    {
+                        string apiKey = "YOUR_EUROPEANA_KEY"; // 🔑 Replace with your Europeana key
+                        string url = $"https://api.europeana.eu/record/v2/search.json?wskey={apiKey}&query={Uri.EscapeDataString(identifier)}";
+                        string response = await client.GetStringAsync(url);
+                        return JObject.Parse(response);
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
+
+
 
         private void arthanButton1_HomeClick(object sender, EventArgs e)
         {

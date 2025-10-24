@@ -26,6 +26,7 @@ namespace LibraryCGC
             InitializeComponent();
             LoadIssueBooks(); // Refresh DataGridView
             SetupBorrowListGrid(); // Setup borrow list grid
+            LoadReturnedBooks();
 
 
 
@@ -101,11 +102,71 @@ Trust Server Certificate=True;
             // Optional: center column headers
             IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-
-
-
         }
 
+        private void LoadReturnedBooks()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    @"Data Source=(LocalDB)\MSSQLLocalDB;
+              Initial Catalog=LibraryDB;
+              Integrated Security=True;
+              Encrypt=True;
+              Trust Server Certificate=True;"))
+                {
+                    con.Open();
+
+                    string query = @"
+                SELECT 
+                    ReturnID,
+                    IssueID,
+                    ClientID,
+                    ClientName,
+                    ClientType,
+                    BookTitle,
+                    Quantity,
+                    Source,
+                    IssueDate,
+                    DueDate,
+                    ReturnDate,
+                    Status
+                FROM ReturnedBooks
+                ORDER BY ReturnID DESC"; // latest entries first
+
+                    SqlDataAdapter da = new SqlDataAdapter(query, con);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    // ✅ Assign data to DataGridView
+                    returnDatagrid.DataSource = dt;
+
+                    // ✅ Styling and layout (same as IssueBooks)
+                    returnDatagrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                 returnDatagrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                  returnDatagrid.MultiSelect = false;
+                   returnDatagrid.ReadOnly = true;
+                   returnDatagrid.RowHeadersVisible = false;
+                   returnDatagrid.AllowUserToResizeRows = false;
+                   returnDatagrid.AllowUserToResizeColumns = false;
+                    returnDatagrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    // ✅ Make it responsive inside ArthanPanel
+                    returnDatagrid.Dock = DockStyle.Fill;
+                }
+
+     
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading returned books: " + ex.Message,
+                                "Database Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
 
 
 
@@ -287,13 +348,27 @@ Trust Server Certificate=True;
 
             //Issue and Return Panel Visibility
             panelIssueBooks.Visible = true;
+            panel1IssueDataGrid.Visible = true;
+
             panelReturnBooks.Visible = false;
+            ReturnPANEL.Visible = false;
+
+            
+
+           
+        
 
             // Add multiple items at once
             BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged", "Lost" });
             BookCondition.SelectedIndex = 0;
 
+            LoadReturnedBooks();
+
         }
+
+
+
+     
 
 
 
@@ -472,6 +547,7 @@ Trust Server Certificate=True;
                 }
 
                 LoadIssueBooks(); // refresh DataGridView
+                LoadReturnedBooks();
             }
             catch (Exception ex)
             {
@@ -482,6 +558,7 @@ Trust Server Certificate=True;
             IssueBooksDataGrid.Refresh();
             IssueBooksDataGrid.Update();
             GlobalEvents.RaiseBorrowedDataChanged();
+            LoadReturnedBooks();
 
         }
 
@@ -588,7 +665,7 @@ Trust Server Certificate=True;
                         cmd.ExecuteNonQuery();
                     }
                 }
-
+                LoadReturnedBooks();
                 LoadIssueBooks();
                 UpdateTotalOverdueLabel();
             }
@@ -660,19 +737,29 @@ Trust Server Certificate=True;
         {
             // Show Issue Books panel
             panelIssueBooks.Visible = true;
+            panel1IssueDataGrid.Visible = true;
 
             // Hide Return Books panel
             panelReturnBooks.Visible = false;
+            ReturnPANEL.Visible = false;
+
+
+
         }
 
         private void btnReturnBooks_Click(object sender, EventArgs e)
         {
             // Show Return Books panel
             panelReturnBooks.Visible = true;
+            ReturnPANEL.Visible = true;
+
 
             // Hide Issue Books panel
             panelIssueBooks.Visible = false;
+            panel1IssueDataGrid.Visible = false;
         }
+
+
 
         private void ReturnClientID_TextChanged(object sender, EventArgs e)
         {
@@ -843,7 +930,7 @@ Trust Server Certificate=True;";
 
                     DataTable dt = new DataTable();
                     da.Fill(dt);
-                    dgvReturnList.DataSource = dt;
+
                 }
             }
         }
@@ -987,6 +1074,9 @@ Trust Server Certificate=True;";
 
                     // ✅ Success message
                     MessageBox.Show("Book returned successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    GlobalEvents.RaiseBorrowedDataChanged();
+                    GlobalEvents.RaiseOverdueDataChanged();
+                    GlobalEvents.RaisePenaltiesDataChanged();
 
                     // ✅ Optional: clear other fields but keep the Return Date visible
                     ReturnClientID.Clear();
@@ -1002,6 +1092,10 @@ Trust Server Certificate=True;";
                     MessageBox.Show("Error returning book:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            GlobalEvents.RaiseBorrowedDataChanged();
+            GlobalEvents.RaiseOverdueDataChanged();
+            GlobalEvents.RaisePenaltiesDataChanged();
         }
 
 
@@ -1016,6 +1110,11 @@ Trust Server Certificate=True;";
         }
 
         private void arthanPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void returnDatagrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

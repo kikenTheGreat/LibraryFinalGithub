@@ -19,7 +19,7 @@ namespace LibraryCGC
                 dashboardForm.UpdateTotalArchivedLabel();
             }
 
-       
+
 
         }
 
@@ -243,14 +243,7 @@ namespace LibraryCGC
 
         private void btnRestoreBook_Click_1(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtISBNRestore.Text))
-            {
-                MessageBox.Show("⚠️ Please enter the ISBN to restore.");
-                return;
-            }
-
-            string isbn = txtISBNRestore.Text.Trim();
-            RestoreBookByISBN(isbn);
+         
         }
 
         private void RestoreBookByISBN(string isbn)
@@ -329,12 +322,24 @@ namespace LibraryCGC
 
         private void btnIssueBooks_Click(object sender, EventArgs e)
         {
-     
+
         }
 
         private void btnReturnBooks_Click(object sender, EventArgs e)
         {
-      
+
+        }
+
+        private void btnRestoreBook_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtISBNRestore.Text))
+            {
+                MessageBox.Show("⚠️ Please enter the ISBN to restore.");
+                return;
+            }
+
+            string isbn = txtISBNRestore.Text.Trim();
+            RestoreBookByISBN(isbn);
         }
     }
 }

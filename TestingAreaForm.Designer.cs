@@ -36,14 +36,23 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             btnIssueBooks = new Guna.UI2.WinForms.Guna2Button();
             btnReturnBooks = new Guna.UI2.WinForms.Guna2Button();
             panelIssueBooks = new Panel();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             panelReturnBooks = new Panel();
+            panel1IssueDataGrid = new Panel();
+            IssueBooksDataGrid = new Krypton.Toolkit.KryptonDataGridView();
             guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
+            returnDatagrid = new Guna.UI2.WinForms.Guna2DataGridView();
             panelIssueBooks.SuspendLayout();
             panelReturnBooks.SuspendLayout();
+            panel1IssueDataGrid.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)returnDatagrid).BeginInit();
             SuspendLayout();
             // 
             // btnIssueBooks
@@ -110,14 +119,34 @@
             guna2Button1.Size = new Size(250, 125);
             guna2Button1.TabIndex = 48;
             guna2Button1.Text = "guna2Button1";
+            guna2Button1.Click += guna2Button1_Click;
             // 
             // panelReturnBooks
             // 
+            panelReturnBooks.Controls.Add(panel1IssueDataGrid);
             panelReturnBooks.Controls.Add(guna2Button2);
             panelReturnBooks.Location = new Point(480, 346);
             panelReturnBooks.Name = "panelReturnBooks";
             panelReturnBooks.Size = new Size(250, 125);
             panelReturnBooks.TabIndex = 47;
+            // 
+            // panel1IssueDataGrid
+            // 
+            panel1IssueDataGrid.Controls.Add(IssueBooksDataGrid);
+            panel1IssueDataGrid.Location = new Point(-596, -270);
+            panel1IssueDataGrid.Name = "panel1IssueDataGrid";
+            panel1IssueDataGrid.Size = new Size(1443, 664);
+            panel1IssueDataGrid.TabIndex = 50;
+            // 
+            // IssueBooksDataGrid
+            // 
+            IssueBooksDataGrid.BorderStyle = BorderStyle.None;
+            IssueBooksDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            IssueBooksDataGrid.Location = new Point(156, 94);
+            IssueBooksDataGrid.Name = "IssueBooksDataGrid";
+            IssueBooksDataGrid.RowHeadersWidth = 51;
+            IssueBooksDataGrid.Size = new Size(1088, 162);
+            IssueBooksDataGrid.TabIndex = 27;
             // 
             // guna2Button2
             // 
@@ -136,11 +165,63 @@
             guna2Button2.TabIndex = 49;
             guna2Button2.Text = "guna2Button2";
             // 
+            // returnDatagrid
+            // 
+            dataGridViewCellStyle1.BackColor = Color.White;
+            returnDatagrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            returnDatagrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            returnDatagrid.ColumnHeadersHeight = 4;
+            returnDatagrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            returnDatagrid.DefaultCellStyle = dataGridViewCellStyle3;
+            returnDatagrid.GridColor = Color.FromArgb(231, 229, 255);
+            returnDatagrid.Location = new Point(824, 445);
+            returnDatagrid.Name = "returnDatagrid";
+            returnDatagrid.RowHeadersVisible = false;
+            returnDatagrid.RowHeadersWidth = 51;
+            returnDatagrid.Size = new Size(255, 143);
+            returnDatagrid.TabIndex = 48;
+            returnDatagrid.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
+            returnDatagrid.ThemeStyle.AlternatingRowsStyle.Font = null;
+            returnDatagrid.ThemeStyle.AlternatingRowsStyle.ForeColor = Color.Empty;
+            returnDatagrid.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = Color.Empty;
+            returnDatagrid.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
+            returnDatagrid.ThemeStyle.BackColor = Color.White;
+            returnDatagrid.ThemeStyle.GridColor = Color.FromArgb(231, 229, 255);
+            returnDatagrid.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(100, 88, 255);
+            returnDatagrid.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
+            returnDatagrid.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
+            returnDatagrid.ThemeStyle.HeaderStyle.ForeColor = Color.White;
+            returnDatagrid.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            returnDatagrid.ThemeStyle.HeaderStyle.Height = 4;
+            returnDatagrid.ThemeStyle.ReadOnly = false;
+            returnDatagrid.ThemeStyle.RowsStyle.BackColor = Color.White;
+            returnDatagrid.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            returnDatagrid.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
+            returnDatagrid.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(71, 69, 94);
+            returnDatagrid.ThemeStyle.RowsStyle.Height = 29;
+            returnDatagrid.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            returnDatagrid.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            // 
             // TestingAreaForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(returnDatagrid);
             Controls.Add(panelReturnBooks);
             Controls.Add(panelIssueBooks);
             Controls.Add(btnReturnBooks);
@@ -150,6 +231,9 @@
             Load += TestingAreaForm_Load;
             panelIssueBooks.ResumeLayout(false);
             panelReturnBooks.ResumeLayout(false);
+            panel1IssueDataGrid.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)IssueBooksDataGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)returnDatagrid).EndInit();
             ResumeLayout(false);
         }
 
@@ -161,5 +245,8 @@
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
         private Panel panelReturnBooks;
         private Guna.UI2.WinForms.Guna2Button guna2Button2;
+        private Panel panel1IssueDataGrid;
+        private Krypton.Toolkit.KryptonDataGridView IssueBooksDataGrid;
+        private Guna.UI2.WinForms.Guna2DataGridView returnDatagrid;
     }
 }

@@ -43,6 +43,7 @@
             pnlActiveBooks = new LibraryCGC.Components.ArthanPanel();
             label2 = new Label();
             DataGridTotalBooks = new DataGridView();
+            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel4.SuspendLayout();
             arthanPanel9.SuspendLayout();
@@ -131,6 +132,7 @@
             arthanPanel9.BackColor = Color.Transparent;
             arthanPanel9.BottomLeftRadius = 0;
             arthanPanel9.BottomRightRadius = 0;
+            arthanPanel9.Controls.Add(guna2HtmlLabel1);
             arthanPanel9.Controls.Add(txtISBNRestore);
             arthanPanel9.Controls.Add(btnRestoreBook);
             arthanPanel9.CornerRadius = 0;
@@ -188,12 +190,13 @@
             btnRestoreBook.FillColor = Color.Orange;
             btnRestoreBook.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnRestoreBook.ForeColor = Color.Black;
-            btnRestoreBook.Location = new Point(852, 25);
+            btnRestoreBook.Location = new Point(1076, 26);
             btnRestoreBook.Name = "btnRestoreBook";
             btnRestoreBook.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnRestoreBook.Size = new Size(157, 63);
             btnRestoreBook.TabIndex = 41;
             btnRestoreBook.Text = "Restore Book";
+            btnRestoreBook.Click += btnRestoreBook_Click;
             // 
             // pnlActiveBooks
             // 
@@ -239,6 +242,15 @@
             DataGridTotalBooks.Size = new Size(1860, 703);
             DataGridTotalBooks.TabIndex = 28;
             // 
+            // guna2HtmlLabel1
+            // 
+            guna2HtmlLabel1.BackColor = Color.Transparent;
+            guna2HtmlLabel1.Location = new Point(1271, 12);
+            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            guna2HtmlLabel1.Size = new Size(73, 22);
+            guna2HtmlLabel1.TabIndex = 42;
+            guna2HtmlLabel1.Text = "Enter ISBN";
+            // 
             // Archive
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -256,6 +268,7 @@
             arthanPanel4.ResumeLayout(false);
             arthanPanel4.PerformLayout();
             arthanPanel9.ResumeLayout(false);
+            arthanPanel9.PerformLayout();
             pnlActiveBooks.ResumeLayout(false);
             pnlActiveBooks.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).EndInit();
@@ -275,5 +288,6 @@
         private Components.ArthanButton arthanButton2;
         private Guna.UI2.WinForms.Guna2Button btnRestoreBook;
         private Guna.UI2.WinForms.Guna2TextBox txtISBNRestore;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
     }
 }
