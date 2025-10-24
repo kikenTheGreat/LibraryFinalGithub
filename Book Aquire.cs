@@ -1,4 +1,5 @@
-﻿using Library_Final;
+﻿using Guna.UI2.WinForms;
+using Library_Final;
 using LibraryCGC.Components;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json.Linq;
@@ -12,6 +13,7 @@ using System.Net.Http;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -20,6 +22,7 @@ namespace LibraryCGC
 {
     public partial class Book_Aquire : Form
     {
+        private DataTable booksTable = new DataTable();
 
         private bool scannerMode = true; // default: Scanner Mode
 
@@ -42,30 +45,7 @@ namespace LibraryCGC
             ISBN.TextChanged += ISBN_TextChanged; // trigger when ISBN box changes
 
 
-            // 🔍 Initialize suggestion list for search
-            suggestionListBox = new ListBox();
-            suggestionListBox.Visible = false;
-            suggestionListBox.Font = SearchTxtBox.Font;
-            suggestionListBox.BackColor = Color.White;
-            suggestionListBox.ForeColor = Color.Black;
-            suggestionListBox.BorderStyle = BorderStyle.FixedSingle;
 
-            // Add to form
-            this.Controls.Add(suggestionListBox);
-
-            // Click on suggestion → fill the textbox
-            suggestionListBox.Click += (s, e) =>
-            {
-                if (suggestionListBox.SelectedItem != null)
-                {
-                    SearchTxtBox.Texts = suggestionListBox.SelectedItem.ToString();
-                    suggestionListBox.Visible = false;
-                }
-            };
-
-            // 👇 Connect event to ArthanTextBox’s custom event (_TextChanged)
-            SearchTxtBox._TextChanged += SearchTxtBox_TextChanged;
-            SearchTxtBox.Leave += (s, e) => suggestionListBox.Visible = false;
 
             //Source Combobox fill
             Source.Items.AddRange(new string[] { "Purchased ", "Donate " });
@@ -79,58 +59,6 @@ namespace LibraryCGC
 
 
 
-        private async void SearchTxtBox_TextChanged(object sender, EventArgs e)
-        {
-            string searchText = SearchTxtBox.Texts.Trim();
-
-            if (string.IsNullOrEmpty(searchText))
-            {
-                suggestionListBox.Visible = false;
-                return;
-            }
-
-            List<string> suggestions = new List<string>();
-
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                await con.OpenAsync();
-                // 🔍 match anywhere in title, not just starting letters
-                string query = "SELECT TOP 10 BookTitle FROM BooksAcq WHERE BookTitle LIKE '%' + @search + '%'";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@search", searchText);
-                    using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                            suggestions.Add(reader.GetString(0));
-                    }
-                }
-            }
-
-            if (suggestions.Count > 0)
-            {
-                suggestionListBox.BeginUpdate();
-                suggestionListBox.Items.Clear();
-                foreach (var s in suggestions)
-                    suggestionListBox.Items.Add(s);
-                suggestionListBox.EndUpdate();
-
-                // Position below the search box
-                var tbLocation = SearchTxtBox.PointToScreen(Point.Empty);
-                var formLocation = this.PointToClient(tbLocation);
-
-                suggestionListBox.Location = new Point(formLocation.X, formLocation.Y + SearchTxtBox.Height);
-                suggestionListBox.Width = SearchTxtBox.Width;
-                suggestionListBox.Height = Math.Min(150, suggestions.Count * 25);
-
-                suggestionListBox.Visible = true;
-                suggestionListBox.BringToFront();
-            }
-            else
-            {
-                suggestionListBox.Visible = false;
-            }
-        }
 
 
         private async void BookTitle_TextChanged(object sender, EventArgs e)
@@ -625,72 +553,145 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
         private void LoadBooksGrid()
         {
-            //output the datagriddddddddddddddd
-            using (SqlConnection con = new SqlConnection("  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
             {
                 string query = "SELECT * FROM BooksAcq";
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                DataGridTotalBooks.DataSource = dt;
+                booksTable.Clear();
+                da.Fill(booksTable);
+                booksTable.CaseSensitive = false;
+                DataGridTotalBooks.DataSource = booksTable;
 
-                // Scroll to top
-                if (DataGridTotalBooks.Rows.Count > 0)
-                {
-                    DataGridTotalBooks.FirstDisplayedScrollingRowIndex = 0;
-                    DataGridTotalBooks.ClearSelection(); // Optional
-                }
+                // ✅ Fill ComboBoxes with distinct values
+                FillComboBox(cmbBookTitle, "BookTitle");
+                FillComboBox(cmbAuthor, "Author");
+                FillComboBox(cmbPublisher, "Publisher");
+                FillComboBox(cmbSource, "Source");
+                FillComboBox(cmbPublished, "Published");
+                FillComboBox(cmbCategory, "Category");
+                FillComboBox(cmbBookType, "BookType");
 
-
-                // Button For ARCHIVEEEEEEE
-                if (!DataGridTotalBooks.Columns.Contains("Action"))
-                {
-                    DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-                    btn.HeaderText = "Action";         // Column header name
-                    btn.Name = "Action";               // Internal name
-                    btn.Text = "Archive";              // Button text
-                    btn.UseColumnTextForButtonValue = true; // So it shows text in every row
-                    DataGridTotalBooks.Columns.Add(btn);    // Add to DataGridView
-                }
-
-
-                // Button For UPDATEEEEE
-                if (!DataGridTotalBooks.Columns.Contains("Update"))
-                {
-                    DataGridViewButtonColumn updateButton = new DataGridViewButtonColumn();
-                    updateButton.Name = "Update";
-                    updateButton.HeaderText = "Actions";
-                    updateButton.Text = "Update";
-                    updateButton.UseColumnTextForButtonValue = true;
-                    DataGridTotalBooks.Columns.Add(updateButton);
-                }
-
-                // ✅ Auto layout and scaling
+                // Existing styling code remains the same...
                 DataGridTotalBooks.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 DataGridTotalBooks.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
                 DataGridTotalBooks.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-                // ✅ Responsive resizing
                 DataGridTotalBooks.Dock = DockStyle.Fill;
-                // (If you have other controls in the same panel, use Anchors instead:)
-                // IssueBooksDataGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-
-                // 🎨 Bonus — Clean, user-friendly visual settings
                 DataGridTotalBooks.RowHeadersVisible = false;
                 DataGridTotalBooks.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 DataGridTotalBooks.MultiSelect = false;
                 DataGridTotalBooks.ReadOnly = true;
                 DataGridTotalBooks.AllowUserToResizeRows = false;
                 DataGridTotalBooks.AllowUserToResizeColumns = false;
-
-                // Optional: center column headers
                 DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
+                // ✅ Allow typing in all Guna2ComboBoxes
+                cmbAuthor.DropDownStyle = ComboBoxStyle.DropDown;
+                cmbPublisher.DropDownStyle = ComboBoxStyle.DropDown;
+                cmbSource.DropDownStyle = ComboBoxStyle.DropDown;
+                cmbPublished.DropDownStyle = ComboBoxStyle.DropDown;
+                cmbCategory.DropDownStyle = ComboBoxStyle.DropDown;
+                cmbBookType.DropDownStyle = ComboBoxStyle.DropDown;
 
+                // ✅ Fill them with distinct values
+                FillComboBox(cmbAuthor, "Author");
+                FillComboBox(cmbPublisher, "Publisher");
+                FillComboBox(cmbSource, "Source");
+                FillComboBox(cmbPublished, "Published");
+                FillComboBox(cmbCategory, "Category");
+                FillComboBox(cmbBookType, "BookType");
 
 
             }
         }
+
+        private void FillComboBox(System.Windows.Forms.ComboBox comboBox, string columnName)
+        {
+            var distinctValues = booksTable.AsEnumerable()
+                .Select(row => row.Field<string>(columnName))
+                .Where(val => !string.IsNullOrEmpty(val))
+                .Distinct()
+                .OrderBy(val => val)
+                .ToList();
+
+            comboBox.DataSource = distinctValues;
+            comboBox.SelectedIndex = -1;
+
+            // 👇 Enable typing + auto-suggest
+            comboBox.DropDownStyle = ComboBoxStyle.DropDown;
+            comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
+        }
+
+
+
+
+        private void ApplyComboBoxFilters()
+        {
+            try
+            {
+                DataView dv = new DataView(booksTable);
+
+                List<string> filters = new List<string>();
+
+                if (cmbAuthor.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbAuthor.Text))
+                    filters.Add($"Author LIKE '%{cmbAuthor.Text.Replace("'", "''")}%'");
+
+                if (cmbPublisher.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbPublisher.Text))
+                    filters.Add($"Publisher LIKE '%{cmbPublisher.Text.Replace("'", "''")}%'");
+
+                if (cmbSource.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbSource.Text))
+                    filters.Add($"Source LIKE '%{cmbSource.Text.Replace("'", "''")}%'");
+
+                if (cmbPublished.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbPublished.Text))
+                    filters.Add($"Published LIKE '%{cmbPublished.Text.Replace("'", "''")}%'");
+
+                if (cmbCategory.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbCategory.Text))
+                    filters.Add($"Category LIKE '%{cmbCategory.Text.Replace("'", "''")}%'");
+
+                if (cmbBookType.SelectedItem != null && !string.IsNullOrWhiteSpace(cmbBookType.Text))
+                    filters.Add($"BookType LIKE '%{cmbBookType.Text.Replace("'", "''")}%'");
+
+                // Combine all filters with AND
+                dv.RowFilter = string.Join(" AND ", filters);
+
+                DataGridTotalBooks.DataSource = dv;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error applying filters: " + ex.Message);
+            }
+        }
+
+
+        private void ApplyFilters()
+        {
+            DataView dv = booksTable.DefaultView;
+            List<string> filters = new List<string>();
+
+            if (cmbBookTitle.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbBookTitle.Text))
+                filters.Add($"BookTitle LIKE '%{cmbBookTitle.Text.Replace("'", "''")}%'");
+
+            if (cmbAuthor.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbAuthor.Text))
+                filters.Add($"Author LIKE '%{cmbAuthor.Text.Replace("'", "''")}%'");
+
+            if (cmbPublisher.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbPublisher.Text))
+                filters.Add($"Publisher LIKE '%{cmbPublisher.Text.Replace("'", "''")}%'");
+
+            if (cmbSource.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbSource.Text))
+                filters.Add($"Source LIKE '%{cmbSource.Text.Replace("'", "''")}%'");
+
+            if (cmbPublished.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbPublished.Text))
+                filters.Add($"Published LIKE '%{cmbPublished.Text.Replace("'", "''")}%'");
+
+            if (cmbCategory.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbCategory.Text))
+                filters.Add($"Category LIKE '%{cmbCategory.Text.Replace("'", "''")}%'");
+
+            if (cmbBookType.SelectedIndex != -1 || !string.IsNullOrWhiteSpace(cmbBookType.Text))
+                filters.Add($"BookType LIKE '%{cmbBookType.Text.Replace("'", "''")}%'");
+
+            dv.RowFilter = string.Join(" AND ", filters);
+        }
+
 
         private void DataGridTotalBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1094,6 +1095,98 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 }
             }
         }
-    } //END OF MAIN METHOD
 
-}
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SearchTxtBox__TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+     
+
+        private void cmbAuthor_TextChanged(object sender, EventArgs e)
+        {
+            ApplyComboBoxFilters();
+        }
+
+        private void cmbPublisher_TextChanged(object sender, EventArgs e)
+        {
+            ApplyComboBoxFilters();
+        }
+
+        private void cmbSource_TextChanged(object sender, EventArgs e)
+        {
+            ApplyComboBoxFilters();
+        }
+
+        private void cmbPublished_TextChanged(object sender, EventArgs e)
+        {
+            ApplyComboBoxFilters();
+        }
+
+        private void cmbCategory_TextChanged(object sender, EventArgs e)
+        {
+            ApplyComboBoxFilters();
+        }
+
+        private void cmbBookType_TextChanged(object sender, EventArgs e)
+        {
+            ApplyComboBoxFilters();
+        }
+
+        private void cmbAuthor_DropDown(object sender, EventArgs e)
+        {
+
+        }
+
+       
+
+
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void btnClearFilters_Click(object sender, EventArgs e)
+        {
+            // Reset combo boxes
+            cmbBookTitle.SelectedIndex = -1;
+            cmbAuthor.SelectedIndex = -1;
+            cmbPublisher.SelectedIndex = -1;
+            cmbSource.SelectedIndex = -1;
+            cmbPublished.SelectedIndex = -1;
+            cmbCategory.SelectedIndex = -1;
+            cmbBookType.SelectedIndex = -1;
+
+            // Safely handle both DataTable or DataView
+            if (DataGridTotalBooks.DataSource is DataView dv)
+            {
+                dv.RowFilter = "";
+                DataGridTotalBooks.DataSource = dv;
+            }
+            else if (DataGridTotalBooks.DataSource is DataTable dt)
+            {
+                dt.DefaultView.RowFilter = "";
+                DataGridTotalBooks.DataSource = dt;
+            }
+        }
+
+        private void cmbPublisher_DropDown(object sender, EventArgs e)
+        {
+
+        }
+    }
+
+
+} //END OF MAIN METHOD
+
+
