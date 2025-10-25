@@ -566,9 +566,9 @@ Trust Server Certificate=True;
                 {
                     con.Open();
 
-                    // ✅ STEP 1: Check if the user already has active borrowed books (limit 3)
+                    // ✅ STEP 1: Check borrow limit (max 3 books)
                     string checkQuery = @"SELECT COUNT(*) FROM IssueBooks 
-                              WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
+                                  WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
                     using (SqlCommand cmdCheck = new SqlCommand(checkQuery, con))
                     {
                         cmdCheck.Parameters.AddWithValue("@ClientID", ClientID.Text);
@@ -583,13 +583,35 @@ Trust Server Certificate=True;
                         }
                     }
 
-                    // ✅ FIXED INSERT QUERY
+                    // ✅ STEP 2: Insert query for IssueBooks
                     string insertQuery = @"INSERT INTO IssueBooks 
                (ISBN, Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID)
                VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID)";
 
                     foreach (var item in borrowList)
                     {
+                        // ✅ STEP 3: Check available quantity first
+                        string checkQtyQuery = "SELECT Quantity FROM BooksAcq WHERE ISBN = @ISBN";
+                        using (SqlCommand checkQtyCmd = new SqlCommand(checkQtyQuery, con))
+                        {
+                            checkQtyCmd.Parameters.AddWithValue("@ISBN", item.ISBN);
+                            object qtyResult = checkQtyCmd.ExecuteScalar();
+
+                            if (qtyResult == null)
+                            {
+                                MessageBox.Show($"Book with ISBN {item.ISBN} not found in database.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                continue;
+                            }
+
+                            int availableQty = Convert.ToInt32(qtyResult);
+                            if (availableQty <= 0)
+                            {
+                                MessageBox.Show($"The book '{item.BookTitle}' is currently out of stock.", "Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                continue;
+                            }
+                        }
+
+                        // ✅ STEP 4: Add record to IssueBooks
                         using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                         {
                             cmd.Parameters.AddWithValue("@ISBN", item.ISBN);
@@ -604,6 +626,14 @@ Trust Server Certificate=True;
 
                             cmd.ExecuteNonQuery();
                         }
+
+                        // ✅ STEP 5: Decrease quantity in BooksAcq
+                        string updateQtyQuery = "UPDATE BooksAcq SET Quantity = Quantity - 1 WHERE ISBN = @ISBN";
+                        using (SqlCommand updateQtyCmd = new SqlCommand(updateQtyQuery, con))
+                        {
+                            updateQtyCmd.Parameters.AddWithValue("@ISBN", item.ISBN);
+                            updateQtyCmd.ExecuteNonQuery();
+                        }
                     }
 
                     MessageBox.Show("Book(s) issued successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -612,6 +642,7 @@ Trust Server Certificate=True;
                     GlobalEvents.RaisePenaltiesDataChanged();
                 }
 
+                // ✅ STEP 6: Refresh UI and clear borrow list
                 borrowList.Clear();
                 dgvBorrowList.Rows.Clear();
 
@@ -635,6 +666,7 @@ Trust Server Certificate=True;
             GlobalEvents.RaiseBorrowedDataChanged();
             LoadReturnedBooks();
         }
+
 
 
 
@@ -1048,7 +1080,7 @@ Trust Server Certificate=True;";
             }
 
             string selectedBook = ReturnedBookID.SelectedItem.ToString();
-            string bookID = selectedBook.Split('-')[0].Trim();
+            string isbn = selectedBook.Split('-')[0].Trim(); // ✅ Use ISBN now
             string clientID = ReturnClientID.Text.Trim();
             string clientName = ReturnClientName.Text;
             string clientType = "Student"; // or another dropdown if available
@@ -1061,24 +1093,23 @@ Trust Server Certificate=True;";
 
                 try
                 {
-                    // 1️⃣ Get Issue details
+                    // ✅ 1️⃣ Get Issue details
                     int issueID = 0;
                     DateTime issueDate = DateTime.Now;
                     DateTime dueDate = DateTime.Now;
                     string source = "";
 
                     string getIssueQuery = @"
-               SELECT TOP 1 IssueID, IssueDate, DueDate, Source
-FROM IssueBooks
-WHERE ClientID = @ClientID AND ISBN = @ISBN
-AND (Status = 'Issued' OR Status = 'Overdue')
+                SELECT TOP 1 IssueID, IssueDate, DueDate, Source
+                FROM IssueBooks
+                WHERE ClientID = @ClientID AND ISBN = @ISBN
+                AND (Status = 'Issued' OR Status = 'Overdue')
                 ORDER BY IssueDate DESC";
 
                     using (SqlCommand cmdGet = new SqlCommand(getIssueQuery, con, transaction))
                     {
                         cmdGet.Parameters.AddWithValue("@ClientID", clientID);
-                        cmdGet.Parameters.AddWithValue("@ISBN", bookID);
-
+                        cmdGet.Parameters.AddWithValue("@ISBN", isbn);
 
                         using (SqlDataReader reader = cmdGet.ExecuteReader())
                         {
@@ -1089,10 +1120,15 @@ AND (Status = 'Issued' OR Status = 'Overdue')
                                 dueDate = Convert.ToDateTime(reader["DueDate"]);
                                 source = reader["Source"].ToString();
                             }
+                            else
+                            {
+                                MessageBox.Show("No matching issued book found for return.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
                         }
                     }
 
-                    // 2️⃣ Move from IssueBooks → ReturnedBooks, then delete from IssueBooks
+                    // ✅ 2️⃣ Move from IssueBooks → ReturnedBooks, then delete from IssueBooks
                     string moveQuery = @"
                 INSERT INTO ReturnedBooks 
                     (IssueID, ClientID, ClientName, ClientType, BookTitle, Quantity, Source, IssueDate, DueDate, ReturnDate, Status)
@@ -1112,8 +1148,7 @@ AND (Status = 'Issued' OR Status = 'Overdue')
                 WHERE IssueID = @IssueID;
 
                 DELETE FROM IssueBooks
-                WHERE IssueID = @IssueID;
-            ";
+                WHERE IssueID = @IssueID;";
 
                     using (SqlCommand cmdMove = new SqlCommand(moveQuery, con, transaction))
                     {
@@ -1122,12 +1157,21 @@ AND (Status = 'Issued' OR Status = 'Overdue')
                         cmdMove.ExecuteNonQuery();
                     }
 
-                    // ✅ Commit changes
+                    // ✅ 3️⃣ Increase quantity in BooksAcq
+                    string updateQtyQuery = "UPDATE BooksAcq SET Quantity = Quantity + 1 WHERE ISBN = @ISBN";
+                    using (SqlCommand updateCmd = new SqlCommand(updateQtyQuery, con, transaction))
+                    {
+                        updateCmd.Parameters.AddWithValue("@ISBN", isbn);
+                        updateCmd.ExecuteNonQuery();
+                    }
+
+                    // ✅ 4️⃣ Commit changes
                     transaction.Commit();
 
-                    MessageBox.Show("Book returned successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Book returned successfully! Quantity updated.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     lblReturnDate.Text = $"Returned on: {DateTime.Now:MMMM dd, yyyy hh:mm tt}";
 
+                    // Clear input fields
                     ReturnClientID.Clear();
                     ReturnClientName.Items.Clear();
                     ReturnedBookID.Items.Clear();
@@ -1141,10 +1185,12 @@ AND (Status = 'Issued' OR Status = 'Overdue')
                 }
             }
 
+            // ✅ 5️⃣ Refresh grids and events
             GlobalEvents.RaiseBorrowedDataChanged();
             GlobalEvents.RaiseOverdueDataChanged();
             GlobalEvents.RaisePenaltiesDataChanged();
         }
+
 
 
 
