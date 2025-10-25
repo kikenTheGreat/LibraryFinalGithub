@@ -34,7 +34,8 @@ namespace LibraryCGC
 
 
         }
-        private List<(string BookID, string BookTitle, string Source)> borrowList = new List<(string, string, string)>();
+        private List<(string ISBN, string BookTitle, string Source)> borrowList = new List<(string, string, string)>();
+
 
 
 
@@ -82,7 +83,7 @@ Trust Server Certificate=True;
                 IssueBooksDataGrid.ReadOnly = true;
                 IssueBooksDataGrid.RowHeadersVisible = false;
 
-     
+
 
 
 
@@ -165,19 +166,19 @@ Trust Server Certificate=True;
 
                     // ✅ Styling and layout (same as IssueBooks)
                     returnDatagrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                 returnDatagrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                  returnDatagrid.MultiSelect = false;
-                   returnDatagrid.ReadOnly = true;
-                   returnDatagrid.RowHeadersVisible = false;
-                   returnDatagrid.AllowUserToResizeRows = false;
-                   returnDatagrid.AllowUserToResizeColumns = false;
+                    returnDatagrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    returnDatagrid.MultiSelect = false;
+                    returnDatagrid.ReadOnly = true;
+                    returnDatagrid.RowHeadersVisible = false;
+                    returnDatagrid.AllowUserToResizeRows = false;
+                    returnDatagrid.AllowUserToResizeColumns = false;
                     returnDatagrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
                     // ✅ Make it responsive inside ArthanPanel
                     returnDatagrid.Dock = DockStyle.Fill;
                 }
 
-     
+
 
 
             }
@@ -382,7 +383,8 @@ Trust Server Certificate=True;
             Status.SelectedIndex = 0;
 
             // Prepare borrow list grid
-            dgvBorrowList.Columns.Add("BookID", "Book ID");
+            dgvBorrowList.Columns.Add("ISBN", "ISBN");
+
             dgvBorrowList.Columns.Add("BookTitle", "Book Title");
             dgvBorrowList.Columns.Add("Source", "Source");
 
@@ -407,10 +409,10 @@ Trust Server Certificate=True;
             panelReturnBooks.Visible = false;
             ReturnPANEL.Visible = false;
 
-            
 
-           
-        
+
+
+
 
             // Add multiple items at once
             BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged", "Lost" });
@@ -463,7 +465,7 @@ Trust Server Certificate=True;
 
         private void BookID_TextChanged(object sender, EventArgs e)
         {
-            string bookID = BookID.Text.Trim();
+            string bookID = ISBN.Text.Trim();
 
             if (bookID.Length >= 4)
             {
@@ -511,39 +513,39 @@ Trust Server Certificate=True;
 
         private void btnAddToList_Click_1(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(BookID.Text) || string.IsNullOrWhiteSpace(BookTitle.Text))
+            if (string.IsNullOrWhiteSpace(ISBN.Text) || string.IsNullOrWhiteSpace(BookTitle.Text))
             {
                 MessageBox.Show("Please select a valid book.");
                 return;
             }
 
-            // ✅ Add Source along with BookID and BookTitle
-            borrowList.Add((BookID.Text, BookTitle.Text, Source.Text));
+            // Add to list
+            borrowList.Add((ISBN.Text, BookTitle.Text, Source.Text));
 
-            // ✅ Add Source as a column in the DataGridView
             if (dgvBorrowList.Columns.Count < 3)
             {
                 dgvBorrowList.Columns.Clear();
-                dgvBorrowList.Columns.Add("BookID", "Book ID");
+                dgvBorrowList.Columns.Add("ISBN", "ISBN");
                 dgvBorrowList.Columns.Add("BookTitle", "Book Title");
                 dgvBorrowList.Columns.Add("Source", "Source");
             }
+
 
             //remove later yah
             MessageBox.Show($"Borrow list contains {borrowList.Count} books.");
 
 
-            dgvBorrowList.Rows.Add(BookID.Text, BookTitle.Text, Source.Text);
+            dgvBorrowList.Rows.Add(ISBN.Text, BookTitle.Text, Source.Text);
 
-            // Clear fields for next entry
-            BookID.Clear();
+            // Clear for next entry
+            ISBN.Clear();
             BookTitle.Items.Clear();
             BookTitle.Text = "";
             Source.Text = "";
         }
 
 
-        private void btnConfirmBorrow_Click_1(object sender, EventArgs e)//test
+        private void btnConfirmBorrow_Click_1(object sender, EventArgs e)
         {
             if (borrowList.Count == 0)
             {
@@ -551,27 +553,22 @@ Trust Server Certificate=True;
                 return;
             }
 
-            // Fix for DateTimePicker values
             DateTime issueDateValue = issueDate.Value;
             DateTime dueDateValue = dueDate.Value;
 
             try
             {
-                using (SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;
-Initial Catalog=LibraryDB;
-Integrated Security=True;
-Encrypt=True;
-Trust Server Certificate=True;
-
-
-"))
-
+                using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
+        Initial Catalog=LibraryDB;
+        Integrated Security=True;
+        Encrypt=True;
+        Trust Server Certificate=True;"))
                 {
                     con.Open();
 
                     // ✅ STEP 1: Check if the user already has active borrowed books (limit 3)
                     string checkQuery = @"SELECT COUNT(*) FROM IssueBooks 
-                                  WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
+                              WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
                     using (SqlCommand cmdCheck = new SqlCommand(checkQuery, con))
                     {
                         cmdCheck.Parameters.AddWithValue("@ClientID", ClientID.Text);
@@ -586,43 +583,35 @@ Trust Server Certificate=True;
                         }
                     }
 
+                    // ✅ FIXED INSERT QUERY
                     string insertQuery = @"INSERT INTO IssueBooks 
-   (BookID, Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID)
-   VALUES (@BookID, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID)";
-
-
+               (ISBN, Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID)
+               VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID)";
 
                     foreach (var item in borrowList)
                     {
                         using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                         {
-                            cmd.Parameters.AddWithValue("@Status", "Issued"); // fixed
+                            cmd.Parameters.AddWithValue("@ISBN", item.ISBN);
+                            cmd.Parameters.AddWithValue("@Status", "Issued");
                             cmd.Parameters.AddWithValue("@StudentName", ClientName.Text);
                             cmd.Parameters.AddWithValue("@BookTitle", item.BookTitle);
                             cmd.Parameters.AddWithValue("@Source", item.Source);
                             cmd.Parameters.AddWithValue("@IssueDate", issueDateValue);
                             cmd.Parameters.AddWithValue("@DueDate", dueDateValue);
-                            cmd.Parameters.AddWithValue("@Quantity", 1); // each book = 1 copy
+                            cmd.Parameters.AddWithValue("@Quantity", 1);
                             cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
-                            cmd.Parameters.AddWithValue("@BookID", item.BookID);
 
                             cmd.ExecuteNonQuery();
                         }
                     }
 
-
                     MessageBox.Show("Book(s) issued successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseOverdueDataChanged();
                     GlobalEvents.RaisePenaltiesDataChanged();
-
-
-
-
                 }
 
-
-                // ✅ STEP 3: Refresh and clear borrow list
                 borrowList.Clear();
                 dgvBorrowList.Rows.Clear();
 
@@ -632,7 +621,7 @@ Trust Server Certificate=True;
                     dashboardForm.UpdateTotalBorrowedLabel();
                 }
 
-                LoadIssueBooks(); // refresh DataGridView
+                LoadIssueBooks();
                 LoadReturnedBooks();
             }
             catch (Exception ex)
@@ -640,13 +629,13 @@ Trust Server Certificate=True;
                 MessageBox.Show("Error issuing books: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            LoadIssueBooks(); // refresh DataGridView
+            LoadIssueBooks();
             IssueBooksDataGrid.Refresh();
             IssueBooksDataGrid.Update();
             GlobalEvents.RaiseBorrowedDataChanged();
             LoadReturnedBooks();
-
         }
+
 
 
 
@@ -886,17 +875,18 @@ Trust Server Certificate=True;";
                     // ✅ 2. Get Borrowed Books Info
                     string queryBorrow = @"
                 SELECT 
-                    BookID,       -- ✅ Added this
-                    BookTitle,
-                    Status,
-                    Penalty,
-                    Quantity,
-                    IssueID,
-                    Source,
-                    ClientID
-                FROM IssueBooks
-                WHERE ClientID = @ClientID
-                  AND (Status = 'Issued' OR Status = 'Overdue')";
+    ISBN,
+    BookTitle,
+    Status,
+    Penalty,
+    Quantity,
+    IssueID,
+    Source,
+    ClientID
+FROM IssueBooks
+WHERE ClientID = @ClientID
+  AND (Status = 'Issued' OR Status = 'Overdue')
+";
 
                     using (SqlCommand cmdBorrow = new SqlCommand(queryBorrow, con))
                     {
@@ -907,7 +897,7 @@ Trust Server Certificate=True;";
                             // Prepare holders
                             int bookCount = 0;
                             double totalPenalty = 0;
-                            List<string> bookIDsAndTitles = new List<string>();
+                            List<string> isbnAndTitles = new List<string>();
                             List<string> statuses = new List<string>();
 
                             // ✅ Clear combo boxes before filling
@@ -918,10 +908,11 @@ Trust Server Certificate=True;";
                                 bookCount++;
 
                                 // ✅ Safe read (avoid null values)
-                                string bookID = reader["BookID"] != DBNull.Value ? reader["BookID"].ToString() : "N/A";
+                                string isbn = reader["ISBN"] != DBNull.Value ? reader["ISBN"].ToString() : "N/A";
                                 string bookTitle = reader["BookTitle"] != DBNull.Value ? reader["BookTitle"].ToString() : "Unknown";
 
-                                bookIDsAndTitles.Add($"{bookID} - {bookTitle}");
+                                // Combine ISBN and Title for display
+                                isbnAndTitles.Add($"{isbn} - {bookTitle}");
                                 statuses.Add(reader["Status"].ToString());
 
                                 if (double.TryParse(reader["Penalty"].ToString(), out double penalty))
@@ -933,7 +924,7 @@ Trust Server Certificate=True;";
                             ReturnBookQty.Items.Add(bookCount.ToString());
                             ReturnBookQty.SelectedIndex = 0;
 
-                            foreach (var entry in bookIDsAndTitles)
+                            foreach (var entry in isbnAndTitles)
                                 ReturnedBookID.Items.Add(entry);
                             if (ReturnedBookID.Items.Count > 0)
                                 ReturnedBookID.SelectedIndex = 0;
@@ -947,6 +938,7 @@ Trust Server Certificate=True;";
                             ReturnPenalty.Text = totalPenalty.ToString("0.00");
                         }
                     }
+
                 }
             }
             else
@@ -962,35 +954,49 @@ Trust Server Certificate=True;";
 
 
 
-        private void ReturnBookID_TextChanged(object sender, EventArgs e)
-        {
-            string bookID = ReturnedBookID.Text.Trim();
+    private void ReturnBookID_TextChanged(object sender, EventArgs e)
+{
+    string isbn = ReturnedBookID.Text.Trim();
 
-            if (bookID.Length >= 4)
-            {
-                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+    if (isbn.Length >= 4)
+    {
+        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
 Integrated Security=True;
 Encrypt=True;
 Trust Server Certificate=True;";
 
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT BookTitle FROM BooksAcq WHERE BookID = @BookID";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@BookID", bookID);
-                        con.Open();
-                        var result = cmd.ExecuteScalar();
+        using (SqlConnection con = new SqlConnection(connectionString))
+        {
+            string query = "SELECT BookTitle FROM BooksAcq WHERE ISBN = @ISBN";
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@ISBN", isbn);
+                con.Open();
 
-                    }
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    // ✅ (Optional) you can show the book title somewhere if needed
+                    string bookTitle = result.ToString();
+                    BookTitle.Text = bookTitle;
+                }
+                else
+                {
+                    // No matching ISBN found
+                    BookTitle.Text = string.Empty;
                 }
             }
-            else
-            {
-
-            }
         }
+    }
+    else
+    {
+        // Clear if ISBN text is too short
+        BookTitle.Text = string.Empty;
+    }
+}
+
 
         private void LoadBorrowedBooksForReturn(string clientID)
         {
@@ -1062,16 +1068,17 @@ Trust Server Certificate=True;";
                     string source = "";
 
                     string getIssueQuery = @"
-                SELECT TOP 1 IssueID, IssueDate, DueDate, Source
-                FROM IssueBooks
-                WHERE ClientID = @ClientID AND BookID = @BookID
-                AND (Status = 'Issued' OR Status = 'Overdue')
+               SELECT TOP 1 IssueID, IssueDate, DueDate, Source
+FROM IssueBooks
+WHERE ClientID = @ClientID AND ISBN = @ISBN
+AND (Status = 'Issued' OR Status = 'Overdue')
                 ORDER BY IssueDate DESC";
 
                     using (SqlCommand cmdGet = new SqlCommand(getIssueQuery, con, transaction))
                     {
                         cmdGet.Parameters.AddWithValue("@ClientID", clientID);
-                        cmdGet.Parameters.AddWithValue("@BookID", bookID);
+                        cmdGet.Parameters.AddWithValue("@ISBN", bookID);
+
 
                         using (SqlDataReader reader = cmdGet.ExecuteReader())
                         {
@@ -1160,5 +1167,51 @@ Trust Server Certificate=True;";
         {
 
         }
+
+        private void ISBN_TextChanged(object sender, EventArgs e)
+        {
+            string isbn = ISBN.Text.Trim();
+
+            if (isbn.Length >= 4)
+            {
+                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
+                string query = "SELECT BookTitle, Source FROM BooksAcq WHERE ISBN = @ISBN";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ISBN", isbn);
+
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            string title = reader["BookTitle"].ToString();
+                            BookTitle.Items.Clear();
+                            BookTitle.Items.Add(title);
+                            BookTitle.SelectedIndex = 0;
+                            BookTitle.Text = title;
+
+                            string src = reader["Source"].ToString();
+                            Source.Text = src;
+                        }
+                        else
+                        {
+                            BookTitle.Items.Clear();
+                            Source.Text = string.Empty;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                BookTitle.Items.Clear();
+                Source.Text = string.Empty;
+            }
+        }
+
+
     }
 }
