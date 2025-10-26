@@ -40,7 +40,7 @@ namespace Library_Final
                 return;
             }
 
-          
+
 
             // 3️⃣ Query to get EmployeeID if credentials match
             string query = "SELECT EmployeeID FROM Employees WHERE Username = @Username AND Password = @Password";
@@ -110,6 +110,18 @@ namespace Library_Final
         private void arthanPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void linkForgotPassword_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkForgotPassword_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ForgotPasswordForm forgot = new ForgotPasswordForm();
+            forgot.Show();
+            this.Hide();
         }
     }
 }

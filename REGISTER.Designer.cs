@@ -35,6 +35,7 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            linkForgotPassword = new LinkLabel();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             txtPassword = new Guna.UI2.WinForms.Guna2TextBox();
             arthanButton5 = new LibraryCGC.Components.ArthanButton();
@@ -50,6 +51,7 @@
             arthanPanel1.BorderStyle = BorderStyle.FixedSingle;
             arthanPanel1.BottomLeftRadius = 0;
             arthanPanel1.BottomRightRadius = 0;
+            arthanPanel1.Controls.Add(linkForgotPassword);
             arthanPanel1.Controls.Add(guna2Button1);
             arthanPanel1.Controls.Add(txtPassword);
             arthanPanel1.Controls.Add(arthanButton5);
@@ -74,6 +76,18 @@
             arthanPanel1.TopRightRadius = 0;
             arthanPanel1.UseIndividualCorners = false;
             arthanPanel1.Paint += arthanPanel1_Paint;
+            // 
+            // linkForgotPassword
+            // 
+            linkForgotPassword.AutoSize = true;
+            linkForgotPassword.Location = new Point(668, 243);
+            linkForgotPassword.Name = "linkForgotPassword";
+            linkForgotPassword.Size = new Size(125, 20);
+            linkForgotPassword.TabIndex = 52;
+            linkForgotPassword.TabStop = true;
+            linkForgotPassword.Text = "Forgot Password?";
+            linkForgotPassword.LinkClicked += linkForgotPassword_LinkClicked;
+            linkForgotPassword.Click += linkForgotPassword_Click;
             // 
             // guna2Button1
             // 
@@ -212,5 +226,6 @@
         private Label label6;
         private Label label5;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private LinkLabel linkForgotPassword;
     }
 }

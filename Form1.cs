@@ -509,7 +509,14 @@ Trust Server Certificate=True;
         private void guna2Button2_Click(object sender, EventArgs e)
         {
             ManageProfileForm form = new ManageProfileForm(currentEmployeeID);
-            form.Show();    
+            form.Show();
+            this.Hide();
+        }
+
+        private void guna2Button1_Click_1(object sender, EventArgs e)
+        {
+            REGISTER rEGISTER = new REGISTER();
+            rEGISTER.Show();
             this.Hide();
         }
     }
