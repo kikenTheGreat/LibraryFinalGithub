@@ -30,10 +30,12 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel14 = new LibraryCGC.Components.ArthanPanel();
             arthanButton3 = new LibraryCGC.Components.ArthanButton();
@@ -55,6 +57,7 @@
             arthanPanel22 = new LibraryCGC.Components.ArthanPanel();
             panel5 = new Panel();
             guna2CustomGradientPanel1 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            arthanButton6 = new LibraryCGC.Components.ArthanButton();
             arthanPanel23 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel10 = new LibraryCGC.Components.ArthanPanel();
             label12 = new Label();
@@ -89,6 +92,7 @@
             flowPanel4 = new FlowLayoutPanel();
             panel1 = new Panel();
             flowPanel2 = new FlowLayoutPanel();
+            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             arthanPanel1.SuspendLayout();
             arthanPanel14.SuspendLayout();
             arthanPanel16.SuspendLayout();
@@ -99,6 +103,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel3.SuspendLayout();
             arthanPanel22.SuspendLayout();
+            guna2CustomGradientPanel1.SuspendLayout();
             arthanPanel10.SuspendLayout();
             arthanPanel4.SuspendLayout();
             arthanPanel5.SuspendLayout();
@@ -618,12 +623,41 @@
             // 
             // guna2CustomGradientPanel1
             // 
-            guna2CustomGradientPanel1.CustomizableEdges = customizableEdges1;
+            guna2CustomGradientPanel1.Controls.Add(guna2Button1);
+            guna2CustomGradientPanel1.Controls.Add(arthanButton6);
+            guna2CustomGradientPanel1.CustomizableEdges = customizableEdges3;
             guna2CustomGradientPanel1.Location = new Point(52, 23);
             guna2CustomGradientPanel1.Name = "guna2CustomGradientPanel1";
-            guna2CustomGradientPanel1.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            guna2CustomGradientPanel1.ShadowDecoration.CustomizableEdges = customizableEdges4;
             guna2CustomGradientPanel1.Size = new Size(291, 166);
             guna2CustomGradientPanel1.TabIndex = 33;
+            // 
+            // arthanButton6
+            // 
+            arthanButton6.BackColor = Color.Transparent;
+            arthanButton6.BackgroundColor = Color.AliceBlue;
+            arthanButton6.BorderColor = Color.PaleVioletRed;
+            arthanButton6.FlatAppearance.BorderColor = Color.Empty;
+            arthanButton6.FlatAppearance.BorderSize = 0;
+            arthanButton6.FlatAppearance.MouseDownBackColor = Color.Empty;
+            arthanButton6.FlatAppearance.MouseOverBackColor = Color.Empty;
+            arthanButton6.FlatStyle = FlatStyle.Flat;
+            arthanButton6.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            arthanButton6.ForeColor = Color.Black;
+            arthanButton6.GradientEndColor = Color.White;
+            arthanButton6.GradientStartColor = Color.White;
+            arthanButton6.HoverEndColor = Color.FromArgb(147, 211, 251);
+            arthanButton6.HoverStartColor = Color.FromArgb(86, 143, 190);
+            arthanButton6.Image = null;
+            arthanButton6.Location = new Point(22, 14);
+            arthanButton6.Margin = new Padding(3, 4, 3, 4);
+            arthanButton6.Name = "arthanButton6";
+            arthanButton6.Size = new Size(181, 53);
+            arthanButton6.TabIndex = 8;
+            arthanButton6.Text = "Activity Log Trail";
+            arthanButton6.TextColor = Color.Black;
+            arthanButton6.UseVisualStyleBackColor = false;
+            arthanButton6.Click += arthanButton6_Click;
             // 
             // arthanPanel23
             // 
@@ -960,10 +994,10 @@
             // Panel4
             // 
             Panel4.Controls.Add(flowPanel1);
-            Panel4.CustomizableEdges = customizableEdges3;
+            Panel4.CustomizableEdges = customizableEdges5;
             Panel4.Location = new Point(35, 175);
             Panel4.Name = "Panel4";
-            Panel4.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            Panel4.ShadowDecoration.CustomizableEdges = customizableEdges6;
             Panel4.Size = new Size(291, 166);
             Panel4.TabIndex = 32;
             // 
@@ -1109,6 +1143,23 @@
             flowPanel2.TabIndex = 0;
             flowPanel2.WrapContents = false;
             // 
+            // guna2Button1
+            // 
+            guna2Button1.CustomizableEdges = customizableEdges1;
+            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button1.Font = new Font("Segoe UI", 9F);
+            guna2Button1.ForeColor = Color.White;
+            guna2Button1.Location = new Point(12, 61);
+            guna2Button1.Name = "guna2Button1";
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            guna2Button1.Size = new Size(225, 56);
+            guna2Button1.TabIndex = 35;
+            guna2Button1.Text = "guna2Button1";
+            guna2Button1.Click += guna2Button1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1142,6 +1193,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             arthanPanel3.ResumeLayout(false);
             arthanPanel22.ResumeLayout(false);
+            guna2CustomGradientPanel1.ResumeLayout(false);
             arthanPanel10.ResumeLayout(false);
             arthanPanel10.PerformLayout();
             arthanPanel4.ResumeLayout(false);
@@ -1223,5 +1275,7 @@
         private FlowLayoutPanel flowLayoutPanel22222;
         private Panel panel22222;
         private FlowLayoutPanel flowLayoutPanel11111;
+        private Components.ArthanButton arthanButton6;
+        private Guna.UI2.WinForms.Guna2Button guna2Button1;
     }
 }

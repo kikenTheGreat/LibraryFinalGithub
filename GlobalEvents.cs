@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,34 @@ namespace Library_Final
 {
     public static class GlobalEvents
     {
+        private static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
+
+        //Activity Log
+        public static void LogActivity(string userName, string action, string module, string details = "")
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "INSERT INTO ActivityLog (UserName, Action, Module, Details) VALUES (@UserName, @Action, @Module, @Details)";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserName", userName);
+                        cmd.Parameters.AddWithValue("@Action", action);
+                        cmd.Parameters.AddWithValue("@Module", module);
+                        cmd.Parameters.AddWithValue("@Details", details);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Optionally log to file if DB fails
+                Console.WriteLine("Error logging activity: " + ex.Message);
+            }
+        }
 
 
 

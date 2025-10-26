@@ -478,7 +478,28 @@ Trust Server Certificate=True;
 
         private void arthanPanel14_Paint(object sender, PaintEventArgs e)
         {
-            
+
+        }
+
+        private void arthanButton6_Click(object sender, EventArgs e)
+        {
+            ActivityLog activityLog = new ActivityLog();
+            activityLog.Show();
+            this.Hide();
+        }
+
+        private void arthanButton7_Click(object sender, EventArgs e)
+        {
+            sign_in si = new sign_in();
+            si.Show();
+            this.Hide();
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            sign_in si = new sign_in();
+            si.Show();
+            this.Hide();
         }
     }
 }

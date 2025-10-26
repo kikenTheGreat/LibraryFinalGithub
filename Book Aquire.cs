@@ -394,6 +394,8 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             // 🔄 Refresh grid
             LoadBooksGrid();
             GlobalEvents.RaiseBooksDataChanged();
+            GlobalEvents.LogActivity("Added new book", "Book Management", "Title: " + BookTitle.Text);
+
 
             // 🧹 Clear input fields
             BookTitle.Texts = "";
