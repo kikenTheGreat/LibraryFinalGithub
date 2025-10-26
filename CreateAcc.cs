@@ -1,17 +1,51 @@
 ﻿using Library_Final;
 using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
+using OnBarcode.Barcode;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing;
+using PdfSharp.Fonts;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf;
+using QRCoder;
+using QRCoder;
+using System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data;
+using System.Diagnostics.Metrics;
 using System.Drawing;
+using System;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using PdfSharp.Fonts;
+using QRCoder;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Imaging;
+using System.Drawing.Imaging;
+using System.IO;
+using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Forms;
 using static System.Collections.Specialized.BitVector32;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using PdfSharp.Fonts;
 
 namespace LibraryCGC
 {
@@ -21,7 +55,7 @@ namespace LibraryCGC
         {
             InitializeComponent();
             LoadStudentAccounts();
-
+            GlobalFontSettings.FontResolver = SimpleFontResolver.Instance;
 
 
 
@@ -164,42 +198,106 @@ namespace LibraryCGC
 
         }
 
+
+
         private void arthanButton5_Click(object sender, EventArgs e)
         {
-            SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n");
-            con.Open();
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+            {
+                con.Open();
 
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO AddStudentAcc 
-(Name,  SectionSY, Email, StudentNumber, Department,Role)
-VALUES 
-(@Name, @SectionSY, @Email, @StudentNumber, @Department, @Role)", con);
+                // Insert new student and get ClientID
+                SqlCommand cmd = new SqlCommand(@"
+            INSERT INTO AddStudentAcc (Name, SectionSY, Email, StudentNumber, Department, Role)
+            OUTPUT INSERTED.ClientID
+            VALUES (@Name, @SectionSY, @Email, @StudentNumber, @Department, @Role)", con);
 
-            // Assign parameters from textboxes
-            cmd.Parameters.AddWithValue("@Name", Name.Text);
-            cmd.Parameters.AddWithValue("@SectionSY", SectionSY.Text);
-            cmd.Parameters.AddWithValue("@Email", Email.Text);
-            cmd.Parameters.AddWithValue("@StudentNumber", StudentNumber.Text);
-            cmd.Parameters.AddWithValue("@Department", Department.Text);
-            cmd.Parameters.AddWithValue("@Role", Role.Text);
+                cmd.Parameters.AddWithValue("@Name", Name.Text);
+                cmd.Parameters.AddWithValue("@SectionSY", SectionSY.Text);
+                cmd.Parameters.AddWithValue("@Email", Email.Text);
+                cmd.Parameters.AddWithValue("@StudentNumber", StudentNumber.Text);
+                cmd.Parameters.AddWithValue("@Department", Department.Text);
+                cmd.Parameters.AddWithValue("@Role", Role.Text);
 
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("Student record added successfully!");
-            LoadStudentAccounts();       //output data grid
-            con.Close();
+                int clientId = (int)cmd.ExecuteScalar();
+                MessageBox.Show("Student record added successfully!");
 
-            // Clear the fields after insert
-            Name.Text = "";
+                // --- Generate QR Code for ClientID ---
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(clientId.ToString(), QRCodeGenerator.ECCLevel.Q);
+                QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
+                Bitmap qrImage = qrCode.GetGraphic(12); // Slightly larger for better clarity
+
+                // --- Create PDF Label (58 mm x 40 mm) ---
+                PdfDocument pdf = new PdfDocument();
+                PdfPage page = pdf.AddPage();
+                page.Width = XUnit.FromMillimeter(58);
+                page.Height = XUnit.FromMillimeter(40);
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                // --- Fonts ---
+                var fontHeader = new XFont("Arial", 10);
+                var fontRegular = new XFont("Arial", 8);
+
+                // Margins and layout
+                double margin = XUnit.FromMillimeter(3);
+                double labelWidth = page.Width - margin * 2;
+
+                // --- Header ---
+                gfx.DrawString("CLIENT ID", fontHeader, XBrushes.Black,
+                    new XRect(margin, margin, labelWidth, 10), XStringFormats.TopCenter);
+
+                // --- QR Code (centered) ---
+                double qrSize = XUnit.FromMillimeter(22); // slightly smaller to free vertical space
+                double qrX = (page.Width - qrSize) / 2;
+                double qrY = margin + 9;
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    qrImage.Save(ms, ImageFormat.Png);
+                    XImage xImage = XImage.FromStream(ms);
+                    gfx.DrawImage(xImage, qrX, qrY, qrSize, qrSize);
+                }
+
+                // --- Text below QR ---
+                double textStart = qrY + qrSize + XUnit.FromMillimeter(1.5); // smaller gap under QR
+
+                // Shorten long names if needed
+                string shortName = Name.Text.Length > 18 ? Name.Text.Substring(0, 17) + "…" : Name.Text;
+
+                // --- Draw info (tighter spacing) ---
+                gfx.DrawString($"ID: {clientId}", fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart, labelWidth, 10), XStringFormats.TopCenter);
+                gfx.DrawString(shortName, fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart + 7, labelWidth, 10), XStringFormats.TopCenter);
+                gfx.DrawString(Role.Text, fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart + 14, labelWidth, 10), XStringFormats.TopCenter);
 
 
-            SectionSY.Text = "";
-            Email.Text = "";
-            StudentNumber.Text = "";
-            Department.Text = "";
 
+                // --- Save and open ---
+                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Library_QRCodes");
+                Directory.CreateDirectory(folderPath);
+                string pdfPath = Path.Combine(folderPath, $"Client_{clientId}.pdf");
+                pdf.Save(pdfPath);
+                pdf.Close();
+                qrImage.Dispose();
+
+                MessageBox.Show($"Label PDF created:\n{pdfPath}");
+
+                // Automatically open for printing
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = pdfPath,
+                    UseShellExecute = true
+                });
+
+                LoadStudentAccounts();
+            }
+
+            // --- Clear fields ---
+            Name.Text = SectionSY.Text = Email.Text = StudentNumber.Text = Department.Text = "";
             Role.Text = "";
-
-            GlobalEvents.RaiseBooksDataChanged();
-
         }
 
         private void AddStudentAccDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)

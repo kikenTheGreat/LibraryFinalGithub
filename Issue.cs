@@ -405,9 +405,11 @@ Trust Server Certificate=True;
             //Issue and Return Panel Visibility
             panelIssueBooks.Visible = true;
             panel1IssueDataGrid.Visible = true;
+            PANELdataList.Visible = true;
 
             panelReturnBooks.Visible = false;
             ReturnPANEL.Visible = false;
+           
 
 
 
@@ -845,10 +847,12 @@ Trust Server Certificate=True;
             // Show Issue Books panel
             panelIssueBooks.Visible = true;
             panel1IssueDataGrid.Visible = true;
+            PANELdataList.Visible=true;
 
             // Hide Return Books panel
             panelReturnBooks.Visible = false;
             ReturnPANEL.Visible = false;
+
 
 
 
@@ -859,11 +863,13 @@ Trust Server Certificate=True;
             // Show Return Books panel
             panelReturnBooks.Visible = true;
             ReturnPANEL.Visible = true;
+           
 
 
             // Hide Issue Books panel
             panelIssueBooks.Visible = false;
             panel1IssueDataGrid.Visible = false;
+            PANELdataList.Visible = false;
         }
 
 

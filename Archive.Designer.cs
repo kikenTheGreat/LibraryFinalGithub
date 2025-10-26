@@ -38,12 +38,12 @@
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
             arthanPanel9 = new LibraryCGC.Components.ArthanPanel();
+            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             txtISBNRestore = new Guna.UI2.WinForms.Guna2TextBox();
             btnRestoreBook = new Guna.UI2.WinForms.Guna2Button();
             pnlActiveBooks = new LibraryCGC.Components.ArthanPanel();
             label2 = new Label();
             DataGridTotalBooks = new DataGridView();
-            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel4.SuspendLayout();
             arthanPanel9.SuspendLayout();
@@ -116,7 +116,7 @@
             arthanButton2.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton2.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton2.Image = null;
-            arthanButton2.Location = new Point(1735, 37);
+            arthanButton2.Location = new Point(1715, 36);
             arthanButton2.Margin = new Padding(3, 4, 3, 4);
             arthanButton2.Name = "arthanButton2";
             arthanButton2.Size = new Size(109, 53);
@@ -154,6 +154,15 @@
             arthanPanel9.UseIndividualCorners = true;
             arthanPanel9.Paint += arthanPanel9_Paint;
             // 
+            // guna2HtmlLabel1
+            // 
+            guna2HtmlLabel1.BackColor = Color.Transparent;
+            guna2HtmlLabel1.Location = new Point(1239, 21);
+            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            guna2HtmlLabel1.Size = new Size(73, 22);
+            guna2HtmlLabel1.TabIndex = 42;
+            guna2HtmlLabel1.Text = "Enter ISBN";
+            // 
             // txtISBNRestore
             // 
             txtISBNRestore.BorderColor = Color.FromArgb(224, 224, 224);
@@ -190,7 +199,7 @@
             btnRestoreBook.FillColor = Color.Orange;
             btnRestoreBook.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnRestoreBook.ForeColor = Color.Black;
-            btnRestoreBook.Location = new Point(1076, 26);
+            btnRestoreBook.Location = new Point(1051, 31);
             btnRestoreBook.Name = "btnRestoreBook";
             btnRestoreBook.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnRestoreBook.Size = new Size(157, 63);
@@ -241,15 +250,6 @@
             DataGridTotalBooks.RowHeadersWidth = 51;
             DataGridTotalBooks.Size = new Size(1860, 703);
             DataGridTotalBooks.TabIndex = 28;
-            // 
-            // guna2HtmlLabel1
-            // 
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Location = new Point(1271, 12);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(73, 22);
-            guna2HtmlLabel1.TabIndex = 42;
-            guna2HtmlLabel1.Text = "Enter ISBN";
             // 
             // Archive
             // 

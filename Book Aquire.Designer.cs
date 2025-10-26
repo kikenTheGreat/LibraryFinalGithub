@@ -247,10 +247,10 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label2.Location = new Point(202, 104);
+            label2.Font = new Font("Sans Serif Collection", 7.799999F);
+            label2.Location = new Point(202, 91);
             label2.Name = "label2";
-            label2.Size = new Size(44, 31);
+            label2.Size = new Size(61, 44);
             label2.TabIndex = 1;
             label2.Text = "Author";
             // 
@@ -281,10 +281,10 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label3.Location = new Point(202, 27);
+            label3.Font = new Font("Sans Serif Collection", 7.799999F);
+            label3.Location = new Point(202, 17);
             label3.Name = "label3";
-            label3.Size = new Size(53, 31);
+            label3.Size = new Size(77, 44);
             label3.TabIndex = 3;
             label3.Text = "Book Title";
             // 
@@ -314,10 +314,10 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(11, 105);
+            label5.Font = new Font("Sans Serif Collection", 7.799999F);
+            label5.Location = new Point(11, 91);
             label5.Name = "label5";
-            label5.Size = new Size(54, 31);
+            label5.Size = new Size(75, 44);
             label5.TabIndex = 5;
             label5.Text = "Publisher";
             // 
@@ -348,30 +348,30 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(11, 27);
+            label4.Font = new Font("Sans Serif Collection", 7.799999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label4.Location = new Point(11, 17);
             label4.Name = "label4";
-            label4.Size = new Size(35, 31);
+            label4.Size = new Size(48, 44);
             label4.TabIndex = 7;
             label4.Text = "ISBN";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label9.Location = new Point(11, 184);
+            label9.Font = new Font("Sans Serif Collection", 7.799999F);
+            label9.Location = new Point(14, 169);
             label9.Name = "label9";
-            label9.Size = new Size(51, 31);
+            label9.Size = new Size(72, 44);
             label9.TabIndex = 9;
             label9.Text = "Quantity";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(202, 184);
+            label8.Font = new Font("Sans Serif Collection", 7.799999F);
+            label8.Location = new Point(202, 169);
             label8.Name = "label8";
-            label8.Size = new Size(43, 31);
+            label8.Size = new Size(60, 44);
             label8.TabIndex = 11;
             label8.Text = "Source";
             // 
@@ -401,10 +401,10 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label7.Location = new Point(11, 263);
+            label7.Font = new Font("Sans Serif Collection", 7.799999F);
+            label7.Location = new Point(14, 253);
             label7.Name = "label7";
-            label7.Size = new Size(53, 31);
+            label7.Size = new Size(74, 44);
             label7.TabIndex = 13;
             label7.Text = "Category";
             // 
@@ -434,20 +434,20 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(202, 263);
+            label6.Font = new Font("Sans Serif Collection", 7.799999F);
+            label6.Location = new Point(202, 253);
             label6.Name = "label6";
-            label6.Size = new Size(34, 31);
+            label6.Size = new Size(47, 44);
             label6.TabIndex = 15;
             label6.Text = "Date";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label10.Font = new Font("Sans Serif Collection", 7.799999F);
             label10.Location = new Point(11, 341);
             label10.Name = "label10";
-            label10.Size = new Size(62, 31);
+            label10.Size = new Size(87, 44);
             label10.TabIndex = 17;
             label10.Text = "Description";
             // 
@@ -521,6 +521,12 @@
             arthanPanel1.BackColor = Color.Transparent;
             arthanPanel1.BottomLeftRadius = 15;
             arthanPanel1.BottomRightRadius = 15;
+            arthanPanel1.Controls.Add(BookTitle);
+            arthanPanel1.Controls.Add(Published);
+            arthanPanel1.Controls.Add(Category);
+            arthanPanel1.Controls.Add(Publisher);
+            arthanPanel1.Controls.Add(Author);
+            arthanPanel1.Controls.Add(ISBN);
             arthanPanel1.Controls.Add(Quantity);
             arthanPanel1.Controls.Add(picCover);
             arthanPanel1.Controls.Add(Source);
@@ -528,19 +534,13 @@
             arthanPanel1.Controls.Add(txtDesc);
             arthanPanel1.Controls.Add(label10);
             arthanPanel1.Controls.Add(label6);
-            arthanPanel1.Controls.Add(Published);
             arthanPanel1.Controls.Add(label7);
-            arthanPanel1.Controls.Add(Category);
             arthanPanel1.Controls.Add(label8);
             arthanPanel1.Controls.Add(label9);
             arthanPanel1.Controls.Add(label4);
-            arthanPanel1.Controls.Add(ISBN);
             arthanPanel1.Controls.Add(label5);
-            arthanPanel1.Controls.Add(Publisher);
             arthanPanel1.Controls.Add(label3);
-            arthanPanel1.Controls.Add(BookTitle);
             arthanPanel1.Controls.Add(label2);
-            arthanPanel1.Controls.Add(Author);
             arthanPanel1.CornerRadius = 15;
             arthanPanel1.EnableDragging = false;
             arthanPanel1.EnableDropShadow = true;
@@ -574,7 +574,7 @@
             // 
             // picCover
             // 
-            picCover.Location = new Point(84, 580);
+            picCover.Location = new Point(82, 595);
             picCover.Name = "picCover";
             picCover.Size = new Size(224, 161);
             picCover.TabIndex = 51;
@@ -651,67 +651,67 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label11.Location = new Point(589, 219);
+            label11.Font = new Font("Sans Serif Collection", 7.799999F);
+            label11.Location = new Point(568, 206);
             label11.Name = "label11";
-            label11.Size = new Size(44, 31);
+            label11.Size = new Size(61, 44);
             label11.TabIndex = 52;
             label11.Text = "Author";
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label13.Location = new Point(1282, 203);
+            label13.Font = new Font("Sans Serif Collection", 7.799999F);
+            label13.Location = new Point(1118, 206);
             label13.Name = "label13";
-            label13.Size = new Size(57, 31);
+            label13.Size = new Size(81, 44);
             label13.TabIndex = 61;
             label13.Text = "Book Type";
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label14.Location = new Point(1268, 144);
+            label14.Font = new Font("Sans Serif Collection", 7.799999F);
+            label14.Location = new Point(936, 144);
             label14.Name = "label14";
-            label14.Size = new Size(53, 31);
+            label14.Size = new Size(74, 44);
             label14.TabIndex = 62;
             label14.Text = "Category";
             // 
             // label15
             // 
             label15.AutoSize = true;
-            label15.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label15.Location = new Point(1044, 219);
+            label15.Font = new Font("Sans Serif Collection", 7.799999F);
+            label15.Location = new Point(936, 206);
             label15.Name = "label15";
-            label15.Size = new Size(56, 31);
+            label15.Size = new Size(78, 44);
             label15.TabIndex = 63;
             label15.Text = "Published";
             // 
             // label16
             // 
             label16.AutoSize = true;
-            label16.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(1044, 144);
+            label16.Font = new Font("Sans Serif Collection", 7.799999F);
+            label16.Location = new Point(751, 144);
             label16.Name = "label16";
-            label16.Size = new Size(43, 31);
+            label16.Size = new Size(60, 44);
             label16.TabIndex = 64;
             label16.Text = "Source";
             // 
             // label17
             // 
             label17.AutoSize = true;
-            label17.Font = new Font("Sans Serif Collection", 5.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label17.Location = new Point(833, 219);
+            label17.Font = new Font("Sans Serif Collection", 7.799999F);
+            label17.Location = new Point(751, 206);
             label17.Name = "label17";
-            label17.Size = new Size(54, 31);
+            label17.Size = new Size(75, 44);
             label17.TabIndex = 65;
             label17.Text = "Publisher";
             // 
             // cmbAuthor
             // 
             cmbAuthor.FormattingEnabled = true;
-            cmbAuthor.Location = new Point(589, 239);
+            cmbAuthor.Location = new Point(568, 237);
             cmbAuthor.Name = "cmbAuthor";
             cmbAuthor.Size = new Size(151, 28);
             cmbAuthor.TabIndex = 66;
@@ -719,7 +719,7 @@
             // cmbCategory
             // 
             cmbCategory.FormattingEnabled = true;
-            cmbCategory.Location = new Point(1268, 172);
+            cmbCategory.Location = new Point(936, 175);
             cmbCategory.Name = "cmbCategory";
             cmbCategory.Size = new Size(151, 28);
             cmbCategory.TabIndex = 67;
@@ -727,7 +727,7 @@
             // cmbBookType
             // 
             cmbBookType.FormattingEnabled = true;
-            cmbBookType.Location = new Point(1268, 237);
+            cmbBookType.Location = new Point(1118, 237);
             cmbBookType.Name = "cmbBookType";
             cmbBookType.Size = new Size(151, 28);
             cmbBookType.TabIndex = 68;
@@ -735,7 +735,7 @@
             // cmbSource
             // 
             cmbSource.FormattingEnabled = true;
-            cmbSource.Location = new Point(1044, 172);
+            cmbSource.Location = new Point(751, 175);
             cmbSource.Name = "cmbSource";
             cmbSource.Size = new Size(151, 28);
             cmbSource.TabIndex = 69;
@@ -745,7 +745,7 @@
             // cmbPublished
             // 
             cmbPublished.FormattingEnabled = true;
-            cmbPublished.Location = new Point(1034, 253);
+            cmbPublished.Location = new Point(936, 237);
             cmbPublished.Name = "cmbPublished";
             cmbPublished.Size = new Size(151, 28);
             cmbPublished.TabIndex = 70;
@@ -753,7 +753,7 @@
             // cmbPublisher
             // 
             cmbPublisher.FormattingEnabled = true;
-            cmbPublisher.Location = new Point(820, 248);
+            cmbPublisher.Location = new Point(751, 237);
             cmbPublisher.Name = "cmbPublisher";
             cmbPublisher.Size = new Size(151, 28);
             cmbPublisher.TabIndex = 71;
@@ -761,7 +761,7 @@
             // cmbBookTitle
             // 
             cmbBookTitle.FormattingEnabled = true;
-            cmbBookTitle.Location = new Point(624, 175);
+            cmbBookTitle.Location = new Point(568, 175);
             cmbBookTitle.Name = "cmbBookTitle";
             cmbBookTitle.Size = new Size(151, 28);
             cmbBookTitle.TabIndex = 72;
