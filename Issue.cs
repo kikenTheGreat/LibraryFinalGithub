@@ -221,46 +221,8 @@ Trust Server Certificate=True;
 
 
 
-        private void ClientID_TextChanged(object sender, EventArgs e)
-        {
 
-            string clientID = ClientID.Text.Trim();
 
-            if (clientID.Length >= 4)
-            {
-                string connectionString = "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
-                string query = "SELECT Name FROM AddStudentAcc WHERE ClientID = @ClientID";
-
-                using (SqlConnection con = new SqlConnection(connectionString))
-                {
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@ClientID", clientID);
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        if (reader.Read())
-                        {
-                            string name = reader["Name"].ToString();
-                            ClientName.Items.Clear();
-                            ClientName.Items.Add(name);
-                            ClientName.SelectedIndex = 0;
-                        }
-                        else
-                        {
-                            ClientName.Items.Clear();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // Clear ComboBox if clientID is less than 4 characters
-                ClientName.Items.Clear();
-            }
-
-        }
 
         private void label5_Click(object sender, EventArgs e)
         {
@@ -409,7 +371,7 @@ Trust Server Certificate=True;
 
             panelReturnBooks.Visible = false;
             ReturnPANEL.Visible = false;
-           
+
 
 
 
@@ -435,26 +397,17 @@ Trust Server Certificate=True;
 
         private void StartDateTimeUpdater()
         {
-            // ✅ Use Windows Forms Timer
-            System.Windows.Forms.Timer dateTimer = new System.Windows.Forms.Timer();
-            dateTimer.Interval = 1000; // every 1 second
-            dateTimer.Tick += (s, e) =>
-            {
-                // ⏰ Update Issue Date to current date and time
-                issueDate.Value = DateTime.Now;
-
-                // 📅 Automatically set Due Date to 7 days after Issue Date
-                dueDate.Value = DateTime.Now.AddDays(3);
-            };
-            dateTimer.Start();
-
-            // ✅ Format display for both date pickers
+            // ✅ Just format the DateTimePickers (no timer needed)
             issueDate.Format = DateTimePickerFormat.Custom;
-            issueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt"; // Example: Friday, October 25, 2025 06:45 PM
+            issueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt";
 
             dueDate.Format = DateTimePickerFormat.Custom;
-            dueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt";   // Example: Friday, November 1, 2025 06:45 PM
+            dueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt";
+
+            // Set initial issue date to now
+            issueDate.Value = DateTime.Now;
         }
+
 
 
 
@@ -556,7 +509,14 @@ Trust Server Certificate=True;
             }
 
             DateTime issueDateValue = issueDate.Value;
-            DateTime dueDateValue = dueDate.Value;
+
+            // 🔍 Automatically get client type from database
+            string clientType = GetClientType(ClientID.Text.Trim());
+
+            // 🧮 Compute due date based on client type
+            DateTime dueDateValue = ComputeDueDate(clientType, issueDateValue);
+
+
 
             try
             {
@@ -638,7 +598,11 @@ Trust Server Certificate=True;
                         }
                     }
 
-                    MessageBox.Show("Book(s) issued successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Borrower Type: {clientType}\nDue Date: {dueDateValue:dddd, MMMM dd, yyyy}",
+                  "Due Date Info",
+                  MessageBoxButtons.OK,
+                  MessageBoxIcon.Information);
+
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseOverdueDataChanged();
                     GlobalEvents.RaisePenaltiesDataChanged();
@@ -671,6 +635,43 @@ Trust Server Certificate=True;
 
 
 
+        // ✅ Determine client type (Student / Faculty) automatically from database
+        private string GetClientType(string clientID)
+        {
+            string clientType = "Student"; // default fallback
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    @"Data Source=(LocalDB)\MSSQLLocalDB;
+              Initial Catalog=LibraryDB;
+              Integrated Security=True;
+              Encrypt=True;
+              Trust Server Certificate=True;"))
+                {
+                    con.Open();
+                    string query = "SELECT Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ClientID", clientID);
+                        object result = cmd.ExecuteScalar();
+                        if (result != null)
+                        {
+                            clientType = result.ToString().Trim();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error checking client type: " + ex.Message,
+                                "Database Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+
+            return clientType;
+        }
 
 
 
@@ -847,7 +848,7 @@ Trust Server Certificate=True;
             // Show Issue Books panel
             panelIssueBooks.Visible = true;
             panel1IssueDataGrid.Visible = true;
-            PANELdataList.Visible=true;
+            PANELdataList.Visible = true;
 
             // Hide Return Books panel
             panelReturnBooks.Visible = false;
@@ -863,7 +864,7 @@ Trust Server Certificate=True;
             // Show Return Books panel
             panelReturnBooks.Visible = true;
             ReturnPANEL.Visible = true;
-           
+
 
 
             // Hide Issue Books panel
@@ -874,9 +875,31 @@ Trust Server Certificate=True;
 
 
 
-        private void ReturnClientID_TextChanged(object sender, EventArgs e)
+        private void ClientID_TextChanged(object sender, EventArgs e)
         {
-            string clientID = ReturnClientID.Text.Trim();
+            string clientID = ClientID.Text.Trim();
+
+            // 🧩 Validate ClientID length first
+            if (clientID.Length >= 6)
+            {
+                MessageBox.Show("Student not found. Please check the Client ID.",
+                                "Not Found",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                // Clear fields
+                if (ClientName is ComboBox nameCombo)
+                    nameCombo.Items.Clear();
+                else
+                    ClientName.Text = "";
+
+                if (IssueRole is ComboBox roleCombo)
+                    roleCombo.Items.Clear();
+                else
+                    IssueRole.Text = "";
+
+                return; // stop further execution
+            }
 
             if (clientID.Length >= 4)
             {
@@ -886,154 +909,133 @@ Integrated Security=True;
 Encrypt=True;
 Trust Server Certificate=True;";
 
+                // ✅ Get both Name and Role from AddStudentAcc
+                string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    con.Open();
-
-                    // ✅ 1. Get Student Name from IssueBooks
-                    string queryName = @"
-                SELECT TOP 1 StudentName 
-                FROM IssueBooks 
-                WHERE ClientID = @ClientID 
-                ORDER BY IssueDate DESC";
-
-                    using (SqlCommand cmdName = new SqlCommand(queryName, con))
+                    using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmdName.Parameters.AddWithValue("@ClientID", clientID);
-                        object result = cmdName.ExecuteScalar();
+                        cmd.Parameters.AddWithValue("@ClientID", clientID);
 
-                        ReturnClientName.Items.Clear();
-                        if (result != null)
+                        con.Open();
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.Read())
                         {
-                            ReturnClientName.Items.Add(result.ToString());
-                            ReturnClientName.SelectedIndex = 0;
-                        }
-                    }
-
-                    // ✅ 2. Get Borrowed Books Info
-                    string queryBorrow = @"
-                SELECT 
-    ISBN,
-    BookTitle,
-    Status,
-    Penalty,
-    Quantity,
-    IssueID,
-    Source,
-    ClientID
-FROM IssueBooks
-WHERE ClientID = @ClientID
-  AND (Status = 'Issued' OR Status = 'Overdue')
-";
-
-                    using (SqlCommand cmdBorrow = new SqlCommand(queryBorrow, con))
-                    {
-                        cmdBorrow.Parameters.AddWithValue("@ClientID", clientID);
-
-                        using (SqlDataReader reader = cmdBorrow.ExecuteReader())
-                        {
-                            // Prepare holders
-                            int bookCount = 0;
-                            double totalPenalty = 0;
-                            List<string> isbnAndTitles = new List<string>();
-                            List<string> statuses = new List<string>();
-
-                            // ✅ Clear combo boxes before filling
-                            ReturnedBookID.Items.Clear();
-
-                            while (reader.Read())
+                            // 🧍 Fill Client Name
+                            string name = reader["Name"].ToString();
+                            if (ClientName is ComboBox nameCombo)
                             {
-                                bookCount++;
-
-                                // ✅ Safe read (avoid null values)
-                                string isbn = reader["ISBN"] != DBNull.Value ? reader["ISBN"].ToString() : "N/A";
-                                string bookTitle = reader["BookTitle"] != DBNull.Value ? reader["BookTitle"].ToString() : "Unknown";
-
-                                // Combine ISBN and Title for display
-                                isbnAndTitles.Add($"{isbn} - {bookTitle}");
-                                statuses.Add(reader["Status"].ToString());
-
-                                if (double.TryParse(reader["Penalty"].ToString(), out double penalty))
-                                    totalPenalty += penalty;
+                                nameCombo.Items.Clear();
+                                nameCombo.Items.Add(name);
+                                nameCombo.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                ClientName.Text = name;
                             }
 
-                            // ✅ Fill ComboBoxes and TextBox
-                            ReturnBookQty.Items.Clear();
-                            ReturnBookQty.Items.Add(bookCount.ToString());
-                            ReturnBookQty.SelectedIndex = 0;
+                            // 🎓 Fill Role
+                            string role = reader["Role"].ToString();
+                            if (IssueRole is ComboBox roleCombo)
+                            {
+                                roleCombo.Items.Clear();
+                                roleCombo.Items.Add(role);
+                                roleCombo.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                IssueRole.Text = role;
+                            }
 
-                            foreach (var entry in isbnAndTitles)
-                                ReturnedBookID.Items.Add(entry);
-                            if (ReturnedBookID.Items.Count > 0)
-                                ReturnedBookID.SelectedIndex = 0;
+                            // 🧮 Auto-update due date
+                            DateTime issueDateValue = DateTime.Now;
+                            DateTime dueDateValue = ComputeDueDate(role, issueDateValue);
+                            dueDate.Value = dueDateValue;
+                        }
+                        else
+                        {
+                            // ❌ No match found for this ClientID
+                            MessageBox.Show("Student not found. Please check the Client ID.",
+                                            "Not Found",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning);
 
-                            ReturnBookStatus.Items.Clear();
-                            foreach (var status in statuses.Distinct())
-                                ReturnBookStatus.Items.Add(status);
-                            if (ReturnBookStatus.Items.Count > 0)
-                                ReturnBookStatus.SelectedIndex = 0;
+                            if (ClientName is ComboBox nameCombo)
+                                nameCombo.Items.Clear();
+                            else
+                                ClientName.Text = "";
 
-                            ReturnPenalty.Text = totalPenalty.ToString("0.00");
+                            if (IssueRole is ComboBox roleCombo)
+                                roleCombo.Items.Clear();
+                            else
+                                IssueRole.Text = "";
                         }
                     }
-
                 }
             }
             else
             {
-                // Clear all if ClientID too short
-                ReturnClientName.Items.Clear();
-                ReturnBookQty.Items.Clear();
-                ReturnedBookID.Items.Clear();
-                ReturnBookStatus.Items.Clear();
-                ReturnPenalty.Clear();
+                // Clear if ClientID too short
+                if (ClientName is ComboBox nameCombo)
+                    nameCombo.Items.Clear();
+                else
+                    ClientName.Text = "";
+
+                if (IssueRole is ComboBox roleCombo)
+                    roleCombo.Items.Clear();
+                else
+                    IssueRole.Text = "";
             }
         }
 
 
 
-    private void ReturnBookID_TextChanged(object sender, EventArgs e)
-{
-    string isbn = ReturnedBookID.Text.Trim();
 
-    if (isbn.Length >= 4)
-    {
-        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+
+        private void ReturnBookID_TextChanged(object sender, EventArgs e)
+        {
+            string isbn = ReturnedBookID.Text.Trim();
+
+            if (isbn.Length >= 4)
+            {
+                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
 Integrated Security=True;
 Encrypt=True;
 Trust Server Certificate=True;";
 
-        using (SqlConnection con = new SqlConnection(connectionString))
-        {
-            string query = "SELECT BookTitle FROM BooksAcq WHERE ISBN = @ISBN";
-            using (SqlCommand cmd = new SqlCommand(query, con))
-            {
-                cmd.Parameters.AddWithValue("@ISBN", isbn);
-                con.Open();
-
-                object result = cmd.ExecuteScalar();
-
-                if (result != null)
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    // ✅ (Optional) you can show the book title somewhere if needed
-                    string bookTitle = result.ToString();
-                    BookTitle.Text = bookTitle;
-                }
-                else
-                {
-                    // No matching ISBN found
-                    BookTitle.Text = string.Empty;
+                    string query = "SELECT BookTitle FROM BooksAcq WHERE ISBN = @ISBN";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ISBN", isbn);
+                        con.Open();
+
+                        object result = cmd.ExecuteScalar();
+
+                        if (result != null)
+                        {
+                            // ✅ (Optional) you can show the book title somewhere if needed
+                            string bookTitle = result.ToString();
+                            BookTitle.Text = bookTitle;
+                        }
+                        else
+                        {
+                            // No matching ISBN found
+                            BookTitle.Text = string.Empty;
+                        }
+                    }
                 }
             }
+            else
+            {
+                // Clear if ISBN text is too short
+                BookTitle.Text = string.Empty;
+            }
         }
-    }
-    else
-    {
-        // Clear if ISBN text is too short
-        BookTitle.Text = string.Empty;
-    }
-}
 
 
         private void LoadBorrowedBooksForReturn(string clientID)
@@ -1263,6 +1265,222 @@ Trust Server Certificate=True;";
                 Source.Text = string.Empty;
             }
         }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+        // ✅ Compute due date based on client type
+        // ✅ Compute due date based on client type and skip Sundays/holidays for students
+        private DateTime ComputeDueDate(string clientType, DateTime issueDate)
+        {
+            HashSet<DateTime> philippineHolidays = new HashSet<DateTime>
+    {
+        new DateTime(issueDate.Year, 1, 1),
+        new DateTime(issueDate.Year, 4, 9),
+        new DateTime(issueDate.Year, 5, 1),
+        new DateTime(issueDate.Year, 6, 12),
+        new DateTime(issueDate.Year, 8, 21),
+        new DateTime(issueDate.Year, 11, 1),
+        new DateTime(issueDate.Year, 11, 30),
+        new DateTime(issueDate.Year, 12, 25),
+        new DateTime(issueDate.Year, 12, 30)
+    };
+
+            if (clientType.Equals("Faculty", StringComparison.OrdinalIgnoreCase))
+            {
+                return issueDate.AddMonths(3);
+            }
+            else
+            {
+                int validDays = 0;
+                DateTime due = issueDate;
+                while (validDays < 3)
+                {
+                    due = due.AddDays(1);
+                    if (due.DayOfWeek != DayOfWeek.Sunday && !philippineHolidays.Contains(due.Date))
+                    {
+                        validDays++;
+                    }
+                }
+                return due;
+            }
+        }
+
+        private void ReturnClientID_TextChanged(object sender, EventArgs e)
+        {
+            string clientID = ReturnClientID.Text.Trim();
+
+            // 🧩 1️⃣ Validate ClientID length first
+            if (clientID.Length > 6)
+            {
+                MessageBox.Show("Student not found. Please check the Client ID.",
+                                "Not Found",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                // Clear all fields
+                ReturnClientName.Items.Clear();
+                ReturnPenalty.Clear();
+
+                if (ReturnRoleComboBox is ComboBox roleCombo)
+                    roleCombo.Items.Clear();
+                else
+                    ReturnRoleComboBox.Text = "";
+
+                ReturnBookQty.Items.Clear();
+                ReturnedBookID.Items.Clear();
+                ReturnBookStatus.Items.Clear();
+                return;
+            }
+
+            // 🧩 2️⃣ Proceed only if ClientID has 4 to 6 digits
+            if (clientID.Length >= 4)
+            {
+                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;";
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+
+                    // ✅ 1️⃣ Get Student Name and Role from AddStudentAcc
+                    string queryClient = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+                    using (SqlCommand cmdClient = new SqlCommand(queryClient, con))
+                    {
+                        cmdClient.Parameters.AddWithValue("@ClientID", clientID);
+                        using (SqlDataReader reader = cmdClient.ExecuteReader())
+                        {
+                            ReturnClientName.Items.Clear();
+
+                            if (reader.Read())
+                            {
+                                // 🧍 Fill client name ComboBox
+                                string name = reader["Name"].ToString();
+                                ReturnClientName.Items.Add(name);
+                                ReturnClientName.SelectedIndex = 0;
+
+                                // 🎓 Fill role (Student/Faculty)
+                                string role = reader["Role"].ToString();
+                                if (ReturnRoleComboBox is ComboBox combo)
+                                {
+                                    combo.Items.Clear();
+                                    combo.Items.Add(role);
+                                    combo.SelectedIndex = 0;
+                                }
+                                else
+                                {
+                                    ReturnRoleComboBox.Text = role;
+                                }
+                            }
+                            else
+                            {
+                                // ❌ No record found
+                                MessageBox.Show("Student not found. Please check the Client ID.",
+                                                "Not Found",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Warning);
+
+                                ReturnClientName.Items.Clear();
+                                if (ReturnRoleComboBox is ComboBox combo)
+                                    combo.Items.Clear();
+                                else
+                                    ReturnRoleComboBox.Text = "";
+
+                                ReturnBookQty.Items.Clear();
+                                ReturnedBookID.Items.Clear();
+                                ReturnBookStatus.Items.Clear();
+                                ReturnPenalty.Clear();
+                                return;
+                            }
+                        }
+                    }
+
+                    // ✅ 2️⃣ Get Borrowed Books Info
+                    string queryBorrow = @"
+                SELECT 
+                    ISBN,
+                    BookTitle,
+                    Status,
+                    Penalty,
+                    Quantity,
+                    IssueID,
+                    Source,
+                    ClientID
+                FROM IssueBooks
+                WHERE ClientID = @ClientID
+                  AND (Status = 'Issued' OR Status = 'Overdue')";
+
+                    using (SqlCommand cmdBorrow = new SqlCommand(queryBorrow, con))
+                    {
+                        cmdBorrow.Parameters.AddWithValue("@ClientID", clientID);
+
+                        using (SqlDataReader reader = cmdBorrow.ExecuteReader())
+                        {
+                            int bookCount = 0;
+                            double totalPenalty = 0;
+                            List<string> isbnAndTitles = new List<string>();
+                            List<string> statuses = new List<string>();
+
+                            ReturnedBookID.Items.Clear();
+
+                            while (reader.Read())
+                            {
+                                bookCount++;
+
+                                string isbn = reader["ISBN"] != DBNull.Value ? reader["ISBN"].ToString() : "N/A";
+                                string bookTitle = reader["BookTitle"] != DBNull.Value ? reader["BookTitle"].ToString() : "Unknown";
+
+                                isbnAndTitles.Add($"{isbn} - {bookTitle}");
+                                statuses.Add(reader["Status"].ToString());
+
+                                if (double.TryParse(reader["Penalty"].ToString(), out double penalty))
+                                    totalPenalty += penalty;
+                            }
+
+                            // ✅ Fill borrowed book data
+                            ReturnBookQty.Items.Clear();
+                            ReturnBookQty.Items.Add(bookCount.ToString());
+                            ReturnBookQty.SelectedIndex = 0;
+
+                            foreach (var entry in isbnAndTitles)
+                                ReturnedBookID.Items.Add(entry);
+                            if (ReturnedBookID.Items.Count > 0)
+                                ReturnedBookID.SelectedIndex = 0;
+
+                            ReturnBookStatus.Items.Clear();
+                            foreach (var status in statuses.Distinct())
+                                ReturnBookStatus.Items.Add(status);
+                            if (ReturnBookStatus.Items.Count > 0)
+                                ReturnBookStatus.SelectedIndex = 0;
+
+                            ReturnPenalty.Text = totalPenalty.ToString("0.00");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Clear all if ClientID too short
+                ReturnClientName.Items.Clear();
+                ReturnPenalty.Clear();
+
+                if (ReturnRoleComboBox is ComboBox combo)
+                    combo.Items.Clear();
+                else
+                    ReturnRoleComboBox.Text = "";
+
+                ReturnBookQty.Items.Clear();
+                ReturnedBookID.Items.Clear();
+                ReturnBookStatus.Items.Clear();
+            }
+        }
+
+
+
 
 
     }
