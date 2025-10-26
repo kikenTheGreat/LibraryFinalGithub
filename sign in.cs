@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
@@ -25,27 +26,33 @@ namespace LibraryCGC
         {
             try
             {
-                // 1️⃣ Validate passwords
+                // Validate
                 if (txtPassword.Text != txtConfirmPassword.Text)
                 {
                     MessageBox.Show("Passwords do not match!", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // 2️⃣ Hash the password (never store plain text)
-                string hashedPassword = HashPassword(txtPassword.Text);
+                if (picProfile.Image == null)
+                {
+                    MessageBox.Show("Please upload a profile picture.", "Missing Image", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
-                // 3️⃣ SQL Insert command
+              
+
+                // Convert image to byte array
+                byte[] imageBytes = ImageToByteArray(picProfile.Image);
+
                 string query = @"
                     INSERT INTO Employees 
-                    (EmployeeCode, FirstName, LastName, Department, Position, PhoneNumber, EmailAddress, Username, PasswordHash)
-                    VALUES (@EmployeeCode, @FirstName, @LastName, @Department, @Position, @PhoneNumber, @EmailAddress, @Username, @PasswordHash)";
+                    (EmployeeCode, FirstName, LastName, Department, Position, PhoneNumber, EmailAddress, Username, Password, ProfileImage)
+                    VALUES 
+                    (@EmployeeCode, @FirstName, @LastName, @Department, @Position, @PhoneNumber, @EmailAddress, @Username, @Password, @ProfileImage)";
 
-                // 4️⃣ Open connection and execute
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    // Assign values from textboxes
                     cmd.Parameters.AddWithValue("@EmployeeCode", txtEmployeeID.Text);
                     cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text);
                     cmd.Parameters.AddWithValue("@LastName", txtLastName.Text);
@@ -54,27 +61,22 @@ namespace LibraryCGC
                     cmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNumber.Text);
                     cmd.Parameters.AddWithValue("@EmailAddress", txtEmail.Text);
                     cmd.Parameters.AddWithValue("@Username", txtUsername.Text);
-                    cmd.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+                    cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
+
+                    cmd.Parameters.AddWithValue("@ProfileImage", imageBytes);
 
                     conn.Open();
                     int rows = cmd.ExecuteNonQuery();
 
-
-                    // 5️⃣ Feedback
                     if (rows > 0)
                     {
                         MessageBox.Show("Employee registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        REGISTER R = new REGISTER();
-                        R.Show();
+                        ClearForm();
+                        REGISTER rEGISTER = new REGISTER();
+                        rEGISTER.Show();
                         this.Hide();
+
                     }
-                    else
-                    {
-                        MessageBox.Show("No data inserted. Please check inputs.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
-
-
                 }
             }
             catch (Exception ex)
@@ -83,18 +85,35 @@ namespace LibraryCGC
             }
         }
 
-        // 🧮 Helper function to hash passwords
-        private string HashPassword(string password)
+        // 🖼 Convert Image to Byte Array
+        private byte[] ImageToByteArray(Image image)
         {
-            using (SHA256 sha256 = SHA256.Create())
+            using (MemoryStream ms = new MemoryStream())
             {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-                foreach (byte b in bytes)
-                    builder.Append(b.ToString("x2"));
-                return builder.ToString();
+                image.Save(ms, image.RawFormat);
+                return ms.ToArray();
             }
         }
+
+        // 🧹 Clear all fields after saving
+        private void ClearForm()
+        {
+            txtFirstName.Clear();
+            txtLastName.Clear();
+            txtEmployeeID.Clear();
+            txtDepartment.Clear();
+            txtPosition.Clear();
+            txtPhoneNumber.Clear();
+            txtEmail.Clear();
+            txtUsername.Clear();
+            txtPassword.Clear();
+            txtConfirmPassword.Clear();
+            picProfile.Image = null;
+        }
+
+        
+
+     
 
         private void guna2CustomGradientPanel2_Paint(object sender, PaintEventArgs e)
         {
@@ -106,6 +125,37 @@ namespace LibraryCGC
             REGISTER r = new REGISTER();
             r.Show();
             this.Hide();
+        }
+
+        private void guna2CustomGradientPanel2_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnUploadImage_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    // Allow only image files
+                    ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+                    ofd.Title = "Select Profile Image";
+
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        // Display the selected image in the PictureBox
+                        picProfile.Image = Image.FromFile(ofd.FileName);
+
+                        // Optional: store file path temporarily if needed
+                        picProfile.Tag = ofd.FileName;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

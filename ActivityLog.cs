@@ -78,6 +78,8 @@ namespace Library_Final
             this.Hide();
 
         }
+        
+
 
         private void DataGridActivity_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

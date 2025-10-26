@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             txtPassword = new Guna.UI2.WinForms.Guna2TextBox();
             arthanButton5 = new LibraryCGC.Components.ArthanButton();
             txtUsername = new Guna.UI2.WinForms.Guna2TextBox();
             label6 = new Label();
             label5 = new Label();
-            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             arthanPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -73,6 +73,24 @@
             arthanPanel1.TopLeftRadius = 0;
             arthanPanel1.TopRightRadius = 0;
             arthanPanel1.UseIndividualCorners = false;
+            arthanPanel1.Paint += arthanPanel1_Paint;
+            // 
+            // guna2Button1
+            // 
+            guna2Button1.CustomizableEdges = customizableEdges1;
+            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button1.Font = new Font("Segoe UI", 9F);
+            guna2Button1.ForeColor = Color.White;
+            guna2Button1.Location = new Point(306, 268);
+            guna2Button1.Name = "guna2Button1";
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            guna2Button1.Size = new Size(225, 56);
+            guna2Button1.TabIndex = 51;
+            guna2Button1.Text = "Create Account";
+            guna2Button1.Click += guna2Button1_Click;
             // 
             // txtPassword
             // 
@@ -170,23 +188,6 @@
             label5.TabIndex = 35;
             label5.Text = "Enter Username";
             label5.Click += label5_Click;
-            // 
-            // guna2Button1
-            // 
-            guna2Button1.CustomizableEdges = customizableEdges1;
-            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button1.Font = new Font("Segoe UI", 9F);
-            guna2Button1.ForeColor = Color.White;
-            guna2Button1.Location = new Point(306, 268);
-            guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2Button1.Size = new Size(225, 56);
-            guna2Button1.TabIndex = 51;
-            guna2Button1.Text = "Create Account";
-            guna2Button1.Click += guna2Button1_Click;
             // 
             // REGISTER
             // 

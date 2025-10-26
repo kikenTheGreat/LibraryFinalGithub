@@ -33,18 +33,17 @@ namespace Library_Final
 
         private void arthanButton5_Click(object sender, EventArgs e)
         {
-            // 1️⃣ Basic validation first
+            // 1️⃣ Basic validation
             if (string.IsNullOrWhiteSpace(txtUsername.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 MessageBox.Show("Please enter both username and password.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2️⃣ Hash entered password for comparison
-            string enteredPasswordHash = HashPassword(txtPassword.Text);
+          
 
-            // 3️⃣ Query the database
-            string query = "SELECT COUNT(*) FROM Employees WHERE Username = @Username AND PasswordHash = @PasswordHash";
+            // 3️⃣ Query to get EmployeeID if credentials match
+            string query = "SELECT EmployeeID FROM Employees WHERE Username = @Username AND Password = @Password";
 
             try
             {
@@ -52,22 +51,22 @@ namespace Library_Final
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Username", txtUsername.Text);
-                    cmd.Parameters.AddWithValue("@PasswordHash", enteredPasswordHash);
+                    cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
 
                     conn.Open();
-                    int count = (int)cmd.ExecuteScalar();
+                    object result = cmd.ExecuteScalar(); // returns EmployeeID or null
 
-                    if (count > 0)
+                    if (result != null)
                     {
+                        // ✅ Define employeeId here
+                        int employeeId = Convert.ToInt32(result);
+
                         MessageBox.Show("Login successful!", "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Form1 form = new Form1();
+
+                        // ✅ Pass the employeeId to your Form1 (Dashboard)
+                        Form1 form = new Form1(employeeId);
                         form.Show();
                         this.Hide();
-
-                        // ✅ Optionally open another form (like Dashboard)
-                        // DashboardForm dashboard = new DashboardForm();
-                        // dashboard.Show();
-                        // this.Hide();
                     }
                     else
                     {
@@ -80,6 +79,8 @@ namespace Library_Final
                 MessageBox.Show($"Error: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         // 🧮 Same password hashing function from registration form
         private string HashPassword(string password)
@@ -102,6 +103,11 @@ namespace Library_Final
         }
 
         private void arthanButton5_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void arthanPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -8,14 +8,23 @@ namespace LibraryCGC
     public partial class Form1 : Form
     {
 
+        private int currentEmployeeID;
 
+        // ✅ Default constructor (for forms that don't pass an ID)
         public Form1()
+        {
+            InitializeComponent();
+        }
+
+
+        public Form1(int employeeId)
         {
             InitializeComponent();
             UpdateTotalBooksLabel();
             UpdateTotalArchivedLabel();
             LoadPenaltyCards();
             UpdateTotalOverdueLabel();
+            currentEmployeeID = employeeId;
 
         }
 
@@ -125,7 +134,7 @@ namespace LibraryCGC
             this.Hide(); // ✅ Keeps app running
         }
 
-    
+
 
 
         public void UpdateTotalBooksLabel()
@@ -494,6 +503,13 @@ Trust Server Certificate=True;
         {
             sign_in si = new sign_in();
             si.Show();
+            this.Hide();
+        }
+
+        private void guna2Button2_Click(object sender, EventArgs e)
+        {
+            ManageProfileForm form = new ManageProfileForm(currentEmployeeID);
+            form.Show();    
             this.Hide();
         }
     }
