@@ -125,12 +125,7 @@ namespace LibraryCGC
             this.Hide(); // ✅ Keeps app running
         }
 
-        private void arthanButton3_Click_1(object sender, EventArgs e)
-        {
-            Return r = new Return();
-            r.Show();
-            this.Hide(); // ✅ Keeps app running
-        }
+    
 
 
         public void UpdateTotalBooksLabel()

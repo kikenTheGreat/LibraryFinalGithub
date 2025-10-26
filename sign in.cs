@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using Library_Final;
 
 namespace LibraryCGC
 {
@@ -58,11 +59,22 @@ namespace LibraryCGC
                     conn.Open();
                     int rows = cmd.ExecuteNonQuery();
 
+
                     // 5️⃣ Feedback
                     if (rows > 0)
+                    {
                         MessageBox.Show("Employee registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        REGISTER R = new REGISTER();
+                        R.Show();
+                        this.Hide();
+                    }
                     else
+                    {
                         MessageBox.Show("No data inserted. Please check inputs.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+
+
                 }
             }
             catch (Exception ex)
@@ -87,6 +99,13 @@ namespace LibraryCGC
         private void guna2CustomGradientPanel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void guna2Button2_Click(object sender, EventArgs e)
+        {
+            REGISTER r = new REGISTER();
+            r.Show();
+            this.Hide();
         }
     }
 }
