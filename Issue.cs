@@ -1,11 +1,13 @@
 ﻿using Library_Final;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -549,7 +551,6 @@ Trust Server Certificate=True;
                     string insertQuery = @"INSERT INTO IssueBooks 
                (ISBN, Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID)
                VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID)";
-
                     foreach (var item in borrowList)
                     {
                         // ✅ STEP 3: Check available quantity first
@@ -596,12 +597,23 @@ Trust Server Certificate=True;
                             updateQtyCmd.Parameters.AddWithValue("@ISBN", item.ISBN);
                             updateQtyCmd.ExecuteNonQuery();
                         }
+
+
+                        MessageBox.Show($"Borrower Type: {clientType}\nDue Date: {dueDateValue:dddd, MMMM dd, yyyy}",
+                      "Due Date Info",
+                      MessageBoxButtons.OK,
+                      MessageBoxIcon.Information);
+
+
+                        // ✅ STEP 6: Log activity for each issued book
+                        ActivityLog.RecordActivity(
+                            SessionData.CurrentUserName,
+                            "Issue Book",
+                            "Issue Module",
+                            $"Issued book — Title: {item.BookTitle}, ISBN: {item.ISBN}, Borrower: {ClientName.Text}"
+                        );
                     }
 
-                    MessageBox.Show($"Borrower Type: {clientType}\nDue Date: {dueDateValue:dddd, MMMM dd, yyyy}",
-                  "Due Date Info",
-                  MessageBoxButtons.OK,
-                  MessageBoxIcon.Information);
 
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseOverdueDataChanged();
@@ -1176,6 +1188,15 @@ Trust Server Certificate=True;";
                     // ✅ 4️⃣ Commit changes
                     transaction.Commit();
 
+                    // ✅ Log the return
+                    ActivityLog.RecordActivity(
+                        SessionData.CurrentUserName,
+                        "Return Book",
+                        "Return Module",
+                        $"Returned book — Title: {ReturnedBookID.Text}, Borrower: {ReturnClientName.Text}"
+                    );
+
+
                     MessageBox.Show("Book returned successfully! Quantity updated.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     lblReturnDate.Text = $"Returned on: {DateTime.Now:MMMM dd, yyyy hh:mm tt}";
 
@@ -1479,9 +1500,9 @@ Trust Server Certificate=True;";
             }
         }
 
+        private void ReturnBookQty_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
-
-
-
+        }
     }
 }

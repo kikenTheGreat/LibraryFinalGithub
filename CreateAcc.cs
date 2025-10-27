@@ -219,8 +219,29 @@ namespace LibraryCGC
                 cmd.Parameters.AddWithValue("@Department", Department.Text);
                 cmd.Parameters.AddWithValue("@Role", Role.Text);
 
+
+                SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM AddStudentAcc WHERE StudentNumber = @StudentNumber", con);
+                checkCmd.Parameters.AddWithValue("@StudentNumber", StudentNumber.Text);
+                int exists = (int)checkCmd.ExecuteScalar();
+
+                if (exists > 0)
+                {
+                    MessageBox.Show("This student number already exists!", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+
                 int clientId = (int)cmd.ExecuteScalar();
                 MessageBox.Show("Student record added successfully!");
+                // ✅ Step 2: Log the activity
+                ActivityLog.RecordActivity(
+                    SessionData.CurrentUserName,
+                    "Create Account",
+                    "Account Management",
+                    $"Created new student account — Name: {Name.Text}, Student No: {StudentNumber.Text}, Department: {Department.Text}"
+                );
+
+
 
                 // --- Generate QR Code for ClientID ---
                 QRCodeGenerator qrGenerator = new QRCodeGenerator();

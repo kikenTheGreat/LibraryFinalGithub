@@ -593,7 +593,7 @@
             // panelReturnBooks
             // 
             panelReturnBooks.Controls.Add(arthanPanel1);
-            panelReturnBooks.Location = new Point(20, 146);
+            panelReturnBooks.Location = new Point(711, 84);
             panelReturnBooks.Name = "panelReturnBooks";
             panelReturnBooks.Size = new Size(421, 845);
             panelReturnBooks.TabIndex = 27;
@@ -626,13 +626,12 @@
             arthanPanel1.Controls.Add(arthanTextBox2);
             arthanPanel1.Controls.Add(label26);
             arthanPanel1.CornerRadius = 15;
-            arthanPanel1.Dock = DockStyle.Fill;
             arthanPanel1.EnableDragging = false;
             arthanPanel1.EnableDropShadow = true;
             arthanPanel1.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel1.GradientEndColor = Color.White;
             arthanPanel1.GradientStartColor = Color.White;
-            arthanPanel1.Location = new Point(0, 0);
+            arthanPanel1.Location = new Point(24, 1);
             arthanPanel1.Margin = new Padding(3, 4, 3, 4);
             arthanPanel1.Name = "arthanPanel1";
             arthanPanel1.ShadowBlur = 8;
@@ -736,6 +735,7 @@
             ReturnBookQty.ShadowDecoration.CustomizableEdges = customizableEdges30;
             ReturnBookQty.Size = new Size(344, 36);
             ReturnBookQty.TabIndex = 50;
+            ReturnBookQty.SelectedIndexChanged += ReturnBookQty_SelectedIndexChanged;
             // 
             // ReturnPenalty
             // 
@@ -1019,6 +1019,7 @@
             arthanPanel4.BackColor = Color.Transparent;
             arthanPanel4.BottomLeftRadius = 15;
             arthanPanel4.BottomRightRadius = 15;
+            arthanPanel4.Controls.Add(panelReturnBooks);
             arthanPanel4.Controls.Add(btnReturnBooks);
             arthanPanel4.Controls.Add(btnIssueBooks);
             arthanPanel4.Controls.Add(arthanButton1);
@@ -1320,7 +1321,6 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
-            Controls.Add(panelReturnBooks);
             Controls.Add(PANELdataList);
             Controls.Add(ReturnPANEL);
             Controls.Add(panel1IssueDataGrid);

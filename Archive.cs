@@ -302,6 +302,14 @@ namespace LibraryCGC
                         deleteCmd.Parameters.AddWithValue("@BookID", bookId);
                         deleteCmd.ExecuteNonQuery();
 
+                        // ✅ Step 3: Record activity log
+                        ActivityLog.RecordActivity(
+                            SessionData.CurrentUserName,
+                            "Restore Book",
+                            "Archived Books",
+                            $"Restored book with ISBN: {isbn} — Title: {title}"
+                        );
+
                         MessageBox.Show("✅ Book restored successfully!");
                         txtISBNRestore.Clear();
                         LoadBooksGrid(); // Refresh DataGrid
