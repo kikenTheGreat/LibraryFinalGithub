@@ -15,7 +15,7 @@ namespace Library_Final
     public partial class ActivityLog : Form
     {
 
-        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+        private string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
 
         public ActivityLog()
         {
@@ -30,6 +30,10 @@ namespace Library_Final
         }
 
 
+
+
+        // ✅ Display logs in DataGridView
+        // ✅ Loads and displays all recent activity logs
         private void LoadLogs()
         {
             try
@@ -37,23 +41,67 @@ namespace Library_Final
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "SELECT TOP 100 LogID, Timestamp, UserName, Action, Module, Details FROM ActivityLog ORDER BY LogID DESC";
+                    string query = @"
+                        SELECT TOP 100 LogID, Timestamp, UserName, Action, Module, Details 
+                        FROM ActivityLog 
+                        ORDER BY LogID DESC";
+
                     using (SqlDataAdapter da = new SqlDataAdapter(query, conn))
                     {
                         DataTable dt = new DataTable();
                         da.Fill(dt);
-                        DataGridActivity.Invoke((MethodInvoker)delegate
-                        {
-                            DataGridActivity.DataSource = dt;
-                        });
+                        DataGridActivity.DataSource = dt;
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error loading logs: " + ex.Message);
+                MessageBox.Show("Error loading logs: " + ex.Message,
+                                "Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+
+        // ✅ NEW: Method to record activity (use this anywhere)
+        // ✅ Static method to record any activity from anywhere in your system
+        // ✅ Static method — can be called anywhere in the system
+        public static void RecordActivity(string userName, string action, string module, string details)
+        {
+            string connectionString =
+                @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;
+                  Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = @"
+                        INSERT INTO ActivityLog (Timestamp, UserName, Action, Module, Details) 
+                        VALUES (@Timestamp, @UserName, @Action, @Module, @Details)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@UserName", userName ?? "Unknown");
+                        cmd.Parameters.AddWithValue("@Action", action ?? "No Action");
+                        cmd.Parameters.AddWithValue("@Module", module ?? "Unknown Module");
+                        cmd.Parameters.AddWithValue("@Details", details ?? "No Details");
+
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Don’t break user flow — just notify silently
+                MessageBox.Show("Error recording activity: " + ex.Message,
+                                "Logging Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+
 
         private void ActivityLog_FormClosing(object sender, FormClosingEventArgs e)
         {

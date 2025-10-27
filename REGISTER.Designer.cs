@@ -156,6 +156,7 @@
             arthanButton5.Text = "Login";
             arthanButton5.TextColor = Color.Black;
             arthanButton5.UseVisualStyleBackColor = false;
+            arthanButton5.Load += arthanButton5_Load_1;
             arthanButton5.Click += arthanButton5_Click;
             // 
             // txtUsername

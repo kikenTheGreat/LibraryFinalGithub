@@ -1,15 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using LibraryCGC;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Cryptography;
-using LibraryCGC;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace Library_Final
 {
@@ -40,9 +41,7 @@ namespace Library_Final
                 return;
             }
 
-
-
-            // 3️⃣ Query to get EmployeeID if credentials match
+            // 2️⃣ Query to get EmployeeID if credentials match
             string query = "SELECT EmployeeID FROM Employees WHERE Username = @Username AND Password = @Password";
 
             try
@@ -61,9 +60,12 @@ namespace Library_Final
                         // ✅ Define employeeId here
                         int employeeId = Convert.ToInt32(result);
 
+                        // ✅ Save the currently logged-in user globally
+                        SessionData.CurrentUserName = txtUsername.Text;
+
                         MessageBox.Show("Login successful!", "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // ✅ Pass the employeeId to your Form1 (Dashboard)
+                        // ✅ Pass the employeeId to your main form
                         Form1 form = new Form1(employeeId);
                         form.Show();
                         this.Hide();
@@ -79,6 +81,7 @@ namespace Library_Final
                 MessageBox.Show($"Error: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
 
@@ -122,6 +125,11 @@ namespace Library_Final
             ForgotPasswordForm forgot = new ForgotPasswordForm();
             forgot.Show();
             this.Hide();
+        }
+
+        private void arthanButton5_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

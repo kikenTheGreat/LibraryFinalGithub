@@ -13,17 +13,22 @@ namespace Library_Final
 
 
         //Activity Log
-        public static void LogActivity(string userName, string action, string module, string details = "")
+        public static void LogActivity(int employeeId, string action, string module, string details = "")
         {
             try
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    string query = "INSERT INTO ActivityLog (UserName, Action, Module, Details) VALUES (@UserName, @Action, @Module, @Details)";
+
+                    string query = @"
+                        INSERT INTO ActivityLog (UserName, Action, Module, Details)
+                        SELECT (FirstName + ' ' + LastName), @Action, @Module, @Details
+                        FROM Employees WHERE EmployeeID = @EmployeeID;";
+
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@UserName", userName);
+                        cmd.Parameters.AddWithValue("@EmployeeID", employeeId);
                         cmd.Parameters.AddWithValue("@Action", action);
                         cmd.Parameters.AddWithValue("@Module", module);
                         cmd.Parameters.AddWithValue("@Details", details);
@@ -33,8 +38,7 @@ namespace Library_Final
             }
             catch (Exception ex)
             {
-                // Optionally log to file if DB fails
-                Console.WriteLine("Error logging activity: " + ex.Message);
+                MessageBox.Show("Error logging activity: " + ex.Message);
             }
         }
 

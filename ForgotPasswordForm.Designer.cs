@@ -206,7 +206,7 @@
             btnSendOTP.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnSendOTP.Font = new Font("Segoe UI", 9F);
             btnSendOTP.ForeColor = Color.White;
-            btnSendOTP.Location = new Point(390, 543);
+            btnSendOTP.Location = new Point(772, 209);
             btnSendOTP.Name = "btnSendOTP";
             btnSendOTP.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnSendOTP.Size = new Size(225, 56);
@@ -223,7 +223,7 @@
             btnVerifyOTP.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnVerifyOTP.Font = new Font("Segoe UI", 9F);
             btnVerifyOTP.ForeColor = Color.White;
-            btnVerifyOTP.Location = new Point(685, 543);
+            btnVerifyOTP.Location = new Point(772, 291);
             btnVerifyOTP.Name = "btnVerifyOTP";
             btnVerifyOTP.ShadowDecoration.CustomizableEdges = customizableEdges12;
             btnVerifyOTP.Size = new Size(225, 56);
@@ -240,7 +240,7 @@
             btnResetPassword.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnResetPassword.Font = new Font("Segoe UI", 9F);
             btnResetPassword.ForeColor = Color.White;
-            btnResetPassword.Location = new Point(975, 543);
+            btnResetPassword.Location = new Point(527, 551);
             btnResetPassword.Name = "btnResetPassword";
             btnResetPassword.ShadowDecoration.CustomizableEdges = customizableEdges14;
             btnResetPassword.Size = new Size(225, 56);
@@ -262,7 +262,7 @@
             guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges16;
             guna2Button1.Size = new Size(225, 56);
             guna2Button1.TabIndex = 61;
-            guna2Button1.Text = "Reset Password";
+            guna2Button1.Text = "Home";
             guna2Button1.Click += guna2Button1_Click;
             // 
             // btnResendOTP
@@ -274,7 +274,7 @@
             btnResendOTP.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnResendOTP.Font = new Font("Segoe UI", 9F);
             btnResendOTP.ForeColor = Color.White;
-            btnResendOTP.Location = new Point(390, 625);
+            btnResendOTP.Location = new Point(1024, 291);
             btnResendOTP.Name = "btnResendOTP";
             btnResendOTP.ShadowDecoration.CustomizableEdges = customizableEdges18;
             btnResendOTP.Size = new Size(225, 56);
@@ -302,6 +302,7 @@
             Controls.Add(txtConfirmPassword);
             Name = "ForgotPasswordForm";
             Text = "Back";
+            Load += ForgotPasswordForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

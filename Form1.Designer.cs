@@ -30,14 +30,16 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel14 = new LibraryCGC.Components.ArthanPanel();
             arthanButton3 = new LibraryCGC.Components.ArthanButton();
@@ -60,11 +62,11 @@
             panel5 = new Panel();
             guna2CustomGradientPanel1 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
-            arthanButton6 = new LibraryCGC.Components.ArthanButton();
             arthanPanel23 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel10 = new LibraryCGC.Components.ArthanPanel();
             label12 = new Label();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
+            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             label2 = new Label();
             label1 = new Label();
             arthanPanel5 = new LibraryCGC.Components.ArthanPanel();
@@ -95,7 +97,7 @@
             flowPanel4 = new FlowLayoutPanel();
             panel1 = new Panel();
             flowPanel2 = new FlowLayoutPanel();
-            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
             arthanPanel1.SuspendLayout();
             arthanPanel14.SuspendLayout();
             arthanPanel16.SuspendLayout();
@@ -595,6 +597,7 @@
             arthanPanel22.BackColor = Color.Transparent;
             arthanPanel22.BottomLeftRadius = 15;
             arthanPanel22.BottomRightRadius = 15;
+            arthanPanel22.Controls.Add(guna2Button3);
             arthanPanel22.Controls.Add(panel5);
             arthanPanel22.Controls.Add(guna2CustomGradientPanel1);
             arthanPanel22.Controls.Add(arthanPanel23);
@@ -627,17 +630,16 @@
             // guna2CustomGradientPanel1
             // 
             guna2CustomGradientPanel1.Controls.Add(guna2Button2);
-            guna2CustomGradientPanel1.Controls.Add(arthanButton6);
-            guna2CustomGradientPanel1.CustomizableEdges = customizableEdges3;
+            guna2CustomGradientPanel1.CustomizableEdges = customizableEdges5;
             guna2CustomGradientPanel1.Location = new Point(52, 23);
             guna2CustomGradientPanel1.Name = "guna2CustomGradientPanel1";
-            guna2CustomGradientPanel1.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            guna2CustomGradientPanel1.ShadowDecoration.CustomizableEdges = customizableEdges6;
             guna2CustomGradientPanel1.Size = new Size(291, 166);
             guna2CustomGradientPanel1.TabIndex = 33;
             // 
             // guna2Button2
             // 
-            guna2Button2.CustomizableEdges = customizableEdges1;
+            guna2Button2.CustomizableEdges = customizableEdges3;
             guna2Button2.DisabledState.BorderColor = Color.DarkGray;
             guna2Button2.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button2.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -646,38 +648,11 @@
             guna2Button2.ForeColor = Color.White;
             guna2Button2.Location = new Point(22, 74);
             guna2Button2.Name = "guna2Button2";
-            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges4;
             guna2Button2.Size = new Size(225, 56);
             guna2Button2.TabIndex = 35;
             guna2Button2.Text = "Manage Profile";
             guna2Button2.Click += guna2Button2_Click;
-            // 
-            // arthanButton6
-            // 
-            arthanButton6.BackColor = Color.Transparent;
-            arthanButton6.BackgroundColor = Color.AliceBlue;
-            arthanButton6.BorderColor = Color.PaleVioletRed;
-            arthanButton6.FlatAppearance.BorderColor = Color.Empty;
-            arthanButton6.FlatAppearance.BorderSize = 0;
-            arthanButton6.FlatAppearance.MouseDownBackColor = Color.Empty;
-            arthanButton6.FlatAppearance.MouseOverBackColor = Color.Empty;
-            arthanButton6.FlatStyle = FlatStyle.Flat;
-            arthanButton6.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            arthanButton6.ForeColor = Color.Black;
-            arthanButton6.GradientEndColor = Color.White;
-            arthanButton6.GradientStartColor = Color.White;
-            arthanButton6.HoverEndColor = Color.FromArgb(147, 211, 251);
-            arthanButton6.HoverStartColor = Color.FromArgb(86, 143, 190);
-            arthanButton6.Image = null;
-            arthanButton6.Location = new Point(22, 14);
-            arthanButton6.Margin = new Padding(3, 4, 3, 4);
-            arthanButton6.Name = "arthanButton6";
-            arthanButton6.Size = new Size(181, 53);
-            arthanButton6.TabIndex = 8;
-            arthanButton6.Text = "Activity Log Trail";
-            arthanButton6.TextColor = Color.Black;
-            arthanButton6.UseVisualStyleBackColor = false;
-            arthanButton6.Click += arthanButton6_Click;
             // 
             // arthanPanel23
             // 
@@ -762,6 +737,23 @@
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
             arthanPanel4.UseIndividualCorners = false;
+            // 
+            // guna2Button1
+            // 
+            guna2Button1.CustomizableEdges = customizableEdges7;
+            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button1.Font = new Font("Segoe UI", 9F);
+            guna2Button1.ForeColor = Color.White;
+            guna2Button1.Location = new Point(1276, 11);
+            guna2Button1.Name = "guna2Button1";
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            guna2Button1.Size = new Size(225, 56);
+            guna2Button1.TabIndex = 2;
+            guna2Button1.Text = "Exit";
+            guna2Button1.Click += guna2Button1_Click_1;
             // 
             // label2
             // 
@@ -1015,10 +1007,10 @@
             // Panel4
             // 
             Panel4.Controls.Add(flowPanel1);
-            Panel4.CustomizableEdges = customizableEdges7;
+            Panel4.CustomizableEdges = customizableEdges9;
             Panel4.Location = new Point(35, 175);
             Panel4.Name = "Panel4";
-            Panel4.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            Panel4.ShadowDecoration.CustomizableEdges = customizableEdges10;
             Panel4.Size = new Size(291, 166);
             Panel4.TabIndex = 32;
             // 
@@ -1164,22 +1156,22 @@
             flowPanel2.TabIndex = 0;
             flowPanel2.WrapContents = false;
             // 
-            // guna2Button1
+            // guna2Button3
             // 
-            guna2Button1.CustomizableEdges = customizableEdges5;
-            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button1.Font = new Font("Segoe UI", 9F);
-            guna2Button1.ForeColor = Color.White;
-            guna2Button1.Location = new Point(1276, 11);
-            guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2Button1.Size = new Size(225, 56);
-            guna2Button1.TabIndex = 2;
-            guna2Button1.Text = "Exit";
-            guna2Button1.Click += guna2Button1_Click_1;
+            guna2Button3.CustomizableEdges = customizableEdges1;
+            guna2Button3.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button3.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button3.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button3.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button3.Font = new Font("Segoe UI", 9F);
+            guna2Button3.ForeColor = Color.White;
+            guna2Button3.Location = new Point(3, 204);
+            guna2Button3.Name = "guna2Button3";
+            guna2Button3.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            guna2Button3.Size = new Size(225, 56);
+            guna2Button3.TabIndex = 36;
+            guna2Button3.Text = "Activity Log Trail";
+            guna2Button3.Click += guna2Button3_Click;
             // 
             // Form1
             // 
@@ -1296,8 +1288,8 @@
         private FlowLayoutPanel flowLayoutPanel22222;
         private Panel panel22222;
         private FlowLayoutPanel flowLayoutPanel11111;
-        private Components.ArthanButton arthanButton6;
         private Guna.UI2.WinForms.Guna2Button guna2Button2;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Guna.UI2.WinForms.Guna2Button guna2Button3;
     }
 }

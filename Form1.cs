@@ -46,6 +46,8 @@ namespace LibraryCGC
             UpdateTotalBooksLabel();
             UpdateTotalArchivedLabel();
             UpdateTotalOverdueLabel();
+            CleanOldOTPRecords();
+
 
             // ✅ Subscribe to live overdue update
             GlobalEvents.OverdueDataChanged += () => UpdateTotalOverdueLabel();
@@ -54,12 +56,36 @@ namespace LibraryCGC
             GlobalEvents.ArchivedDataChanged += () => UpdateTotalArchivedLabel();
             GlobalEvents.PenaltiesDataChanged += () => LoadPenaltyCards(); // 👈 new
 
-
-
-
-
-
         }
+
+        private void CleanOldOTPRecords()
+        {
+            string connectionString = @" Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+";
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string deleteQuery = "DELETE FROM OTPRequests WHERE SentTime < DATEADD(DAY, -7, GETDATE())";
+                    SqlCommand cmd = new SqlCommand(deleteQuery, conn);
+                    int rows = cmd.ExecuteNonQuery();
+
+                    // Optional: You can remove this line if you want it silent
+                    Console.WriteLine($"{rows} old OTP records deleted.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error cleaning OTP logs: " + ex.Message);
+            }
+        }
+
 
         private void arthanButton1_Click(object sender, EventArgs e)
         {
@@ -517,6 +543,13 @@ Trust Server Certificate=True;
         {
             REGISTER rEGISTER = new REGISTER();
             rEGISTER.Show();
+            this.Hide();
+        }
+
+        private void guna2Button3_Click(object sender, EventArgs e)
+        {
+            ActivityLog activityLog = new ActivityLog();
+            activityLog.Show();
             this.Hide();
         }
     }
