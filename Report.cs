@@ -32,6 +32,7 @@ Trust Server Certificate=True;
         {
             BorrowedPANEL.Visible = true;
             ReturnedPANEL.Visible = false;
+            InventoryPANEL.Visible = false;
         }
 
         private void Report_Load(object sender, EventArgs e)//most importantttttttttttttttttttttttttttttttttttttttttt
@@ -41,23 +42,148 @@ Trust Server Certificate=True;
             lblWithPenalties.Text = GlobalEvents.GetStudentsWithPenalties().ToString();
             lblTotalPenalties.Text = "₱" + GlobalEvents.GetTotalPenalties().ToString("N2");
 
+            //load combo boxes for inventory filter
+            LoadCategoryCombo();
+            LoadStatusCombo();
 
+
+
+            LoadBookStats();
+            LoadReturnStats();
 
             dtpStart.Value = DateTime.Now;
             dtpEnd.Value = DateTime.Now;
 
             BorrowedPANEL.Visible = true;
             ReturnedPANEL.Visible = false;
+            InventoryPANEL.Visible = false;
+
             LoadAllBorrowedBooks();
             LoadAllReturnedBooks();
+            LoadAllBooks();
             StyleDataGrid(dgvBorrowedBooks);
             StyleDataGrid(dgvReturnedBooks);
-            //StyleDataGrid(dgvOverdueBooks);
+            StyleDataGrid(dataGridBooks);
             // StyleDataGrid(dgvFacultyBorrow);
             //StyleDataGrid(dgvStudentBorrow);
 
             StyleDataGrid(dgvBorrowedBooks);
         }
+
+
+        // 🧩 Load Unique Categories into ComboBox
+        private void LoadCategoryCombo()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT DISTINCT Category FROM BooksAcq WHERE Category IS NOT NULL AND Category <> ''";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                cmbCategory.Items.Clear();
+                while (reader.Read())
+                {
+                    cmbCategory.Items.Add(reader["Category"].ToString());
+                }
+                reader.Close();
+            }
+        }
+
+        // 🧩 Load Unique Status (BookType) into ComboBox
+        private void LoadStatusCombo()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT DISTINCT BookType FROM BooksAcq WHERE BookType IS NOT NULL AND BookType <> ''";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                cmbStatus.Items.Clear();
+                while (reader.Read())
+                {
+                    cmbStatus.Items.Add(reader["BookType"].ToString());
+                }
+                reader.Close();
+            }
+        }
+
+
+
+
+
+
+        // 📚 Load All Books (default)
+        private void LoadAllBooks()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType FROM BooksAcq";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                dataGridBooks.DataSource = dt;
+            }
+        }
+
+
+        // 📚 BOOK INVENTORY (Already in your design)
+        private void LoadBookStats()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Total Books
+                string totalBooksQuery = "SELECT COUNT(*) FROM BooksAcq";
+                SqlCommand cmdTotal = new SqlCommand(totalBooksQuery, conn);
+                TotalBooks.Text = cmdTotal.ExecuteScalar().ToString();
+
+                // Available (Quantity > 5 for example)
+                string availableQuery = "SELECT COUNT(*) FROM BooksAcq WHERE Quantity > 5";
+                SqlCommand cmdAvailable = new SqlCommand(availableQuery, conn);
+                Available.Text = cmdAvailable.ExecuteScalar().ToString();
+
+                // Low Stock (Quantity between 1–5)
+                string lowStockQuery = "SELECT COUNT(*) FROM BooksAcq WHERE Quantity BETWEEN 1 AND 5";
+                SqlCommand cmdLow = new SqlCommand(lowStockQuery, conn);
+                Lowstack.Text = cmdLow.ExecuteScalar().ToString();
+
+                // Archived (BookType = 'Archived')
+                string archivedQuery = "SELECT COUNT(*) FROM BooksArchive";
+                SqlCommand cmdArchived = new SqlCommand(archivedQuery, conn);
+                Archived.Text = cmdArchived.ExecuteScalar().ToString();
+            }
+        }
+
+        // 🔁 RETURNED BOOKS PANEL
+        private void LoadReturnStats()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Total Returned Books
+                string totalReturnedQuery = "SELECT COUNT(*) FROM ReturnedBooks";
+                SqlCommand cmdReturned = new SqlCommand(totalReturnedQuery, conn);
+                lblTotalReturned.Text = cmdReturned.ExecuteScalar().ToString();
+
+                // With Penalties (distinct students)
+                string withPenaltiesQuery = "SELECT COUNT(DISTINCT ClientID) FROM IssueBooks WHERE Penalty > 0";
+                SqlCommand cmdWithPenalties = new SqlCommand(withPenaltiesQuery, conn);
+                lblWithPenalties.Text = cmdWithPenalties.ExecuteScalar().ToString();
+
+                // Total Penalties (sum)
+                string totalPenaltyQuery = "SELECT ISNULL(SUM(Penalty), 0) FROM IssueBooks";
+                SqlCommand cmdTotalPenalty = new SqlCommand(totalPenaltyQuery, conn);
+                decimal totalPenalty = Convert.ToDecimal(cmdTotalPenalty.ExecuteScalar());
+                lblTotalPenalties.Text = "₱" + totalPenalty.ToString("N2");
+            }
+        }
+
+
 
         private void LoadAllBorrowedBooks()
         {
@@ -155,6 +281,7 @@ Trust Server Certificate=True;
         {
             ReturnedPANEL.Visible = true;
             BorrowedPANEL.Visible = false;
+            InventoryPANEL.Visible = false;
         }
 
         private void guna2Button2_Click(object sender, EventArgs e)
@@ -238,7 +365,7 @@ Trust Server Certificate=True;
                 }
 
                 // Filter by Status if combobox has a value
-               
+
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@start", dtpReturnStart.Value.Date);
@@ -250,7 +377,7 @@ Trust Server Certificate=True;
                     cmd.Parameters.AddWithValue("@clientName", "%" + txtStudentName.Text + "%");
                 }
 
-            
+
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -269,7 +396,7 @@ Trust Server Certificate=True;
         private void btnReset_Click(object sender, EventArgs e)
         {
             txtStudentName.Clear();
-            
+
             dtpReturnStart.Value = DateTime.Now;
             dtpReturnEnd.Value = DateTime.Now;
             LoadAllReturnedBooks();
@@ -351,20 +478,71 @@ Trust Server Certificate=True;
             }
         }
 
+        private void InventoryBUTTON_Click(object sender, EventArgs e)
+        {
+            InventoryPANEL.Visible = true;
+            ReturnedPANEL.Visible = false;
+            BorrowedPANEL.Visible = false;
+        }
 
+        private void guna2CustomGradientPanel5_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
 
+        private void InventoryFilter_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
 
+                string query = @"SELECT BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType 
+                                 FROM BooksAcq 
+                                 WHERE 1=1";
 
+                // Build dynamic filter
+                if (!string.IsNullOrWhiteSpace(txtSearchBook.Text))
+                    query += " AND BookTitle LIKE @BookTitle";
 
+                if (!string.IsNullOrWhiteSpace(txtAuthor.Text))
+                    query += " AND Author LIKE @Author";
 
+                if (cmbCategory.SelectedItem != null && cmbCategory.SelectedItem.ToString() != "")
+                    query += " AND Category = @Category";
 
+                if (cmbStatus.SelectedItem != null && cmbStatus.SelectedItem.ToString() != "")
+                    query += " AND BookType = @BookType";
 
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    // Add parameters only if used
+                    if (!string.IsNullOrWhiteSpace(txtSearchBook.Text))
+                        cmd.Parameters.AddWithValue("@BookTitle", "%" + txtSearchBook.Text + "%");
 
+                    if (!string.IsNullOrWhiteSpace(txtAuthor.Text))
+                        cmd.Parameters.AddWithValue("@Author", "%" + txtAuthor.Text + "%");
 
+                    if (cmbCategory.SelectedItem != null && cmbCategory.SelectedItem.ToString() != "")
+                        cmd.Parameters.AddWithValue("@Category", cmbCategory.SelectedItem.ToString());
 
+                    if (cmbStatus.SelectedItem != null && cmbStatus.SelectedItem.ToString() != "")
+                        cmd.Parameters.AddWithValue("@BookType", cmbStatus.SelectedItem.ToString());
 
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dataGridBooks.DataSource = dt;
+                }
+            }
+        }
 
-
+        private void InventoryReset_Click(object sender, EventArgs e)
+        {
+            txtSearchBook.Clear();
+            txtAuthor.Clear();
+            cmbCategory.SelectedIndex = -1;
+            cmbStatus.SelectedIndex = -1;
+            LoadAllBooks();
+        }
     }
 }
