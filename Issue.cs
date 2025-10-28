@@ -1100,10 +1100,10 @@ Trust Server Certificate=True;";
             }
 
             string selectedBook = ReturnedBookID.SelectedItem.ToString();
-            string isbn = selectedBook.Split('-')[0].Trim(); // ✅ Use ISBN now
+            string isbn = selectedBook.Split('-')[0].Trim();
             string clientID = ReturnClientID.Text.Trim();
             string clientName = ReturnClientName.Text;
-            string clientType = "Student"; // or from dropdown
+            string clientType = ReturnRoleComboBox.Text; // get actual role if available
             string bookTitle = selectedBook.Split('-').Length > 1 ? selectedBook.Split('-')[1].Trim() : "Unknown";
 
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -1113,7 +1113,7 @@ Trust Server Certificate=True;";
 
                 try
                 {
-                    // ✅ 1️⃣ Get issue info
+                    // 1️⃣ Get issue details
                     int issueID = 0;
                     DateTime issueDate = DateTime.Now;
                     DateTime dueDate = DateTime.Now;
@@ -1150,14 +1150,24 @@ Trust Server Certificate=True;";
                         }
                     }
 
-                    // ✅ 2️⃣ Insert record into ReturnedBooks
-                    // ✅ 3️⃣ Insert record into ReturnedBooks
-                    string insertReturned = @"
-INSERT INTO ReturnedBooks 
-    (IssueID, ClientID, ClientName, ClientType, BookTitle, Quantity, Source, IssueDate, DueDate, ReturnDate, Status)
-VALUES
-    (@IssueID, @ClientID, @ClientName, @ClientType, @BookTitle, @Quantity, @Source, @IssueDate, @DueDate, GETDATE(), 'Returned');";
+                    // 2️⃣ Update IssueBooks to mark as Returned (before deletion)
+                    string updateIssue = @"
+                UPDATE IssueBooks
+                SET Status = 'Returned',
+                    ReturnDate = GETDATE()
+                WHERE IssueID = @IssueID;";
+                    using (SqlCommand cmdUpdate = new SqlCommand(updateIssue, con, transaction))
+                    {
+                        cmdUpdate.Parameters.AddWithValue("@IssueID", issueID);
+                        cmdUpdate.ExecuteNonQuery();
+                    }
 
+                    // 3️⃣ Insert into ReturnedBooks
+                    string insertReturned = @"
+                INSERT INTO ReturnedBooks 
+                    (IssueID, ClientID, ClientName, ClientType, BookTitle, Quantity, Source, IssueDate, DueDate, ReturnDate, Status)
+                VALUES
+                    (@IssueID, @ClientID, @ClientName, @ClientType, @BookTitle, @Quantity, @Source, @IssueDate, @DueDate, GETDATE(), 'Returned');";
                     using (SqlCommand cmdInsert = new SqlCommand(insertReturned, con, transaction))
                     {
                         cmdInsert.Parameters.AddWithValue("@IssueID", issueID);
@@ -1172,7 +1182,7 @@ VALUES
                         cmdInsert.ExecuteNonQuery();
                     }
 
-                    // ✅ 4️⃣ Delete the row from IssueBooks once returned
+                    // 4️⃣ Delete the record from IssueBooks
                     string deleteIssue = "DELETE FROM IssueBooks WHERE IssueID = @IssueID;";
                     using (SqlCommand cmdDelete = new SqlCommand(deleteIssue, con, transaction))
                     {
@@ -1180,22 +1190,7 @@ VALUES
                         cmdDelete.ExecuteNonQuery();
                     }
 
-
-
-                    // ✅ 3️⃣ Update IssueBooks to mark as Returned and save ReturnDate
-                    string updateIssue = @"
-                UPDATE IssueBooks
-                SET Status = 'Returned',
-                    ReturnDate = GETDATE()
-                WHERE IssueID = @IssueID;";
-
-                    using (SqlCommand cmdUpdate = new SqlCommand(updateIssue, con, transaction))
-                    {
-                        cmdUpdate.Parameters.AddWithValue("@IssueID", issueID);
-                        cmdUpdate.ExecuteNonQuery();
-                    }
-
-                    // ✅ 4️⃣ Increase available quantity in BooksAcq
+                    // 5️⃣ Increase quantity back in BooksAcq
                     string updateQty = "UPDATE BooksAcq SET Quantity = Quantity + 1 WHERE ISBN = @ISBN;";
                     using (SqlCommand cmdQty = new SqlCommand(updateQty, con, transaction))
                     {
@@ -1203,10 +1198,10 @@ VALUES
                         cmdQty.ExecuteNonQuery();
                     }
 
-                    // ✅ 5️⃣ Commit all
+                    // 6️⃣ Commit all changes
                     transaction.Commit();
 
-                    // ✅ Log activity
+                    // 7️⃣ Log the action
                     ActivityLog.RecordActivity(
                         SessionData.CurrentUserName,
                         "Return Book",
@@ -1214,15 +1209,24 @@ VALUES
                         $"Returned book — Title: {bookTitle}, Borrower: {clientName}"
                     );
 
-                    MessageBox.Show("Book returned successfully! Return date recorded and quantity updated.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Book returned successfully! Status updated, moved to ReturnedBooks, and quantity adjusted.",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     lblReturnDate.Text = $"Returned on: {DateTime.Now:MMMM dd, yyyy hh:mm tt}";
 
-                    // Clear fields
+                    // ✅ Clear fields
                     ReturnClientID.Clear();
                     ReturnClientName.Items.Clear();
                     ReturnedBookID.Items.Clear();
                     ReturnBookStatus.Items.Clear();
                     ReturnPenalty.Clear();
+
+                    // ✅ Refresh UI
+                    LoadIssueBooks();
+                    LoadReturnedBooks();
+                    GlobalEvents.RaiseBorrowedDataChanged();
+                    GlobalEvents.RaiseOverdueDataChanged();
+                    GlobalEvents.RaisePenaltiesDataChanged();
                 }
                 catch (Exception ex)
                 {
@@ -1230,11 +1234,6 @@ VALUES
                     MessageBox.Show("Error returning book:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            // ✅ Refresh views
-            GlobalEvents.RaiseBorrowedDataChanged();
-            GlobalEvents.RaiseOverdueDataChanged();
-            GlobalEvents.RaisePenaltiesDataChanged();
         }
 
 

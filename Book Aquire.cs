@@ -4,6 +4,7 @@ using LibraryCGC.Components;
 using Microsoft.Data.SqlClient;
 using Microsoft.VisualBasic.Logging;
 using Newtonsoft.Json.Linq;
+using PdfSharp.Pdf.Content.Objects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,6 +55,12 @@ namespace LibraryCGC
             //Source Combobox fill
             Source.Items.AddRange(new string[] { "Purchased ", "Donate " });
             Source.SelectedIndex = 0;
+            BookConditioncmb.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged", "Lost" });
+            BookConditioncmb.SelectedIndex = 0;
+
+            //filtering combobox fill
+            BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged", "Lost" });
+
 
             cmbSource.DataSource = null;   // 👈 break data-binding
             cmbSource.Items.Clear();
@@ -164,7 +171,7 @@ namespace LibraryCGC
                             Publisher.Texts = book["publisher"]?.ToString() ?? "";
                             Published.Texts = book["publishedDate"]?.ToString() ?? "";
                             Category.Texts = book["categories"]?.First?.ToString() ?? "";
-                            txtDesc.Texts = book["description"]?.ToString() ?? "";
+
                         }));
 
                         // ✅ Load thumbnail
@@ -197,7 +204,7 @@ namespace LibraryCGC
                             Publisher.Texts = article["author"]?.ToString() ?? "";
                             Published.Texts = article["publishedAt"]?.ToString() ?? "";
                             Category.Texts = type;
-                            txtDesc.Texts = article["description"]?.ToString() ?? "";
+
                         }));
                         picCover.BackgroundImage = null; // NewsAPI doesn’t provide thumbnails
                     }
@@ -214,7 +221,7 @@ namespace LibraryCGC
                             Publisher.Texts = item["provider"]?.ToString() ?? "";
                             Published.Texts = item["year"]?.ToString() ?? "";
                             Category.Texts = "Catalog / Pamphlet";
-                            txtDesc.Texts = item["edmPreview"]?.First?.ToString() ?? "";
+
                         }));
                         picCover.BackgroundImage = null;
                     }
@@ -255,7 +262,7 @@ namespace LibraryCGC
                 Publisher.Texts = "";
                 Published.Texts = "";
                 Category.Texts = "";
-                txtDesc.Texts = "";
+
                 //Quantity.Texts = ""; ------------------
 
                 picCover.BackgroundImage = null; // clear image
@@ -298,7 +305,7 @@ namespace LibraryCGC
         Author,
         Category,
         Published,
-        txtDesc
+
             };
 
             // 🔹 Attach KeyPress event handler to all textboxes
@@ -357,8 +364,8 @@ namespace LibraryCGC
                     {
                         // 🆕 ISBN not found → insert new record
                         string insertQuery = @"INSERT INTO BooksAcq 
-(BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType) 
-VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType)";
+(BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType,BookCondition) 
+VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType,@BookCondition)";
 
                         using (SqlCommand insertCmd = new SqlCommand(insertQuery, con))
                         {
@@ -370,6 +377,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                             insertCmd.Parameters.AddWithValue("@Quantity", Quantity.Value);
                             insertCmd.Parameters.AddWithValue("@Published", Published.Texts);
                             insertCmd.Parameters.AddWithValue("@Category", Category.Texts);
+                            insertCmd.Parameters.AddWithValue("@BookCondition", BookConditioncmb.Text);
 
                             // Detect BookType
                             string typeOfBook;
@@ -421,9 +429,10 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             Publisher.Texts = "";
             Published.Texts = "";
             Category.Texts = "";
-            txtDesc.Texts = "";
+
             picCover.BackgroundImage = null;
             Quantity.Value = 1;
+            BookConditioncmb.Text = "";
 
             // 🔁 Update dashboard if open
             var dashboardForm = Application.OpenForms["Form1"] as Form1;
@@ -442,6 +451,20 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 MessageBox.Show("BookID cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 e.Cancel = true; // prevent editing
             }
+
+            string colName = DataGridTotalBooks.Columns[e.ColumnIndex].Name;
+            // restricted columns
+            string[] restrictedCols = { "BookID", "Author", "ISBN", "Publisher", "Category" };
+
+            if (restrictedCols.Contains(colName))
+            {
+                MessageBox.Show($"{colName} cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                e.Cancel = true; // prevent editing
+            }
+
+
+
+
         }
 
 
@@ -453,7 +476,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             SqlConnection con = new SqlConnection(" Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n");
             con.Open();
             //use WHERE to specify what record to UPDATE                                                                                              
-            SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category WHERE BookID = @BookID", con);
+            SqlCommand cmd = new SqlCommand("UPDATE BooksAcq SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher, Source = @Source, Quantity = @Quantity, Published = @Published, Category = @Category,BookCondition = @BookCondition WHERE BookID = @BookID", con);
 
             // this will be used in WHERE clause
             cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
@@ -464,6 +487,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
             cmd.Parameters.AddWithValue("@Published", Published.Text);
             cmd.Parameters.AddWithValue("@Category", Category.Text);
+            cmd.Parameters.AddWithValue("@BookCondition", BookConditioncmb.Text);
 
             cmd.ExecuteNonQuery();
             MessageBox.Show("Book updated successfully!");
@@ -493,9 +517,9 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
                 SqlCommand cmd = new SqlCommand(@"
             INSERT INTO BooksArchive 
-            (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType)
+            (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType,BookCondition)
             VALUES 
-            (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType)", con);
+            (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType,@BookCondition)", con);
 
                 cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
                 cmd.Parameters.AddWithValue("@Author", Author.Text);
@@ -505,6 +529,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
                 cmd.Parameters.AddWithValue("@Published", Published.Text);
                 cmd.Parameters.AddWithValue("@Category", Category.Text);
+                cmd.Parameters.AddWithValue("@BookCondition", BookConditioncmb.Text);
 
                 // 🟢 Detect BookType (same logic as Book_Acquire insert)
                 string typeOfBook = "Book";
@@ -550,6 +575,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             Quantity.Text = "";
             Published.Text = "";
             Category.Text = "";
+            BookConditioncmb.Text = "";
         }
 
 
@@ -562,9 +588,9 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
                 using (SqlCommand cmd = new SqlCommand(@"
             INSERT INTO BooksArchive 
-            (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate, BookType)
+            (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate, BookType,BookCondition)
             VALUES 
-            (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate, @BookType)", con))
+            (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate, @BookType,@BookCondition)", con))
                 {
                     cmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value ?? DBNull.Value);
@@ -572,6 +598,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                     cmd.Parameters.AddWithValue("@ISBN", row.Cells["ISBN"].Value ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Publisher", row.Cells["Publisher"].Value ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Source", row.Cells["Source"].Value ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@BookCondition", row.Cells["BookCondition"].Value ?? DBNull.Value);
 
                     if (int.TryParse(row.Cells["Quantity"].Value?.ToString(), out int qty))
                         cmd.Parameters.AddWithValue("@Quantity", qty);
@@ -763,6 +790,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 AddLikeFilter("Published", cmbPublished.Text);
                 AddLikeFilter("Category", cmbCategory.Text);
                 AddLikeFilter("BookType", cmbBookType.Text);
+                AddLikeFilter("BookCondition", BookCondition.Text);
 
                 // 🔹 Special handling for Source
                 if (cmbSource.SelectedItem != null && cmbSource.Text != "All")
@@ -816,6 +844,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 AddFilter("Published", cmbPublished.Text);
                 AddFilter("Category", cmbCategory.Text);
                 AddFilter("BookType", cmbBookType.Text);
+                AddFilter("BookCondition", BookCondition.Text);
 
                 dv.RowFilter = string.Join(" AND ", filters);
                 DataGridTotalBooks.DataSource = dv;
@@ -864,13 +893,40 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 if (editingRowIndex == null)
                 {
                     editingRowIndex = e.RowIndex;
-                    DataGridTotalBooks.ReadOnly = false;
-                    foreach (DataGridViewRow r in DataGridTotalBooks.Rows)
-                        r.ReadOnly = r.Index != e.RowIndex;
 
+                    // ✅ Allow the grid to be editable overall
+                    DataGridTotalBooks.ReadOnly = false;
+
+                    // 🔹 Allow editing only specific columns
+                    foreach (DataGridViewColumn col in DataGridTotalBooks.Columns)
+                    {
+                        bool isEditable = col.Name == "Source" ||
+                                          col.Name == "Quantity" ||
+                                          col.Name == "BookType" ||
+                                          col.Name == "BookCondition";
+                        DataGridTotalBooks.Columns[col.Index].ReadOnly = !isEditable;
+                    }
+
+                    // 🔹 Disable editing for all other rows
+                    foreach (DataGridViewRow r in DataGridTotalBooks.Rows)
+                    {
+                        if (r.Index != e.RowIndex)
+                            r.ReadOnly = true;
+                    }
+
+                    // Optional visual feedback
+                    foreach (DataGridViewCell cell in DataGridTotalBooks.Rows[e.RowIndex].Cells)
+                    {
+                        if (!cell.ReadOnly)
+                            cell.Style.BackColor = Color.LightYellow; // highlight editable cells
+                    }
+
+                    // Change button text
                     DataGridTotalBooks.Rows[e.RowIndex].Cells["Update"].Value = "Save";
-                    MessageBox.Show("You can now edit this row. Click the Save button to confirm changes.",
+
+                    MessageBox.Show("You can now edit Source, Quantity, Book Type, and Book Condition only.",
                                     "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     return;
                 }
 
@@ -896,6 +952,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                         int quantity = Convert.ToInt32(editRow.Cells["Quantity"].Value);
                         string published = editRow.Cells["Published"].Value?.ToString() ?? "";
                         string category = editRow.Cells["Category"].Value?.ToString() ?? "";
+                        string bookCondition = editRow.Cells["BookCondition"].Value?.ToString() ?? "";
 
                         string bookType = "Book";
                         string lowerCategory = category.ToLower();
@@ -912,13 +969,14 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                         string oldSource = "";
                         int oldQuantity = 0;
                         string oldBookType = "";
+                        string BookCondition = "";
 
                         using (SqlConnection conn = new SqlConnection(
                             @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;
                       Integrated Security=True;Encrypt=True;TrustServerCertificate=True"))
                         {
                             conn.Open();
-                            string selectQuery = "SELECT Source, Quantity, BookType FROM BooksAcq WHERE BookID = @BookID";
+                            string selectQuery = "SELECT Source, Quantity, BookType,BookCondition FROM BooksAcq WHERE BookID = @BookID";
                             using (SqlCommand selectCmd = new SqlCommand(selectQuery, conn))
                             {
                                 selectCmd.Parameters.AddWithValue("@BookID", bookID);
@@ -928,8 +986,18 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                                     oldSource = reader["Source"].ToString();
                                     oldQuantity = Convert.ToInt32(reader["Quantity"]);
                                     oldBookType = reader["BookType"].ToString();
+                                    BookCondition = reader["BookCondition"].ToString();
                                 }
                             }
+                        }
+
+                        foreach (DataGridViewColumn col in DataGridTotalBooks.Columns)
+                        {
+                            bool isEditable = col.Name == "Source" || col.Name == "Quantity" ||
+                                              col.Name == "BookType" || col.Name == "BookCondition";
+                            var cell = DataGridTotalBooks.Rows[e.RowIndex].Cells[col.Index];
+                            cell.ReadOnly = !isEditable;
+                            cell.Style.BackColor = isEditable ? Color.LightYellow : Color.White;
                         }
 
                         // 🧩 Step 2: Perform the UPDATE
@@ -939,22 +1007,21 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                         {
                             con.Open();
                             SqlCommand cmd = new SqlCommand(@"
-                        UPDATE BooksAcq
-                        SET BookTitle = @BookTitle, Author = @Author, ISBN = @ISBN, Publisher = @Publisher,
-                            Source = @Source, Quantity = @Quantity, Published = @Published,
-                            Category = @Category, BookType = @BookType
-                        WHERE BookID = @BookID", con);
+UPDATE BooksAcq
+SET 
+    Source = @Source,
+    Quantity = @Quantity,
+    BookType = @BookType,
+    BookCondition = @BookCondition
+WHERE BookID = @BookID", con);
 
-                            cmd.Parameters.AddWithValue("@BookTitle", bookTitle);
-                            cmd.Parameters.AddWithValue("@Author", author);
-                            cmd.Parameters.AddWithValue("@ISBN", isbn);
-                            cmd.Parameters.AddWithValue("@Publisher", publisher);
+
                             cmd.Parameters.AddWithValue("@Source", source);
                             cmd.Parameters.AddWithValue("@Quantity", quantity);
-                            cmd.Parameters.AddWithValue("@Published", published);
-                            cmd.Parameters.AddWithValue("@Category", category);
                             cmd.Parameters.AddWithValue("@BookType", bookType);
+                            cmd.Parameters.AddWithValue("@BookCondition", bookCondition);
                             cmd.Parameters.AddWithValue("@BookID", bookID);
+
                             cmd.ExecuteNonQuery();
                         }
 
@@ -966,6 +1033,9 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                             changes += $"Quantity: {oldQuantity} → {quantity}; ";
                         if (oldBookType != bookType)
                             changes += $"Type: {oldBookType} → {bookType}; ";
+                        if (BookCondition != bookCondition)
+                            changes += $"Condition: {BookCondition} → {bookCondition}; ";
+
 
                         if (string.IsNullOrEmpty(changes))
                             changes = "No significant changes.";
@@ -982,7 +1052,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
                         editingRowIndex = null;
                         DataGridTotalBooks.ReadOnly = true;
-                        DataGridTotalBooks.Rows[e.RowIndex].Cells["Update"].Value = "Update";
+                        DataGridTotalBooks.Rows[e.RowIndex].Cells["Update"].Value = "Edit";
                         LoadBooksGrid();
                     }
                     catch (Exception ex)
@@ -1028,7 +1098,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                         Publisher.Texts = book["publisher"]?.ToString() ?? "";
                         Published.Texts = book["publishedDate"]?.ToString() ?? "";
                         Category.Texts = book["categories"]?.First?.ToString() ?? "";
-                        txtDesc.Texts = book["description"]?.ToString() ?? "";
+
 
                         string thumbnail = book["imageLinks"]?["thumbnail"]?.ToString();
                         if (!string.IsNullOrEmpty(thumbnail))
@@ -1158,7 +1228,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
         Author,
         Category,
         Published,
-        txtDesc
+
             };
 
             foreach (var box in boxes)
@@ -1270,6 +1340,14 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             colBookType.Name = "BookType";
             colBookType.Width = 130;
             DataGridTotalBooks.Columns.Add(colBookType);
+
+            // --- Book Condition ---
+            var BookCondition = new DataGridViewTextBoxColumn();
+            BookCondition.HeaderText = "Book Condition";
+            BookCondition.DataPropertyName = "BookCondition";  // must match column name in DB
+            BookCondition.Name = "BookCondition";
+            BookCondition.Width = 130;
+            DataGridTotalBooks.Columns.Add(BookCondition);
 
             // --- Styling ---
             DataGridTotalBooks.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -1405,6 +1483,20 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
         private void cmbSource_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyComboBoxFilters();
+        }
+
+        private void DataGridTotalBooks_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            string colName = DataGridTotalBooks.Columns[e.ColumnIndex].Name;
+            string[] restrictedCols = { "BookID", "Author", "ISBN", "Publisher", "Category", "BookTitle", "Published" };
+
+            if (restrictedCols.Contains(colName))
+            {
+                MessageBox.Show($"{colName} cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
         }
     }
 

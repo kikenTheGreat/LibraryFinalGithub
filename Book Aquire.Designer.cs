@@ -38,6 +38,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
@@ -60,10 +62,10 @@
             Published = new LibraryCGC.Components.ArthanTextBox();
             label6 = new Label();
             label10 = new Label();
-            txtDesc = new LibraryCGC.Components.ArthanTextBox();
             kryptonButton1 = new LibraryCGC.Components.ArthanButton();
             Source = new Krypton.Toolkit.KryptonComboBox();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            BookConditioncmb = new Guna.UI2.WinForms.Guna2ComboBox();
             Quantity = new Guna.UI2.WinForms.Guna2NumericUpDown();
             picCover = new PictureBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
@@ -83,6 +85,8 @@
             cmbPublished = new ComboBox();
             cmbPublisher = new ComboBox();
             cmbBookTitle = new ComboBox();
+            BookCondition = new ComboBox();
+            label18 = new Label();
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel2.SuspendLayout();
@@ -205,6 +209,7 @@
             DataGridTotalBooks.RowHeadersWidth = 51;
             DataGridTotalBooks.Size = new Size(1433, 749);
             DataGridTotalBooks.TabIndex = 47;
+            DataGridTotalBooks.CellClick += DataGridTotalBooks_CellClick;
             DataGridTotalBooks.CellContentClick += DataGridTotalBooks_CellContentClick;
             DataGridTotalBooks.CellPainting += DataGridTotalBooks_CellPainting;
             // 
@@ -451,29 +456,6 @@
             label10.TabIndex = 17;
             label10.Text = "Description";
             // 
-            // txtDesc
-            // 
-            txtDesc.AutoSize = true;
-            txtDesc.BackColor = SystemColors.Window;
-            txtDesc.BorderColor = Color.FromArgb(217, 217, 217);
-            txtDesc.BorderFocusColor = Color.HotPink;
-            txtDesc.BorderRadius = 5;
-            txtDesc.BorderSize = 2;
-            txtDesc.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtDesc.ForeColor = Color.DimGray;
-            txtDesc.Location = new Point(11, 369);
-            txtDesc.Margin = new Padding(5);
-            txtDesc.Multiline = true;
-            txtDesc.Name = "txtDesc";
-            txtDesc.Padding = new Padding(11, 9, 11, 9);
-            txtDesc.PasswordChar = false;
-            txtDesc.PlaceholderColor = Color.DarkGray;
-            txtDesc.PlaceholderText = "Enter description";
-            txtDesc.Size = new Size(363, 141);
-            txtDesc.TabIndex = 18;
-            txtDesc.Texts = "";
-            txtDesc.UnderlinedStyle = false;
-            // 
             // kryptonButton1
             // 
             kryptonButton1.BackColor = Color.Transparent;
@@ -492,7 +474,7 @@
             kryptonButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
             kryptonButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
             kryptonButton1.Image = null;
-            kryptonButton1.Location = new Point(27, 535);
+            kryptonButton1.Location = new Point(115, 670);
             kryptonButton1.Margin = new Padding(3, 4, 3, 4);
             kryptonButton1.Name = "kryptonButton1";
             kryptonButton1.Size = new Size(109, 53);
@@ -521,6 +503,7 @@
             arthanPanel1.BackColor = Color.Transparent;
             arthanPanel1.BottomLeftRadius = 15;
             arthanPanel1.BottomRightRadius = 15;
+            arthanPanel1.Controls.Add(BookConditioncmb);
             arthanPanel1.Controls.Add(BookTitle);
             arthanPanel1.Controls.Add(Published);
             arthanPanel1.Controls.Add(Category);
@@ -531,7 +514,6 @@
             arthanPanel1.Controls.Add(picCover);
             arthanPanel1.Controls.Add(Source);
             arthanPanel1.Controls.Add(kryptonButton1);
-            arthanPanel1.Controls.Add(txtDesc);
             arthanPanel1.Controls.Add(label10);
             arthanPanel1.Controls.Add(label6);
             arthanPanel1.Controls.Add(label7);
@@ -560,21 +542,38 @@
             arthanPanel1.UseIndividualCorners = false;
             arthanPanel1.Paint += arthanPanel1_Paint;
             // 
+            // BookConditioncmb
+            // 
+            BookConditioncmb.BackColor = Color.Transparent;
+            BookConditioncmb.CustomizableEdges = customizableEdges1;
+            BookConditioncmb.DrawMode = DrawMode.OwnerDrawFixed;
+            BookConditioncmb.DropDownStyle = ComboBoxStyle.DropDownList;
+            BookConditioncmb.FocusedColor = Color.FromArgb(94, 148, 255);
+            BookConditioncmb.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            BookConditioncmb.Font = new Font("Segoe UI", 10F);
+            BookConditioncmb.ForeColor = Color.FromArgb(68, 88, 112);
+            BookConditioncmb.ItemHeight = 30;
+            BookConditioncmb.Location = new Point(14, 370);
+            BookConditioncmb.Name = "BookConditioncmb";
+            BookConditioncmb.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            BookConditioncmb.Size = new Size(175, 36);
+            BookConditioncmb.TabIndex = 73;
+            // 
             // Quantity
             // 
             Quantity.BackColor = Color.Transparent;
-            Quantity.CustomizableEdges = customizableEdges1;
+            Quantity.CustomizableEdges = customizableEdges3;
             Quantity.Font = new Font("Segoe UI", 9F);
             Quantity.Location = new Point(11, 199);
             Quantity.Margin = new Padding(3, 4, 3, 4);
             Quantity.Name = "Quantity";
-            Quantity.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            Quantity.ShadowDecoration.CustomizableEdges = customizableEdges4;
             Quantity.Size = new Size(125, 50);
             Quantity.TabIndex = 30;
             // 
             // picCover
             // 
-            picCover.Location = new Point(82, 595);
+            picCover.Location = new Point(74, 435);
             picCover.Name = "picCover";
             picCover.Size = new Size(224, 161);
             picCover.TabIndex = 51;
@@ -592,7 +591,7 @@
             // 
             btnManualMode.BorderRadius = 18;
             btnManualMode.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnManualMode.CustomizableEdges = customizableEdges3;
+            btnManualMode.CustomizableEdges = customizableEdges5;
             btnManualMode.DisabledState.BorderColor = Color.DarkGray;
             btnManualMode.DisabledState.CustomBorderColor = Color.DarkGray;
             btnManualMode.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -602,7 +601,7 @@
             btnManualMode.ForeColor = Color.Black;
             btnManualMode.Location = new Point(31, 161);
             btnManualMode.Name = "btnManualMode";
-            btnManualMode.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnManualMode.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnManualMode.Size = new Size(372, 63);
             btnManualMode.TabIndex = 41;
             btnManualMode.Text = " ";
@@ -612,7 +611,7 @@
             // 
             btnFilter.BorderRadius = 18;
             btnFilter.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnFilter.CustomizableEdges = customizableEdges5;
+            btnFilter.CustomizableEdges = customizableEdges7;
             btnFilter.DisabledState.BorderColor = Color.DarkGray;
             btnFilter.DisabledState.CustomBorderColor = Color.DarkGray;
             btnFilter.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -622,7 +621,7 @@
             btnFilter.ForeColor = Color.Black;
             btnFilter.Location = new Point(1514, 187);
             btnFilter.Name = "btnFilter";
-            btnFilter.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnFilter.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnFilter.Size = new Size(157, 63);
             btnFilter.TabIndex = 59;
             btnFilter.Text = "FILTER";
@@ -632,7 +631,7 @@
             // 
             btnClearFilters.BorderRadius = 18;
             btnClearFilters.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnClearFilters.CustomizableEdges = customizableEdges7;
+            btnClearFilters.CustomizableEdges = customizableEdges9;
             btnClearFilters.DisabledState.BorderColor = Color.DarkGray;
             btnClearFilters.DisabledState.CustomBorderColor = Color.DarkGray;
             btnClearFilters.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -642,7 +641,7 @@
             btnClearFilters.ForeColor = Color.Black;
             btnClearFilters.Location = new Point(1705, 187);
             btnClearFilters.Name = "btnClearFilters";
-            btnClearFilters.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnClearFilters.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnClearFilters.Size = new Size(157, 63);
             btnClearFilters.TabIndex = 60;
             btnClearFilters.Text = "CLEAR";
@@ -766,12 +765,32 @@
             cmbBookTitle.Size = new Size(151, 28);
             cmbBookTitle.TabIndex = 72;
             // 
+            // BookCondition
+            // 
+            BookCondition.FormattingEnabled = true;
+            BookCondition.Location = new Point(1118, 175);
+            BookCondition.Name = "BookCondition";
+            BookCondition.Size = new Size(151, 28);
+            BookCondition.TabIndex = 74;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Font = new Font("Sans Serif Collection", 7.799999F);
+            label18.Location = new Point(1118, 144);
+            label18.Name = "label18";
+            label18.Size = new Size(111, 44);
+            label18.TabIndex = 73;
+            label18.Text = "Book Condition";
+            // 
             // Book_Aquire
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
             ClientSize = new Size(1902, 1033);
+            Controls.Add(BookCondition);
+            Controls.Add(label18);
             Controls.Add(cmbBookTitle);
             Controls.Add(cmbPublisher);
             Controls.Add(cmbPublished);
@@ -835,7 +854,6 @@
         private Components.ArthanTextBox Published;
         private Label label6;
         private Label label10;
-        private Components.ArthanTextBox txtDesc;
         private Components.ArthanButton kryptonButton1;
         private Krypton.Toolkit.KryptonComboBox Source;
         private Components.ArthanPanel arthanPanel1;
@@ -858,5 +876,8 @@
         private ComboBox cmbPublished;
         private ComboBox cmbPublisher;
         private ComboBox cmbBookTitle;
+        private Guna.UI2.WinForms.Guna2ComboBox BookConditioncmb;
+        private ComboBox BookCondition;
+        private Label label18;
     }
 }

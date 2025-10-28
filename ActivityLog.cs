@@ -291,6 +291,7 @@ namespace Library_Final
                 {
                     query += " AND Details LIKE @Search";
                     cmd.Parameters.AddWithValue("@Search", "%" + txtSearch.Text + "%");
+                   
                 }
 
                 // Final order

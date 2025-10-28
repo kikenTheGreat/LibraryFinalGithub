@@ -183,6 +183,14 @@ namespace LibraryCGC
             colBookType.Width = 130;
             DataGridTotalBooks.Columns.Add(colBookType);
 
+            // --- Book Condition ---
+            var bookCondition = new DataGridViewTextBoxColumn();
+            bookCondition.HeaderText = "Book Condition";
+            bookCondition.DataPropertyName = "BookCondition";
+            bookCondition.Name = "Book Condition";
+            bookCondition.Width = 130;
+            DataGridTotalBooks.Columns.Add(bookCondition);
+
 
             // --- Archived Date ---
             var colArchivedDate = new DataGridViewTextBoxColumn();
@@ -271,6 +279,7 @@ namespace LibraryCGC
                     string author = reader["Author"].ToString();
                     string publisher = reader["Publisher"].ToString();
                     string source = reader["Source"].ToString();
+                    string bookCondition = reader["BookCondition"].ToString();
                     int quantity = Convert.ToInt32(reader["Quantity"]);
                     string published = reader["Published"].ToString();
                     string category = reader["Category"].ToString();
@@ -281,8 +290,8 @@ namespace LibraryCGC
 
                     // Insert back into BooksAcq
                     SqlCommand insertCmd = new SqlCommand(@"
-                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category,BookType)
-                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category,@BookType)", con);
+                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category,BookType,BookCondition)
+                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category,@BookType,@BookCondition)", con);
 
                     insertCmd.Parameters.AddWithValue("@BookTitle", title);
                     insertCmd.Parameters.AddWithValue("@Author", author);
@@ -293,6 +302,7 @@ namespace LibraryCGC
                     insertCmd.Parameters.AddWithValue("@Published", published);
                     insertCmd.Parameters.AddWithValue("@Category", category);
                     insertCmd.Parameters.AddWithValue("@BookType", booktype);
+                    insertCmd.Parameters.AddWithValue("@BookCondition", bookCondition);
 
                     int result = insertCmd.ExecuteNonQuery();
                     if (result > 0)
