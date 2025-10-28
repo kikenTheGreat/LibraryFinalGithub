@@ -36,16 +36,24 @@ Trust Server Certificate=True;
 
         private void Report_Load(object sender, EventArgs e)//most importantttttttttttttttttttttttttttttttttttttttttt
         {
+            //live data
+            lblTotalReturned.Text = GlobalEvents.GetTotalReturnedBooks().ToString();
+            lblWithPenalties.Text = GlobalEvents.GetStudentsWithPenalties().ToString();
+            lblTotalPenalties.Text = "₱" + GlobalEvents.GetTotalPenalties().ToString("N2");
+
+
+
             dtpStart.Value = DateTime.Now;
             dtpEnd.Value = DateTime.Now;
 
             BorrowedPANEL.Visible = true;
             ReturnedPANEL.Visible = false;
             LoadAllBorrowedBooks();
+            LoadAllReturnedBooks();
             StyleDataGrid(dgvBorrowedBooks);
             StyleDataGrid(dgvReturnedBooks);
             //StyleDataGrid(dgvOverdueBooks);
-           // StyleDataGrid(dgvFacultyBorrow);
+            // StyleDataGrid(dgvFacultyBorrow);
             //StyleDataGrid(dgvStudentBorrow);
 
             StyleDataGrid(dgvBorrowedBooks);
@@ -67,6 +75,24 @@ Trust Server Certificate=True;
                 con.Close();
             }
         }
+
+        private void LoadAllReturnedBooks()
+        {
+            try
+            {
+                con.Open();
+                string query = "SELECT * FROM ReturnedBooks";
+                SqlDataAdapter da = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dgvReturnedBooks.DataSource = dt;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
 
 
         private void btnApplyFilter_Click(object sender, EventArgs e)
@@ -138,11 +164,11 @@ Trust Server Certificate=True;
             this.Hide();
         }
 
-       
 
-       
 
-     
+
+
+
         private void StyleDataGrid(DataGridView dgv) // dgv usable method for styling any datagridviewvvvvvvvvvvvvvvvvvvvvvvvvv
         {
             // 🧭 General layout
@@ -196,18 +222,149 @@ Trust Server Certificate=True;
 
 
         }
-
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void guna2Button1_Click(object sender, EventArgs e) // button for applying filters on returned books
         {
-        
+            try
+            {
+                con.Open();
 
-          
-       
+                // Base query - filter by date range
+                string query = "SELECT * FROM ReturnedBooks WHERE ReturnDate BETWEEN @start AND @end";
+
+                // Filter by ClientName if text is entered
+                if (!string.IsNullOrEmpty(txtStudentName.Text))
+                {
+                    query += " AND ClientName LIKE @clientName";
+                }
+
+                // Filter by Status if combobox has a value
+               
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@start", dtpReturnStart.Value.Date);
+                cmd.Parameters.AddWithValue("@end", dtpReturnEnd.Value.Date);
+
+                // Add client name parameter if used
+                if (!string.IsNullOrEmpty(txtStudentName.Text))
+                {
+                    cmd.Parameters.AddWithValue("@clientName", "%" + txtStudentName.Text + "%");
+                }
+
+            
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dgvReturnedBooks.DataSource = dt;
+            }
+            finally
+            {
+                con.Close();
+            }
         }
+
+
+
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-           
+            txtStudentName.Clear();
+            
+            dtpReturnStart.Value = DateTime.Now;
+            dtpReturnEnd.Value = DateTime.Now;
+            LoadAllReturnedBooks();
         }
+
+        private void btnSearchName_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                con.Open();
+
+                // If the textbox is empty, show all data
+                string query;
+
+                if (string.IsNullOrEmpty(txtStudentName.Text))
+                {
+                    query = "SELECT * FROM ReturnedBooks";
+                }
+                else
+                {
+                    query = "SELECT * FROM ReturnedBooks WHERE ClientName LIKE @clientName";
+                }
+
+                SqlCommand cmd = new SqlCommand(query, con);
+
+                if (!string.IsNullOrEmpty(txtStudentName.Text))
+                {
+                    cmd.Parameters.AddWithValue("@clientName", "%" + txtStudentName.Text + "%");
+                }
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                dgvReturnedBooks.DataSource = dt;
+
+                // Optional: show a message if no results
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("No records found for that name.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        private void txtStudentName_TextChanged(object sender, EventArgs e)
+        {
+            btnSearchName_Click(sender, e);
+        }
+
+
+        public void UpdateTotalReturnsLabel()
+        {
+
+            SqlConnection con = new SqlConnection(@"  Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+
+");
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM ReturnedBooks", con);
+                int totalarchived = (int)cmd.ExecuteScalar();
+                lblTotalReturned.Text = totalarchived.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

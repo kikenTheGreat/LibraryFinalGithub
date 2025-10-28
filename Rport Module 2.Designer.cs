@@ -76,13 +76,13 @@
             guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            btnReset = new Guna.UI2.WinForms.Guna2Button();
-            btnApplyFilter = new Guna.UI2.WinForms.Guna2Button();
-            cmbPenaltyStatus = new Guna.UI2.WinForms.Guna2ComboBox();
+            btnReturnReset = new Guna.UI2.WinForms.Guna2Button();
+            btnReturnFilter = new Guna.UI2.WinForms.Guna2Button();
+            cbPenaltyStatus = new Guna.UI2.WinForms.Guna2ComboBox();
             txtStudentName = new Guna.UI2.WinForms.Guna2TextBox();
-            dtpEndDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            dtpReturnEnd = new Guna.UI2.WinForms.Guna2DateTimePicker();
             guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            dtpStartDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            dtpReturnStart = new Guna.UI2.WinForms.Guna2DateTimePicker();
             guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2CustomGradientPanel1 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -141,7 +141,7 @@
             guna2Panel4.Controls.Add(guna2HtmlLabel13);
             guna2Panel4.Controls.Add(guna2HtmlLabel14);
             guna2Panel4.CustomizableEdges = customizableEdges3;
-            guna2Panel4.Location = new Point(1533, 38);
+            guna2Panel4.Location = new Point(1221, 47);
             guna2Panel4.Margin = new Padding(3, 4, 3, 4);
             guna2Panel4.Name = "guna2Panel4";
             guna2Panel4.ShadowDecoration.CustomizableEdges = customizableEdges4;
@@ -178,7 +178,7 @@
             guna2Panel3.Controls.Add(guna2HtmlLabel11);
             guna2Panel3.Controls.Add(guna2HtmlLabel12);
             guna2Panel3.CustomizableEdges = customizableEdges5;
-            guna2Panel3.Location = new Point(1366, 38);
+            guna2Panel3.Location = new Point(1054, 47);
             guna2Panel3.Margin = new Padding(3, 4, 3, 4);
             guna2Panel3.Name = "guna2Panel3";
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges6;
@@ -215,7 +215,7 @@
             guna2Panel2.Controls.Add(guna2HtmlLabel10);
             guna2Panel2.Controls.Add(guna2HtmlLabel9);
             guna2Panel2.CustomizableEdges = customizableEdges7;
-            guna2Panel2.Location = new Point(1200, 38);
+            guna2Panel2.Location = new Point(888, 47);
             guna2Panel2.Margin = new Padding(3, 4, 3, 4);
             guna2Panel2.Name = "guna2Panel2";
             guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges8;
@@ -274,13 +274,13 @@
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel8);
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel7);
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel6);
-            guna2CustomGradientPanel2.Controls.Add(btnReset);
-            guna2CustomGradientPanel2.Controls.Add(btnApplyFilter);
-            guna2CustomGradientPanel2.Controls.Add(cmbPenaltyStatus);
+            guna2CustomGradientPanel2.Controls.Add(btnReturnReset);
+            guna2CustomGradientPanel2.Controls.Add(btnReturnFilter);
+            guna2CustomGradientPanel2.Controls.Add(cbPenaltyStatus);
             guna2CustomGradientPanel2.Controls.Add(txtStudentName);
-            guna2CustomGradientPanel2.Controls.Add(dtpEndDate);
+            guna2CustomGradientPanel2.Controls.Add(dtpReturnEnd);
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel4);
-            guna2CustomGradientPanel2.Controls.Add(dtpStartDate);
+            guna2CustomGradientPanel2.Controls.Add(dtpReturnStart);
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel3);
             guna2CustomGradientPanel2.CustomizableEdges = customizableEdges25;
             guna2CustomGradientPanel2.Location = new Point(30, 187);
@@ -328,59 +328,59 @@
             guna2HtmlLabel6.TabIndex = 9;
             guna2HtmlLabel6.Text = "Date Range";
             // 
-            // btnReset
+            // btnReturnReset
             // 
-            btnReset.BorderRadius = 10;
-            btnReset.CustomizableEdges = customizableEdges13;
-            btnReset.DisabledState.BorderColor = Color.DarkGray;
-            btnReset.DisabledState.CustomBorderColor = Color.DarkGray;
-            btnReset.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            btnReset.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnReset.Font = new Font("Segoe UI", 9F);
-            btnReset.ForeColor = Color.White;
-            btnReset.Location = new Point(1309, 60);
-            btnReset.Margin = new Padding(3, 4, 3, 4);
-            btnReset.Name = "btnReset";
-            btnReset.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            btnReset.Size = new Size(105, 48);
-            btnReset.TabIndex = 8;
-            btnReset.Text = "Reset";
+            btnReturnReset.BorderRadius = 10;
+            btnReturnReset.CustomizableEdges = customizableEdges13;
+            btnReturnReset.DisabledState.BorderColor = Color.DarkGray;
+            btnReturnReset.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnReturnReset.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnReturnReset.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnReturnReset.Font = new Font("Segoe UI", 9F);
+            btnReturnReset.ForeColor = Color.White;
+            btnReturnReset.Location = new Point(1309, 60);
+            btnReturnReset.Margin = new Padding(3, 4, 3, 4);
+            btnReturnReset.Name = "btnReturnReset";
+            btnReturnReset.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnReturnReset.Size = new Size(105, 48);
+            btnReturnReset.TabIndex = 8;
+            btnReturnReset.Text = "Reset";
             // 
-            // btnApplyFilter
+            // btnReturnFilter
             // 
-            btnApplyFilter.BorderRadius = 10;
-            btnApplyFilter.CustomizableEdges = customizableEdges15;
-            btnApplyFilter.DisabledState.BorderColor = Color.DarkGray;
-            btnApplyFilter.DisabledState.CustomBorderColor = Color.DarkGray;
-            btnApplyFilter.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            btnApplyFilter.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnApplyFilter.Font = new Font("Segoe UI", 9F);
-            btnApplyFilter.ForeColor = Color.White;
-            btnApplyFilter.Location = new Point(1114, 60);
-            btnApplyFilter.Margin = new Padding(3, 4, 3, 4);
-            btnApplyFilter.Name = "btnApplyFilter";
-            btnApplyFilter.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            btnApplyFilter.Size = new Size(174, 48);
-            btnApplyFilter.TabIndex = 7;
-            btnApplyFilter.Text = "Apply Filter";
+            btnReturnFilter.BorderRadius = 10;
+            btnReturnFilter.CustomizableEdges = customizableEdges15;
+            btnReturnFilter.DisabledState.BorderColor = Color.DarkGray;
+            btnReturnFilter.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnReturnFilter.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnReturnFilter.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnReturnFilter.Font = new Font("Segoe UI", 9F);
+            btnReturnFilter.ForeColor = Color.White;
+            btnReturnFilter.Location = new Point(1114, 60);
+            btnReturnFilter.Margin = new Padding(3, 4, 3, 4);
+            btnReturnFilter.Name = "btnReturnFilter";
+            btnReturnFilter.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnReturnFilter.Size = new Size(174, 48);
+            btnReturnFilter.TabIndex = 7;
+            btnReturnFilter.Text = "Apply Filter";
             // 
-            // cmbPenaltyStatus
+            // cbPenaltyStatus
             // 
-            cmbPenaltyStatus.BackColor = Color.Transparent;
-            cmbPenaltyStatus.CustomizableEdges = customizableEdges17;
-            cmbPenaltyStatus.DrawMode = DrawMode.OwnerDrawFixed;
-            cmbPenaltyStatus.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbPenaltyStatus.FocusedColor = Color.FromArgb(94, 148, 255);
-            cmbPenaltyStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbPenaltyStatus.Font = new Font("Segoe UI", 10F);
-            cmbPenaltyStatus.ForeColor = Color.FromArgb(68, 88, 112);
-            cmbPenaltyStatus.ItemHeight = 30;
-            cmbPenaltyStatus.Location = new Point(845, 60);
-            cmbPenaltyStatus.Margin = new Padding(3, 4, 3, 4);
-            cmbPenaltyStatus.Name = "cmbPenaltyStatus";
-            cmbPenaltyStatus.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            cmbPenaltyStatus.Size = new Size(228, 36);
-            cmbPenaltyStatus.TabIndex = 6;
+            cbPenaltyStatus.BackColor = Color.Transparent;
+            cbPenaltyStatus.CustomizableEdges = customizableEdges17;
+            cbPenaltyStatus.DrawMode = DrawMode.OwnerDrawFixed;
+            cbPenaltyStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbPenaltyStatus.FocusedColor = Color.FromArgb(94, 148, 255);
+            cbPenaltyStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cbPenaltyStatus.Font = new Font("Segoe UI", 10F);
+            cbPenaltyStatus.ForeColor = Color.FromArgb(68, 88, 112);
+            cbPenaltyStatus.ItemHeight = 30;
+            cbPenaltyStatus.Location = new Point(845, 60);
+            cbPenaltyStatus.Margin = new Padding(3, 4, 3, 4);
+            cbPenaltyStatus.Name = "cbPenaltyStatus";
+            cbPenaltyStatus.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            cbPenaltyStatus.Size = new Size(228, 36);
+            cbPenaltyStatus.TabIndex = 6;
             // 
             // txtStudentName
             // 
@@ -402,21 +402,21 @@
             txtStudentName.Size = new Size(229, 48);
             txtStudentName.TabIndex = 5;
             // 
-            // dtpEndDate
+            // dtpReturnEnd
             // 
-            dtpEndDate.Checked = true;
-            dtpEndDate.CustomizableEdges = customizableEdges21;
-            dtpEndDate.Font = new Font("Segoe UI", 9F);
-            dtpEndDate.Format = DateTimePickerFormat.Long;
-            dtpEndDate.Location = new Point(315, 76);
-            dtpEndDate.Margin = new Padding(3, 4, 3, 4);
-            dtpEndDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            dtpEndDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            dtpEndDate.Name = "dtpEndDate";
-            dtpEndDate.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            dtpEndDate.Size = new Size(226, 32);
-            dtpEndDate.TabIndex = 4;
-            dtpEndDate.Value = new DateTime(2025, 10, 27, 12, 42, 32, 564);
+            dtpReturnEnd.Checked = true;
+            dtpReturnEnd.CustomizableEdges = customizableEdges21;
+            dtpReturnEnd.Font = new Font("Segoe UI", 9F);
+            dtpReturnEnd.Format = DateTimePickerFormat.Long;
+            dtpReturnEnd.Location = new Point(315, 76);
+            dtpReturnEnd.Margin = new Padding(3, 4, 3, 4);
+            dtpReturnEnd.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            dtpReturnEnd.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            dtpReturnEnd.Name = "dtpReturnEnd";
+            dtpReturnEnd.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            dtpReturnEnd.Size = new Size(226, 32);
+            dtpReturnEnd.TabIndex = 4;
+            dtpReturnEnd.Value = new DateTime(2025, 10, 27, 12, 42, 32, 564);
             // 
             // guna2HtmlLabel4
             // 
@@ -430,21 +430,21 @@
             guna2HtmlLabel4.TabIndex = 2;
             guna2HtmlLabel4.Text = "To";
             // 
-            // dtpStartDate
+            // dtpReturnStart
             // 
-            dtpStartDate.Checked = true;
-            dtpStartDate.CustomizableEdges = customizableEdges23;
-            dtpStartDate.Font = new Font("Segoe UI", 9F);
-            dtpStartDate.Format = DateTimePickerFormat.Long;
-            dtpStartDate.Location = new Point(35, 76);
-            dtpStartDate.Margin = new Padding(3, 4, 3, 4);
-            dtpStartDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            dtpStartDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            dtpStartDate.Name = "dtpStartDate";
-            dtpStartDate.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            dtpStartDate.Size = new Size(226, 32);
-            dtpStartDate.TabIndex = 3;
-            dtpStartDate.Value = new DateTime(2025, 10, 27, 12, 42, 32, 564);
+            dtpReturnStart.Checked = true;
+            dtpReturnStart.CustomizableEdges = customizableEdges23;
+            dtpReturnStart.Font = new Font("Segoe UI", 9F);
+            dtpReturnStart.Format = DateTimePickerFormat.Long;
+            dtpReturnStart.Location = new Point(35, 76);
+            dtpReturnStart.Margin = new Padding(3, 4, 3, 4);
+            dtpReturnStart.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            dtpReturnStart.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            dtpReturnStart.Name = "dtpReturnStart";
+            dtpReturnStart.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            dtpReturnStart.Size = new Size(226, 32);
+            dtpReturnStart.TabIndex = 3;
+            dtpReturnStart.Value = new DateTime(2025, 10, 27, 12, 42, 32, 564);
             // 
             // guna2HtmlLabel3
             // 
@@ -521,11 +521,11 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvReturnedBooks.DefaultCellStyle = dataGridViewCellStyle3;
             dgvReturnedBooks.GridColor = Color.FromArgb(231, 229, 255);
-            dgvReturnedBooks.Location = new Point(3, 208);
+            dgvReturnedBooks.Location = new Point(34, 217);
             dgvReturnedBooks.Name = "dgvReturnedBooks";
             dgvReturnedBooks.RowHeadersVisible = false;
             dgvReturnedBooks.RowHeadersWidth = 51;
-            dgvReturnedBooks.Size = new Size(1849, 452);
+            dgvReturnedBooks.Size = new Size(1434, 322);
             dgvReturnedBooks.TabIndex = 15;
             dgvReturnedBooks.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
             dgvReturnedBooks.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -586,14 +586,14 @@
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel1;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpStartDate;
+        private Guna.UI2.WinForms.Guna2DateTimePicker dtpReturnStart;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel7;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
-        private Guna.UI2.WinForms.Guna2Button btnReset;
-        private Guna.UI2.WinForms.Guna2Button btnApplyFilter;
-        private Guna.UI2.WinForms.Guna2ComboBox cmbPenaltyStatus;
+        private Guna.UI2.WinForms.Guna2Button btnReturnReset;
+        private Guna.UI2.WinForms.Guna2Button btnReturnFilter;
+        private Guna.UI2.WinForms.Guna2ComboBox cbPenaltyStatus;
         private Guna.UI2.WinForms.Guna2TextBox txtStudentName;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpEndDate;
+        private Guna.UI2.WinForms.Guna2DateTimePicker dtpReturnEnd;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel4;

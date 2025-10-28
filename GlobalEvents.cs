@@ -65,10 +65,51 @@ namespace Library_Final
         public static event Action? PenaltiesDataChanged;
         public static void RaisePenaltiesDataChanged() => PenaltiesDataChanged?.Invoke();
 
+        // --------------------- 📊 DASHBOARD COUNTS ---------------------
+        // ✅ Total Returned Books
+        public static int GetTotalReturnedBooks()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT COUNT(*) FROM ReturnedBooks";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    return (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        // ✅ Number of Students With Penalties
+        public static int GetStudentsWithPenalties()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT COUNT(DISTINCT ClientID) FROM IssueBooks WHERE Penalty > 0";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    return (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        // ✅ Total Penalties Amount
+        public static decimal GetTotalPenalties()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT ISNULL(SUM(Penalty), 0) FROM IssueBooks";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    return Convert.ToDecimal(cmd.ExecuteScalar());
+                }
+            }
+        }
 
 
 
-     
 
     }
 }

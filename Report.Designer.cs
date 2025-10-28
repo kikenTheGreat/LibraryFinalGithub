@@ -51,9 +51,6 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -97,30 +94,29 @@
             guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             ReturnedPANEL = new Panel();
             guna2CustomGradientPanel1 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            dgvReturnedBooks = new Guna.UI2.WinForms.Guna2DataGridView();
+            dgvReturnedBooks = new Krypton.Toolkit.KryptonDataGridView();
             guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
             guna2Panel4 = new Guna.UI2.WinForms.Guna2Panel();
-            guna2HtmlLabel13 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            lblTotalPenalties = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel14 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
-            guna2HtmlLabel11 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            lblWithPenalties = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel12 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
-            guna2HtmlLabel10 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            lblTotalReturned = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel9 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2Panel5 = new Guna.UI2.WinForms.Guna2Panel();
             guna2HtmlLabel15 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2CustomGradientPanel2 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            btnSearchName = new Guna.UI2.WinForms.Guna2Button();
             guna2HtmlLabel7 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             btnReset = new Guna.UI2.WinForms.Guna2Button();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
-            cmbPenaltyStatus = new Guna.UI2.WinForms.Guna2ComboBox();
             txtStudentName = new Guna.UI2.WinForms.Guna2TextBox();
-            dtpEndDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            dtpReturnEnd = new Guna.UI2.WinForms.Guna2DateTimePicker();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            dtpStartDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            dtpReturnStart = new Guna.UI2.WinForms.Guna2DateTimePicker();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             BorrowedPANEL.SuspendLayout();
             guna2CustomGradientPanel3.SuspendLayout();
@@ -472,59 +468,18 @@
             guna2CustomGradientPanel1.ShadowDecoration.BorderRadius = 10;
             guna2CustomGradientPanel1.ShadowDecoration.CustomizableEdges = customizableEdges30;
             guna2CustomGradientPanel1.ShadowDecoration.Shadow = new Padding(5, 5, 5, 10);
-            guna2CustomGradientPanel1.Size = new Size(1891, 679);
+            guna2CustomGradientPanel1.Size = new Size(1891, 763);
             guna2CustomGradientPanel1.TabIndex = 15;
             // 
             // dgvReturnedBooks
             // 
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dgvReturnedBooks.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(100, 88, 255);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvReturnedBooks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
-            dgvReturnedBooks.ColumnHeadersHeight = 4;
-            dgvReturnedBooks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvReturnedBooks.DefaultCellStyle = dataGridViewCellStyle6;
-            dgvReturnedBooks.GridColor = Color.FromArgb(231, 229, 255);
-            dgvReturnedBooks.Location = new Point(3, 208);
+            dgvReturnedBooks.BorderStyle = BorderStyle.None;
+            dgvReturnedBooks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvReturnedBooks.Location = new Point(3, 174);
             dgvReturnedBooks.Name = "dgvReturnedBooks";
-            dgvReturnedBooks.RowHeadersVisible = false;
             dgvReturnedBooks.RowHeadersWidth = 51;
-            dgvReturnedBooks.Size = new Size(1849, 452);
-            dgvReturnedBooks.TabIndex = 15;
-            dgvReturnedBooks.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
-            dgvReturnedBooks.ThemeStyle.AlternatingRowsStyle.Font = null;
-            dgvReturnedBooks.ThemeStyle.AlternatingRowsStyle.ForeColor = Color.Empty;
-            dgvReturnedBooks.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = Color.Empty;
-            dgvReturnedBooks.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
-            dgvReturnedBooks.ThemeStyle.BackColor = Color.White;
-            dgvReturnedBooks.ThemeStyle.GridColor = Color.FromArgb(231, 229, 255);
-            dgvReturnedBooks.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(100, 88, 255);
-            dgvReturnedBooks.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvReturnedBooks.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
-            dgvReturnedBooks.ThemeStyle.HeaderStyle.ForeColor = Color.White;
-            dgvReturnedBooks.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dgvReturnedBooks.ThemeStyle.HeaderStyle.Height = 4;
-            dgvReturnedBooks.ThemeStyle.ReadOnly = false;
-            dgvReturnedBooks.ThemeStyle.RowsStyle.BackColor = Color.White;
-            dgvReturnedBooks.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvReturnedBooks.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
-            dgvReturnedBooks.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(71, 69, 94);
-            dgvReturnedBooks.ThemeStyle.RowsStyle.Height = 29;
-            dgvReturnedBooks.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dgvReturnedBooks.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dgvReturnedBooks.Size = new Size(1888, 586);
+            dgvReturnedBooks.TabIndex = 48;
             // 
             // guna2Button3
             // 
@@ -547,27 +502,27 @@
             // guna2Panel4
             // 
             guna2Panel4.BorderRadius = 20;
-            guna2Panel4.Controls.Add(guna2HtmlLabel13);
+            guna2Panel4.Controls.Add(lblTotalPenalties);
             guna2Panel4.Controls.Add(guna2HtmlLabel14);
             guna2Panel4.CustomizableEdges = customizableEdges21;
-            guna2Panel4.Location = new Point(1533, 38);
+            guna2Panel4.Location = new Point(1707, 35);
             guna2Panel4.Margin = new Padding(3, 4, 3, 4);
             guna2Panel4.Name = "guna2Panel4";
             guna2Panel4.ShadowDecoration.CustomizableEdges = customizableEdges22;
             guna2Panel4.Size = new Size(139, 83);
             guna2Panel4.TabIndex = 14;
             // 
-            // guna2HtmlLabel13
+            // lblTotalPenalties
             // 
-            guna2HtmlLabel13.BackColor = Color.Transparent;
-            guna2HtmlLabel13.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel13.ForeColor = Color.Black;
-            guna2HtmlLabel13.Location = new Point(61, 33);
-            guna2HtmlLabel13.Margin = new Padding(3, 4, 3, 4);
-            guna2HtmlLabel13.Name = "guna2HtmlLabel13";
-            guna2HtmlLabel13.Size = new Size(19, 43);
-            guna2HtmlLabel13.TabIndex = 13;
-            guna2HtmlLabel13.Text = "0";
+            lblTotalPenalties.BackColor = Color.Transparent;
+            lblTotalPenalties.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotalPenalties.ForeColor = Color.Black;
+            lblTotalPenalties.Location = new Point(61, 33);
+            lblTotalPenalties.Margin = new Padding(3, 4, 3, 4);
+            lblTotalPenalties.Name = "lblTotalPenalties";
+            lblTotalPenalties.Size = new Size(19, 43);
+            lblTotalPenalties.TabIndex = 13;
+            lblTotalPenalties.Text = "0";
             // 
             // guna2HtmlLabel14
             // 
@@ -584,27 +539,27 @@
             // guna2Panel3
             // 
             guna2Panel3.BorderRadius = 20;
-            guna2Panel3.Controls.Add(guna2HtmlLabel11);
+            guna2Panel3.Controls.Add(lblWithPenalties);
             guna2Panel3.Controls.Add(guna2HtmlLabel12);
             guna2Panel3.CustomizableEdges = customizableEdges23;
-            guna2Panel3.Location = new Point(1366, 38);
+            guna2Panel3.Location = new Point(1540, 35);
             guna2Panel3.Margin = new Padding(3, 4, 3, 4);
             guna2Panel3.Name = "guna2Panel3";
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges24;
             guna2Panel3.Size = new Size(139, 83);
             guna2Panel3.TabIndex = 14;
             // 
-            // guna2HtmlLabel11
+            // lblWithPenalties
             // 
-            guna2HtmlLabel11.BackColor = Color.Transparent;
-            guna2HtmlLabel11.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel11.ForeColor = Color.Black;
-            guna2HtmlLabel11.Location = new Point(61, 33);
-            guna2HtmlLabel11.Margin = new Padding(3, 4, 3, 4);
-            guna2HtmlLabel11.Name = "guna2HtmlLabel11";
-            guna2HtmlLabel11.Size = new Size(19, 43);
-            guna2HtmlLabel11.TabIndex = 13;
-            guna2HtmlLabel11.Text = "0";
+            lblWithPenalties.BackColor = Color.Transparent;
+            lblWithPenalties.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblWithPenalties.ForeColor = Color.Black;
+            lblWithPenalties.Location = new Point(61, 33);
+            lblWithPenalties.Margin = new Padding(3, 4, 3, 4);
+            lblWithPenalties.Name = "lblWithPenalties";
+            lblWithPenalties.Size = new Size(19, 43);
+            lblWithPenalties.TabIndex = 13;
+            lblWithPenalties.Text = "0";
             // 
             // guna2HtmlLabel12
             // 
@@ -621,27 +576,27 @@
             // guna2Panel2
             // 
             guna2Panel2.BorderRadius = 20;
-            guna2Panel2.Controls.Add(guna2HtmlLabel10);
+            guna2Panel2.Controls.Add(lblTotalReturned);
             guna2Panel2.Controls.Add(guna2HtmlLabel9);
             guna2Panel2.CustomizableEdges = customizableEdges25;
-            guna2Panel2.Location = new Point(1200, 38);
+            guna2Panel2.Location = new Point(1374, 35);
             guna2Panel2.Margin = new Padding(3, 4, 3, 4);
             guna2Panel2.Name = "guna2Panel2";
             guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges26;
             guna2Panel2.Size = new Size(139, 83);
             guna2Panel2.TabIndex = 13;
             // 
-            // guna2HtmlLabel10
+            // lblTotalReturned
             // 
-            guna2HtmlLabel10.BackColor = Color.Transparent;
-            guna2HtmlLabel10.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel10.ForeColor = Color.Black;
-            guna2HtmlLabel10.Location = new Point(61, 33);
-            guna2HtmlLabel10.Margin = new Padding(3, 4, 3, 4);
-            guna2HtmlLabel10.Name = "guna2HtmlLabel10";
-            guna2HtmlLabel10.Size = new Size(19, 43);
-            guna2HtmlLabel10.TabIndex = 13;
-            guna2HtmlLabel10.Text = "0";
+            lblTotalReturned.BackColor = Color.Transparent;
+            lblTotalReturned.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotalReturned.ForeColor = Color.Black;
+            lblTotalReturned.Location = new Point(61, 33);
+            lblTotalReturned.Margin = new Padding(3, 4, 3, 4);
+            lblTotalReturned.Name = "lblTotalReturned";
+            lblTotalReturned.Size = new Size(19, 43);
+            lblTotalReturned.TabIndex = 13;
+            lblTotalReturned.Text = "0";
             // 
             // guna2HtmlLabel9
             // 
@@ -680,16 +635,15 @@
             // guna2CustomGradientPanel2
             // 
             guna2CustomGradientPanel2.BorderRadius = 20;
-            guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel8);
+            guna2CustomGradientPanel2.Controls.Add(btnSearchName);
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel7);
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel6);
             guna2CustomGradientPanel2.Controls.Add(btnReset);
             guna2CustomGradientPanel2.Controls.Add(guna2Button1);
-            guna2CustomGradientPanel2.Controls.Add(cmbPenaltyStatus);
             guna2CustomGradientPanel2.Controls.Add(txtStudentName);
-            guna2CustomGradientPanel2.Controls.Add(dtpEndDate);
+            guna2CustomGradientPanel2.Controls.Add(dtpReturnEnd);
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel1);
-            guna2CustomGradientPanel2.Controls.Add(dtpStartDate);
+            guna2CustomGradientPanel2.Controls.Add(dtpReturnStart);
             guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel2);
             guna2CustomGradientPanel2.CustomizableEdges = customizableEdges43;
             guna2CustomGradientPanel2.Location = new Point(3, 4);
@@ -701,24 +655,31 @@
             guna2CustomGradientPanel2.Size = new Size(1891, 127);
             guna2CustomGradientPanel2.TabIndex = 14;
             // 
-            // guna2HtmlLabel8
+            // btnSearchName
             // 
-            guna2HtmlLabel8.BackColor = Color.Transparent;
-            guna2HtmlLabel8.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2HtmlLabel8.ForeColor = Color.Black;
-            guna2HtmlLabel8.Location = new Point(845, 29);
-            guna2HtmlLabel8.Margin = new Padding(3, 4, 3, 4);
-            guna2HtmlLabel8.Name = "guna2HtmlLabel8";
-            guna2HtmlLabel8.Size = new Size(95, 22);
-            guna2HtmlLabel8.TabIndex = 11;
-            guna2HtmlLabel8.Text = "Penalty Status";
+            btnSearchName.BorderRadius = 10;
+            btnSearchName.CustomizableEdges = customizableEdges31;
+            btnSearchName.DisabledState.BorderColor = Color.DarkGray;
+            btnSearchName.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnSearchName.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnSearchName.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnSearchName.Font = new Font("Segoe UI", 9F);
+            btnSearchName.ForeColor = Color.White;
+            btnSearchName.Location = new Point(1759, 73);
+            btnSearchName.Margin = new Padding(3, 4, 3, 4);
+            btnSearchName.Name = "btnSearchName";
+            btnSearchName.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            btnSearchName.Size = new Size(105, 48);
+            btnSearchName.TabIndex = 12;
+            btnSearchName.Text = "Search Name";
+            btnSearchName.Click += btnSearchName_Click;
             // 
             // guna2HtmlLabel7
             // 
             guna2HtmlLabel7.BackColor = Color.Transparent;
             guna2HtmlLabel7.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             guna2HtmlLabel7.ForeColor = Color.Black;
-            guna2HtmlLabel7.Location = new Point(595, 29);
+            guna2HtmlLabel7.Location = new Point(1505, 42);
             guna2HtmlLabel7.Margin = new Padding(3, 4, 3, 4);
             guna2HtmlLabel7.Name = "guna2HtmlLabel7";
             guna2HtmlLabel7.Size = new Size(98, 22);
@@ -740,17 +701,17 @@
             // btnReset
             // 
             btnReset.BorderRadius = 10;
-            btnReset.CustomizableEdges = customizableEdges31;
+            btnReset.CustomizableEdges = customizableEdges33;
             btnReset.DisabledState.BorderColor = Color.DarkGray;
             btnReset.DisabledState.CustomBorderColor = Color.DarkGray;
             btnReset.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnReset.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnReset.Font = new Font("Segoe UI", 9F);
             btnReset.ForeColor = Color.White;
-            btnReset.Location = new Point(1309, 60);
+            btnReset.Location = new Point(737, 66);
             btnReset.Margin = new Padding(3, 4, 3, 4);
             btnReset.Name = "btnReset";
-            btnReset.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            btnReset.ShadowDecoration.CustomizableEdges = customizableEdges34;
             btnReset.Size = new Size(105, 48);
             btnReset.TabIndex = 8;
             btnReset.Text = "Reset";
@@ -759,39 +720,21 @@
             // guna2Button1
             // 
             guna2Button1.BorderRadius = 10;
-            guna2Button1.CustomizableEdges = customizableEdges33;
+            guna2Button1.CustomizableEdges = customizableEdges35;
             guna2Button1.DisabledState.BorderColor = Color.DarkGray;
             guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             guna2Button1.Font = new Font("Segoe UI", 9F);
             guna2Button1.ForeColor = Color.White;
-            guna2Button1.Location = new Point(1114, 60);
+            guna2Button1.Location = new Point(547, 66);
             guna2Button1.Margin = new Padding(3, 4, 3, 4);
             guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges36;
             guna2Button1.Size = new Size(174, 48);
             guna2Button1.TabIndex = 7;
             guna2Button1.Text = "Apply Filter";
             guna2Button1.Click += guna2Button1_Click;
-            // 
-            // cmbPenaltyStatus
-            // 
-            cmbPenaltyStatus.BackColor = Color.Transparent;
-            cmbPenaltyStatus.CustomizableEdges = customizableEdges35;
-            cmbPenaltyStatus.DrawMode = DrawMode.OwnerDrawFixed;
-            cmbPenaltyStatus.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbPenaltyStatus.FocusedColor = Color.FromArgb(94, 148, 255);
-            cmbPenaltyStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cmbPenaltyStatus.Font = new Font("Segoe UI", 10F);
-            cmbPenaltyStatus.ForeColor = Color.FromArgb(68, 88, 112);
-            cmbPenaltyStatus.ItemHeight = 30;
-            cmbPenaltyStatus.Location = new Point(845, 60);
-            cmbPenaltyStatus.Margin = new Padding(3, 4, 3, 4);
-            cmbPenaltyStatus.Name = "cmbPenaltyStatus";
-            cmbPenaltyStatus.ShadowDecoration.CustomizableEdges = customizableEdges36;
-            cmbPenaltyStatus.Size = new Size(228, 36);
-            cmbPenaltyStatus.TabIndex = 6;
             // 
             // txtStudentName
             // 
@@ -804,7 +747,7 @@
             txtStudentName.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtStudentName.Font = new Font("Segoe UI", 9F);
             txtStudentName.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtStudentName.Location = new Point(595, 60);
+            txtStudentName.Location = new Point(1505, 73);
             txtStudentName.Margin = new Padding(3, 5, 3, 5);
             txtStudentName.Name = "txtStudentName";
             txtStudentName.PlaceholderText = "";
@@ -812,22 +755,23 @@
             txtStudentName.ShadowDecoration.CustomizableEdges = customizableEdges38;
             txtStudentName.Size = new Size(229, 48);
             txtStudentName.TabIndex = 5;
+            txtStudentName.TextChanged += txtStudentName_TextChanged;
             // 
-            // dtpEndDate
+            // dtpReturnEnd
             // 
-            dtpEndDate.Checked = true;
-            dtpEndDate.CustomizableEdges = customizableEdges39;
-            dtpEndDate.Font = new Font("Segoe UI", 9F);
-            dtpEndDate.Format = DateTimePickerFormat.Long;
-            dtpEndDate.Location = new Point(315, 76);
-            dtpEndDate.Margin = new Padding(3, 4, 3, 4);
-            dtpEndDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            dtpEndDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            dtpEndDate.Name = "dtpEndDate";
-            dtpEndDate.ShadowDecoration.CustomizableEdges = customizableEdges40;
-            dtpEndDate.Size = new Size(226, 32);
-            dtpEndDate.TabIndex = 4;
-            dtpEndDate.Value = new DateTime(2025, 10, 27, 12, 42, 32, 564);
+            dtpReturnEnd.Checked = true;
+            dtpReturnEnd.CustomizableEdges = customizableEdges39;
+            dtpReturnEnd.Font = new Font("Segoe UI", 9F);
+            dtpReturnEnd.Format = DateTimePickerFormat.Long;
+            dtpReturnEnd.Location = new Point(315, 76);
+            dtpReturnEnd.Margin = new Padding(3, 4, 3, 4);
+            dtpReturnEnd.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            dtpReturnEnd.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            dtpReturnEnd.Name = "dtpReturnEnd";
+            dtpReturnEnd.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            dtpReturnEnd.Size = new Size(226, 32);
+            dtpReturnEnd.TabIndex = 4;
+            dtpReturnEnd.Value = new DateTime(2025, 10, 27, 12, 42, 32, 564);
             // 
             // guna2HtmlLabel1
             // 
@@ -841,21 +785,21 @@
             guna2HtmlLabel1.TabIndex = 2;
             guna2HtmlLabel1.Text = "To";
             // 
-            // dtpStartDate
+            // dtpReturnStart
             // 
-            dtpStartDate.Checked = true;
-            dtpStartDate.CustomizableEdges = customizableEdges41;
-            dtpStartDate.Font = new Font("Segoe UI", 9F);
-            dtpStartDate.Format = DateTimePickerFormat.Long;
-            dtpStartDate.Location = new Point(35, 76);
-            dtpStartDate.Margin = new Padding(3, 4, 3, 4);
-            dtpStartDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
-            dtpStartDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
-            dtpStartDate.Name = "dtpStartDate";
-            dtpStartDate.ShadowDecoration.CustomizableEdges = customizableEdges42;
-            dtpStartDate.Size = new Size(226, 32);
-            dtpStartDate.TabIndex = 3;
-            dtpStartDate.Value = new DateTime(2025, 10, 27, 12, 42, 32, 564);
+            dtpReturnStart.Checked = true;
+            dtpReturnStart.CustomizableEdges = customizableEdges41;
+            dtpReturnStart.Font = new Font("Segoe UI", 9F);
+            dtpReturnStart.Format = DateTimePickerFormat.Long;
+            dtpReturnStart.Location = new Point(35, 76);
+            dtpReturnStart.Margin = new Padding(3, 4, 3, 4);
+            dtpReturnStart.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
+            dtpReturnStart.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
+            dtpReturnStart.Name = "dtpReturnStart";
+            dtpReturnStart.ShadowDecoration.CustomizableEdges = customizableEdges42;
+            dtpReturnStart.Size = new Size(226, 32);
+            dtpReturnStart.TabIndex = 3;
+            dtpReturnStart.Value = new DateTime(2025, 10, 27, 12, 42, 32, 564);
             // 
             // guna2HtmlLabel2
             // 
@@ -924,30 +868,29 @@
         private Guna.UI2.WinForms.Guna2DataGridView dgvBorrowedBooks;
         private Panel ReturnedPANEL;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel7;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
         private Guna.UI2.WinForms.Guna2Button btnReset;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
-        private Guna.UI2.WinForms.Guna2ComboBox cmbPenaltyStatus;
         private Guna.UI2.WinForms.Guna2TextBox txtStudentName;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpEndDate;
+        private Guna.UI2.WinForms.Guna2DateTimePicker dtpReturnEnd;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpStartDate;
+        private Guna.UI2.WinForms.Guna2DateTimePicker dtpReturnStart;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel1;
-        private Guna.UI2.WinForms.Guna2DataGridView dgvReturnedBooks;
         private Guna.UI2.WinForms.Guna2Button guna2Button3;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel4;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel13;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblTotalPenalties;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel14;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel3;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel11;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblWithPenalties;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel12;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel10;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblTotalReturned;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel9;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel5;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel15;
+        private Krypton.Toolkit.KryptonDataGridView dgvReturnedBooks;
+        private Guna.UI2.WinForms.Guna2Button btnSearchName;
     }
 }
