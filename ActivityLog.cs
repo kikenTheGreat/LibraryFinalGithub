@@ -14,6 +14,7 @@ namespace Library_Final
 {
     public partial class ActivityLog : Form
     {
+        private System.Windows.Forms.Timer filterTimer = new System.Windows.Forms.Timer();
 
         private string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
 
@@ -21,12 +22,59 @@ namespace Library_Final
         {
             InitializeComponent();
             LoadLogs();
+
+            filterTimer.Interval = 500; // half a second
+            filterTimer.Tick += (s, e) =>
+            {
+                filterTimer.Stop();
+                LoadFilteredActivityLogs();
+            };
+
+
         }
 
         private void ActivityLog_Load(object sender, EventArgs e)
         {
             LoadLogs();
             StyleDataGrid(DataGridActivity);
+            LoadActivityLogs();
+            LoadFilterOptions();
+        }
+
+        private void LoadFilterOptions()
+        {
+            // Action filter options
+            cmbAction.Items.AddRange(new string[] {
+        "All", "Issue Book", "Return Book", "Restore Book", "Create Account"
+    });
+            cmbAction.SelectedIndex = 0;
+
+            // Module filter options
+            cmbModule.Items.AddRange(new string[] {
+        "All", "Issue Module", "Return Module", "Archived Books", "Account Management"
+    });
+            cmbModule.SelectedIndex = 0;
+
+            // Set default dates (today)
+            dtpFrom.Value = DateTime.Today;
+            dtpTo.Value = DateTime.Today;
+        }
+
+        private void LoadActivityLogs()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM ActivityLog ORDER BY Timestamp DESC";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                DataGridActivity.DataSource = dt;
+            }
+
+            // Format DataGridView
+            DataGridActivity.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            DataGridActivity.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            DataGridActivity.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
         private void StyleDataGrid(DataGridView dgv) // dgv usable method for styling any datagridviewvvvvvvvvvvvvvvvvvvvvvvvvv
         {
@@ -194,12 +242,163 @@ namespace Library_Final
             this.Hide();
 
         }
-        
+
 
 
         private void DataGridActivity_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btnApplyFilter_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM ActivityLog WHERE 1=1";
+
+                // Create command
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                // Date range
+                query += " AND Timestamp BETWEEN @From AND @To";
+                cmd.Parameters.AddWithValue("@From", dtpFrom.Value.Date);
+                cmd.Parameters.AddWithValue("@To", dtpTo.Value.Date.AddDays(1).AddSeconds(-1));
+
+                // Action filter
+                if (cmbAction.Text != "All")
+                {
+                    query += " AND Action = @Action";
+                    cmd.Parameters.AddWithValue("@Action", cmbAction.Text);
+                }
+
+                // Module filter
+                if (cmbModule.Text != "All")
+                {
+                    query += " AND Module = @Module";
+                    cmd.Parameters.AddWithValue("@Module", cmbModule.Text);
+                }
+
+                // Username filter
+                if (!string.IsNullOrEmpty(txtUser.Text))
+                {
+                    query += " AND UserName LIKE @UserName";
+                    cmd.Parameters.AddWithValue("@UserName", "%" + txtUser.Text + "%");
+                }
+
+                // Details search
+                if (!string.IsNullOrEmpty(txtSearch.Text))
+                {
+                    query += " AND Details LIKE @Search";
+                    cmd.Parameters.AddWithValue("@Search", "%" + txtSearch.Text + "%");
+                }
+
+                // Final order
+                query += " ORDER BY Timestamp DESC";
+                cmd.CommandText = query;
+
+                // Fill DataGridView
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                DataGridActivity.DataSource = dt;
+                LoadFilteredActivityLogs();
+            }
+        }
+
+        private void btnClearFilter_Click(object sender, EventArgs e)
+        {
+            txtUser.Clear();
+            txtSearch.Clear();
+            cmbAction.SelectedIndex = 0;
+            cmbModule.SelectedIndex = 0;
+            dtpFrom.Value = DateTime.Today;
+            dtpTo.Value = DateTime.Today;
+            LoadActivityLogs();
+        }
+
+        private void LoadFilteredActivityLogs()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM ActivityLog WHERE 1=1";
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+
+                // Date Range
+                query += " AND Timestamp BETWEEN @From AND @To";
+                cmd.Parameters.AddWithValue("@From", dtpFrom.Value.Date);
+                cmd.Parameters.AddWithValue("@To", dtpTo.Value.Date.AddDays(1).AddSeconds(-1));
+
+                // Action Filter
+                if (cmbAction.Text != "All")
+                {
+                    query += " AND Action = @Action";
+                    cmd.Parameters.AddWithValue("@Action", cmbAction.Text);
+                }
+
+                // Module Filter
+                if (cmbModule.Text != "All")
+                {
+                    query += " AND Module = @Module";
+                    cmd.Parameters.AddWithValue("@Module", cmbModule.Text);
+                }
+
+                // User Filter
+                if (!string.IsNullOrEmpty(txtUser.Text))
+                {
+                    query += " AND UserName LIKE @UserName";
+                    cmd.Parameters.AddWithValue("@UserName", "%" + txtUser.Text + "%");
+                }
+
+                // Search Filter
+                if (!string.IsNullOrEmpty(txtSearch.Text))
+                {
+                    query += " AND Details LIKE @Search";
+                    cmd.Parameters.AddWithValue("@Search", "%" + txtSearch.Text + "%");
+                }
+
+                query += " ORDER BY Timestamp DESC";
+                cmd.CommandText = query;
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                DataGridActivity.DataSource = dt;
+            }
+        }
+
+        private void cmbAction_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadFilteredActivityLogs();
+        }
+
+        private void cmbModule_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadFilteredActivityLogs();
+        }
+
+        private void dtpFrom_ValueChanged(object sender, EventArgs e)
+        {
+            LoadFilteredActivityLogs();
+        }
+
+        private void dtpTo_ValueChanged(object sender, EventArgs e)
+        {
+            LoadFilteredActivityLogs();
+        }
+
+        private void txtUser_TextChanged(object sender, EventArgs e)
+        {
+            filterTimer.Stop();
+            filterTimer.Start();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            filterTimer.Stop();
+            filterTimer.Start();
         }
     }
 }
