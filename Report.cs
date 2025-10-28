@@ -544,5 +544,19 @@ Trust Server Certificate=True;
             cmbStatus.SelectedIndex = -1;
             LoadAllBooks();
         }
+
+        private void guna2Button4_Click(object sender, EventArgs e)
+        {
+            report_module_4 report_Module_4 = new report_module_4();
+            report_Module_4.Show();
+            this.Hide();
+        }
+
+        private void guna2Button5_Click(object sender, EventArgs e)
+        {
+            report_module_5 r = new report_module_5();
+            r.Show();
+            this.Hide();
+        }
     }
 }

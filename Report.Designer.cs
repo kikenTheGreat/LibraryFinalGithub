@@ -108,6 +108,10 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges70 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges73 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges74 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges75 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges76 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges77 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges78 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             BorrowedPANEL = new Panel();
             guna2CustomGradientPanel3 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             dgvBorrowedBooks = new Guna.UI2.WinForms.Guna2DataGridView();
@@ -182,6 +186,8 @@
             txtSearchBook = new Guna.UI2.WinForms.Guna2TextBox();
             guna2HtmlLabel13 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             InventoryBUTTON = new Guna.UI2.WinForms.Guna2Button();
+            guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
+            guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
             BorrowedPANEL.SuspendLayout();
             guna2CustomGradientPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvBorrowedBooks).BeginInit();
@@ -1372,11 +1378,51 @@
             InventoryBUTTON.Text = "Inventory Books";
             InventoryBUTTON.Click += InventoryBUTTON_Click;
             // 
+            // guna2Button4
+            // 
+            guna2Button4.BorderRadius = 15;
+            guna2Button4.CustomizableEdges = customizableEdges75;
+            guna2Button4.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button4.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button4.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button4.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button4.Font = new Font("Segoe UI", 9F);
+            guna2Button4.ForeColor = Color.White;
+            guna2Button4.Location = new Point(417, 13);
+            guna2Button4.Margin = new Padding(3, 4, 3, 4);
+            guna2Button4.Name = "guna2Button4";
+            guna2Button4.ShadowDecoration.CustomizableEdges = customizableEdges76;
+            guna2Button4.Size = new Size(114, 60);
+            guna2Button4.TabIndex = 15;
+            guna2Button4.Text = "Student Activity";
+            guna2Button4.Click += guna2Button4_Click;
+            // 
+            // guna2Button5
+            // 
+            guna2Button5.BorderRadius = 15;
+            guna2Button5.CustomizableEdges = customizableEdges77;
+            guna2Button5.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button5.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button5.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button5.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button5.Font = new Font("Segoe UI", 9F);
+            guna2Button5.ForeColor = Color.White;
+            guna2Button5.Location = new Point(554, 13);
+            guna2Button5.Margin = new Padding(3, 4, 3, 4);
+            guna2Button5.Name = "guna2Button5";
+            guna2Button5.ShadowDecoration.CustomizableEdges = customizableEdges78;
+            guna2Button5.Size = new Size(114, 60);
+            guna2Button5.TabIndex = 16;
+            guna2Button5.Text = "Summary Report";
+            guna2Button5.Click += guna2Button5_Click;
+            // 
             // Report
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(guna2Button5);
+            Controls.Add(guna2Button4);
             Controls.Add(InventoryPANEL);
             Controls.Add(InventoryBUTTON);
             Controls.Add(ReturnedPANEL);
@@ -1498,5 +1544,7 @@
         private Guna.UI2.WinForms.Guna2Panel guna2Panel10;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel25;
         private Guna.UI2.WinForms.Guna2DataGridView dataGridBooks;
+        private Guna.UI2.WinForms.Guna2Button guna2Button4;
+        private Guna.UI2.WinForms.Guna2Button guna2Button5;
     }
 }

@@ -552,5 +552,10 @@ Trust Server Certificate=True;
             activityLog.Show();
             this.Hide();
         }
+
+        private void arthanPanel16_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

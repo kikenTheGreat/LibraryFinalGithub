@@ -59,11 +59,11 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             DataGridActivity.DefaultCellStyle = dataGridViewCellStyle3;
             DataGridActivity.GridColor = Color.FromArgb(231, 229, 255);
-            DataGridActivity.Location = new Point(31, 190);
+            DataGridActivity.Location = new Point(12, 190);
             DataGridActivity.Name = "DataGridActivity";
             DataGridActivity.RowHeadersVisible = false;
             DataGridActivity.RowHeadersWidth = 51;
-            DataGridActivity.Size = new Size(1859, 470);
+            DataGridActivity.Size = new Size(1878, 820);
             DataGridActivity.TabIndex = 0;
             DataGridActivity.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
             DataGridActivity.ThemeStyle.AlternatingRowsStyle.Font = null;
