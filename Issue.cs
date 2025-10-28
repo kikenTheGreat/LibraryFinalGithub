@@ -380,9 +380,7 @@ Trust Server Certificate=True;
 
 
 
-            // Add multiple items at once
-            BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged", "Lost" });
-            BookCondition.SelectedIndex = 0;
+           
 
             LoadReturnedBooks();
 
@@ -426,8 +424,8 @@ Trust Server Certificate=True;
 
             if (bookID.Length >= 4)
             {
-                string connectionString = "  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
-                string query = "SELECT BookTitle, Source FROM BooksAcq WHERE BookID = @BookID";
+                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
+                string query = "SELECT BookTitle, Source, BookCondition FROM BooksAcq WHERE BookID = @BookID";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
@@ -440,30 +438,43 @@ Trust Server Certificate=True;
 
                         if (reader.Read())
                         {
+                            // ✅ Book Title
                             string title = reader["BookTitle"].ToString();
                             BookTitle.Items.Clear();
                             BookTitle.Items.Add(title);
                             BookTitle.SelectedIndex = 0;
                             BookTitle.Text = title;
 
-                            // ✅ For TextBox:
+                            // ✅ Source
                             string src = reader["Source"].ToString();
-                            Source.Text = src; // Just set the text directly
+                            Source.Text = src;
+
+                            // ✅ Book Condition (new ComboBox)
+                            string condition = reader["BookCondition"].ToString();
+                            BookConditioncmb.Items.Clear();
+                            BookConditioncmb.Items.Add(condition);
+                            BookConditioncmb.SelectedIndex = 0;
+                            BookConditioncmb.Text = condition;
                         }
                         else
                         {
+                            // Clear fields if no record found
                             BookTitle.Items.Clear();
-                            Source.Text = string.Empty; // clear text
+                            Source.Text = string.Empty;
+                            BookConditioncmb.Items.Clear();
                         }
                     }
                 }
             }
             else
             {
+                // Clear fields if input too short
                 BookTitle.Items.Clear();
                 Source.Text = string.Empty;
+                BookConditioncmb.Items.Clear();
             }
         }
+
 
 
 
@@ -1267,32 +1278,41 @@ Trust Server Certificate=True;";
             if (isbn.Length >= 4)
             {
                 string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
-                string query = "SELECT BookTitle, Source FROM BooksAcq WHERE ISBN = @ISBN";
+                string query = "SELECT BookTitle, Source, BookCondition FROM BooksAcq WHERE ISBN = @ISBN";
 
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@ISBN", isbn);
-
                         con.Open();
+
                         SqlDataReader reader = cmd.ExecuteReader();
 
                         if (reader.Read())
                         {
+                            // ✅ Book Title
                             string title = reader["BookTitle"].ToString();
                             BookTitle.Items.Clear();
                             BookTitle.Items.Add(title);
                             BookTitle.SelectedIndex = 0;
                             BookTitle.Text = title;
 
-                            string src = reader["Source"].ToString();
-                            Source.Text = src;
+                            // ✅ Source
+                            Source.Text = reader["Source"].ToString();
+
+                            // ✅ Book Condition
+                            string condition = reader["BookCondition"].ToString();
+                            BookConditioncmb.Items.Clear();
+                            BookConditioncmb.Items.Add(condition);
+                            BookConditioncmb.SelectedIndex = 0;
+                            BookConditioncmb.Text = condition;
                         }
                         else
                         {
                             BookTitle.Items.Clear();
                             Source.Text = string.Empty;
+                            BookConditioncmb.Items.Clear();
                         }
                     }
                 }
@@ -1301,8 +1321,10 @@ Trust Server Certificate=True;";
             {
                 BookTitle.Items.Clear();
                 Source.Text = string.Empty;
+                BookConditioncmb.Items.Clear();
             }
         }
+
 
         private void label4_Click(object sender, EventArgs e)
         {
@@ -1369,6 +1391,7 @@ Trust Server Certificate=True;";
                 ReturnBookQty.Items.Clear();
                 ReturnedBookID.Items.Clear();
                 ReturnBookStatus.Items.Clear();
+                CMBbookConditon.Items.Clear();
                 return;
             }
 
@@ -1416,7 +1439,6 @@ Trust Server Certificate=True;";
                             }
                             else
                             {
-                                // ❌ No record found
                                 MessageBox.Show("Student not found. Please check the Client ID.",
                                                 "Not Found",
                                                 MessageBoxButtons.OK,
@@ -1432,6 +1454,7 @@ Trust Server Certificate=True;";
                                 ReturnedBookID.Items.Clear();
                                 ReturnBookStatus.Items.Clear();
                                 ReturnPenalty.Clear();
+                                CMBbookConditon.Items.Clear();
                                 return;
                             }
                         }
@@ -1439,18 +1462,17 @@ Trust Server Certificate=True;";
 
                     // ✅ 2️⃣ Get Borrowed Books Info
                     string queryBorrow = @"
-                SELECT 
-                    ISBN,
-                    BookTitle,
-                    Status,
-                    Penalty,
-                    Quantity,
-                    IssueID,
-                    Source,
-                    ClientID
-                FROM IssueBooks
-                WHERE ClientID = @ClientID
-                  AND (Status = 'Issued' OR Status = 'Overdue')";
+            SELECT 
+                ISBN,
+                BookTitle,
+                Status,
+                Penalty,
+                Quantity,
+                IssueID,
+                Source
+            FROM IssueBooks
+            WHERE ClientID = @ClientID
+              AND (Status = 'Issued' OR Status = 'Overdue')";
 
                     using (SqlCommand cmdBorrow = new SqlCommand(queryBorrow, con))
                     {
@@ -1498,6 +1520,29 @@ Trust Server Certificate=True;";
                             ReturnPenalty.Text = totalPenalty.ToString("0.00");
                         }
                     }
+
+                    // ✅ 3️⃣ If there’s at least one borrowed book, fetch its BookCondition
+                    if (ReturnedBookID.Items.Count > 0)
+                    {
+                        string selectedISBN = ReturnedBookID.Items[0].ToString().Split('-')[0].Trim();
+
+                        string conditionQuery = "SELECT BookCondition FROM BooksAcq WHERE ISBN = @ISBN";
+                        using (SqlCommand cmdCond = new SqlCommand(conditionQuery, con))
+                        {
+                            cmdCond.Parameters.AddWithValue("@ISBN", selectedISBN);
+                            object condResult = cmdCond.ExecuteScalar();
+
+                            CMBbookConditon.Items.Clear();
+
+                            if (condResult != null)
+                            {
+                                string condition = condResult.ToString();
+                                CMBbookConditon.Items.Add(condition);
+                                CMBbookConditon.SelectedIndex = 0;
+                                CMBbookConditon.Text = condition;
+                            }
+                        }
+                    }
                 }
             }
             else
@@ -1505,7 +1550,6 @@ Trust Server Certificate=True;";
                 // Clear all if ClientID too short
                 ReturnClientName.Items.Clear();
                 ReturnPenalty.Clear();
-
                 if (ReturnRoleComboBox is ComboBox combo)
                     combo.Items.Clear();
                 else
@@ -1514,10 +1558,18 @@ Trust Server Certificate=True;";
                 ReturnBookQty.Items.Clear();
                 ReturnedBookID.Items.Clear();
                 ReturnBookStatus.Items.Clear();
+                CMBbookConditon.Items.Clear();
             }
         }
 
+
+
         private void ReturnBookQty_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RoleComboBox_Click(object sender, EventArgs e)
         {
 
         }
