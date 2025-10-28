@@ -741,6 +741,7 @@
             Margin = new Padding(3, 4, 3, 4);
             Name = "sign_in";
             Text = "sign_in";
+            Load += sign_in_Load;
             guna2CustomGradientPanel1.ResumeLayout(false);
             guna2CustomGradientPanel1.PerformLayout();
             guna2CustomGradientPanel2.ResumeLayout(false);

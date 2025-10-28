@@ -39,7 +39,7 @@ namespace LibraryCGC
                     return;
                 }
 
-              
+
 
                 // Convert image to byte array
                 byte[] imageBytes = ImageToByteArray(picProfile.Image);
@@ -111,9 +111,9 @@ namespace LibraryCGC
             picProfile.Image = null;
         }
 
-        
 
-     
+
+
 
         private void guna2CustomGradientPanel2_Paint(object sender, PaintEventArgs e)
         {
@@ -156,6 +156,11 @@ namespace LibraryCGC
             {
                 MessageBox.Show($"Error loading image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void sign_in_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
