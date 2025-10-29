@@ -362,7 +362,7 @@ Trust Server Certificate=True;
             overdueTimer.Interval = 1000; // every 1 sec (adjust as you like)
             overdueTimer.Tick += overdueTimer_Tick;
             overdueTimer.Start();
-
+            StyleDataGrid(returnDatagrid);
 
             UpdateTotalOverdueLabel();
 
@@ -1562,6 +1562,59 @@ Trust Server Certificate=True;";
             }
         }
 
+        private void StyleDataGrid(DataGridView dgv) // dgv usable method for styling any datagridviewvvvvvvvvvvvvvvvvvvvvvvvvv
+        {
+            // 🧭 General layout
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.MultiSelect = false;
+            dgv.BackgroundColor = Color.White;
+            dgv.EnableHeadersVisualStyles = false;
+            dgv.GridColor = Color.LightGray;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+
+            // 🧱 Header style
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv.ColumnHeadersHeight = 42;
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+
+            // 📘 Row style — add padding and center vertically
+            dgv.DefaultCellStyle.BackColor = Color.White;
+            dgv.DefaultCellStyle.ForeColor = Color.Black;
+            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
+            dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+            dgv.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+
+            // ✨ Center vertically + top & bottom padding (8px total)
+            dgv.DefaultCellStyle.Padding = new Padding(5, 6, 5, 6); // left, top, right, bottom
+            dgv.RowTemplate.Height = 38; // Adjust height for padding
+
+            // 🪶 Alternating row style
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
+            dgv.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
+            dgv.AlternatingRowsDefaultCellStyle.Padding = new Padding(5, 6, 5, 6);
+
+            if (dgv is Guna.UI2.WinForms.Guna2DataGridView gunaGrid)
+            {
+                gunaGrid.ThemeStyle.AlternatingRowsStyle.BackColor = Color.FromArgb(250, 250, 250);
+                gunaGrid.ThemeStyle.RowsStyle.BackColor = Color.White;
+                gunaGrid.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(240, 240, 240);
+                gunaGrid.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+                gunaGrid.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
+            }
+
+
+        }
 
 
         private void ReturnBookQty_SelectedIndexChanged(object sender, EventArgs e)

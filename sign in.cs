@@ -26,7 +26,7 @@ namespace LibraryCGC
         {
             try
             {
-                // Validate
+                // === VALIDATION ===
                 if (txtPassword.Text != txtConfirmPassword.Text)
                 {
                     MessageBox.Show("Passwords do not match!", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -39,43 +39,69 @@ namespace LibraryCGC
                     return;
                 }
 
-
-
                 // Convert image to byte array
                 byte[] imageBytes = ImageToByteArray(picProfile.Image);
 
-                string query = @"
-                    INSERT INTO Employees 
-                    (EmployeeCode, FirstName, LastName, Department, Position, PhoneNumber, EmailAddress, Username, Password, ProfileImage)
-                    VALUES 
-                    (@EmployeeCode, @FirstName, @LastName, @Department, @Position, @PhoneNumber, @EmailAddress, @Username, @Password, @ProfileImage)";
-
                 using (SqlConnection conn = new SqlConnection(connectionString))
-                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@EmployeeCode", txtEmployeeID.Text);
-                    cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text);
-                    cmd.Parameters.AddWithValue("@LastName", txtLastName.Text);
-                    cmd.Parameters.AddWithValue("@Department", txtDepartment.Text);
-                    cmd.Parameters.AddWithValue("@Position", txtPosition.Text);
-                    cmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNumber.Text);
-                    cmd.Parameters.AddWithValue("@EmailAddress", txtEmail.Text);
-                    cmd.Parameters.AddWithValue("@Username", txtUsername.Text);
-                    cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
-
-                    cmd.Parameters.AddWithValue("@ProfileImage", imageBytes);
-
                     conn.Open();
-                    int rows = cmd.ExecuteNonQuery();
 
-                    if (rows > 0)
+                    // === SPECIFIC DUPLICATE CHECK ===
+                    string checkQuery = @"
+                SELECT 
+                    CASE 
+                        WHEN EXISTS (SELECT 1 FROM Employees WHERE EmployeeCode = @EmployeeCode) THEN 'Employee Code'
+                        WHEN EXISTS (SELECT 1 FROM Employees WHERE Username = @Username) THEN 'Username'
+                        WHEN EXISTS (SELECT 1 FROM Employees WHERE EmailAddress = @EmailAddress) THEN 'Email Address'
+                        ELSE NULL
+                    END AS DuplicateField";
+
+                    using (SqlCommand checkCmd = new SqlCommand(checkQuery, conn))
                     {
-                        MessageBox.Show("Employee registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ClearForm();
-                        REGISTER rEGISTER = new REGISTER();
-                        rEGISTER.Show();
-                        this.Hide();
+                        checkCmd.Parameters.AddWithValue("@EmployeeCode", txtEmployeeID.Text);
+                        checkCmd.Parameters.AddWithValue("@Username", txtUsername.Text);
+                        checkCmd.Parameters.AddWithValue("@EmailAddress", txtEmail.Text);
 
+                        object duplicateField = checkCmd.ExecuteScalar();
+
+                        if (duplicateField != DBNull.Value && duplicateField != null)
+                        {
+                            MessageBox.Show($"{duplicateField} already exists!", "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+
+                    // === INSERT NEW EMPLOYEE ===
+                    string query = @"
+                INSERT INTO Employees 
+                (EmployeeCode, FirstName, LastName, Department, Position, PhoneNumber, EmailAddress, Username, Password, ProfileImage)
+                VALUES 
+                (@EmployeeCode, @FirstName, @LastName, @Department, @Position, @PhoneNumber, @EmailAddress, @Username, @Password, @ProfileImage)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@EmployeeCode", txtEmployeeID.Text);
+                        cmd.Parameters.AddWithValue("@FirstName", txtFirstName.Text);
+                        cmd.Parameters.AddWithValue("@LastName", txtLastName.Text);
+                        cmd.Parameters.AddWithValue("@Department", txtDepartment.Text);
+                        cmd.Parameters.AddWithValue("@Position", txtPosition.Text);
+                        cmd.Parameters.AddWithValue("@PhoneNumber", txtPhoneNumber.Text);
+                        cmd.Parameters.AddWithValue("@EmailAddress", txtEmail.Text);
+                        cmd.Parameters.AddWithValue("@Username", txtUsername.Text);
+                        cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
+                        cmd.Parameters.AddWithValue("@ProfileImage", imageBytes);
+
+                        int rows = cmd.ExecuteNonQuery();
+
+                        if (rows > 0)
+                        {
+                            MessageBox.Show("Employee registered successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ClearForm();
+
+                            REGISTER registerForm = new REGISTER();
+                            registerForm.Show();
+                            this.Hide();
+                        }
                     }
                 }
             }
@@ -84,6 +110,8 @@ namespace LibraryCGC
                 MessageBox.Show($"Error: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         // 🖼 Convert Image to Byte Array
         private byte[] ImageToByteArray(Image image)
@@ -159,6 +187,11 @@ namespace LibraryCGC
         }
 
         private void sign_in_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void guna2CustomGradientPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
