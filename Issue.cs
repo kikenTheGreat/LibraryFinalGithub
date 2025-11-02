@@ -20,7 +20,7 @@ namespace LibraryCGC
 
     public partial class Issue : Form
     {
-
+        private int currentEmployeeID;
 
 
         public Issue()
@@ -29,16 +29,14 @@ namespace LibraryCGC
             LoadIssueBooks(); // Refresh DataGridView
             SetupBorrowListGrid(); // Setup borrow list grid
             LoadReturnedBooks();
-
-
-
-
-
-
         }
         private List<(string ISBN, string BookTitle, string Source, string BookCondition)> borrowList = new List<(string, string, string, string)>();
 
-
+        public Issue(int employeeId)
+        {
+            InitializeComponent();
+            currentEmployeeID = employeeId;
+        }
 
 
 
@@ -567,9 +565,15 @@ private void btnAddToList_Click_1(object sender, EventArgs e)
 
         // ✅ Database duplicate check
         string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"; // ← Replace with your actual connection string
-        string query = "SELECT COUNT(*) FROM IssueBooks WHERE ClientID = @ClientID AND ISBN = @ISBN AND Status = 'Issued' OR Status = 'Report filed by librarian' ";
+            string query = @"
+    SELECT COUNT(*) 
+    FROM IssueBooks 
+    WHERE ClientID = @ClientID 
+      AND ISBN = @ISBN 
+      AND (Status = 'Issued' OR Status = 'Report filed by librarian')";
 
-        using (SqlConnection conn = new SqlConnection(connectionString))
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
         using (SqlCommand cmd = new SqlCommand(query, conn))
         {
             cmd.Parameters.AddWithValue("@ClientID", ClientID.Text.Trim());
@@ -583,6 +587,8 @@ private void btnAddToList_Click_1(object sender, EventArgs e)
             {
                 MessageBox.Show("This client has already borrowed this book and it is still marked as 'Issued' or Report filed by librarian.",
                     "Already Borrowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ClearField();
+
                 return;
             }
         }
@@ -1454,7 +1460,42 @@ ORDER BY IssueDate DESC";
                         string issuedCond = issuedCondition.Text.Trim();
                         string returnedCond = returnCondition.Text.Trim();
 
-                        if (issuedCond != returnedCond)
+
+                        // Normalize to lowercase to avoid case sensitivity issues
+                        string issued = issuedCond.Trim().ToLower();
+                        string returned = returnedCond.Trim().ToLower();
+
+                        // Define condition hierarchy (worst → best)
+                        List<string> conditionRank = new List<string>
+{
+    "lost",
+    "major damage",
+    "minor damage",
+    "good condition",
+    "new"
+};
+
+                        // ✅ Check if returned condition is better than issued condition
+                        if (conditionRank.Contains(issued) && conditionRank.Contains(returned))
+                        {
+                            int issuedIndex = conditionRank.IndexOf(issued);
+                            int returnedIndex = conditionRank.IndexOf(returned);
+
+                            // If returned is better (higher index → better)
+                            if (returnedIndex > issuedIndex)
+                            {
+                                MessageBox.Show(
+                                    "Returned condition cannot be better than the issued condition.\nPlease check the entered condition.",
+                                    "Invalid Condition",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning
+                                );
+                                return; // ❌ Stop processing completely
+                            }
+                        }
+
+                        // ✅ Existing mismatch check (still runs if condition worsened)
+                        if (issued != returned)
                         {
                             DialogResult result = MessageBox.Show(
                                 "Book condition does not match the issued condition. Do you want to create a damage report?",
@@ -1468,17 +1509,20 @@ ORDER BY IssueDate DESC";
                                 // ✅ ROLLBACK TRANSACTION - Don't process the return
                                 transaction.Rollback();
 
-                                // ✅ Create the damage report form and pass the CURRENT values dynamically
-                                DamagedBookReport damageForm = new DamagedBookReport();
-                                damageForm.StartPosition = FormStartPosition.CenterScreen;
-                                damageForm.PreClientID = ReturnClientID.Text.Trim();
-                                damageForm.PreISBN = isbn;
-                                damageForm.PreBookTitle = bookTitle;
+                                // ✅ Open the damage report form with dynamic data
+                                DamagedBookReport damageForm = new DamagedBookReport
+                                {
+                                    StartPosition = FormStartPosition.CenterScreen,
+                                    PreClientID = ReturnClientID.Text.Trim(),
+                                    PreISBN = isbn,
+                                    PreBookTitle = bookTitle
+                                };
                                 damageForm.Show();
 
-                                // ✅ EXIT THE METHOD - Stop processing return
+                                // ✅ EXIT - Stop processing
                                 return;
-                            }else if (result == DialogResult.No)
+                            }
+                            else if (result == DialogResult.No)
                             {
                                 return;
                             }
@@ -1992,8 +2036,9 @@ Trust Server Certificate=True;";
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            DamagedBookReport damagedBookReport = new DamagedBookReport();
-            damagedBookReport.Show();
+            DamagedBookReport report = new DamagedBookReport(currentEmployeeID);
+            report.Show();
+
             this.Hide();
         }
 

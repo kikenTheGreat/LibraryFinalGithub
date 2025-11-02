@@ -15,9 +15,12 @@ namespace Library_Final
 {
     public partial class DamagedBookReport : Form
     {
+        private int currentEmployeeID; // store logged-in user's ID
         public string PreClientID { get; set; }
         public string PreISBN { get; set; }
         public string PreBookTitle { get; set; }
+
+  
 
         // ✅ ADD THESE FLAGS
         private bool isUpdatingFields = false;
@@ -26,80 +29,45 @@ namespace Library_Final
         {
             InitializeComponent();
 
- 
-
-
         }
-        // ✅ Retrieve book info only when ISBN or ClientID is provided
-        private void AutoRetrieveFromIssueBooks()
+
+        public DamagedBookReport(int employeeId)
         {
-            if (string.IsNullOrWhiteSpace(txtISBN.Text) && string.IsNullOrWhiteSpace(txtClientID.Text))
-                return;
+            InitializeComponent();
+            currentEmployeeID = employeeId;
+            
+        }
 
-            try
+
+        private void LoadEmployeeFullName()
+        {
+            MessageBox.Show($"Debug: currentEmployeeID = {currentEmployeeID}");
+
+
+            string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
+        string query = "SELECT FirstName, LastName FROM Employees WHERE EmployeeID = @EmployeeID";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                using (SqlConnection con = new SqlConnection(
-                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;"))
+                cmd.Parameters.AddWithValue("@EmployeeID", currentEmployeeID);
+
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
                 {
-                    string query = @"
-                        SELECT TOP 1 
-                            ISBN,
-                            BookTitle,
-                            ClientID,
-                            BookCondition,
-                            Penalty AS FineAmount,
-                            GETDATE() AS ReportDate
-                        FROM IssueBooks
-                        WHERE 
-                            (ISBN = @ISBN OR ClientID = @ClientID)
-                            AND (Status = 'Issued' OR Status = 'Overdue')
-                        ORDER BY IssueDate DESC";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@ISBN", txtISBN.Text.Trim());
-                        cmd.Parameters.AddWithValue("@ClientID", txtClientID.Text.Trim());
-
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-
-                        if (reader.Read())
-                        {
-                            txtISBN.Text = reader["ISBN"].ToString();
-                            txtBookTitle.Text = reader["BookTitle"].ToString();
-                            txtClientID.Text = reader["ClientID"].ToString();
-                            cmbBookCondition.Text = reader["BookCondition"].ToString();
-
-                            // Fine amount
-                            decimal fine = 0;
-                            decimal.TryParse(reader["FineAmount"].ToString(), out fine);
-                            txtFineAmount.Text = fine.ToString("0.00");
-
-                            // Report date
-                            dtpReportDate.Value = Convert.ToDateTime(reader["ReportDate"]);
-
-                            // Default description if empty
-                            if (string.IsNullOrWhiteSpace(txtDamageDescription.Text))
-                                txtDamageDescription.Text = "Reported as damaged during return.";
-                        }
-                        else
-                        {
-                            MessageBox.Show("No issued record found for this Client ID or ISBN.",
-                                "No Record Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                    }
+                    string fullName = $"{reader["FirstName"]} {reader["LastName"]}";
+                    guna2ComboBox1.Items.Clear();
+                    guna2ComboBox1.Items.Add(fullName);
+                    guna2ComboBox1.SelectedIndex = 0; // show immediately
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error retrieving issued book details: " + ex.Message,
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                reader.Close();
             }
         }
 
-        // ✅ Auto-fill fields when typing ClientID
-        // ✅ Auto-fill fields when typing ClientID
-        // ✅ Auto-fill all fields including Borrower Name when typing ClientID
+
         // ✅ Auto-fill all fields when typing ClientID
         private void RetrieveBookInfoByClientID()
         {
@@ -318,10 +286,10 @@ namespace Library_Final
 
                     // ✅ Insert into DamagedBooks
                     string insertQuery = @"
-                INSERT INTO DamagedBooks 
-                    (ISBN, Title, BookCondition, DamageDescription, ReportDate, FineAmount, ClientID)
-                VALUES 
-                    (@ISBN, @Title, @BookCondition, @DamageDescription, @ReportDate, @FineAmount, @ClientID)";
+INSERT INTO DamagedBooks 
+    (ISBN, Title, BookCondition, DamageDescription, ReportDate, FineAmount, ClientID, ReportedByEmployeeID, ReportedByName)
+VALUES 
+    (@ISBN, @Title, @BookCondition, @DamageDescription, @ReportDate, @FineAmount, @ClientID, @ReportedByEmployeeID, @ReportedByName)";
 
                     using (SqlCommand cmd = new SqlCommand(insertQuery, con))
                     {
@@ -331,6 +299,9 @@ namespace Library_Final
                         cmd.Parameters.AddWithValue("@DamageDescription", txtDamageDescription.Text.Trim());
                         cmd.Parameters.AddWithValue("@ReportDate", dtpReportDate.Value);
                         cmd.Parameters.AddWithValue("@ClientID", clientID);
+                        cmd.Parameters.AddWithValue("@ReportedByEmployeeID", currentEmployeeID);
+                        cmd.Parameters.AddWithValue("@ReportedByName", guna2ComboBox1.Text);
+
 
                         decimal fine = 0;
                         decimal.TryParse(txtFineAmount.Text, out fine);
@@ -484,20 +455,9 @@ namespace Library_Final
 
         private void DamagedBookReport_Load(object sender, EventArgs e)
         {
-
+            LoadEmployeeFullName();
             // ✅ ADD THIS DEBUGGING
-            MessageBox.Show($"PreClientID value: '{PreClientID}'\ntxtClientID.Text value: '{txtClientID.Text}'",
-                            "DEBUG: Load Event");
-
-            if (string.IsNullOrEmpty(txtClientID.Text))
-            {
-                if (!string.IsNullOrEmpty(PreClientID))
-                {
-                    MessageBox.Show($"Setting txtClientID to PreClientID: {PreClientID}", "DEBUG");
-                    txtClientID.Text = PreClientID;
-                }
-            }
-
+       
 
             //end of deletion
 
@@ -528,6 +488,11 @@ namespace Library_Final
            });
 
             cmbReturnBookCondition.SelectedIndex = 0;
+
+
+        
+
+
         }
 
 

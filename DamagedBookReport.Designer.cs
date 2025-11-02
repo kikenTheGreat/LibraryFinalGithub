@@ -63,6 +63,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             label25 = new Label();
             label1 = new Label();
             sda = new Label();
@@ -92,6 +94,8 @@
             cmbReturnBookCondition = new Guna.UI2.WinForms.Guna2ComboBox();
             txtStatus = new Guna.UI2.WinForms.Guna2TextBox();
             label9 = new Label();
+            asd = new Label();
+            guna2ComboBox1 = new Guna.UI2.WinForms.Guna2ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvDamageReports).BeginInit();
             SuspendLayout();
             // 
@@ -619,11 +623,40 @@
             label9.TabIndex = 70;
             label9.Text = "Status";
             // 
+            // asd
+            // 
+            asd.AutoSize = true;
+            asd.Font = new Font("Sans Serif Collection", 7.799999F);
+            asd.Location = new Point(549, 658);
+            asd.Name = "asd";
+            asd.Size = new Size(90, 44);
+            asd.TabIndex = 72;
+            asd.Text = "ReportedBy";
+            // 
+            // guna2ComboBox1
+            // 
+            guna2ComboBox1.BackColor = Color.Transparent;
+            guna2ComboBox1.CustomizableEdges = customizableEdges33;
+            guna2ComboBox1.DrawMode = DrawMode.OwnerDrawFixed;
+            guna2ComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            guna2ComboBox1.FocusedColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2ComboBox1.Font = new Font("Segoe UI", 10F);
+            guna2ComboBox1.ForeColor = Color.FromArgb(68, 88, 112);
+            guna2ComboBox1.ItemHeight = 30;
+            guna2ComboBox1.Location = new Point(557, 694);
+            guna2ComboBox1.Name = "guna2ComboBox1";
+            guna2ComboBox1.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            guna2ComboBox1.Size = new Size(175, 36);
+            guna2ComboBox1.TabIndex = 73;
+            // 
             // DamagedBookReport
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(guna2ComboBox1);
+            Controls.Add(asd);
             Controls.Add(label9);
             Controls.Add(txtStatus);
             Controls.Add(cmbReturnBookCondition);
@@ -692,5 +725,7 @@
         private Guna.UI2.WinForms.Guna2ComboBox cmbReturnBookCondition;
         private Guna.UI2.WinForms.Guna2TextBox txtStatus;
         private Label label9;
+        private Label asd;
+        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox1;
     }
 }

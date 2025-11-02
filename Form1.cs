@@ -453,9 +453,10 @@ Trust Server Certificate=True;
 
         private void arthanPanel15_Click(object sender, EventArgs e)
         {
-            Issue i = new Issue();
-            i.Show();
+            Issue issueForm = new Issue(currentEmployeeID);
+            issueForm.Show();
             this.Hide();
+
         }
 
         private void arthanButton2_Click_1(object sender, EventArgs e)
