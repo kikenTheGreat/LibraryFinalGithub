@@ -35,60 +35,62 @@
 
         {
             components = new System.ComponentModel.Container();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges41 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges43 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges47 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges48 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges49 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges50 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges51 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges52 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges53 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges54 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges55 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges56 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges57 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges58 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges59 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges60 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges61 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges62 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges63 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges64 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges65 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges66 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges67 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges68 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges69 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges70 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges71 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges72 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges73 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges74 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges75 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges76 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges77 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges78 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges79 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges80 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges81 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges82 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges83 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges84 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges85 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges86 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges87 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges88 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges89 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges90 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges91 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges92 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges93 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges94 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges95 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges96 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Issue));
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             kupal = new LibraryCGC.Components.ArthanPanel();
-            BookConditioncmb = new Guna.UI2.WinForms.Guna2ComboBox();
+            issuedCondition = new Guna.UI2.WinForms.Guna2ComboBox();
             label17 = new Label();
             IssueRole = new Guna.UI2.WinForms.Guna2ComboBox();
             RoleComboBox = new Label();
@@ -115,6 +117,8 @@
             label5 = new Label();
             panelReturnBooks = new Panel();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            label18 = new Label();
+            returnCondition = new Guna.UI2.WinForms.Guna2ComboBox();
             label12 = new Label();
             ReturnRoleComboBox = new Guna.UI2.WinForms.Guna2ComboBox();
             ReturnDate = new Guna.UI2.WinForms.Guna2TextBox();
@@ -175,7 +179,7 @@
             kupal.BackColor = Color.Transparent;
             kupal.BottomLeftRadius = 15;
             kupal.BottomRightRadius = 15;
-            kupal.Controls.Add(BookConditioncmb);
+            kupal.Controls.Add(issuedCondition);
             kupal.Controls.Add(label17);
             kupal.Controls.Add(IssueRole);
             kupal.Controls.Add(RoleComboBox);
@@ -219,25 +223,25 @@
             kupal.TopRightRadius = 15;
             kupal.UseIndividualCorners = false;
             // 
-            // BookConditioncmb
+            // issuedCondition
             // 
-            BookConditioncmb.BackColor = Color.Transparent;
-            BookConditioncmb.BorderRadius = 4;
-            BookConditioncmb.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            BookConditioncmb.BorderThickness = 2;
-            BookConditioncmb.CustomizableEdges = customizableEdges49;
-            BookConditioncmb.DrawMode = DrawMode.OwnerDrawFixed;
-            BookConditioncmb.DropDownStyle = ComboBoxStyle.DropDownList;
-            BookConditioncmb.FocusedColor = Color.FromArgb(94, 148, 255);
-            BookConditioncmb.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            BookConditioncmb.Font = new Font("Segoe UI", 10F);
-            BookConditioncmb.ForeColor = Color.FromArgb(68, 88, 112);
-            BookConditioncmb.ItemHeight = 30;
-            BookConditioncmb.Location = new Point(11, 499);
-            BookConditioncmb.Name = "BookConditioncmb";
-            BookConditioncmb.ShadowDecoration.CustomizableEdges = customizableEdges50;
-            BookConditioncmb.Size = new Size(344, 36);
-            BookConditioncmb.TabIndex = 48;
+            issuedCondition.BackColor = Color.Transparent;
+            issuedCondition.BorderRadius = 4;
+            issuedCondition.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            issuedCondition.BorderThickness = 2;
+            issuedCondition.CustomizableEdges = customizableEdges1;
+            issuedCondition.DrawMode = DrawMode.OwnerDrawFixed;
+            issuedCondition.DropDownStyle = ComboBoxStyle.DropDownList;
+            issuedCondition.FocusedColor = Color.FromArgb(94, 148, 255);
+            issuedCondition.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            issuedCondition.Font = new Font("Segoe UI", 10F);
+            issuedCondition.ForeColor = Color.FromArgb(68, 88, 112);
+            issuedCondition.ItemHeight = 30;
+            issuedCondition.Location = new Point(11, 499);
+            issuedCondition.Name = "issuedCondition";
+            issuedCondition.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            issuedCondition.Size = new Size(344, 36);
+            issuedCondition.TabIndex = 48;
             // 
             // label17
             // 
@@ -252,7 +256,7 @@
             // IssueRole
             // 
             IssueRole.BackColor = Color.Transparent;
-            IssueRole.CustomizableEdges = customizableEdges51;
+            IssueRole.CustomizableEdges = customizableEdges3;
             IssueRole.DrawMode = DrawMode.OwnerDrawFixed;
             IssueRole.DropDownStyle = ComboBoxStyle.DropDownList;
             IssueRole.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -262,7 +266,7 @@
             IssueRole.ItemHeight = 30;
             IssueRole.Location = new Point(15, 560);
             IssueRole.Name = "IssueRole";
-            IssueRole.ShadowDecoration.CustomizableEdges = customizableEdges52;
+            IssueRole.ShadowDecoration.CustomizableEdges = customizableEdges4;
             IssueRole.Size = new Size(341, 36);
             IssueRole.TabIndex = 46;
             // 
@@ -282,7 +286,7 @@
             dueDate.BackColor = Color.White;
             dueDate.BorderRadius = 5;
             dueDate.Checked = true;
-            dueDate.CustomizableEdges = customizableEdges53;
+            dueDate.CustomizableEdges = customizableEdges5;
             dueDate.FillColor = Color.White;
             dueDate.Font = new Font("Segoe UI", 9F);
             dueDate.Format = DateTimePickerFormat.Long;
@@ -290,7 +294,7 @@
             dueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dueDate.Name = "dueDate";
-            dueDate.ShadowDecoration.CustomizableEdges = customizableEdges54;
+            dueDate.ShadowDecoration.CustomizableEdges = customizableEdges6;
             dueDate.Size = new Size(341, 45);
             dueDate.TabIndex = 39;
             dueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
@@ -311,7 +315,7 @@
             ISBN.BorderRadius = 4;
             ISBN.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ISBN.BorderThickness = 2;
-            ISBN.CustomizableEdges = customizableEdges55;
+            ISBN.CustomizableEdges = customizableEdges7;
             ISBN.DefaultText = "";
             ISBN.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             ISBN.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -325,7 +329,7 @@
             ISBN.Name = "ISBN";
             ISBN.PlaceholderText = "";
             ISBN.SelectedText = "";
-            ISBN.ShadowDecoration.CustomizableEdges = customizableEdges56;
+            ISBN.ShadowDecoration.CustomizableEdges = customizableEdges8;
             ISBN.Size = new Size(344, 39);
             ISBN.TabIndex = 43;
             ISBN.TextChanged += ISBN_TextChanged;
@@ -336,7 +340,7 @@
             Source.BorderRadius = 4;
             Source.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Source.BorderThickness = 2;
-            Source.CustomizableEdges = customizableEdges57;
+            Source.CustomizableEdges = customizableEdges9;
             Source.DefaultText = "";
             Source.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Source.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -350,7 +354,7 @@
             Source.Name = "Source";
             Source.PlaceholderText = "";
             Source.SelectedText = "";
-            Source.ShadowDecoration.CustomizableEdges = customizableEdges58;
+            Source.ShadowDecoration.CustomizableEdges = customizableEdges10;
             Source.Size = new Size(344, 39);
             Source.TabIndex = 42;
             // 
@@ -360,7 +364,7 @@
             Status.BorderRadius = 4;
             Status.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Status.BorderThickness = 2;
-            Status.CustomizableEdges = customizableEdges59;
+            Status.CustomizableEdges = customizableEdges11;
             Status.DrawMode = DrawMode.OwnerDrawFixed;
             Status.DropDownStyle = ComboBoxStyle.DropDownList;
             Status.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -370,7 +374,7 @@
             Status.ItemHeight = 30;
             Status.Location = new Point(12, 441);
             Status.Name = "Status";
-            Status.ShadowDecoration.CustomizableEdges = customizableEdges60;
+            Status.ShadowDecoration.CustomizableEdges = customizableEdges12;
             Status.Size = new Size(344, 36);
             Status.TabIndex = 38;
             // 
@@ -380,7 +384,7 @@
             BookTitle.BorderRadius = 4;
             BookTitle.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             BookTitle.BorderThickness = 2;
-            BookTitle.CustomizableEdges = customizableEdges61;
+            BookTitle.CustomizableEdges = customizableEdges13;
             BookTitle.DrawMode = DrawMode.OwnerDrawFixed;
             BookTitle.DropDownStyle = ComboBoxStyle.DropDownList;
             BookTitle.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -390,7 +394,7 @@
             BookTitle.ItemHeight = 30;
             BookTitle.Location = new Point(19, 313);
             BookTitle.Name = "BookTitle";
-            BookTitle.ShadowDecoration.CustomizableEdges = customizableEdges62;
+            BookTitle.ShadowDecoration.CustomizableEdges = customizableEdges14;
             BookTitle.Size = new Size(344, 36);
             BookTitle.TabIndex = 37;
             // 
@@ -400,7 +404,7 @@
             ClientID.BorderRadius = 4;
             ClientID.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ClientID.BorderThickness = 2;
-            ClientID.CustomizableEdges = customizableEdges63;
+            ClientID.CustomizableEdges = customizableEdges15;
             ClientID.DefaultText = "";
             ClientID.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             ClientID.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -414,7 +418,7 @@
             ClientID.Name = "ClientID";
             ClientID.PlaceholderText = "";
             ClientID.SelectedText = "";
-            ClientID.ShadowDecoration.CustomizableEdges = customizableEdges64;
+            ClientID.ShadowDecoration.CustomizableEdges = customizableEdges16;
             ClientID.Size = new Size(344, 39);
             ClientID.TabIndex = 33;
             ClientID.TextChanged += ClientID_TextChanged;
@@ -425,7 +429,7 @@
             ClientName.BorderRadius = 4;
             ClientName.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ClientName.BorderThickness = 2;
-            ClientName.CustomizableEdges = customizableEdges65;
+            ClientName.CustomizableEdges = customizableEdges17;
             ClientName.DrawMode = DrawMode.OwnerDrawFixed;
             ClientName.DropDownStyle = ComboBoxStyle.DropDownList;
             ClientName.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -435,7 +439,7 @@
             ClientName.ItemHeight = 30;
             ClientName.Location = new Point(19, 176);
             ClientName.Name = "ClientName";
-            ClientName.ShadowDecoration.CustomizableEdges = customizableEdges66;
+            ClientName.ShadowDecoration.CustomizableEdges = customizableEdges18;
             ClientName.Size = new Size(344, 36);
             ClientName.TabIndex = 35;
             // 
@@ -443,7 +447,7 @@
             // 
             btnConfirmBorrow.BorderRadius = 18;
             btnConfirmBorrow.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnConfirmBorrow.CustomizableEdges = customizableEdges67;
+            btnConfirmBorrow.CustomizableEdges = customizableEdges19;
             btnConfirmBorrow.DisabledState.BorderColor = Color.DarkGray;
             btnConfirmBorrow.DisabledState.CustomBorderColor = Color.DarkGray;
             btnConfirmBorrow.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -453,7 +457,7 @@
             btnConfirmBorrow.ForeColor = Color.Black;
             btnConfirmBorrow.Location = new Point(202, 773);
             btnConfirmBorrow.Name = "btnConfirmBorrow";
-            btnConfirmBorrow.ShadowDecoration.CustomizableEdges = customizableEdges68;
+            btnConfirmBorrow.ShadowDecoration.CustomizableEdges = customizableEdges20;
             btnConfirmBorrow.Size = new Size(157, 63);
             btnConfirmBorrow.TabIndex = 41;
             btnConfirmBorrow.Text = "Confirm";
@@ -463,7 +467,7 @@
             // 
             btnAddToList.BorderRadius = 18;
             btnAddToList.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnAddToList.CustomizableEdges = customizableEdges69;
+            btnAddToList.CustomizableEdges = customizableEdges21;
             btnAddToList.DisabledState.BorderColor = Color.DarkGray;
             btnAddToList.DisabledState.CustomBorderColor = Color.DarkGray;
             btnAddToList.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -473,7 +477,7 @@
             btnAddToList.ForeColor = Color.Black;
             btnAddToList.Location = new Point(27, 773);
             btnAddToList.Name = "btnAddToList";
-            btnAddToList.ShadowDecoration.CustomizableEdges = customizableEdges70;
+            btnAddToList.ShadowDecoration.CustomizableEdges = customizableEdges22;
             btnAddToList.Size = new Size(157, 63);
             btnAddToList.TabIndex = 40;
             btnAddToList.Text = "Add to List";
@@ -484,7 +488,7 @@
             issueDate.BackColor = Color.White;
             issueDate.BorderRadius = 5;
             issueDate.Checked = true;
-            issueDate.CustomizableEdges = customizableEdges71;
+            issueDate.CustomizableEdges = customizableEdges23;
             issueDate.FillColor = Color.White;
             issueDate.Font = new Font("Segoe UI", 9F);
             issueDate.Format = DateTimePickerFormat.Long;
@@ -492,7 +496,7 @@
             issueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             issueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             issueDate.Name = "issueDate";
-            issueDate.ShadowDecoration.CustomizableEdges = customizableEdges72;
+            issueDate.ShadowDecoration.CustomizableEdges = customizableEdges24;
             issueDate.Size = new Size(341, 45);
             issueDate.TabIndex = 35;
             issueDate.Value = new DateTime(2025, 10, 11, 23, 9, 32, 333);
@@ -630,7 +634,7 @@
             // panelReturnBooks
             // 
             panelReturnBooks.Controls.Add(arthanPanel1);
-            panelReturnBooks.Location = new Point(17, 147);
+            panelReturnBooks.Location = new Point(15, 76);
             panelReturnBooks.Name = "panelReturnBooks";
             panelReturnBooks.Size = new Size(421, 845);
             panelReturnBooks.TabIndex = 27;
@@ -640,6 +644,8 @@
             arthanPanel1.BackColor = Color.Transparent;
             arthanPanel1.BottomLeftRadius = 15;
             arthanPanel1.BottomRightRadius = 15;
+            arthanPanel1.Controls.Add(label18);
+            arthanPanel1.Controls.Add(returnCondition);
             arthanPanel1.Controls.Add(label12);
             arthanPanel1.Controls.Add(ReturnRoleComboBox);
             arthanPanel1.Controls.Add(ReturnDate);
@@ -682,11 +688,41 @@
             arthanPanel1.UseIndividualCorners = false;
             arthanPanel1.Paint += arthanPanel1_Paint;
             // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Font = new Font("Sans Serif Collection", 7.799999F);
+            label18.Location = new Point(15, 661);
+            label18.Name = "label18";
+            label18.Size = new Size(192, 44);
+            label18.TabIndex = 58;
+            label18.Text = "Book Condition before issued";
+            // 
+            // returnCondition
+            // 
+            returnCondition.BackColor = Color.Transparent;
+            returnCondition.BorderRadius = 4;
+            returnCondition.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            returnCondition.BorderThickness = 2;
+            returnCondition.CustomizableEdges = customizableEdges25;
+            returnCondition.DrawMode = DrawMode.OwnerDrawFixed;
+            returnCondition.DropDownStyle = ComboBoxStyle.DropDownList;
+            returnCondition.FocusedColor = Color.FromArgb(94, 148, 255);
+            returnCondition.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            returnCondition.Font = new Font("Segoe UI", 10F);
+            returnCondition.ForeColor = Color.FromArgb(68, 88, 112);
+            returnCondition.ItemHeight = 30;
+            returnCondition.Location = new Point(11, 708);
+            returnCondition.Name = "returnCondition";
+            returnCondition.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            returnCondition.Size = new Size(344, 36);
+            returnCondition.TabIndex = 57;
+            // 
             // label12
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Sans Serif Collection", 7.799999F);
-            label12.Location = new Point(19, 599);
+            label12.Location = new Point(16, 477);
             label12.Name = "label12";
             label12.Size = new Size(45, 44);
             label12.TabIndex = 56;
@@ -695,7 +731,7 @@
             // ReturnRoleComboBox
             // 
             ReturnRoleComboBox.BackColor = Color.Transparent;
-            ReturnRoleComboBox.CustomizableEdges = customizableEdges73;
+            ReturnRoleComboBox.CustomizableEdges = customizableEdges27;
             ReturnRoleComboBox.DrawMode = DrawMode.OwnerDrawFixed;
             ReturnRoleComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             ReturnRoleComboBox.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -703,9 +739,9 @@
             ReturnRoleComboBox.Font = new Font("Segoe UI", 10F);
             ReturnRoleComboBox.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnRoleComboBox.ItemHeight = 30;
-            ReturnRoleComboBox.Location = new Point(18, 634);
+            ReturnRoleComboBox.Location = new Point(15, 512);
             ReturnRoleComboBox.Name = "ReturnRoleComboBox";
-            ReturnRoleComboBox.ShadowDecoration.CustomizableEdges = customizableEdges74;
+            ReturnRoleComboBox.ShadowDecoration.CustomizableEdges = customizableEdges28;
             ReturnRoleComboBox.Size = new Size(341, 36);
             ReturnRoleComboBox.TabIndex = 45;
             // 
@@ -715,7 +751,7 @@
             ReturnDate.BorderRadius = 4;
             ReturnDate.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ReturnDate.BorderThickness = 2;
-            ReturnDate.CustomizableEdges = customizableEdges75;
+            ReturnDate.CustomizableEdges = customizableEdges29;
             ReturnDate.DefaultText = "";
             ReturnDate.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             ReturnDate.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -724,12 +760,12 @@
             ReturnDate.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ReturnDate.Font = new Font("Segoe UI", 9F);
             ReturnDate.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ReturnDate.Location = new Point(22, 428);
+            ReturnDate.Location = new Point(18, 306);
             ReturnDate.Margin = new Padding(3, 4, 3, 4);
             ReturnDate.Name = "ReturnDate";
             ReturnDate.PlaceholderText = "";
             ReturnDate.SelectedText = "";
-            ReturnDate.ShadowDecoration.CustomizableEdges = customizableEdges76;
+            ReturnDate.ShadowDecoration.CustomizableEdges = customizableEdges30;
             ReturnDate.Size = new Size(344, 39);
             ReturnDate.TabIndex = 53;
             ReturnDate.TextChanged += guna2TextBox1_TextChanged;
@@ -740,7 +776,7 @@
             ReturnedBookID.BorderRadius = 4;
             ReturnedBookID.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ReturnedBookID.BorderThickness = 2;
-            ReturnedBookID.CustomizableEdges = customizableEdges77;
+            ReturnedBookID.CustomizableEdges = customizableEdges31;
             ReturnedBookID.DrawMode = DrawMode.OwnerDrawFixed;
             ReturnedBookID.DropDownStyle = ComboBoxStyle.DropDownList;
             ReturnedBookID.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -748,9 +784,9 @@
             ReturnedBookID.Font = new Font("Segoe UI", 10F);
             ReturnedBookID.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnedBookID.ItemHeight = 30;
-            ReturnedBookID.Location = new Point(22, 333);
+            ReturnedBookID.Location = new Point(18, 241);
             ReturnedBookID.Name = "ReturnedBookID";
-            ReturnedBookID.ShadowDecoration.CustomizableEdges = customizableEdges78;
+            ReturnedBookID.ShadowDecoration.CustomizableEdges = customizableEdges32;
             ReturnedBookID.Size = new Size(344, 36);
             ReturnedBookID.TabIndex = 52;
             // 
@@ -760,7 +796,7 @@
             ReturnBookQty.BorderRadius = 4;
             ReturnBookQty.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ReturnBookQty.BorderThickness = 2;
-            ReturnBookQty.CustomizableEdges = customizableEdges79;
+            ReturnBookQty.CustomizableEdges = customizableEdges33;
             ReturnBookQty.DrawMode = DrawMode.OwnerDrawFixed;
             ReturnBookQty.DropDownStyle = ComboBoxStyle.DropDownList;
             ReturnBookQty.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -768,9 +804,9 @@
             ReturnBookQty.Font = new Font("Segoe UI", 10F);
             ReturnBookQty.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnBookQty.ItemHeight = 30;
-            ReturnBookQty.Location = new Point(21, 266);
+            ReturnBookQty.Location = new Point(17, 189);
             ReturnBookQty.Name = "ReturnBookQty";
-            ReturnBookQty.ShadowDecoration.CustomizableEdges = customizableEdges80;
+            ReturnBookQty.ShadowDecoration.CustomizableEdges = customizableEdges34;
             ReturnBookQty.Size = new Size(344, 36);
             ReturnBookQty.TabIndex = 50;
             ReturnBookQty.SelectedIndexChanged += ReturnBookQty_SelectedIndexChanged;
@@ -781,7 +817,7 @@
             ReturnPenalty.BorderRadius = 4;
             ReturnPenalty.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ReturnPenalty.BorderThickness = 2;
-            ReturnPenalty.CustomizableEdges = customizableEdges81;
+            ReturnPenalty.CustomizableEdges = customizableEdges35;
             ReturnPenalty.DefaultText = "";
             ReturnPenalty.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             ReturnPenalty.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -790,12 +826,12 @@
             ReturnPenalty.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ReturnPenalty.Font = new Font("Segoe UI", 9F);
             ReturnPenalty.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ReturnPenalty.Location = new Point(24, 570);
+            ReturnPenalty.Location = new Point(16, 438);
             ReturnPenalty.Margin = new Padding(3, 4, 3, 4);
             ReturnPenalty.Name = "ReturnPenalty";
             ReturnPenalty.PlaceholderText = "";
             ReturnPenalty.SelectedText = "";
-            ReturnPenalty.ShadowDecoration.CustomizableEdges = customizableEdges82;
+            ReturnPenalty.ShadowDecoration.CustomizableEdges = customizableEdges36;
             ReturnPenalty.Size = new Size(344, 39);
             ReturnPenalty.TabIndex = 46;
             // 
@@ -805,7 +841,7 @@
             CMBbookConditon.BorderRadius = 4;
             CMBbookConditon.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             CMBbookConditon.BorderThickness = 2;
-            CMBbookConditon.CustomizableEdges = customizableEdges83;
+            CMBbookConditon.CustomizableEdges = customizableEdges37;
             CMBbookConditon.DrawMode = DrawMode.OwnerDrawFixed;
             CMBbookConditon.DropDownStyle = ComboBoxStyle.DropDownList;
             CMBbookConditon.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -813,11 +849,12 @@
             CMBbookConditon.Font = new Font("Segoe UI", 10F);
             CMBbookConditon.ForeColor = Color.FromArgb(68, 88, 112);
             CMBbookConditon.ItemHeight = 30;
-            CMBbookConditon.Location = new Point(21, 693);
+            CMBbookConditon.Location = new Point(18, 599);
             CMBbookConditon.Name = "CMBbookConditon";
-            CMBbookConditon.ShadowDecoration.CustomizableEdges = customizableEdges84;
+            CMBbookConditon.ShadowDecoration.CustomizableEdges = customizableEdges38;
             CMBbookConditon.Size = new Size(344, 36);
             CMBbookConditon.TabIndex = 45;
+            CMBbookConditon.SelectedIndexChanged += CMBbookConditon_SelectedIndexChanged;
             // 
             // ReturnBookStatus
             // 
@@ -825,7 +862,7 @@
             ReturnBookStatus.BorderRadius = 4;
             ReturnBookStatus.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ReturnBookStatus.BorderThickness = 2;
-            ReturnBookStatus.CustomizableEdges = customizableEdges85;
+            ReturnBookStatus.CustomizableEdges = customizableEdges39;
             ReturnBookStatus.DrawMode = DrawMode.OwnerDrawFixed;
             ReturnBookStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             ReturnBookStatus.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -833,9 +870,9 @@
             ReturnBookStatus.Font = new Font("Segoe UI", 10F);
             ReturnBookStatus.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnBookStatus.ItemHeight = 30;
-            ReturnBookStatus.Location = new Point(22, 506);
+            ReturnBookStatus.Location = new Point(14, 374);
             ReturnBookStatus.Name = "ReturnBookStatus";
-            ReturnBookStatus.ShadowDecoration.CustomizableEdges = customizableEdges86;
+            ReturnBookStatus.ShadowDecoration.CustomizableEdges = customizableEdges40;
             ReturnBookStatus.Size = new Size(344, 36);
             ReturnBookStatus.TabIndex = 43;
             // 
@@ -845,7 +882,7 @@
             ReturnClientID.BorderRadius = 4;
             ReturnClientID.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ReturnClientID.BorderThickness = 2;
-            ReturnClientID.CustomizableEdges = customizableEdges87;
+            ReturnClientID.CustomizableEdges = customizableEdges41;
             ReturnClientID.DefaultText = "";
             ReturnClientID.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             ReturnClientID.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -854,12 +891,12 @@
             ReturnClientID.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ReturnClientID.Font = new Font("Segoe UI", 9F);
             ReturnClientID.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ReturnClientID.Location = new Point(22, 99);
+            ReturnClientID.Location = new Point(17, 52);
             ReturnClientID.Margin = new Padding(3, 4, 3, 4);
             ReturnClientID.Name = "ReturnClientID";
             ReturnClientID.PlaceholderText = "";
             ReturnClientID.SelectedText = "";
-            ReturnClientID.ShadowDecoration.CustomizableEdges = customizableEdges88;
+            ReturnClientID.ShadowDecoration.CustomizableEdges = customizableEdges42;
             ReturnClientID.Size = new Size(344, 39);
             ReturnClientID.TabIndex = 33;
             ReturnClientID.TextChanged += ReturnClientID_TextChanged;
@@ -870,7 +907,7 @@
             ReturnClientName.BorderRadius = 4;
             ReturnClientName.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ReturnClientName.BorderThickness = 2;
-            ReturnClientName.CustomizableEdges = customizableEdges89;
+            ReturnClientName.CustomizableEdges = customizableEdges43;
             ReturnClientName.DrawMode = DrawMode.OwnerDrawFixed;
             ReturnClientName.DropDownStyle = ComboBoxStyle.DropDownList;
             ReturnClientName.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -878,9 +915,9 @@
             ReturnClientName.Font = new Font("Segoe UI", 10F);
             ReturnClientName.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnClientName.ItemHeight = 30;
-            ReturnClientName.Location = new Point(22, 184);
+            ReturnClientName.Location = new Point(14, 121);
             ReturnClientName.Name = "ReturnClientName";
-            ReturnClientName.ShadowDecoration.CustomizableEdges = customizableEdges90;
+            ReturnClientName.ShadowDecoration.CustomizableEdges = customizableEdges44;
             ReturnClientName.Size = new Size(344, 36);
             ReturnClientName.TabIndex = 35;
             // 
@@ -897,7 +934,7 @@
             // 
             label24.AutoSize = true;
             label24.Font = new Font("Sans Serif Collection", 7.799999F);
-            label24.Location = new Point(18, 403);
+            label24.Location = new Point(14, 281);
             label24.Name = "label24";
             label24.Size = new Size(105, 44);
             label24.TabIndex = 54;
@@ -908,7 +945,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Sans Serif Collection", 7.799999F);
-            label11.Location = new Point(18, 237);
+            label11.Location = new Point(14, 160);
             label11.Name = "label11";
             label11.Size = new Size(166, 44);
             label11.TabIndex = 48;
@@ -940,17 +977,17 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Sans Serif Collection", 7.799999F);
-            label13.Location = new Point(22, 664);
+            label13.Location = new Point(14, 557);
             label13.Name = "label13";
-            label13.Size = new Size(111, 44);
+            label13.Size = new Size(183, 44);
             label13.TabIndex = 47;
-            label13.Text = "Book Condition";
+            label13.Text = "Book Condition in returning";
             // 
             // label14
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Sans Serif Collection", 7.799999F);
-            label14.Location = new Point(19, 545);
+            label14.Location = new Point(11, 413);
             label14.Name = "label14";
             label14.Size = new Size(64, 44);
             label14.TabIndex = 44;
@@ -960,7 +997,7 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Sans Serif Collection", 7.799999F);
-            label15.Location = new Point(19, 481);
+            label15.Location = new Point(11, 349);
             label15.Name = "label15";
             label15.Size = new Size(57, 44);
             label15.TabIndex = 42;
@@ -970,7 +1007,7 @@
             // 
             ReturnButton.BorderRadius = 18;
             ReturnButton.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            ReturnButton.CustomizableEdges = customizableEdges91;
+            ReturnButton.CustomizableEdges = customizableEdges45;
             ReturnButton.DisabledState.BorderColor = Color.DarkGray;
             ReturnButton.DisabledState.CustomBorderColor = Color.DarkGray;
             ReturnButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -980,7 +1017,7 @@
             ReturnButton.ForeColor = Color.Black;
             ReturnButton.Location = new Point(116, 750);
             ReturnButton.Name = "ReturnButton";
-            ReturnButton.ShadowDecoration.CustomizableEdges = customizableEdges92;
+            ReturnButton.ShadowDecoration.CustomizableEdges = customizableEdges46;
             ReturnButton.Size = new Size(157, 63);
             ReturnButton.TabIndex = 41;
             ReturnButton.Text = "Confirm";
@@ -990,7 +1027,7 @@
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Sans Serif Collection", 7.799999F);
-            label25.Location = new Point(22, 70);
+            label25.Location = new Point(14, 15);
             label25.Name = "label25";
             label25.Size = new Size(68, 44);
             label25.TabIndex = 1;
@@ -1008,7 +1045,7 @@
             arthanPanel5.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel5.GradientEndColor = Color.FromArgb(252, 201, 71);
             arthanPanel5.GradientStartColor = Color.FromArgb(220, 38, 38);
-            arthanPanel5.Location = new Point(22, 59);
+            arthanPanel5.Location = new Point(24, 4);
             arthanPanel5.Margin = new Padding(3, 4, 3, 4);
             arthanPanel5.Name = "arthanPanel5";
             arthanPanel5.ShadowBlur = 0;
@@ -1046,7 +1083,7 @@
             // 
             label26.AutoSize = true;
             label26.Font = new Font("Sans Serif Collection", 7.799999F);
-            label26.Location = new Point(22, 150);
+            label26.Location = new Point(14, 87);
             label26.Name = "label26";
             label26.Size = new Size(91, 44);
             label26.TabIndex = 5;
@@ -1084,7 +1121,7 @@
             // 
             btnReturnBooks.BorderRadius = 18;
             btnReturnBooks.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnReturnBooks.CustomizableEdges = customizableEdges93;
+            btnReturnBooks.CustomizableEdges = customizableEdges47;
             btnReturnBooks.DisabledState.BorderColor = Color.DarkGray;
             btnReturnBooks.DisabledState.CustomBorderColor = Color.DarkGray;
             btnReturnBooks.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -1094,7 +1131,7 @@
             btnReturnBooks.ForeColor = Color.Black;
             btnReturnBooks.Location = new Point(548, 25);
             btnReturnBooks.Name = "btnReturnBooks";
-            btnReturnBooks.ShadowDecoration.CustomizableEdges = customizableEdges94;
+            btnReturnBooks.ShadowDecoration.CustomizableEdges = customizableEdges48;
             btnReturnBooks.Size = new Size(157, 63);
             btnReturnBooks.TabIndex = 44;
             btnReturnBooks.Text = "Return Books";
@@ -1104,7 +1141,7 @@
             // 
             btnIssueBooks.BorderRadius = 18;
             btnIssueBooks.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnIssueBooks.CustomizableEdges = customizableEdges95;
+            btnIssueBooks.CustomizableEdges = customizableEdges49;
             btnIssueBooks.DisabledState.BorderColor = Color.DarkGray;
             btnIssueBooks.DisabledState.CustomBorderColor = Color.DarkGray;
             btnIssueBooks.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -1114,7 +1151,7 @@
             btnIssueBooks.ForeColor = Color.Black;
             btnIssueBooks.Location = new Point(356, 25);
             btnIssueBooks.Name = "btnIssueBooks";
-            btnIssueBooks.ShadowDecoration.CustomizableEdges = customizableEdges96;
+            btnIssueBooks.ShadowDecoration.CustomizableEdges = customizableEdges50;
             btnIssueBooks.Size = new Size(157, 63);
             btnIssueBooks.TabIndex = 43;
             btnIssueBooks.Text = "Issue Books";
@@ -1262,7 +1299,7 @@
             // panelIssueBooks
             // 
             panelIssueBooks.Controls.Add(kupal);
-            panelIssueBooks.Location = new Point(17, 156);
+            panelIssueBooks.Location = new Point(12, 156);
             panelIssueBooks.Name = "panelIssueBooks";
             panelIssueBooks.Size = new Size(424, 848);
             panelIssueBooks.TabIndex = 25;
@@ -1295,26 +1332,26 @@
             // 
             // returnDatagrid
             // 
-            dataGridViewCellStyle4.BackColor = Color.White;
-            returnDatagrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(100, 88, 255);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            returnDatagrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            returnDatagrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            returnDatagrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             returnDatagrid.ColumnHeadersHeight = 4;
             returnDatagrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            returnDatagrid.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            returnDatagrid.DefaultCellStyle = dataGridViewCellStyle3;
             returnDatagrid.Dock = DockStyle.Fill;
             returnDatagrid.GridColor = Color.FromArgb(231, 229, 255);
             returnDatagrid.Location = new Point(0, 0);
@@ -1359,10 +1396,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
             Controls.Add(panelReturnBooks);
+            Controls.Add(panelIssueBooks);
             Controls.Add(PANELdataList);
             Controls.Add(ReturnPANEL);
             Controls.Add(panel1IssueDataGrid);
-            Controls.Add(panelIssueBooks);
             Controls.Add(arthanPanel7);
             Controls.Add(arthanPanel4);
             Margin = new Padding(3, 4, 3, 4);
@@ -1457,8 +1494,10 @@
         private Guna.UI2.WinForms.Guna2ComboBox ReturnRoleComboBox;
         private Guna.UI2.WinForms.Guna2ComboBox IssueRole;
         private Label label12;
-        private Guna.UI2.WinForms.Guna2ComboBox BookConditioncmb;
+        private Guna.UI2.WinForms.Guna2ComboBox issuedCondition;
         private Label label17;
+        private Guna.UI2.WinForms.Guna2ComboBox returnCondition;
+        private Label label18;
         // private Panel panelReturnBooks;
     }
 }

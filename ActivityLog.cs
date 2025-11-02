@@ -21,7 +21,7 @@ namespace Library_Final
         public ActivityLog()
         {
             InitializeComponent();
-            LoadLogs();
+    
 
             filterTimer.Interval = 500; // half a second
             filterTimer.Tick += (s, e) =>
@@ -35,7 +35,7 @@ namespace Library_Final
 
         private void ActivityLog_Load(object sender, EventArgs e)
         {
-            LoadLogs();
+           
             StyleDataGrid(DataGridActivity);
             LoadActivityLogs();
             LoadFilterOptions();
@@ -60,25 +60,33 @@ namespace Library_Final
             dtpTo.Value = DateTime.Today;
         }
 
+        // ---------------- LOAD ALL ACTIVITY LOGS ----------------
         private void LoadActivityLogs()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                string query = "SELECT * FROM ActivityLog ORDER BY Timestamp DESC";
-                SqlDataAdapter da = new SqlDataAdapter(query, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                DataGridActivity.DataSource = dt;
-            }
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM ActivityLog ORDER BY Timestamp DESC";
+                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    DataGridActivity.DataSource = dt;
+                }
 
-            // Format DataGridView
-            DataGridActivity.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            DataGridActivity.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            DataGridActivity.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                // ✅ Only format after data binding (columns now exist)
+                FormatDataGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading activity logs: " + ex.Message,
+                    "Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-        private void StyleDataGrid(DataGridView dgv) // dgv usable method for styling any datagridviewvvvvvvvvvvvvvvvvvvvvvvvvv
+
+        // ---------------- STYLE DATAGRID ----------------
+        private void StyleDataGrid(DataGridView dgv)
         {
-            // 🧭 General layout
             dgv.BorderStyle = BorderStyle.None;
             dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgv.RowHeadersVisible = false;
@@ -90,10 +98,9 @@ namespace Library_Final
             dgv.EnableHeadersVisualStyles = false;
             dgv.GridColor = Color.LightGray;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
 
-            // 🧱 Header style
+            // Header style
             dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
             dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
@@ -101,50 +108,34 @@ namespace Library_Final
             dgv.ColumnHeadersHeight = 42;
             dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 
-            // 📘 Row style — add padding and center vertically
+            // Row style
             dgv.DefaultCellStyle.BackColor = Color.White;
             dgv.DefaultCellStyle.ForeColor = Color.Black;
             dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
             dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             dgv.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv.DefaultCellStyle.Padding = new Padding(5, 6, 5, 6);
+            dgv.RowTemplate.Height = 38;
 
-            // ✨ Center vertically + top & bottom padding (8px total)
-            dgv.DefaultCellStyle.Padding = new Padding(5, 6, 5, 6); // left, top, right, bottom
-            dgv.RowTemplate.Height = 38; // Adjust height for padding
-
-            // 🪶 Alternating row style
             dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
             dgv.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
             dgv.AlternatingRowsDefaultCellStyle.Padding = new Padding(5, 6, 5, 6);
-
-            FormatDataGridView();
-
-            if (dgv is Guna.UI2.WinForms.Guna2DataGridView gunaGrid)
-            {
-                gunaGrid.ThemeStyle.AlternatingRowsStyle.BackColor = Color.FromArgb(250, 250, 250);
-                gunaGrid.ThemeStyle.RowsStyle.BackColor = Color.White;
-                gunaGrid.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(240, 240, 240);
-                gunaGrid.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-                gunaGrid.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
-            }
-
-
         }
 
+        // ---------------- SAFE DATAGRID FORMATTING ----------------
         private void FormatDataGridView()
         {
-            // Enable text wrapping for all cells
+            // Wrap text and autosize rows
             DataGridActivity.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            // Automatically adjust row heights based on content
             DataGridActivity.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            // Optionally adjust column sizing behavior
             DataGridActivity.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // You can also make only the Details column wrap
-            DataGridActivity.Columns["Details"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            // ✅ Safe check for column existence
+            if (DataGridActivity.Columns.Contains("Details"))
+            {
+                DataGridActivity.Columns["Details"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
         }
 
 
@@ -182,6 +173,7 @@ namespace Library_Final
         // ✅ NEW: Method to record activity (use this anywhere)
         // ✅ Static method to record any activity from anywhere in your system
         // ✅ Static method — can be called anywhere in the system
+        // ---------------- RECORD ACTIVITY ----------------
         public static void RecordActivity(string userName, string action, string module, string details)
         {
             string connectionString =
@@ -193,9 +185,8 @@ namespace Library_Final
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     string query = @"
-                        INSERT INTO ActivityLog (Timestamp, UserName, Action, Module, Details) 
+                        INSERT INTO ActivityLog (Timestamp, UserName, Action, Module, Details)
                         VALUES (@Timestamp, @UserName, @Action, @Module, @Details)";
-
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
@@ -203,7 +194,6 @@ namespace Library_Final
                         cmd.Parameters.AddWithValue("@Action", action ?? "No Action");
                         cmd.Parameters.AddWithValue("@Module", module ?? "Unknown Module");
                         cmd.Parameters.AddWithValue("@Details", details ?? "No Details");
-
                         conn.Open();
                         cmd.ExecuteNonQuery();
                     }
@@ -211,9 +201,8 @@ namespace Library_Final
             }
             catch (Exception ex)
             {
-                // Don’t break user flow — just notify silently
                 MessageBox.Show("Error recording activity: " + ex.Message,
-                                "Logging Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    "Logging Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -318,55 +307,60 @@ namespace Library_Final
             LoadActivityLogs();
         }
 
+        // ---------------- FILTER METHODS ----------------
         private void LoadFilteredActivityLogs()
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                string query = "SELECT * FROM ActivityLog WHERE 1=1";
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-
-                // Date Range
-                query += " AND Timestamp BETWEEN @From AND @To";
-                cmd.Parameters.AddWithValue("@From", dtpFrom.Value.Date);
-                cmd.Parameters.AddWithValue("@To", dtpTo.Value.Date.AddDays(1).AddSeconds(-1));
-
-                // Action Filter
-                if (cmbAction.Text != "All")
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    query += " AND Action = @Action";
-                    cmd.Parameters.AddWithValue("@Action", cmbAction.Text);
+                    string query = "SELECT * FROM ActivityLog WHERE 1=1";
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = conn;
+
+                    query += " AND Timestamp BETWEEN @From AND @To";
+                    cmd.Parameters.AddWithValue("@From", dtpFrom.Value.Date);
+                    cmd.Parameters.AddWithValue("@To", dtpTo.Value.Date.AddDays(1).AddSeconds(-1));
+
+                    if (cmbAction.Text != "All")
+                    {
+                        query += " AND Action = @Action";
+                        cmd.Parameters.AddWithValue("@Action", cmbAction.Text);
+                    }
+
+                    if (cmbModule.Text != "All")
+                    {
+                        query += " AND Module = @Module";
+                        cmd.Parameters.AddWithValue("@Module", cmbModule.Text);
+                    }
+
+                    if (!string.IsNullOrEmpty(txtUser.Text))
+                    {
+                        query += " AND UserName LIKE @UserName";
+                        cmd.Parameters.AddWithValue("@UserName", "%" + txtUser.Text + "%");
+                    }
+
+                    if (!string.IsNullOrEmpty(txtSearch.Text))
+                    {
+                        query += " AND Details LIKE @Search";
+                        cmd.Parameters.AddWithValue("@Search", "%" + txtSearch.Text + "%");
+                    }
+
+                    query += " ORDER BY Timestamp DESC";
+                    cmd.CommandText = query;
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    DataGridActivity.DataSource = dt;
                 }
 
-                // Module Filter
-                if (cmbModule.Text != "All")
-                {
-                    query += " AND Module = @Module";
-                    cmd.Parameters.AddWithValue("@Module", cmbModule.Text);
-                }
-
-                // User Filter
-                if (!string.IsNullOrEmpty(txtUser.Text))
-                {
-                    query += " AND UserName LIKE @UserName";
-                    cmd.Parameters.AddWithValue("@UserName", "%" + txtUser.Text + "%");
-                }
-
-                // Search Filter
-                if (!string.IsNullOrEmpty(txtSearch.Text))
-                {
-                    query += " AND Details LIKE @Search";
-                    cmd.Parameters.AddWithValue("@Search", "%" + txtSearch.Text + "%");
-                }
-
-                query += " ORDER BY Timestamp DESC";
-                cmd.CommandText = query;
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                DataGridActivity.DataSource = dt;
+                FormatDataGridView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error filtering logs: " + ex.Message,
+                    "Filter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

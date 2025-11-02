@@ -55,11 +55,11 @@ namespace LibraryCGC
             //Source Combobox fill
             Source.Items.AddRange(new string[] { "Purchased ", "Donate " });
             Source.SelectedIndex = 0;
-            BookConditioncmb.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged", "Lost" });
+            BookConditioncmb.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged" });
             BookConditioncmb.SelectedIndex = 0;
 
             //filtering combobox fill
-            BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged", "Lost" });
+            BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged"});
 
 
             cmbSource.DataSource = null;   // 👈 break data-binding

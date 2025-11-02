@@ -265,13 +265,13 @@ namespace LibraryCGC
                 double labelWidth = page.Width - margin * 2;
 
                 // --- Header ---
-                gfx.DrawString("CLIENT ID", fontHeader, XBrushes.Black,
+                gfx.DrawString("CGC Library System", fontHeader, XBrushes.Black,
                     new XRect(margin, margin, labelWidth, 10), XStringFormats.TopCenter);
 
                 // --- QR Code (centered) ---
                 double qrSize = XUnit.FromMillimeter(22); // slightly smaller to free vertical space
                 double qrX = (page.Width - qrSize) / 2;
-                double qrY = margin + 9;
+                double qrY = margin + 11;
 
                 using (MemoryStream ms = new MemoryStream())
                 {

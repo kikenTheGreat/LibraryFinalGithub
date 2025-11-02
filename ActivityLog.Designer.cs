@@ -262,7 +262,7 @@
             guna2ContextMenuStrip1.RenderStyle.SelectionForeColor = Color.White;
             guna2ContextMenuStrip1.RenderStyle.SeparatorColor = Color.Gainsboro;
             guna2ContextMenuStrip1.RenderStyle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            guna2ContextMenuStrip1.Size = new Size(61, 4);
+            guna2ContextMenuStrip1.Size = new Size(211, 32);
             // 
             // guna2HtmlLabel5
             // 

@@ -36,7 +36,8 @@ namespace LibraryCGC
 
 
         }
-        private List<(string ISBN, string BookTitle, string Source)> borrowList = new List<(string, string, string)>();
+        private List<(string ISBN, string BookTitle, string Source, string BookCondition)> borrowList = new List<(string, string, string, string)>();
+
 
 
 
@@ -346,6 +347,19 @@ Trust Server Certificate=True;
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
 
+         
+
+            // populate librarian's selectable condition list
+            returnCondition.Items.Clear();
+            returnCondition.Items.AddRange(new string[]
+            {
+    "Good",
+    "Minor Damaged",
+    "Damaged"
+            });
+
+            returnCondition.SelectedIndex = 0;
+
             // Prepare borrow list grid
             dgvBorrowList.Columns.Add("ISBN", "ISBN");
 
@@ -380,7 +394,7 @@ Trust Server Certificate=True;
 
 
 
-           
+
 
             LoadReturnedBooks();
 
@@ -451,17 +465,17 @@ Trust Server Certificate=True;
 
                             // ✅ Book Condition (new ComboBox)
                             string condition = reader["BookCondition"].ToString();
-                            BookConditioncmb.Items.Clear();
-                            BookConditioncmb.Items.Add(condition);
-                            BookConditioncmb.SelectedIndex = 0;
-                            BookConditioncmb.Text = condition;
+                            issuedCondition.Items.Clear();
+                            issuedCondition.Items.Add(condition);
+                            issuedCondition.SelectedIndex = 0;
+                            issuedCondition.Text = condition;
                         }
                         else
                         {
                             // Clear fields if no record found
                             BookTitle.Items.Clear();
                             Source.Text = string.Empty;
-                            BookConditioncmb.Items.Clear();
+                            issuedCondition.Items.Clear();
                         }
                     }
                 }
@@ -471,7 +485,7 @@ Trust Server Certificate=True;
                 // Clear fields if input too short
                 BookTitle.Items.Clear();
                 Source.Text = string.Empty;
-                BookConditioncmb.Items.Clear();
+                issuedCondition.Items.Clear();
             }
         }
 
@@ -488,7 +502,8 @@ Trust Server Certificate=True;
             }
 
             // Add to list
-            borrowList.Add((ISBN.Text, BookTitle.Text, Source.Text));
+            borrowList.Add((ISBN.Text, BookTitle.Text, Source.Text, issuedCondition.Text));
+
 
             if (dgvBorrowList.Columns.Count < 3)
             {
@@ -560,8 +575,9 @@ Trust Server Certificate=True;
 
                     // ✅ STEP 2: Insert query for IssueBooks
                     string insertQuery = @"INSERT INTO IssueBooks 
-               (ISBN, Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID)
-               VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID)";
+(ISBN, Status, StudentName, BookTitle, Source, IssueDate, DueDate, Quantity, ClientID, BookCondition)
+VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate, @Quantity, @ClientID, @BookCondition)";
+
                     foreach (var item in borrowList)
                     {
                         // ✅ STEP 3: Check available quantity first
@@ -597,6 +613,10 @@ Trust Server Certificate=True;
                             cmd.Parameters.AddWithValue("@DueDate", dueDateValue);
                             cmd.Parameters.AddWithValue("@Quantity", 1);
                             cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
+                            cmd.Parameters.AddWithValue("@BookCondition", item.BookCondition);
+
+
+
 
                             cmd.ExecuteNonQuery();
                         }
@@ -944,7 +964,7 @@ Trust Server Certificate=True;";
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
 
-                        if (reader.Read())
+                        if (reader.Read()) 
                         {
                             // 🧍 Fill Client Name
                             string name = reader["Name"].ToString();
@@ -1099,10 +1119,10 @@ Trust Server Certificate=True;";
         private void ReturnButton_Click(object sender, EventArgs e)
         {
             string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
-    Initial Catalog=LibraryDB;
-    Integrated Security=True;
-    Encrypt=True;
-    Trust Server Certificate=True;";
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;";
 
             if (ReturnedBookID.SelectedItem == null)
             {
@@ -1114,7 +1134,7 @@ Trust Server Certificate=True;";
             string isbn = selectedBook.Split('-')[0].Trim();
             string clientID = ReturnClientID.Text.Trim();
             string clientName = ReturnClientName.Text;
-            string clientType = ReturnRoleComboBox.Text; // get actual role if available
+            string clientType = ReturnRoleComboBox.Text;
             string bookTitle = selectedBook.Split('-').Length > 1 ? selectedBook.Split('-')[1].Trim() : "Unknown";
 
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -1130,13 +1150,14 @@ Trust Server Certificate=True;";
                     DateTime dueDate = DateTime.Now;
                     string source = "";
                     int quantity = 1;
+                    string issuedConditionFromDB = "";
 
                     string getIssueQuery = @"
-                SELECT TOP 1 IssueID, IssueDate, DueDate, Source, Quantity
-                FROM IssueBooks
-                WHERE ClientID = @ClientID AND ISBN = @ISBN
-                AND (Status = 'Issued' OR Status = 'Overdue')
-                ORDER BY IssueDate DESC";
+SELECT TOP 1 IssueID, IssueDate, DueDate, Source, Quantity, BookCondition
+FROM IssueBooks
+WHERE ClientID = @ClientID AND ISBN = @ISBN
+AND (Status = 'Issued' OR Status = 'Overdue')
+ORDER BY IssueDate DESC";
 
                     using (SqlCommand cmdGet = new SqlCommand(getIssueQuery, con, transaction))
                     {
@@ -1152,6 +1173,7 @@ Trust Server Certificate=True;";
                                 dueDate = Convert.ToDateTime(reader["DueDate"]);
                                 source = reader["Source"].ToString();
                                 quantity = Convert.ToInt32(reader["Quantity"]);
+                                issuedConditionFromDB = reader["BookCondition"].ToString();
                             }
                             else
                             {
@@ -1161,24 +1183,56 @@ Trust Server Certificate=True;";
                         }
                     }
 
-                    // 2️⃣ Update IssueBooks to mark as Returned (before deletion)
+                    // 2️⃣ Show issued condition (before issuing) in read-only ComboBox
+                    issuedCondition.Items.Clear();
+                    issuedCondition.Items.Add(issuedConditionFromDB);
+                    issuedCondition.SelectedIndex = 0;
+                    issuedCondition.Enabled = false; // librarian cannot change it
+
+                    // 3️⃣ Get the selected current condition (upon return)
+                    string selectedReturnCondition = returnCondition.SelectedItem?.ToString();
+
+                    if (string.IsNullOrEmpty(selectedReturnCondition))
+                    {
+                        MessageBox.Show("Please select the book condition upon return.",
+                            "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    if (!selectedReturnCondition.Equals(issuedConditionFromDB, StringComparison.OrdinalIgnoreCase))
+                    {
+                        DialogResult confirm = MessageBox.Show(
+                            $"⚠️ Condition Mismatch:\n\nThis book was issued as '{issuedConditionFromDB}', " +
+                            $"but is being returned as '{selectedReturnCondition}'.\n\nDo you want to continue?",
+                            "Condition Mismatch",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning);
+
+                        if (confirm == DialogResult.No)
+                        {
+                            return; // cancel return
+                        }
+                    }
+
+                    // 4️⃣ Update IssueBooks to mark as Returned
                     string updateIssue = @"
-                UPDATE IssueBooks
-                SET Status = 'Returned',
-                    ReturnDate = GETDATE()
-                WHERE IssueID = @IssueID;";
+UPDATE IssueBooks
+SET Status = 'Returned',
+    ReturnDate = GETDATE()
+WHERE IssueID = @IssueID;";
                     using (SqlCommand cmdUpdate = new SqlCommand(updateIssue, con, transaction))
                     {
                         cmdUpdate.Parameters.AddWithValue("@IssueID", issueID);
                         cmdUpdate.ExecuteNonQuery();
                     }
 
-                    // 3️⃣ Insert into ReturnedBooks
+                    // 5️⃣ Insert into ReturnedBooks (with condition)
                     string insertReturned = @"
-                INSERT INTO ReturnedBooks 
-                    (IssueID, ClientID, ClientName, ClientType, BookTitle, Quantity, Source, IssueDate, DueDate, ReturnDate, Status)
-                VALUES
-                    (@IssueID, @ClientID, @ClientName, @ClientType, @BookTitle, @Quantity, @Source, @IssueDate, @DueDate, GETDATE(), 'Returned');";
+INSERT INTO ReturnedBooks 
+    (IssueID, ClientID, ClientName, ClientType, BookTitle, Quantity, Source, IssueDate, DueDate, ReturnDate, Status, BookCondition)
+VALUES
+    (@IssueID, @ClientID, @ClientName, @ClientType, @BookTitle, @Quantity, @Source, @IssueDate, @DueDate, GETDATE(), 'Returned', @BookCondition);";
+
                     using (SqlCommand cmdInsert = new SqlCommand(insertReturned, con, transaction))
                     {
                         cmdInsert.Parameters.AddWithValue("@IssueID", issueID);
@@ -1190,10 +1244,11 @@ Trust Server Certificate=True;";
                         cmdInsert.Parameters.AddWithValue("@Source", source);
                         cmdInsert.Parameters.AddWithValue("@IssueDate", issueDate);
                         cmdInsert.Parameters.AddWithValue("@DueDate", dueDate);
+                        cmdInsert.Parameters.AddWithValue("@BookCondition", selectedReturnCondition); // ✅ now saves return condition
                         cmdInsert.ExecuteNonQuery();
                     }
 
-                    // 4️⃣ Delete the record from IssueBooks
+                    // 6️⃣ Delete from IssueBooks
                     string deleteIssue = "DELETE FROM IssueBooks WHERE IssueID = @IssueID;";
                     using (SqlCommand cmdDelete = new SqlCommand(deleteIssue, con, transaction))
                     {
@@ -1201,7 +1256,7 @@ Trust Server Certificate=True;";
                         cmdDelete.ExecuteNonQuery();
                     }
 
-                    // 5️⃣ Increase quantity back in BooksAcq
+                    // 7️⃣ Increase quantity back in BooksAcq
                     string updateQty = "UPDATE BooksAcq SET Quantity = Quantity + 1 WHERE ISBN = @ISBN;";
                     using (SqlCommand cmdQty = new SqlCommand(updateQty, con, transaction))
                     {
@@ -1209,10 +1264,10 @@ Trust Server Certificate=True;";
                         cmdQty.ExecuteNonQuery();
                     }
 
-                    // 6️⃣ Commit all changes
+                    // 8️⃣ Commit all
                     transaction.Commit();
 
-                    // 7️⃣ Log the action
+                    // 9️⃣ Log activity
                     ActivityLog.RecordActivity(
                         SessionData.CurrentUserName,
                         "Return Book",
@@ -1225,14 +1280,14 @@ Trust Server Certificate=True;";
 
                     lblReturnDate.Text = $"Returned on: {DateTime.Now:MMMM dd, yyyy hh:mm tt}";
 
-                    // ✅ Clear fields
+                    // 🔄 Clear UI
                     ReturnClientID.Clear();
                     ReturnClientName.Items.Clear();
                     ReturnedBookID.Items.Clear();
                     ReturnBookStatus.Items.Clear();
                     ReturnPenalty.Clear();
 
-                    // ✅ Refresh UI
+                    // 🔄 Refresh UI
                     LoadIssueBooks();
                     LoadReturnedBooks();
                     GlobalEvents.RaiseBorrowedDataChanged();
@@ -1246,6 +1301,8 @@ Trust Server Certificate=True;";
                 }
             }
         }
+
+
 
 
 
@@ -1303,16 +1360,16 @@ Trust Server Certificate=True;";
 
                             // ✅ Book Condition
                             string condition = reader["BookCondition"].ToString();
-                            BookConditioncmb.Items.Clear();
-                            BookConditioncmb.Items.Add(condition);
-                            BookConditioncmb.SelectedIndex = 0;
-                            BookConditioncmb.Text = condition;
+                            issuedCondition.Items.Clear();
+                            issuedCondition.Items.Add(condition);
+                            issuedCondition.SelectedIndex = 0;
+                            issuedCondition.Text = condition;
                         }
                         else
                         {
                             BookTitle.Items.Clear();
                             Source.Text = string.Empty;
-                            BookConditioncmb.Items.Clear();
+                            issuedCondition.Items.Clear();
                         }
                     }
                 }
@@ -1321,7 +1378,7 @@ Trust Server Certificate=True;";
             {
                 BookTitle.Items.Clear();
                 Source.Text = string.Empty;
-                BookConditioncmb.Items.Clear();
+                issuedCondition.Items.Clear();
             }
         }
 
@@ -1623,6 +1680,16 @@ Trust Server Certificate=True;";
         }
 
         private void RoleComboBox_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CMBbookConditon_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

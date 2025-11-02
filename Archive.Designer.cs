@@ -41,13 +41,10 @@
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             txtISBNRestore = new Guna.UI2.WinForms.Guna2TextBox();
             btnRestoreBook = new Guna.UI2.WinForms.Guna2Button();
-            pnlActiveBooks = new LibraryCGC.Components.ArthanPanel();
-            label2 = new Label();
             DataGridTotalBooks = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel4.SuspendLayout();
             arthanPanel9.SuspendLayout();
-            pnlActiveBooks.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).BeginInit();
             SuspendLayout();
             // 
@@ -207,41 +204,6 @@
             btnRestoreBook.Text = "Restore Book";
             btnRestoreBook.Click += btnRestoreBook_Click;
             // 
-            // pnlActiveBooks
-            // 
-            pnlActiveBooks.BackColor = Color.Transparent;
-            pnlActiveBooks.BottomLeftRadius = 0;
-            pnlActiveBooks.BottomRightRadius = 0;
-            pnlActiveBooks.Controls.Add(label2);
-            pnlActiveBooks.CornerRadius = 0;
-            pnlActiveBooks.EnableDragging = false;
-            pnlActiveBooks.EnableDropShadow = true;
-            pnlActiveBooks.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
-            pnlActiveBooks.GradientEndColor = Color.White;
-            pnlActiveBooks.GradientStartColor = Color.White;
-            pnlActiveBooks.Location = new Point(30, 171);
-            pnlActiveBooks.Margin = new Padding(3, 4, 3, 4);
-            pnlActiveBooks.Name = "pnlActiveBooks";
-            pnlActiveBooks.ShadowBlur = 0;
-            pnlActiveBooks.ShadowColor = Color.FromArgb(50, 0, 0, 0);
-            pnlActiveBooks.ShadowOffset = 0;
-            pnlActiveBooks.Size = new Size(210, 113);
-            pnlActiveBooks.TabIndex = 0;
-            pnlActiveBooks.TopLeftRadius = 0;
-            pnlActiveBooks.TopRightRadius = 0;
-            pnlActiveBooks.UseIndividualCorners = false;
-            pnlActiveBooks.Paint += pnlActiveBooks_Paint;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(21, 35);
-            label2.Name = "label2";
-            label2.Size = new Size(150, 58);
-            label2.TabIndex = 0;
-            label2.Text = "Restore Books";
-            // 
             // DataGridTotalBooks
             // 
             DataGridTotalBooks.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -257,7 +219,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
             Controls.Add(DataGridTotalBooks);
-            Controls.Add(pnlActiveBooks);
             Controls.Add(arthanPanel9);
             Controls.Add(arthanPanel4);
             Margin = new Padding(3, 4, 3, 4);
@@ -269,8 +230,6 @@
             arthanPanel4.PerformLayout();
             arthanPanel9.ResumeLayout(false);
             arthanPanel9.PerformLayout();
-            pnlActiveBooks.ResumeLayout(false);
-            pnlActiveBooks.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).EndInit();
             ResumeLayout(false);
 
@@ -282,8 +241,6 @@
         private PictureBox pictureBox1;
         private Components.ArthanPanel arthanPanel4;
         private Components.ArthanPanel arthanPanel9;
-        private Components.ArthanPanel pnlActiveBooks;
-        private Label label2;
         private DataGridView DataGridTotalBooks;
         private Components.ArthanButton arthanButton2;
         private Guna.UI2.WinForms.Guna2Button btnRestoreBook;

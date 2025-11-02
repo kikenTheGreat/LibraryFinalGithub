@@ -46,7 +46,6 @@
             label1 = new Label();
             arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
             DataGridTotalBooks = new Krypton.Toolkit.KryptonDataGridView();
-            label12 = new Label();
             Author = new LibraryCGC.Components.ArthanTextBox();
             label2 = new Label();
             BookTitle = new LibraryCGC.Components.ArthanTextBox();
@@ -87,6 +86,7 @@
             cmbBookTitle = new ComboBox();
             BookCondition = new ComboBox();
             label18 = new Label();
+            label12 = new Label();
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel2.SuspendLayout();
@@ -212,17 +212,6 @@
             DataGridTotalBooks.CellClick += DataGridTotalBooks_CellClick;
             DataGridTotalBooks.CellContentClick += DataGridTotalBooks_CellContentClick;
             DataGridTotalBooks.CellPainting += DataGridTotalBooks_CellPainting;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label12.Location = new Point(457, 161);
-            label12.Name = "label12";
-            label12.Size = new Size(119, 68);
-            label12.TabIndex = 21;
-            label12.Text = "Book Title";
-            label12.Click += label12_Click;
             // 
             // Author
             // 
@@ -783,6 +772,16 @@
             label18.TabIndex = 73;
             label18.Text = "Book Condition";
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Font = new Font("Sans Serif Collection", 7.799999F);
+            label12.Location = new Point(568, 144);
+            label12.Name = "label12";
+            label12.Size = new Size(77, 44);
+            label12.TabIndex = 75;
+            label12.Text = "Book Title";
+            // 
             // Book_Aquire
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -808,9 +807,9 @@
             Controls.Add(btnFilter);
             Controls.Add(btnManualMode);
             Controls.Add(arthanPanel2);
-            Controls.Add(label12);
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel4);
+            Controls.Add(label12);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Book_Aquire";
             Tag = "";
@@ -837,7 +836,6 @@
         private PictureBox pictureBox1;
         private Components.ArthanButton arthanButton1;
         private Components.ArthanPanel arthanPanel2;
-        private Label label12;
         private Krypton.Toolkit.KryptonDataGridView DataGridTotalBooks;
         private Components.ArthanTextBox Author;
         private Label label2;
@@ -879,5 +877,6 @@
         private Guna.UI2.WinForms.Guna2ComboBox BookConditioncmb;
         private ComboBox BookCondition;
         private Label label18;
+        private Label label12;
     }
 }
