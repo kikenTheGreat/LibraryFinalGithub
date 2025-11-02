@@ -388,6 +388,10 @@ Trust Server Certificate=True;
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
 
+         
+
+
+
             MoveReturnedBooks();
 
             // populate librarian's selectable condition list
@@ -396,7 +400,8 @@ Trust Server Certificate=True;
             {
     "Good",
     "Minor Damaged",
-    "Damaged"
+    "Damaged",
+    "Lost"
             });
 
             returnCondition.SelectedIndex = 0;
@@ -535,60 +540,94 @@ Trust Server Certificate=True;
 
 
 
-        private void btnAddToList_Click_1(object sender, EventArgs e)
+      
+
+private void btnAddToList_Click_1(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(ISBN.Text) || string.IsNullOrWhiteSpace(BookTitle.Text))
         {
-            if (string.IsNullOrWhiteSpace(ISBN.Text) || string.IsNullOrWhiteSpace(BookTitle.Text))
+            MessageBox.Show("Please select a valid book.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(ClientID.Text))
+        {
+            MessageBox.Show("Please enter a valid Client ID.");
+            return;
+        }
+
+        // ✅ Local duplicate check (in-memory)
+        bool alreadyExists = borrowList.Any(item => item.Item1 == ISBN.Text);
+        if (alreadyExists)
+        {
+            MessageBox.Show("This book (same ISBN) is already in the borrow list.",
+                "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        // ✅ Database duplicate check
+        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"; // ← Replace with your actual connection string
+        string query = "SELECT COUNT(*) FROM IssueBooks WHERE ClientID = @ClientID AND ISBN = @ISBN AND Status = 'Issued' OR Status = 'Report filed by librarian' ";
+
+        using (SqlConnection conn = new SqlConnection(connectionString))
+        using (SqlCommand cmd = new SqlCommand(query, conn))
+        {
+            cmd.Parameters.AddWithValue("@ClientID", ClientID.Text.Trim());
+            cmd.Parameters.AddWithValue("@ISBN", ISBN.Text.Trim());
+
+            conn.Open();
+            int existingCount = (int)cmd.ExecuteScalar();
+            conn.Close();
+
+            if (existingCount > 0)
             {
-                MessageBox.Show("Please select a valid book.");
+                MessageBox.Show("This client has already borrowed this book and it is still marked as 'Issued' or Report filed by librarian.",
+                    "Already Borrowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+        }
 
-            // Add to list
-            borrowList.Add((ISBN.Text, BookTitle.Text, Source.Text, issuedCondition.Text));
+        // ✅ Add to borrow list
+        borrowList.Add((ISBN.Text, BookTitle.Text, Source.Text, issuedCondition.Text));
 
+        // ✅ Setup DataGridView columns (only once)
+        if (dgvBorrowList.Columns.Count < 4)
+        {
+            dgvBorrowList.Columns.Clear();
+            dgvBorrowList.Columns.Add("ISBN", "ISBN");
+            dgvBorrowList.Columns.Add("BookTitle", "Book Title");
+            dgvBorrowList.Columns.Add("Source", "Source");
 
-            if (dgvBorrowList.Columns.Count < 3)
-            {
-                dgvBorrowList.Columns.Clear();
-                dgvBorrowList.Columns.Add("ISBN", "ISBN");
-                dgvBorrowList.Columns.Add("BookTitle", "Book Title");
-                dgvBorrowList.Columns.Add("Source", "Source");
-            }
+            DataGridViewButtonColumn removeButton = new DataGridViewButtonColumn();
+            removeButton.Name = "Remove";
+            removeButton.HeaderText = "Action";
+            removeButton.Text = "Remove";
+            removeButton.UseColumnTextForButtonValue = true;
+            removeButton.FlatStyle = FlatStyle.Flat;
+            removeButton.DefaultCellStyle.BackColor = Color.OrangeRed;
+            removeButton.DefaultCellStyle.ForeColor = Color.White;
+            removeButton.Width = 90;
+            dgvBorrowList.Columns.Add(removeButton);
+        }
 
+        dgvBorrowList.Rows.Add(ISBN.Text, BookTitle.Text, Source.Text);
 
-            if (dgvBorrowList.Columns.Count < 4) // was 3, now 4 to include Remove
-            {
-                dgvBorrowList.Columns.Clear();
-                dgvBorrowList.Columns.Add("ISBN", "ISBN");
-                dgvBorrowList.Columns.Add("BookTitle", "Book Title");
-                dgvBorrowList.Columns.Add("Source", "Source");
-
-                // 🟠 Add Remove Button
-                DataGridViewButtonColumn removeButton = new DataGridViewButtonColumn();
-                removeButton.Name = "Remove";
-                removeButton.HeaderText = "Action";
-                removeButton.Text = "Remove";
-                removeButton.UseColumnTextForButtonValue = true;
-                removeButton.FlatStyle = FlatStyle.Flat;
-                removeButton.DefaultCellStyle.BackColor = Color.OrangeRed;
-                removeButton.DefaultCellStyle.ForeColor = Color.White;
-                removeButton.Width = 90;
-                dgvBorrowList.Columns.Add(removeButton);
-            }
-
-            //remove later yah
-            MessageBox.Show($"Borrow list contains {borrowList.Count} books.");
+        // Clear fields
+        ISBN.Clear();
+        BookTitle.Items.Clear();
+        BookTitle.Text = "";
+        Source.Text = "";
+    }
 
 
-            dgvBorrowList.Rows.Add(ISBN.Text, BookTitle.Text, Source.Text);
 
-            // Clear for next entry
+    private void ClearField()
+        {
             ISBN.Clear();
             BookTitle.Items.Clear();
             BookTitle.Text = "";
             Source.Text = "";
         }
-
 
         private void btnConfirmBorrow_Click_1(object sender, EventArgs e)
         {
@@ -618,20 +657,33 @@ Trust Server Certificate=True;
                 {
                     con.Open();
 
-                    // ✅ STEP 1: Check borrow limit (max 3 books)
+                    // ✅ STEP 1: Check borrow limit (max 3 books for Students, unlimited for Faculty)
                     string checkQuery = @"SELECT COUNT(*) FROM IssueBooks 
-                                  WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
+                      WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
                     using (SqlCommand cmdCheck = new SqlCommand(checkQuery, con))
                     {
                         cmdCheck.Parameters.AddWithValue("@ClientID", ClientID.Text);
                         int currentBorrowed = (int)cmdCheck.ExecuteScalar();
 
-                        int totalAfterBorrow = currentBorrowed + borrowList.Count;
-                        if (totalAfterBorrow > 3)
+                        // 🔹 Get the user's role (you may already have this value from your session or database)
+                        string role = GetUserRole(ClientID.Text.Trim()); // 👈 Make sure this method returns "Faculty", "Student", etc.
+
+                        if (role.Equals("Faculty", StringComparison.OrdinalIgnoreCase))
                         {
-                            MessageBox.Show("Borrow limit exceeded! Each user can only borrow up to 3 books at a time.",
-                                "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            return;
+                            // Faculty can borrow unlimited books
+                            MessageBox.Show("Faculty member detected — borrow limit is not applied.",
+                                "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            // Apply 3-book limit for other roles
+                            int totalAfterBorrow = currentBorrowed + borrowList.Count;
+                            if (totalAfterBorrow > 3)
+                            {
+                                MessageBox.Show("Borrow limit exceeded! Each user can only borrow up to 3 books at a time.",
+                                    "Limit Reached", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
                         }
                     }
 
@@ -706,7 +758,19 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
                             $"Issued book — Title: {item.BookTitle}, ISBN: {item.ISBN}, Borrower: {ClientName.Text}"
                         );
                     }
+                    // ✅ Clear all input fields after adding
+                    ISBN.Clear();
+                    BookTitle.Items.Clear();
+                    BookTitle.Text = "";
+                    Source.Clear();
+                    issuedCondition.SelectedIndex = -1; // clear combo box selection
+                    ClientID.Clear();
+                    ClientName.Text = " ";
+                    issueDate.Value = DateTime.Now; // reset to current date, optional
+                    Source.Clear();
 
+                    // Move focus back to the first field for convenience
+                    ClientID.Focus();
 
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseOverdueDataChanged();
@@ -738,6 +802,24 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
             LoadReturnedBooks();
         }
 
+        private string GetUserRole(string clientId)
+        {
+            using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
+        Initial Catalog=LibraryDB;
+        Integrated Security=True;
+        Encrypt=True;
+        Trust Server Certificate=True;"))
+            {
+                con.Open();
+                string query = "SELECT Role FROM AddStudentAcc WHERE ClientID = @ClientID"; // Adjust table/column name as needed
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ClientID", clientId);
+                    object result = cmd.ExecuteScalar();
+                    return result?.ToString() ?? "Student"; // Default to "Student" if not found
+                }
+            }
+        }
 
 
         // ✅ Determine client type (Student / Faculty) automatically from database
@@ -1362,43 +1444,46 @@ ORDER BY IssueDate DESC";
                     {
                         MessageBox.Show("Please select the book condition upon return.",
                             "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        transaction.Rollback();
                         return;
                     }
 
+                    // ✅ CHECK FOR CONDITION MISMATCH
                     if (!selectedReturnCondition.Equals(issuedConditionFromDB, StringComparison.OrdinalIgnoreCase))
                     {
                         string issuedCond = issuedCondition.Text.Trim();
                         string returnedCond = returnCondition.Text.Trim();
 
-
                         if (issuedCond != returnedCond)
                         {
                             DialogResult result = MessageBox.Show(
-    "Book condition does not match the issued condition. Do you want to create a damage report?",
-    "Condition Mismatch",
-    MessageBoxButtons.YesNo,
-    MessageBoxIcon.Warning
-);
+                                "Book condition does not match the issued condition. Do you want to create a damage report?",
+                                "Condition Mismatch",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Warning
+                            );
+
                             if (result == DialogResult.Yes)
                             {
+                                // ✅ ROLLBACK TRANSACTION - Don't process the return
+                                transaction.Rollback();
+
                                 // ✅ Create the damage report form and pass the CURRENT values dynamically
                                 DamagedBookReport damageForm = new DamagedBookReport();
                                 damageForm.StartPosition = FormStartPosition.CenterScreen;
-
-                                // Always fetch directly from the live ReturnClientID textbox, not old variable
                                 damageForm.PreClientID = ReturnClientID.Text.Trim();
-                                damageForm.PreISBN = isbn; // already the correct book from selection
-
-                                // ✅ Optional: pass book title too, so form can auto-display it
-                                damageForm.PreBookTitle = bookTitle; // (add this new property if you like)
-
+                                damageForm.PreISBN = isbn;
+                                damageForm.PreBookTitle = bookTitle;
                                 damageForm.Show();
+
+                                // ✅ EXIT THE METHOD - Stop processing return
+                                return;
+                            }else if (result == DialogResult.No)
+                            {
+                                return;
                             }
-
-
-
+                            // If user clicks "No", continue with return process
                         }
-
                     }
 
                     // 4️⃣ Update IssueBooks to mark as Returned
@@ -1431,7 +1516,7 @@ VALUES
                         cmdInsert.Parameters.AddWithValue("@Source", source);
                         cmdInsert.Parameters.AddWithValue("@IssueDate", issueDate);
                         cmdInsert.Parameters.AddWithValue("@DueDate", dueDate);
-                        cmdInsert.Parameters.AddWithValue("@BookCondition", selectedReturnCondition); // ✅ now saves return condition
+                        cmdInsert.Parameters.AddWithValue("@BookCondition", selectedReturnCondition);
                         cmdInsert.ExecuteNonQuery();
                     }
 
@@ -1471,7 +1556,7 @@ VALUES
                     ReturnClientID.Clear();
                     ReturnClientName.Items.Clear();
                     ReturnedBookID.Items.Clear();
-                    ReturnBookStatus.Items.Clear();
+                    ReturnBookStatus.Text = "";
                     ReturnPenalty.Clear();
 
                     // 🔄 Refresh UI
@@ -1653,7 +1738,7 @@ VALUES
 
                 ReturnBookQty.Items.Clear();
                 ReturnedBookID.Items.Clear();
-                ReturnBookStatus.Items.Clear();
+                ReturnBookStatus.Text = "";
                 CMBbookConditon.Items.Clear();
                 return;
             }
@@ -1715,7 +1800,7 @@ Trust Server Certificate=True;";
 
                                 ReturnBookQty.Items.Clear();
                                 ReturnedBookID.Items.Clear();
-                                ReturnBookStatus.Items.Clear();
+                                ReturnBookStatus.Text = "";
                                 ReturnPenalty.Clear();
                                 CMBbookConditon.Items.Clear();
                                 return;
@@ -1774,11 +1859,16 @@ Trust Server Certificate=True;";
                             if (ReturnedBookID.Items.Count > 0)
                                 ReturnedBookID.SelectedIndex = 0;
 
-                            ReturnBookStatus.Items.Clear();
-                            foreach (var status in statuses.Distinct())
-                                ReturnBookStatus.Items.Add(status);
-                            if (ReturnBookStatus.Items.Count > 0)
-                                ReturnBookStatus.SelectedIndex = 0;
+                            // Assuming 'statuses' is a collection (like List<string>)
+                            if (statuses != null && statuses.Any())
+                            {
+                                ReturnBookStatus.Text = statuses.Distinct().First();
+                            }
+                            else
+                            {
+                                ReturnBookStatus.Clear();
+                            }
+
 
                             ReturnPenalty.Text = totalPenalty.ToString("0.00");
                         }
@@ -1820,7 +1910,7 @@ Trust Server Certificate=True;";
 
                 ReturnBookQty.Items.Clear();
                 ReturnedBookID.Items.Clear();
-                ReturnBookStatus.Items.Clear();
+                ReturnBookStatus.Text = "";
                 CMBbookConditon.Items.Clear();
             }
         }
