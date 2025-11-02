@@ -40,6 +40,10 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
@@ -87,6 +91,9 @@
             BookCondition = new ComboBox();
             label18 = new Label();
             label12 = new Label();
+            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            txtISBNRestore = new Guna.UI2.WinForms.Guna2TextBox();
+            btnRestoreBook = new Guna.UI2.WinForms.Guna2Button();
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel2.SuspendLayout();
@@ -608,7 +615,7 @@
             btnFilter.FillColor = Color.Orange;
             btnFilter.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnFilter.ForeColor = Color.Black;
-            btnFilter.Location = new Point(1514, 187);
+            btnFilter.Location = new Point(1175, 156);
             btnFilter.Name = "btnFilter";
             btnFilter.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnFilter.Size = new Size(157, 63);
@@ -628,7 +635,7 @@
             btnClearFilters.FillColor = Color.Orange;
             btnClearFilters.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnClearFilters.ForeColor = Color.Black;
-            btnClearFilters.Location = new Point(1705, 187);
+            btnClearFilters.Location = new Point(1175, 229);
             btnClearFilters.Name = "btnClearFilters";
             btnClearFilters.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnClearFilters.Size = new Size(157, 63);
@@ -640,7 +647,7 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Sans Serif Collection", 7.799999F);
-            label11.Location = new Point(568, 206);
+            label11.Location = new Point(457, 223);
             label11.Name = "label11";
             label11.Size = new Size(61, 44);
             label11.TabIndex = 52;
@@ -650,7 +657,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Sans Serif Collection", 7.799999F);
-            label13.Location = new Point(1118, 206);
+            label13.Location = new Point(1007, 223);
             label13.Name = "label13";
             label13.Size = new Size(81, 44);
             label13.TabIndex = 61;
@@ -660,7 +667,7 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Sans Serif Collection", 7.799999F);
-            label14.Location = new Point(936, 144);
+            label14.Location = new Point(825, 161);
             label14.Name = "label14";
             label14.Size = new Size(74, 44);
             label14.TabIndex = 62;
@@ -670,7 +677,7 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Sans Serif Collection", 7.799999F);
-            label15.Location = new Point(936, 206);
+            label15.Location = new Point(825, 223);
             label15.Name = "label15";
             label15.Size = new Size(78, 44);
             label15.TabIndex = 63;
@@ -680,7 +687,7 @@
             // 
             label16.AutoSize = true;
             label16.Font = new Font("Sans Serif Collection", 7.799999F);
-            label16.Location = new Point(751, 144);
+            label16.Location = new Point(640, 161);
             label16.Name = "label16";
             label16.Size = new Size(60, 44);
             label16.TabIndex = 64;
@@ -690,7 +697,7 @@
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Sans Serif Collection", 7.799999F);
-            label17.Location = new Point(751, 206);
+            label17.Location = new Point(640, 223);
             label17.Name = "label17";
             label17.Size = new Size(75, 44);
             label17.TabIndex = 65;
@@ -699,7 +706,7 @@
             // cmbAuthor
             // 
             cmbAuthor.FormattingEnabled = true;
-            cmbAuthor.Location = new Point(568, 237);
+            cmbAuthor.Location = new Point(457, 254);
             cmbAuthor.Name = "cmbAuthor";
             cmbAuthor.Size = new Size(151, 28);
             cmbAuthor.TabIndex = 66;
@@ -707,7 +714,7 @@
             // cmbCategory
             // 
             cmbCategory.FormattingEnabled = true;
-            cmbCategory.Location = new Point(936, 175);
+            cmbCategory.Location = new Point(825, 192);
             cmbCategory.Name = "cmbCategory";
             cmbCategory.Size = new Size(151, 28);
             cmbCategory.TabIndex = 67;
@@ -715,7 +722,7 @@
             // cmbBookType
             // 
             cmbBookType.FormattingEnabled = true;
-            cmbBookType.Location = new Point(1118, 237);
+            cmbBookType.Location = new Point(1007, 254);
             cmbBookType.Name = "cmbBookType";
             cmbBookType.Size = new Size(151, 28);
             cmbBookType.TabIndex = 68;
@@ -723,7 +730,7 @@
             // cmbSource
             // 
             cmbSource.FormattingEnabled = true;
-            cmbSource.Location = new Point(751, 175);
+            cmbSource.Location = new Point(640, 192);
             cmbSource.Name = "cmbSource";
             cmbSource.Size = new Size(151, 28);
             cmbSource.TabIndex = 69;
@@ -733,7 +740,7 @@
             // cmbPublished
             // 
             cmbPublished.FormattingEnabled = true;
-            cmbPublished.Location = new Point(936, 237);
+            cmbPublished.Location = new Point(825, 254);
             cmbPublished.Name = "cmbPublished";
             cmbPublished.Size = new Size(151, 28);
             cmbPublished.TabIndex = 70;
@@ -741,7 +748,7 @@
             // cmbPublisher
             // 
             cmbPublisher.FormattingEnabled = true;
-            cmbPublisher.Location = new Point(751, 237);
+            cmbPublisher.Location = new Point(640, 254);
             cmbPublisher.Name = "cmbPublisher";
             cmbPublisher.Size = new Size(151, 28);
             cmbPublisher.TabIndex = 71;
@@ -749,7 +756,7 @@
             // cmbBookTitle
             // 
             cmbBookTitle.FormattingEnabled = true;
-            cmbBookTitle.Location = new Point(568, 175);
+            cmbBookTitle.Location = new Point(457, 192);
             cmbBookTitle.Name = "cmbBookTitle";
             cmbBookTitle.Size = new Size(151, 28);
             cmbBookTitle.TabIndex = 72;
@@ -757,7 +764,7 @@
             // BookCondition
             // 
             BookCondition.FormattingEnabled = true;
-            BookCondition.Location = new Point(1118, 175);
+            BookCondition.Location = new Point(1007, 192);
             BookCondition.Name = "BookCondition";
             BookCondition.Size = new Size(151, 28);
             BookCondition.TabIndex = 74;
@@ -766,7 +773,7 @@
             // 
             label18.AutoSize = true;
             label18.Font = new Font("Sans Serif Collection", 7.799999F);
-            label18.Location = new Point(1118, 144);
+            label18.Location = new Point(1007, 161);
             label18.Name = "label18";
             label18.Size = new Size(111, 44);
             label18.TabIndex = 73;
@@ -776,11 +783,63 @@
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Sans Serif Collection", 7.799999F);
-            label12.Location = new Point(568, 144);
+            label12.Location = new Point(457, 161);
             label12.Name = "label12";
             label12.Size = new Size(77, 44);
             label12.TabIndex = 75;
             label12.Text = "Book Title";
+            // 
+            // guna2HtmlLabel1
+            // 
+            guna2HtmlLabel1.BackColor = Color.Transparent;
+            guna2HtmlLabel1.Location = new Point(1607, 156);
+            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
+            guna2HtmlLabel1.Size = new Size(73, 22);
+            guna2HtmlLabel1.TabIndex = 78;
+            guna2HtmlLabel1.Text = "Enter ISBN";
+            // 
+            // txtISBNRestore
+            // 
+            txtISBNRestore.BorderColor = Color.FromArgb(224, 224, 224);
+            txtISBNRestore.BorderRadius = 4;
+            txtISBNRestore.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            txtISBNRestore.BorderThickness = 2;
+            txtISBNRestore.CustomizableEdges = customizableEdges11;
+            txtISBNRestore.DefaultText = "";
+            txtISBNRestore.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtISBNRestore.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtISBNRestore.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtISBNRestore.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtISBNRestore.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtISBNRestore.Font = new Font("Segoe UI", 9F);
+            txtISBNRestore.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtISBNRestore.Location = new Point(1475, 185);
+            txtISBNRestore.Margin = new Padding(3, 4, 3, 4);
+            txtISBNRestore.Name = "txtISBNRestore";
+            txtISBNRestore.PlaceholderText = "";
+            txtISBNRestore.SelectedText = "";
+            txtISBNRestore.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            txtISBNRestore.Size = new Size(344, 39);
+            txtISBNRestore.TabIndex = 76;
+            // 
+            // btnRestoreBook
+            // 
+            btnRestoreBook.BorderRadius = 18;
+            btnRestoreBook.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            btnRestoreBook.CustomizableEdges = customizableEdges13;
+            btnRestoreBook.DisabledState.BorderColor = Color.DarkGray;
+            btnRestoreBook.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnRestoreBook.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnRestoreBook.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnRestoreBook.FillColor = Color.Orange;
+            btnRestoreBook.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnRestoreBook.ForeColor = Color.Black;
+            btnRestoreBook.Location = new Point(1568, 227);
+            btnRestoreBook.Name = "btnRestoreBook";
+            btnRestoreBook.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnRestoreBook.Size = new Size(157, 63);
+            btnRestoreBook.TabIndex = 77;
+            btnRestoreBook.Text = "Restore Book";
             // 
             // Book_Aquire
             // 
@@ -788,6 +847,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
             ClientSize = new Size(1902, 1033);
+            Controls.Add(guna2HtmlLabel1);
+            Controls.Add(txtISBNRestore);
+            Controls.Add(btnRestoreBook);
             Controls.Add(BookCondition);
             Controls.Add(label18);
             Controls.Add(cmbBookTitle);
@@ -878,5 +940,8 @@
         private ComboBox BookCondition;
         private Label label18;
         private Label label12;
+        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
+        private Guna.UI2.WinForms.Guna2TextBox txtISBNRestore;
+        private Guna.UI2.WinForms.Guna2Button btnRestoreBook;
     }
 }

@@ -1314,6 +1314,7 @@
             dgvBorrowList.RowHeadersWidth = 51;
             dgvBorrowList.Size = new Size(1069, 156);
             dgvBorrowList.TabIndex = 24;
+            dgvBorrowList.CellClick += dgvBorrowList_CellClick;
             dgvBorrowList.CellContentClick += dgvBorrowList_CellContentClick;
             // 
             // overdueTimer

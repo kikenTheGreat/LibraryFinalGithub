@@ -75,10 +75,10 @@ Trust Server Certificate=True;
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 IssueBooksDataGrid.DataSource = dt;
-        
+
                 HighlightOverdueRows();
                 HighlightStatusRows();
-                
+
 
                 // Clean and user-friendly appearance
                 IssueBooksDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -556,6 +556,26 @@ Trust Server Certificate=True;
             }
 
 
+            if (dgvBorrowList.Columns.Count < 4) // was 3, now 4 to include Remove
+            {
+                dgvBorrowList.Columns.Clear();
+                dgvBorrowList.Columns.Add("ISBN", "ISBN");
+                dgvBorrowList.Columns.Add("BookTitle", "Book Title");
+                dgvBorrowList.Columns.Add("Source", "Source");
+
+                // 🟠 Add Remove Button
+                DataGridViewButtonColumn removeButton = new DataGridViewButtonColumn();
+                removeButton.Name = "Remove";
+                removeButton.HeaderText = "Action";
+                removeButton.Text = "Remove";
+                removeButton.UseColumnTextForButtonValue = true;
+                removeButton.FlatStyle = FlatStyle.Flat;
+                removeButton.DefaultCellStyle.BackColor = Color.OrangeRed;
+                removeButton.DefaultCellStyle.ForeColor = Color.White;
+                removeButton.Width = 90;
+                dgvBorrowList.Columns.Add(removeButton);
+            }
+
             //remove later yah
             MessageBox.Show($"Borrow list contains {borrowList.Count} books.");
 
@@ -769,6 +789,9 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
         private void dgvBorrowList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+         
+
+
 
         }
 
@@ -783,7 +806,7 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
             // Optional neat settings
             dgvBorrowList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvBorrowList.MultiSelect = false;
-            dgvBorrowList.ReadOnly = true;
+            dgvBorrowList.ReadOnly = false;
             dgvBorrowList.RowHeadersVisible = false;
             dgvBorrowList.AllowUserToResizeRows = false;
             dgvBorrowList.AllowUserToResizeColumns = false;
@@ -1123,7 +1146,7 @@ Trust Server Certificate=True;";
         }
 
 
- 
+
 
 
         private void dgvReturnList_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -1244,7 +1267,7 @@ VALUES
                 // ✅ 7️⃣ Only show success if at least 1 was moved
                 if (movedCount > 0)
                 {
-                    
+
                 }
 
                 // 🔄 Optional: refresh your grid after move
@@ -1467,6 +1490,25 @@ VALUES
         }
 
 
+        private void AddRemoveButtonToBorrowList()
+        {
+            // Check if the button already exists
+            if (dgvBorrowList.Columns["Remove"] == null)
+            {
+                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+                btn.HeaderText = "Action";
+                btn.Name = "Remove";
+                btn.Text = "Remove";
+                btn.UseColumnTextForButtonValue = true;
+                btn.FlatStyle = FlatStyle.Flat;
+                btn.DefaultCellStyle.BackColor = Color.OrangeRed;
+                btn.DefaultCellStyle.ForeColor = Color.White;
+                btn.DefaultCellStyle.SelectionBackColor = Color.DarkRed;
+                btn.Width = 90;
+
+                dgvBorrowList.Columns.Add(btn);
+            }
+        }
 
 
 
@@ -1863,6 +1905,24 @@ Trust Server Certificate=True;";
             DamagedBookReport damagedBookReport = new DamagedBookReport();
             damagedBookReport.Show();
             this.Hide();
+        }
+
+        private void dgvBorrowList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgvBorrowList.Columns[e.ColumnIndex].Name == "Remove")
+            {
+                var result = MessageBox.Show("Remove this book from the list?",
+                                             "Confirm Remove",
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    borrowList.RemoveAt(e.RowIndex);
+                    dgvBorrowList.Rows.RemoveAt(e.RowIndex);
+                   
+                }
+            }
         }
     }
 }
