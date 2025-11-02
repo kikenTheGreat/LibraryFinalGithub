@@ -75,7 +75,10 @@ Trust Server Certificate=True;
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 IssueBooksDataGrid.DataSource = dt;
+        
                 HighlightOverdueRows();
+                HighlightStatusRows();
+                
 
                 // Clean and user-friendly appearance
                 IssueBooksDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -222,6 +225,44 @@ Trust Server Certificate=True;
             }
         }
 
+        private void HighlightStatusRows()
+        {
+            foreach (DataGridViewRow row in IssueBooksDataGrid.Rows)
+            {
+                if (row.Cells["Status"].Value != null)
+                {
+                    string status = row.Cells["Status"].Value.ToString();
+
+                    if (status.Equals("Overdue", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightCoral; // 🔴 red
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                    else if (status.Equals("Returned", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightBlue; // 🔵 blue
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                    else if (status.Equals("Report filed by librarian", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightGreen; // 🟢 green
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                    else if (status.Equals("Lost", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightGray; // ⚫ gray
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                    else
+                    {
+                        // default
+                        row.DefaultCellStyle.BackColor = Color.White;
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
+
 
 
 
@@ -347,7 +388,7 @@ Trust Server Certificate=True;
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
 
-         
+            MoveReturnedBooks();
 
             // populate librarian's selectable condition list
             returnCondition.Items.Clear();
@@ -371,6 +412,7 @@ Trust Server Certificate=True;
             overdueTimer.Tick += overdueTimer_Tick;
             overdueTimer.Start();
             HighlightOverdueRows();
+            HighlightStatusRows();
 
             overdueTimer = new System.Windows.Forms.Timer();
             overdueTimer.Interval = 1000; // every 1 sec (adjust as you like)
@@ -964,7 +1006,7 @@ Trust Server Certificate=True;";
                         con.Open();
                         SqlDataReader reader = cmd.ExecuteReader();
 
-                        if (reader.Read()) 
+                        if (reader.Read())
                         {
                             // 🧍 Fill Client Name
                             string name = reader["Name"].ToString();
@@ -1081,7 +1123,14 @@ Trust Server Certificate=True;";
         }
 
 
-        private void LoadBorrowedBooksForReturn(string clientID)
+ 
+
+
+        private void dgvReturnList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void MoveReturnedBooks()
         {
             string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
@@ -1089,32 +1138,126 @@ Integrated Security=True;
 Encrypt=True;
 Trust Server Certificate=True;";
 
-            using (SqlConnection con = new SqlConnection(connectionString))
+            int movedCount = 0;
+
+            try
             {
-                string query = @"
-            SELECT 
-                BookTitle, Source, IssueDate, DueDate, Status, Penalty 
-            FROM IssueBooks
-            WHERE ClientID = @ClientID 
-              AND (Status = 'Issued' OR Status = 'Overdue')";
-
-                using (SqlDataAdapter da = new SqlDataAdapter())
+                using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    da.SelectCommand = new SqlCommand(query, con);
-                    da.SelectCommand.Parameters.AddWithValue("@ClientID", clientID);
+                    con.Open();
 
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
+                    // ✅ 1️⃣ Get all IssueBooks where Status = 'Returned'
+                    string selectQuery = @"
+                SELECT IssueID, ClientID, StudentName, Source, Quantity,
+                       BookTitle, ISBN, IssueDate, DueDate, ReturnDate, BookCondition
+                FROM IssueBooks
+                WHERE Status = 'Returned';";
 
+                    DataTable returned = new DataTable();
+                    using (SqlDataAdapter da = new SqlDataAdapter(selectQuery, con))
+                    {
+                        da.Fill(returned);
+                    }
+
+                    if (returned.Rows.Count == 0)
+                    {
+                        // No returned records found — exit quietly
+                        return;
+                    }
+
+                    // ✅ 2️⃣ Loop through returned records
+                    foreach (DataRow row in returned.Rows)
+                    {
+                        using (SqlTransaction tx = con.BeginTransaction())
+                        {
+                            try
+                            {
+                                int issueID = Convert.ToInt32(row["IssueID"]);
+                                string isbn = row["ISBN"].ToString();
+
+                                // ✅ 3️⃣ Check if already exists in ReturnedBooks (avoid duplicate inserts)
+                                string checkQuery = "SELECT COUNT(*) FROM ReturnedBooks WHERE IssueID = @IssueID;";
+                                using (SqlCommand checkCmd = new SqlCommand(checkQuery, con, tx))
+                                {
+                                    checkCmd.Parameters.AddWithValue("@IssueID", issueID);
+                                    int exists = (int)checkCmd.ExecuteScalar();
+                                    if (exists > 0)
+                                    {
+                                        tx.Commit(); // already moved, skip
+                                        continue;
+                                    }
+                                }
+
+                                // ✅ 4️⃣ Insert into ReturnedBooks
+                                string insert = @"
+INSERT INTO ReturnedBooks
+    (IssueID, ClientID, ClientName, BookTitle, Quantity, Source,
+     IssueDate, DueDate, ReturnDate, Status, BookCondition)
+VALUES
+    (@IssueID, @ClientID, @ClientName, @BookTitle, @Quantity, @Source,
+     @IssueDate, @DueDate, @ReturnDate, 'Returned', @BookCondition);";
+
+                                using (SqlCommand cmdIns = new SqlCommand(insert, con, tx))
+                                {
+                                    cmdIns.Parameters.AddWithValue("@IssueID", issueID);
+                                    cmdIns.Parameters.AddWithValue("@ClientID", row["ClientID"]);
+                                    cmdIns.Parameters.AddWithValue("@ClientName", row["StudentName"]);
+                                    cmdIns.Parameters.AddWithValue("@BookTitle", row["BookTitle"]);
+                                    cmdIns.Parameters.AddWithValue("@Quantity", row["Quantity"]);
+                                    cmdIns.Parameters.AddWithValue("@Source", row["Source"]);
+                                    cmdIns.Parameters.AddWithValue("@IssueDate", row["IssueDate"]);
+                                    cmdIns.Parameters.AddWithValue("@DueDate", row["DueDate"]);
+                                    cmdIns.Parameters.AddWithValue("@ReturnDate", row["ReturnDate"]);
+                                    cmdIns.Parameters.AddWithValue("@BookCondition", row["BookCondition"]);
+                                    cmdIns.ExecuteNonQuery();
+                                }
+
+                                // ✅ 5️⃣ Delete from IssueBooks
+                                string delete = "DELETE FROM IssueBooks WHERE IssueID = @IssueID;";
+                                using (SqlCommand cmdDel = new SqlCommand(delete, con, tx))
+                                {
+                                    cmdDel.Parameters.AddWithValue("@IssueID", issueID);
+                                    cmdDel.ExecuteNonQuery();
+                                }
+
+                                // ✅ 6️⃣ Increase quantity back in BooksAcq
+                                string updateQty = "UPDATE BooksAcq SET Quantity = Quantity + 1 WHERE ISBN = @ISBN;";
+                                using (SqlCommand cmdQty = new SqlCommand(updateQty, con, tx))
+                                {
+                                    cmdQty.Parameters.AddWithValue("@ISBN", isbn);
+                                    cmdQty.ExecuteNonQuery();
+                                }
+
+                                tx.Commit();
+                                movedCount++;
+                            }
+                            catch (Exception ex)
+                            {
+                                tx.Rollback();
+                                MessageBox.Show("Error moving record (IssueID: " + row["IssueID"] + "):\n" + ex.Message,
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
                 }
+
+                // ✅ 7️⃣ Only show success if at least 1 was moved
+                if (movedCount > 0)
+                {
+                    
+                }
+
+                // 🔄 Optional: refresh your grid after move
+                LoadIssueBooks();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error moving returned books:\n" + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
 
-        private void dgvReturnList_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void ReturnButton_Click(object sender, EventArgs e)
         {
@@ -1201,17 +1344,38 @@ ORDER BY IssueDate DESC";
 
                     if (!selectedReturnCondition.Equals(issuedConditionFromDB, StringComparison.OrdinalIgnoreCase))
                     {
-                        DialogResult confirm = MessageBox.Show(
-                            $"⚠️ Condition Mismatch:\n\nThis book was issued as '{issuedConditionFromDB}', " +
-                            $"but is being returned as '{selectedReturnCondition}'.\n\nDo you want to continue?",
-                            "Condition Mismatch",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Warning);
+                        string issuedCond = issuedCondition.Text.Trim();
+                        string returnedCond = returnCondition.Text.Trim();
 
-                        if (confirm == DialogResult.No)
+
+                        if (issuedCond != returnedCond)
                         {
-                            return; // cancel return
+                            DialogResult result = MessageBox.Show(
+    "Book condition does not match the issued condition. Do you want to create a damage report?",
+    "Condition Mismatch",
+    MessageBoxButtons.YesNo,
+    MessageBoxIcon.Warning
+);
+                            if (result == DialogResult.Yes)
+                            {
+                                // ✅ Create the damage report form and pass the CURRENT values dynamically
+                                DamagedBookReport damageForm = new DamagedBookReport();
+                                damageForm.StartPosition = FormStartPosition.CenterScreen;
+
+                                // Always fetch directly from the live ReturnClientID textbox, not old variable
+                                damageForm.PreClientID = ReturnClientID.Text.Trim();
+                                damageForm.PreISBN = isbn; // already the correct book from selection
+
+                                // ✅ Optional: pass book title too, so form can auto-display it
+                                damageForm.PreBookTitle = bookTitle; // (add this new property if you like)
+
+                                damageForm.Show();
+                            }
+
+
+
                         }
+
                     }
 
                     // 4️⃣ Update IssueBooks to mark as Returned
@@ -1692,6 +1856,13 @@ Trust Server Certificate=True;";
         private void CMBbookConditon_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            DamagedBookReport damagedBookReport = new DamagedBookReport();
+            damagedBookReport.Show();
+            this.Hide();
         }
     }
 }

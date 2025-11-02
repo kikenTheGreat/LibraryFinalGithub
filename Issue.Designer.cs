@@ -85,6 +85,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges48 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges49 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges50 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges51 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges52 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Issue));
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -142,6 +144,7 @@
             arthanTextBox2 = new LibraryCGC.Components.ArthanTextBox();
             label26 = new Label();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
+            guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             btnReturnBooks = new Guna.UI2.WinForms.Guna2Button();
             btnIssueBooks = new Guna.UI2.WinForms.Guna2Button();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
@@ -634,7 +637,7 @@
             // panelReturnBooks
             // 
             panelReturnBooks.Controls.Add(arthanPanel1);
-            panelReturnBooks.Location = new Point(15, 76);
+            panelReturnBooks.Location = new Point(20, 146);
             panelReturnBooks.Name = "panelReturnBooks";
             panelReturnBooks.Size = new Size(421, 845);
             panelReturnBooks.TabIndex = 27;
@@ -1094,6 +1097,7 @@
             arthanPanel4.BackColor = Color.Transparent;
             arthanPanel4.BottomLeftRadius = 15;
             arthanPanel4.BottomRightRadius = 15;
+            arthanPanel4.Controls.Add(guna2Button1);
             arthanPanel4.Controls.Add(btnReturnBooks);
             arthanPanel4.Controls.Add(btnIssueBooks);
             arthanPanel4.Controls.Add(arthanButton1);
@@ -1117,11 +1121,31 @@
             arthanPanel4.TopRightRadius = 15;
             arthanPanel4.UseIndividualCorners = false;
             // 
+            // guna2Button1
+            // 
+            guna2Button1.BorderRadius = 18;
+            guna2Button1.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            guna2Button1.CustomizableEdges = customizableEdges47;
+            guna2Button1.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button1.FillColor = Color.Orange;
+            guna2Button1.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2Button1.ForeColor = Color.Black;
+            guna2Button1.Location = new Point(731, 25);
+            guna2Button1.Name = "guna2Button1";
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges48;
+            guna2Button1.Size = new Size(157, 63);
+            guna2Button1.TabIndex = 45;
+            guna2Button1.Text = "Report";
+            guna2Button1.Click += guna2Button1_Click;
+            // 
             // btnReturnBooks
             // 
             btnReturnBooks.BorderRadius = 18;
             btnReturnBooks.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnReturnBooks.CustomizableEdges = customizableEdges47;
+            btnReturnBooks.CustomizableEdges = customizableEdges49;
             btnReturnBooks.DisabledState.BorderColor = Color.DarkGray;
             btnReturnBooks.DisabledState.CustomBorderColor = Color.DarkGray;
             btnReturnBooks.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -1131,7 +1155,7 @@
             btnReturnBooks.ForeColor = Color.Black;
             btnReturnBooks.Location = new Point(548, 25);
             btnReturnBooks.Name = "btnReturnBooks";
-            btnReturnBooks.ShadowDecoration.CustomizableEdges = customizableEdges48;
+            btnReturnBooks.ShadowDecoration.CustomizableEdges = customizableEdges50;
             btnReturnBooks.Size = new Size(157, 63);
             btnReturnBooks.TabIndex = 44;
             btnReturnBooks.Text = "Return Books";
@@ -1141,7 +1165,7 @@
             // 
             btnIssueBooks.BorderRadius = 18;
             btnIssueBooks.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnIssueBooks.CustomizableEdges = customizableEdges49;
+            btnIssueBooks.CustomizableEdges = customizableEdges51;
             btnIssueBooks.DisabledState.BorderColor = Color.DarkGray;
             btnIssueBooks.DisabledState.CustomBorderColor = Color.DarkGray;
             btnIssueBooks.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -1151,7 +1175,7 @@
             btnIssueBooks.ForeColor = Color.Black;
             btnIssueBooks.Location = new Point(356, 25);
             btnIssueBooks.Name = "btnIssueBooks";
-            btnIssueBooks.ShadowDecoration.CustomizableEdges = customizableEdges50;
+            btnIssueBooks.ShadowDecoration.CustomizableEdges = customizableEdges52;
             btnIssueBooks.Size = new Size(157, 63);
             btnIssueBooks.TabIndex = 43;
             btnIssueBooks.Text = "Issue Books";
@@ -1498,6 +1522,7 @@
         private Label label17;
         private Guna.UI2.WinForms.Guna2ComboBox returnCondition;
         private Label label18;
+        private Guna.UI2.WinForms.Guna2Button guna2Button1;
         // private Panel panelReturnBooks;
     }
 }
