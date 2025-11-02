@@ -321,7 +321,7 @@ namespace LibraryCGC
                         );
 
                         MessageBox.Show("✅ Book restored successfully!");
-                        txtISBNRestore.Clear();
+                        txtArchiveISBN.Clear();
                         LoadBooksGrid(); // Refresh DataGrid
                         GlobalEvents.RaiseBooksDataChanged();
                         GlobalEvents.RaiseArchivedDataChanged();
@@ -350,14 +350,165 @@ namespace LibraryCGC
 
         private void btnRestoreBook_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtISBNRestore.Text))
+            string isbn = txtArchiveISBN.Text.Trim();
+            int restoreQty = (int)RestoreQty.Value; // 🔹 Add RestoreQty NumericUpDown control to your form
+
+            if (string.IsNullOrEmpty(isbn))
             {
-                MessageBox.Show("⚠️ Please enter the ISBN to restore.");
+                MessageBox.Show("⚠️ Please enter an ISBN.", "Missing ISBN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string isbn = txtISBNRestore.Text.Trim();
-            RestoreBookByISBN(isbn);
+            if (restoreQty <= 0)
+            {
+                MessageBox.Show("⚠️ Please enter a valid quantity to restore.", "Invalid Quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                {
+                    con.Open();
+
+                    // 1️⃣ Find the book in BooksArchive
+                    string selectQuery = "SELECT * FROM BooksArchive WHERE ISBN = @ISBN";
+                    using (SqlCommand selectCmd = new SqlCommand(selectQuery, con))
+                    {
+                        selectCmd.Parameters.AddWithValue("@ISBN", isbn);
+                        using (SqlDataReader reader = selectCmd.ExecuteReader())
+                        {
+                            if (!reader.Read())
+                            {
+                                MessageBox.Show("❌ No archived book found with that ISBN.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+
+                            int archiveId = Convert.ToInt32(reader["ArchiveID"]);
+                            string title = reader["BookTitle"]?.ToString() ?? "";
+                            string author = reader["Author"]?.ToString() ?? "";
+                            string publisher = reader["Publisher"]?.ToString() ?? "";
+                            string source = reader["Source"]?.ToString() ?? "";
+                            int currentArchivedQty = reader["Quantity"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Quantity"]);
+                            string published = reader["Published"]?.ToString() ?? "";
+                            string category = reader["Category"]?.ToString() ?? "";
+                            string bookType = reader["BookType"]?.ToString() ?? "Book";
+                            string bookCondition = reader["BookCondition"]?.ToString() ?? "Good";
+
+                            reader.Close();
+
+                            // 2️⃣ Validate restore quantity
+                            if (restoreQty > currentArchivedQty)
+                            {
+                                MessageBox.Show($"⚠️ Cannot restore {restoreQty} copies. Only {currentArchivedQty} archived.",
+                                    "Insufficient Quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
+
+                            // 3️⃣ Confirm action
+                            var confirm = MessageBox.Show(
+                                $"Restore {restoreQty} of '{title}' back to active inventory?\n\n" +
+                                $"Archived quantity: {currentArchivedQty}\n" +
+                                $"Remaining in archive: {currentArchivedQty - restoreQty}",
+                                "Confirm Restore",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question);
+
+                            if (confirm != DialogResult.Yes)
+                                return;
+
+                            // 4️⃣ Check if book already exists in BooksAcq
+                            string checkExistingQuery = "SELECT Quantity FROM BooksAcq WHERE ISBN = @ISBN";
+                            using (SqlCommand checkCmd = new SqlCommand(checkExistingQuery, con))
+                            {
+                                checkCmd.Parameters.AddWithValue("@ISBN", isbn);
+                                object existingQtyObj = checkCmd.ExecuteScalar();
+
+                                if (existingQtyObj != null)
+                                {
+                                    // ✅ Book exists - just update quantity
+                                    int existingQty = Convert.ToInt32(existingQtyObj);
+                                    int newQty = existingQty + restoreQty;
+
+                                    SqlCommand updateCmd = new SqlCommand(
+                                        "UPDATE BooksAcq SET Quantity = @Quantity WHERE ISBN = @ISBN", con);
+                                    updateCmd.Parameters.AddWithValue("@Quantity", newQty);
+                                    updateCmd.Parameters.AddWithValue("@ISBN", isbn);
+                                    updateCmd.ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    // 🆕 Book doesn't exist - insert new record
+                                    SqlCommand insertCmd = new SqlCommand(@"
+                                INSERT INTO BooksAcq 
+                                (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition)
+                                VALUES 
+                                (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition)", con);
+
+                                    insertCmd.Parameters.AddWithValue("@BookTitle", title);
+                                    insertCmd.Parameters.AddWithValue("@Author", author);
+                                    insertCmd.Parameters.AddWithValue("@ISBN", isbn);
+                                    insertCmd.Parameters.AddWithValue("@Publisher", publisher);
+                                    insertCmd.Parameters.AddWithValue("@Source", source);
+                                    insertCmd.Parameters.AddWithValue("@Quantity", restoreQty);
+                                    insertCmd.Parameters.AddWithValue("@Published", published);
+                                    insertCmd.Parameters.AddWithValue("@Category", category);
+                                    insertCmd.Parameters.AddWithValue("@BookType", bookType);
+                                    insertCmd.Parameters.AddWithValue("@BookCondition", bookCondition);
+                                    insertCmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            // 5️⃣ Update or delete from BooksArchive
+                            if (restoreQty < currentArchivedQty)
+                            {
+                                // Partial restore - update archived quantity
+                                int remainingArchived = currentArchivedQty - restoreQty;
+                                SqlCommand updateArchiveCmd = new SqlCommand(
+                                    "UPDATE BooksArchive SET Quantity = @Quantity WHERE ArchiveID = @ArchiveID", con);
+                                updateArchiveCmd.Parameters.AddWithValue("@Quantity", remainingArchived);
+                                updateArchiveCmd.Parameters.AddWithValue("@ArchiveID", archiveId);
+                                updateArchiveCmd.ExecuteNonQuery();
+
+                                MessageBox.Show($"✅ Restored {restoreQty} copies of '{title}'!\n\nRemaining in archive: {remainingArchived}",
+                                    "Restore Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                // Full restore - delete from archive
+                                SqlCommand deleteCmd = new SqlCommand(
+                                    "DELETE FROM BooksArchive WHERE ArchiveID = @ArchiveID", con);
+                                deleteCmd.Parameters.AddWithValue("@ArchiveID", archiveId);
+                                deleteCmd.ExecuteNonQuery();
+
+                                MessageBox.Show($"✅ Restored all {restoreQty} copies of '{title}'!\n\nBook removed from archive.",
+                                    "Restore Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
+                            // 6️⃣ Activity Log + Refresh
+                            ActivityLog.RecordActivity(
+                                SessionData.CurrentUserName,
+                                "Restore Book",
+                                "Archived Books",
+                                $"Restored {restoreQty} copies of '{title}' (ISBN: {isbn})");
+
+                            txtArchiveISBN.Clear();
+                            RestoreQty.Value = 1;
+                            LoadBooksGrid();
+                            GlobalEvents.RaiseBooksDataChanged();
+                            GlobalEvents.RaiseArchivedDataChanged();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"❌ Error restoring book: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+
+
     }
 }

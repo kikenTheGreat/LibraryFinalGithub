@@ -59,7 +59,7 @@ namespace LibraryCGC
             BookConditioncmb.SelectedIndex = 0;
 
             //filtering combobox fill
-            BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged"});
+            BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged" });
 
 
             cmbSource.DataSource = null;   // 👈 break data-binding
@@ -508,75 +508,126 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
         }
 
 
-        private void ArchivedButton_Click(object sender, EventArgs e)
+        private void btnArchiveBook_Click(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection(
-                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+            string isbn = txtArchiveISBN.Text.Trim();
+            int archiveQty = (int)ArchiveQty.Value;
+
+            if (string.IsNullOrEmpty(isbn))
             {
-                con.Open();
-
-                SqlCommand cmd = new SqlCommand(@"
-            INSERT INTO BooksArchive 
-            (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType,BookCondition)
-            VALUES 
-            (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType,@BookCondition)", con);
-
-                cmd.Parameters.AddWithValue("@BookTitle", BookTitle.Text);
-                cmd.Parameters.AddWithValue("@Author", Author.Text);
-                cmd.Parameters.AddWithValue("@ISBN", ISBN.Text);
-                cmd.Parameters.AddWithValue("@Publisher", Publisher.Text);
-                cmd.Parameters.AddWithValue("@Source", Source.Text);
-                cmd.Parameters.AddWithValue("@Quantity", Quantity.Text);
-                cmd.Parameters.AddWithValue("@Published", Published.Text);
-                cmd.Parameters.AddWithValue("@Category", Category.Text);
-                cmd.Parameters.AddWithValue("@BookCondition", BookConditioncmb.Text);
-
-                // 🟢 Detect BookType (same logic as Book_Acquire insert)
-                string typeOfBook = "Book";
-                string category = Category.Text.ToLower();
-
-                if (category.Contains("magazine") || category.Contains("journal"))
-                    typeOfBook = "Magazine";
-                else if (category.Contains("newspaper") || category.Contains("news"))
-                    typeOfBook = "Newspaper";
-                else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
-                    typeOfBook = "Report / Document";
-                else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
-                    typeOfBook = "Catalog / Pamphlet";
-                else
-                    typeOfBook = "Book";
-
-                cmd.Parameters.AddWithValue("@BookType", typeOfBook);
-
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Book archived successfully!");
-
-                ActivityLog.RecordActivity(
-       SessionData.CurrentUserName,
-       "Archive Book",
-       "Book Acquisition",
-       $"Archived book: {BookTitle.Texts} (ISBN: {ISBN.Texts})"
-   );
-
-
-
-
-
-
-
-                LoadBooksGrid();
+                MessageBox.Show("⚠️ Please enter an ISBN.");
+                return;
             }
 
-            // Clear input fields after archiving
-            BookTitle.Text = "";
-            Author.Text = "";
-            ISBN.Text = "";
-            Publisher.Text = "";
-            Quantity.Text = "";
-            Published.Text = "";
-            Category.Text = "";
-            BookConditioncmb.Text = "";
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                {
+                    con.Open();
+
+                    // 1️⃣ Check if the book exists in BooksAcq
+                    SqlCommand selectCmd = new SqlCommand("SELECT * FROM BooksAcq WHERE ISBN = @ISBN", con);
+                    selectCmd.Parameters.AddWithValue("@ISBN", isbn);
+                    SqlDataReader reader = selectCmd.ExecuteReader();
+
+                    if (!reader.Read())
+                    {
+                        MessageBox.Show("❌ No active book found with that ISBN.");
+                        return;
+                    }
+
+                    int bookId = Convert.ToInt32(reader["BookID"]);
+                    string title = reader["BookTitle"].ToString();
+                    string author = reader["Author"].ToString();
+                    string publisher = reader["Publisher"].ToString();
+                    string source = reader["Source"].ToString();
+                    int currentQty = Convert.ToInt32(reader["Quantity"]);
+                    string published = reader["Published"].ToString();
+                    string category = reader["Category"].ToString();
+                    string bookType = reader["BookType"].ToString();
+                    string bookCondition = reader["BookCondition"].ToString();
+
+                    reader.Close();
+
+                    // 2️⃣ Validate archive quantity
+                    if (archiveQty > currentQty)
+                    {
+                        MessageBox.Show($"⚠️ Cannot archive {archiveQty} copies. Only {currentQty} available.");
+                        return;
+                    }
+
+                    // 3️⃣ Confirm action
+                    var confirm = MessageBox.Show(
+                        $"Archive {archiveQty} of '{title}'?\n\nAvailable: {currentQty}",
+                        "Confirm Archive",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (confirm != DialogResult.Yes)
+                        return;
+
+                    // 4️⃣ Insert into BooksArchive
+                    SqlCommand insertCmd = new SqlCommand(@"
+                INSERT INTO BooksArchive 
+                (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition, ArchivedDate)
+                VALUES 
+                (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition, @ArchivedDate)", con);
+
+                    insertCmd.Parameters.AddWithValue("@BookTitle", title);
+                    insertCmd.Parameters.AddWithValue("@Author", author);
+                    insertCmd.Parameters.AddWithValue("@ISBN", isbn);
+                    insertCmd.Parameters.AddWithValue("@Publisher", publisher);
+                    insertCmd.Parameters.AddWithValue("@Source", source);
+                    insertCmd.Parameters.AddWithValue("@Quantity", archiveQty);
+                    insertCmd.Parameters.AddWithValue("@Published", published);
+                    insertCmd.Parameters.AddWithValue("@Category", category);
+                    insertCmd.Parameters.AddWithValue("@BookType", bookType);
+                    insertCmd.Parameters.AddWithValue("@BookCondition", bookCondition);
+                    insertCmd.Parameters.AddWithValue("@ArchivedDate", DateTime.Now);
+                    insertCmd.ExecuteNonQuery();
+
+                    // 5️⃣ Update or delete from BooksAcq
+                    // 5️⃣ Update or delete from BooksAcq
+                    if (archiveQty < currentQty)
+                    {
+                        int newQty = currentQty - archiveQty;
+                        SqlCommand updateQtyCmd = new SqlCommand(
+                            "UPDATE BooksAcq SET Quantity = @NewQty WHERE BookID = @BookID", con);
+                        updateQtyCmd.Parameters.AddWithValue("@NewQty", newQty);
+                        updateQtyCmd.Parameters.AddWithValue("@BookID", bookId);
+                        updateQtyCmd.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        // Only delete when ALL copies are archived
+                        SqlCommand deleteCmd = new SqlCommand("DELETE FROM BooksAcq WHERE BookID = @BookID", con);
+                        deleteCmd.Parameters.AddWithValue("@BookID", bookId);
+                        deleteCmd.ExecuteNonQuery();
+                    }
+
+
+                    // 6️⃣ Log + refresh
+                    ActivityLog.RecordActivity(
+                        SessionData.CurrentUserName,
+                        "Archive Book",
+                        "Books",
+                        $"Archived {archiveQty} copies of '{title}' (ISBN: {isbn})");
+
+                    MessageBox.Show($"✅ Archived {archiveQty} copies of '{title}' successfully!");
+                    txtArchiveISBN.Clear();
+                    ArchiveQty.Value = 1;
+                    LoadBooksGrid();
+                    GlobalEvents.RaiseBooksDataChanged();
+                    GlobalEvents.RaiseArchivedDataChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error archiving book: " + ex.Message);
+            }
         }
+
 
 
         private void ArchiveBookFromRow(DataGridViewRow row)
@@ -729,15 +780,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                     DataGridTotalBooks.Columns.Add(updateBtn);
                 }
 
-                if (!DataGridTotalBooks.Columns.Contains("Archive"))
-                {
-                    DataGridViewButtonColumn archiveBtn = new DataGridViewButtonColumn();
-                    archiveBtn.HeaderText = " ";
-                    archiveBtn.Name = "Archive";
-                    archiveBtn.Text = "Archive";
-                    archiveBtn.UseColumnTextForButtonValue = true;
-                    DataGridTotalBooks.Columns.Add(archiveBtn);
-                }
+
 
 
             }
@@ -870,22 +913,6 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 return;
             }
 
-            // ✅ Archive logic (same as before)
-            if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Archive")
-            {
-                string bookID = row.Cells["BookID"].Value.ToString();
-                var confirm = MessageBox.Show("Are you sure you want to archive this book?",
-                                              "Confirm Archive",
-                                              MessageBoxButtons.YesNo,
-                                              MessageBoxIcon.Question);
-                if (confirm == DialogResult.No)
-                    return;
-
-                ArchiveBookFromRow(row);
-                DeleteFromBooksAcq(bookID);
-                LoadBooksGrid();
-                return;
-            }
 
             // ✅ Update logic with change tracking
             if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Update")
@@ -1497,6 +1524,148 @@ WHERE BookID = @BookID", con);
                 MessageBox.Show($"{colName} cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+        }
+
+        private void btnArchiveISBN_Click(object sender, EventArgs e)
+        {
+            string isbnToArchive = txtArchiveISBN.Text.Trim();
+            int archiveQty = (int)ArchiveQty.Value;
+
+            if (string.IsNullOrEmpty(isbnToArchive))
+            {
+                MessageBox.Show("⚠️ Please enter an ISBN to archive.", "Missing ISBN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (archiveQty <= 0)
+            {
+                MessageBox.Show("⚠️ Please enter a valid quantity to archive.", "Invalid Quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                {
+                    con.Open();
+
+                    // 🔹 Step 1: Find book by ISBN and get current quantity
+                    string selectQuery = "SELECT * FROM BooksAcq WHERE ISBN = @ISBN";
+                    using (SqlCommand selectCmd = new SqlCommand(selectQuery, con))
+                    {
+                        selectCmd.Parameters.AddWithValue("@ISBN", isbnToArchive);
+                        using (SqlDataReader reader = selectCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                int bookId = Convert.ToInt32(reader["BookID"]);
+                                string title = reader["BookTitle"].ToString();
+                                string author = reader["Author"].ToString();
+                                string publisher = reader["Publisher"].ToString();
+                                string source = reader["Source"].ToString();
+                                int currentQty = Convert.ToInt32(reader["Quantity"]);
+                                string published = reader["Published"].ToString();
+                                string category = reader["Category"].ToString();
+                                string bookType = reader["BookType"]?.ToString() ?? "Book";
+                                string bookCondition = reader["BookCondition"]?.ToString() ?? "Good";
+
+                                reader.Close();
+
+                                // 🔹 Step 2: Validate archive quantity
+                                if (archiveQty > currentQty)
+                                {
+                                    MessageBox.Show($"⚠️ Cannot archive {archiveQty} copies. Only {currentQty} available.",
+                                        "Insufficient Quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    return;
+                                }
+
+                                // 🔹 Step 3: Confirm action
+                                var confirm = MessageBox.Show(
+                                    $"Archive {archiveQty} of '{title}'?\n\nCurrent quantity: {currentQty}\nRemaining after archive: {currentQty - archiveQty}",
+                                    "Confirm Archive",
+                                    MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question);
+
+                                if (confirm != DialogResult.Yes)
+                                    return;
+
+                                // 🔹 Step 4: Insert into BooksArchive
+                                SqlCommand insertCmd = new SqlCommand(@"
+                            INSERT INTO BooksArchive 
+                            (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition, ArchivedDate)
+                            VALUES 
+                            (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition, @ArchivedDate)", con);
+
+                                insertCmd.Parameters.AddWithValue("@BookTitle", title);
+                                insertCmd.Parameters.AddWithValue("@Author", author);
+                                insertCmd.Parameters.AddWithValue("@ISBN", isbnToArchive);
+                                insertCmd.Parameters.AddWithValue("@Publisher", publisher);
+                                insertCmd.Parameters.AddWithValue("@Source", source);
+                                insertCmd.Parameters.AddWithValue("@Quantity", archiveQty);
+                                insertCmd.Parameters.AddWithValue("@Published", published);
+                                insertCmd.Parameters.AddWithValue("@Category", category);
+                                insertCmd.Parameters.AddWithValue("@BookType", bookType);
+                                insertCmd.Parameters.AddWithValue("@BookCondition", bookCondition);
+                                insertCmd.Parameters.AddWithValue("@ArchivedDate", DateTime.Now);
+                                insertCmd.ExecuteNonQuery();
+
+                                // 🔹 Step 5: Update or delete from BooksAcq
+                                if (archiveQty < currentQty)
+                                {
+                                    // Update quantity - reduce by archived amount
+                                    int newQty = currentQty - archiveQty;
+                                    SqlCommand updateQtyCmd = new SqlCommand(
+                                        "UPDATE BooksAcq SET Quantity = @NewQty WHERE BookID = @BookID", con);
+                                    updateQtyCmd.Parameters.AddWithValue("@NewQty", newQty);
+                                    updateQtyCmd.Parameters.AddWithValue("@BookID", bookId);
+                                    updateQtyCmd.ExecuteNonQuery();
+
+                                    MessageBox.Show($"✅ Archived {archiveQty} copies of '{title}'!\n\nRemaining quantity: {newQty}",
+                                        "Archive Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                                else
+                                {
+                                    // Delete entire record if all copies are archived
+                                    SqlCommand deleteCmd = new SqlCommand("DELETE FROM BooksAcq WHERE BookID = @BookID", con);
+                                    deleteCmd.Parameters.AddWithValue("@BookID", bookId);
+                                    deleteCmd.ExecuteNonQuery();
+
+                                    MessageBox.Show($"✅ Archived all {archiveQty} copies of '{title}'!\n\nBook removed from active inventory.",
+                                        "Archive Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+
+                                // 🔹 Step 6: Log activity
+                                ActivityLog.RecordActivity(
+                                    SessionData.CurrentUserName,
+                                    "Archive Book",
+                                    "Book Acquisition",
+                                    $"Archived {archiveQty} copies of '{title}' (ISBN: {isbnToArchive})");
+
+                                // 🔹 Step 7: Clear inputs and refresh
+                                txtArchiveISBN.Clear();
+                                ArchiveQty.Value = 1;
+                                LoadBooksGrid();
+                                GlobalEvents.RaiseBooksDataChanged();
+                                GlobalEvents.RaiseArchivedDataChanged();
+                            }
+                            else
+                            {
+                                MessageBox.Show("❌ No active book found with that ISBN.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"❌ Error archiving book: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void numArchiveQty(object sender, EventArgs e)
+        {
+
         }
     }
 

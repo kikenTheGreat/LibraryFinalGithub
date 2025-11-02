@@ -44,6 +44,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
@@ -92,8 +94,9 @@
             label18 = new Label();
             label12 = new Label();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            txtISBNRestore = new Guna.UI2.WinForms.Guna2TextBox();
-            btnRestoreBook = new Guna.UI2.WinForms.Guna2Button();
+            txtArchiveISBN = new Guna.UI2.WinForms.Guna2TextBox();
+            btnArchiveISBN = new Guna.UI2.WinForms.Guna2Button();
+            ArchiveQty = new Guna.UI2.WinForms.Guna2NumericUpDown();
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel2.SuspendLayout();
@@ -102,6 +105,7 @@
             arthanPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)Quantity).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picCover).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ArchiveQty).BeginInit();
             SuspendLayout();
             // 
             // arthanPanel4
@@ -566,6 +570,7 @@
             Quantity.ShadowDecoration.CustomizableEdges = customizableEdges4;
             Quantity.Size = new Size(125, 50);
             Quantity.TabIndex = 30;
+            Quantity.Load += numArchiveQty;
             // 
             // picCover
             // 
@@ -798,48 +803,62 @@
             guna2HtmlLabel1.TabIndex = 78;
             guna2HtmlLabel1.Text = "Enter ISBN";
             // 
-            // txtISBNRestore
+            // txtArchiveISBN
             // 
-            txtISBNRestore.BorderColor = Color.FromArgb(224, 224, 224);
-            txtISBNRestore.BorderRadius = 4;
-            txtISBNRestore.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            txtISBNRestore.BorderThickness = 2;
-            txtISBNRestore.CustomizableEdges = customizableEdges11;
-            txtISBNRestore.DefaultText = "";
-            txtISBNRestore.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            txtISBNRestore.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            txtISBNRestore.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            txtISBNRestore.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            txtISBNRestore.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtISBNRestore.Font = new Font("Segoe UI", 9F);
-            txtISBNRestore.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtISBNRestore.Location = new Point(1475, 185);
-            txtISBNRestore.Margin = new Padding(3, 4, 3, 4);
-            txtISBNRestore.Name = "txtISBNRestore";
-            txtISBNRestore.PlaceholderText = "";
-            txtISBNRestore.SelectedText = "";
-            txtISBNRestore.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            txtISBNRestore.Size = new Size(344, 39);
-            txtISBNRestore.TabIndex = 76;
+            txtArchiveISBN.BorderColor = Color.FromArgb(224, 224, 224);
+            txtArchiveISBN.BorderRadius = 4;
+            txtArchiveISBN.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            txtArchiveISBN.BorderThickness = 2;
+            txtArchiveISBN.CustomizableEdges = customizableEdges11;
+            txtArchiveISBN.DefaultText = "";
+            txtArchiveISBN.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtArchiveISBN.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtArchiveISBN.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtArchiveISBN.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtArchiveISBN.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtArchiveISBN.Font = new Font("Segoe UI", 9F);
+            txtArchiveISBN.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtArchiveISBN.Location = new Point(1475, 185);
+            txtArchiveISBN.Margin = new Padding(3, 4, 3, 4);
+            txtArchiveISBN.Name = "txtArchiveISBN";
+            txtArchiveISBN.PlaceholderText = "";
+            txtArchiveISBN.SelectedText = "";
+            txtArchiveISBN.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            txtArchiveISBN.Size = new Size(344, 39);
+            txtArchiveISBN.TabIndex = 76;
             // 
-            // btnRestoreBook
+            // btnArchiveISBN
             // 
-            btnRestoreBook.BorderRadius = 18;
-            btnRestoreBook.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnRestoreBook.CustomizableEdges = customizableEdges13;
-            btnRestoreBook.DisabledState.BorderColor = Color.DarkGray;
-            btnRestoreBook.DisabledState.CustomBorderColor = Color.DarkGray;
-            btnRestoreBook.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            btnRestoreBook.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnRestoreBook.FillColor = Color.Orange;
-            btnRestoreBook.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnRestoreBook.ForeColor = Color.Black;
-            btnRestoreBook.Location = new Point(1568, 227);
-            btnRestoreBook.Name = "btnRestoreBook";
-            btnRestoreBook.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            btnRestoreBook.Size = new Size(157, 63);
-            btnRestoreBook.TabIndex = 77;
-            btnRestoreBook.Text = "Restore Book";
+            btnArchiveISBN.BorderRadius = 18;
+            btnArchiveISBN.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            btnArchiveISBN.CustomizableEdges = customizableEdges13;
+            btnArchiveISBN.DisabledState.BorderColor = Color.DarkGray;
+            btnArchiveISBN.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnArchiveISBN.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnArchiveISBN.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnArchiveISBN.FillColor = Color.Orange;
+            btnArchiveISBN.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnArchiveISBN.ForeColor = Color.Black;
+            btnArchiveISBN.Location = new Point(1475, 231);
+            btnArchiveISBN.Name = "btnArchiveISBN";
+            btnArchiveISBN.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnArchiveISBN.Size = new Size(157, 63);
+            btnArchiveISBN.TabIndex = 77;
+            btnArchiveISBN.Text = "Restore Book";
+            btnArchiveISBN.Click += btnArchiveISBN_Click;
+            // 
+            // ArchiveQty
+            // 
+            ArchiveQty.BackColor = Color.Transparent;
+            ArchiveQty.CustomizableEdges = customizableEdges15;
+            ArchiveQty.Font = new Font("Segoe UI", 9F);
+            ArchiveQty.Location = new Point(1694, 239);
+            ArchiveQty.Margin = new Padding(3, 4, 3, 4);
+            ArchiveQty.Name = "ArchiveQty";
+            ArchiveQty.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            ArchiveQty.Size = new Size(125, 50);
+            ArchiveQty.TabIndex = 79;
+            ArchiveQty.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // Book_Aquire
             // 
@@ -847,9 +866,10 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
             ClientSize = new Size(1902, 1033);
+            Controls.Add(ArchiveQty);
             Controls.Add(guna2HtmlLabel1);
-            Controls.Add(txtISBNRestore);
-            Controls.Add(btnRestoreBook);
+            Controls.Add(txtArchiveISBN);
+            Controls.Add(btnArchiveISBN);
             Controls.Add(BookCondition);
             Controls.Add(label18);
             Controls.Add(cmbBookTitle);
@@ -887,6 +907,7 @@
             arthanPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)Quantity).EndInit();
             ((System.ComponentModel.ISupportInitialize)picCover).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ArchiveQty).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -941,7 +962,8 @@
         private Label label18;
         private Label label12;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
-        private Guna.UI2.WinForms.Guna2TextBox txtISBNRestore;
-        private Guna.UI2.WinForms.Guna2Button btnRestoreBook;
+        private Guna.UI2.WinForms.Guna2TextBox txtArchiveISBN;
+        private Guna.UI2.WinForms.Guna2Button btnArchiveISBN;
+        private Guna.UI2.WinForms.Guna2NumericUpDown ArchiveQty;
     }
 }
