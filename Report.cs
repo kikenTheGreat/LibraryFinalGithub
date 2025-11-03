@@ -35,7 +35,7 @@ Trust Server Certificate=True;
             InventoryPANEL.Visible = false;
         }
 
-        private void Report_Load(object sender, EventArgs e)//most importantttttttttttttttttttttttttttttttttttttttttt
+        private void Report_Load(object sender, EventArgs e)
         {
             //live data
             lblTotalReturned.Text = GlobalEvents.GetTotalReturnedBooks().ToString();
@@ -46,10 +46,12 @@ Trust Server Certificate=True;
             LoadCategoryCombo();
             LoadStatusCombo();
 
-
-
             LoadBookStats();
             LoadReturnStats();
+
+            // ✅ Set date range to show ALL data (e.g., last 30 days or all time)
+            dtpReturnStart.Value = DateTime.Now.AddMonths(-6); // Last 6 months
+            dtpReturnEnd.Value = DateTime.Now;
 
             dtpStart.Value = DateTime.Now;
             dtpEnd.Value = DateTime.Now;
@@ -61,14 +63,79 @@ Trust Server Certificate=True;
             LoadAllBorrowedBooks();
             LoadAllReturnedBooks();
             LoadAllBooks();
+
             StyleDataGrid(dgvBorrowedBooks);
             StyleDataGrid(dgvReturnedBooks);
             StyleDataGrid(dataGridBooks);
-            // StyleDataGrid(dgvFacultyBorrow);
-            //StyleDataGrid(dgvStudentBorrow);
 
-            StyleDataGrid(dgvBorrowedBooks);
+            // ✅ Setup combo boxes AFTER loading data
+            cmbClientType.Items.Add("All");
+            cmbClientType.Items.Add("Student");
+            cmbClientType.Items.Add("Faculty");
+            cmbClientType.SelectedIndex = 0;
+
+          
+
+            cmbSource.Items.Add("All");
+            cmbSource.Items.Add("Purchased");
+            cmbSource.Items.Add("Donate");
+            cmbSource.SelectedIndex = 0;
         }
+
+        private void ApplyReturnedBookFilters()
+        {
+            try
+            {
+                con.Open();
+
+                string query = "SELECT * FROM ReturnedBooks WHERE ReturnDate BETWEEN @start AND @end";
+
+                // Name filter
+                if (!string.IsNullOrEmpty(txtStudentName.Text))
+                {
+                    query += " AND ClientName LIKE @clientName";
+
+                }
+
+                // Client Type filter
+                if (cmbClientType.SelectedItem != null && cmbClientType.SelectedItem.ToString() != "All")
+                {
+                    query += " AND ClientType = @clientType";
+                }
+
+                // Overdue filter
+               
+
+                // Source filter
+                if (cmbSource.SelectedItem != null && cmbSource.SelectedItem.ToString() != "All")
+                {
+                    query += " AND Source = @source";
+                }
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@start", dtpReturnStart.Value.Date);
+                cmd.Parameters.AddWithValue("@end", dtpReturnEnd.Value.Date);
+
+                if (!string.IsNullOrEmpty(txtStudentName.Text))
+                    cmd.Parameters.AddWithValue("@clientName", "%" + txtStudentName.Text + "%");
+
+                if (cmbClientType.SelectedItem != null && cmbClientType.SelectedItem.ToString() != "All")
+                    cmd.Parameters.AddWithValue("@clientType", cmbClientType.SelectedItem.ToString());
+
+                if (cmbSource.SelectedItem != null && cmbSource.SelectedItem.ToString() != "All")
+                    cmd.Parameters.AddWithValue("@source", cmbSource.SelectedItem.ToString());
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                dgvReturnedBooks.DataSource = dt;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
 
 
         // 🧩 Load Unique Categories into ComboBox
@@ -136,8 +203,9 @@ Trust Server Certificate=True;
             {
                 conn.Open();
 
-                // Total Books
-                string totalBooksQuery = "SELECT COUNT(*) FROM BooksAcq";
+
+                // ✅ Total Books - Sum quantities instead of counting rows
+                string totalBooksQuery = "SELECT ISNULL(SUM(Quantity), 0) FROM BooksAcq";
                 SqlCommand cmdTotal = new SqlCommand(totalBooksQuery, conn);
                 TotalBooks.Text = cmdTotal.ExecuteScalar().ToString();
 
@@ -147,12 +215,13 @@ Trust Server Certificate=True;
                 Available.Text = cmdAvailable.ExecuteScalar().ToString();
 
                 // Low Stock (Quantity between 1–5)
-                string lowStockQuery = "SELECT COUNT(*) FROM BooksAcq WHERE Quantity BETWEEN 1 AND 5";
+                string lowStockQuery = "SELECT COUNT(*) FROM IssueBooks WHERE Status IN ('Issued', 'Overdue', 'Report filed by librarian')";
                 SqlCommand cmdLow = new SqlCommand(lowStockQuery, conn);
                 Lowstack.Text = cmdLow.ExecuteScalar().ToString();
 
                 // Archived (BookType = 'Archived')
-                string archivedQuery = "SELECT COUNT(*) FROM BooksArchive";
+               
+                string archivedQuery = "SELECT ISNULL(SUM(Quantity), 0) FROM BooksArchive";
                 SqlCommand cmdArchived = new SqlCommand(archivedQuery, conn);
                 Archived.Text = cmdArchived.ExecuteScalar().ToString();
             }
@@ -351,6 +420,7 @@ Trust Server Certificate=True;
         }
         private void guna2Button1_Click(object sender, EventArgs e) // button for applying filters on returned books
         {
+            ApplyReturnedBookFilters();
             try
             {
                 con.Open();
@@ -358,26 +428,38 @@ Trust Server Certificate=True;
                 // Base query - filter by date range
                 string query = "SELECT * FROM ReturnedBooks WHERE ReturnDate BETWEEN @start AND @end";
 
-                // Filter by ClientName if text is entered
+                // Student name filter
                 if (!string.IsNullOrEmpty(txtStudentName.Text))
                 {
                     query += " AND ClientName LIKE @clientName";
                 }
 
-                // Filter by Status if combobox has a value
+                // Client Type filter
+                if (cmbClientType.SelectedItem != null && cmbClientType.SelectedItem.ToString() != "All")
+                {
+                    query += " AND ClientType = @clientType";
+                }
 
+                
+
+                // Source filter
+                if (cmbSource.SelectedItem != null && cmbSource.SelectedItem.ToString() != "All")
+                {
+                    query += " AND Source = @source";
+                }
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@start", dtpReturnStart.Value.Date);
                 cmd.Parameters.AddWithValue("@end", dtpReturnEnd.Value.Date);
 
-                // Add client name parameter if used
                 if (!string.IsNullOrEmpty(txtStudentName.Text))
-                {
                     cmd.Parameters.AddWithValue("@clientName", "%" + txtStudentName.Text + "%");
-                }
 
+                if (cmbClientType.SelectedItem != null && cmbClientType.SelectedItem.ToString() != "All")
+                    cmd.Parameters.AddWithValue("@clientType", cmbClientType.SelectedItem.ToString());
 
+                if (cmbSource.SelectedItem != null && cmbSource.SelectedItem.ToString() != "All")
+                    cmd.Parameters.AddWithValue("@source", cmbSource.SelectedItem.ToString());
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -408,23 +490,24 @@ Trust Server Certificate=True;
             {
                 con.Open();
 
-                // If the textbox is empty, show all data
                 string query;
 
                 if (string.IsNullOrEmpty(txtStudentName.Text))
                 {
+                    // If the textbox is empty, show all data
                     query = "SELECT * FROM ReturnedBooks";
                 }
                 else
                 {
-                    query = "SELECT * FROM ReturnedBooks WHERE ClientName LIKE @clientName";
+                    // Search by both ClientName and ClientID
+                    query = "SELECT * FROM ReturnedBooks WHERE ClientName LIKE @searchText OR CAST(ClientID AS NVARCHAR) LIKE @searchText";
                 }
 
                 SqlCommand cmd = new SqlCommand(query, con);
 
                 if (!string.IsNullOrEmpty(txtStudentName.Text))
                 {
-                    cmd.Parameters.AddWithValue("@clientName", "%" + txtStudentName.Text + "%");
+                    cmd.Parameters.AddWithValue("@searchText", "%" + txtStudentName.Text + "%");
                 }
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -436,7 +519,7 @@ Trust Server Certificate=True;
                 // Optional: show a message if no results
                 if (dt.Rows.Count == 0)
                 {
-                    MessageBox.Show("No records found for that name.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No records found for that name or ID.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             finally
@@ -557,6 +640,21 @@ Trust Server Certificate=True;
             report_module_5 r = new report_module_5();
             r.Show();
             this.Hide();
+        }
+
+        private void cmbClientType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyReturnedBookFilters();
+        }
+
+        private void cmbOverdue_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyReturnedBookFilters();
+        }
+
+        private void cmbSource_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyReturnedBookFilters();
         }
     }
 }

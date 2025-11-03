@@ -20,14 +20,16 @@ namespace LibraryCGC
         public Form1(int employeeId)
         {
             InitializeComponent();
+            currentEmployeeID = employeeId;  // ✅ Set this first
+
+            // ✅ Update all dashboard statistics
             UpdateTotalBooksLabel();
+            UpdateTotalBorrowedLabel();      // ✅ Add this - it was missing
             UpdateTotalArchivedLabel();
-            LoadPenaltyCards();
             UpdateTotalOverdueLabel();
-            currentEmployeeID = employeeId;
-
+            LoadPenaltyCards();
+            CleanOldOTPRecords();            // ✅ Optional: Add this for consistency
         }
-
 
 
 
@@ -163,21 +165,23 @@ Trust Server Certificate=True;
 
 
 
+        // ✅ Replace your existing UpdateTotalBooksLabel method with this
         public void UpdateTotalBooksLabel()
         {
-
             SqlConnection con = new SqlConnection(@" Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
 Integrated Security=True;
 Encrypt=True;
 Trust Server Certificate=True;
-
 ");
             try
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM BooksAcq", con);
-                int totalBooks = (int)cmd.ExecuteScalar();
+
+                // ✅ Sum the Quantity column instead of counting rows
+                SqlCommand cmd = new SqlCommand("SELECT ISNULL(SUM(Quantity), 0) FROM BooksAcq", con);
+                int totalBooks = Convert.ToInt32(cmd.ExecuteScalar());
+
                 labelTotalBooks.Text = totalBooks.ToString();
             }
             catch (Exception ex)
@@ -190,6 +194,34 @@ Trust Server Certificate=True;
             }
         }
 
+        // ✅ Replace your existing UpdateTotalArchivedLabel method with this
+        public void UpdateTotalArchivedLabel()
+        {
+            SqlConnection con = new SqlConnection(@"  Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;
+");
+            try
+            {
+                con.Open();
+
+                // ✅ Sum the Quantity column instead of counting rows
+                SqlCommand cmd = new SqlCommand("SELECT ISNULL(SUM(Quantity), 0) FROM BooksArchive", con);
+                int totalArchived = Convert.ToInt32(cmd.ExecuteScalar());
+
+                labelTotalArchived.Text = totalArchived.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
 
 
 
@@ -220,32 +252,7 @@ Trust Server Certificate=True;
             }
         }
 
-        public void UpdateTotalArchivedLabel()
-        {
-
-            SqlConnection con = new SqlConnection(@"  Data Source=(LocalDB)\MSSQLLocalDB;
-Initial Catalog=LibraryDB;
-Integrated Security=True;
-Encrypt=True;
-Trust Server Certificate=True;
-
-");
-            try
-            {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM BooksArchive", con);
-                int totalarchived = (int)cmd.ExecuteScalar();
-                labelTotalArchived.Text = totalarchived.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
+     
 
 
 

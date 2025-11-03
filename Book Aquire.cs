@@ -55,11 +55,15 @@ namespace LibraryCGC
             //Source Combobox fill
             Source.Items.AddRange(new string[] { "Purchased ", "Donate " });
             Source.SelectedIndex = 0;
-            BookConditioncmb.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged" });
+            
+            BookConditioncmb.Items.AddRange(new string[] { "Good", "Minor Damaged", "Damaged" });
             BookConditioncmb.SelectedIndex = 0;
 
             //filtering combobox fill
-            BookCondition.Items.AddRange(new string[] { "Good", "Damaged", "Minor Damaged" });
+         
+            BookCondition.Items.Add("Good");
+            BookCondition.Items.Add("Minor Damaged");
+            BookCondition.Items.Add("Damaged ");
 
 
             cmbSource.DataSource = null;   // 👈 break data-binding
@@ -1483,6 +1487,7 @@ WHERE BookID = @BookID", con);
             cmbPublished.SelectedIndex = -1;
             cmbCategory.SelectedIndex = -1;
             cmbBookType.SelectedIndex = -1;
+            BookCondition.SelectedIndex = -1;
 
             // Safely handle both DataTable or DataView
             if (DataGridTotalBooks.DataSource is DataView dv)

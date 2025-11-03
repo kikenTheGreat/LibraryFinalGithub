@@ -25,18 +25,15 @@ namespace Library_Final
         // ✅ ADD THESE FLAGS
         private bool isUpdatingFields = false;
 
-        public DamagedBookReport()
-        {
-            InitializeComponent();
-
-        }
-
         public DamagedBookReport(int employeeId)
         {
             InitializeComponent();
             currentEmployeeID = employeeId;
-            
+
         }
+
+        
+
 
 
         private void LoadEmployeeFullName()
