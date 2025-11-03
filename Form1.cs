@@ -2,6 +2,8 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Drawing;
+using System.IO;
+
 
 namespace LibraryCGC
 {
@@ -20,19 +22,75 @@ namespace LibraryCGC
         public Form1(int employeeId)
         {
             InitializeComponent();
-            currentEmployeeID = employeeId;  // ✅ Set this first
+            currentEmployeeID = employeeId; // ✅ Set this FIRST
 
-            // ✅ Update all dashboard statistics
+            LoadEmployeeProfile(); // ✅ Load employee info and image
+
             UpdateTotalBooksLabel();
-            UpdateTotalBorrowedLabel();      // ✅ Add this - it was missing
+            UpdateTotalBorrowedLabel();
             UpdateTotalArchivedLabel();
-            UpdateTotalOverdueLabel();
             LoadPenaltyCards();
-            CleanOldOTPRecords();            // ✅ Optional: Add this for consistency
+            UpdateTotalOverdueLabel();
+            CleanOldOTPRecords();
         }
 
+        // ✅ Add this method to your Form1 class
+        private void LoadEmployeeProfile()
+        {
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;";
 
+            string query = "SELECT FirstName, LastName, ProfileImage FROM Employees WHERE EmployeeID = @EmployeeID";
 
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@EmployeeID", currentEmployeeID);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // ✅ Combine FirstName and LastName
+                            string firstName = reader["FirstName"].ToString();
+                            string lastName = reader["LastName"].ToString();
+                            labelEmployeeName.Text = $"{firstName} {lastName}";
+
+                            // ✅ Load profile image if exists
+                            if (reader["ProfileImage"] != DBNull.Value)
+                            {
+                                byte[] imageData = (byte[])reader["ProfileImage"];
+                                using (MemoryStream ms = new MemoryStream(imageData))
+                                {
+                                    circlePictureBox.Image = Image.FromStream(ms);
+                                }
+                            }
+                            else
+                            {
+                                // ✅ Set default image if no profile picture
+                                circlePictureBox.Image = null;
+                                // Or use: circlePictureBox.Image = Properties.Resources.default_avatar;
+                            }
+                        }
+                        else
+                        {
+                            labelEmployeeName.Text = "Employee Not Found";
+                            circlePictureBox.Image = null;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error loading employee profile: " + ex.Message);
+                }
+            }
+        }
 
 
 
@@ -43,6 +101,11 @@ namespace LibraryCGC
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (currentEmployeeID > 0)
+            {
+                LoadEmployeeProfile(); // ✅ Load profile if employee ID exists
+            }
+
             LoadPenaltyCards();
             UpdateTotalBorrowedLabel();
             UpdateTotalBooksLabel();
@@ -50,14 +113,12 @@ namespace LibraryCGC
             UpdateTotalOverdueLabel();
             CleanOldOTPRecords();
 
-
             // ✅ Subscribe to live overdue update
             GlobalEvents.OverdueDataChanged += () => UpdateTotalOverdueLabel();
             GlobalEvents.BooksDataChanged += () => UpdateTotalBooksLabel();
             GlobalEvents.BorrowedDataChanged += () => UpdateTotalBorrowedLabel();
             GlobalEvents.ArchivedDataChanged += () => UpdateTotalArchivedLabel();
-            GlobalEvents.PenaltiesDataChanged += () => LoadPenaltyCards(); // 👈 new
-
+            GlobalEvents.PenaltiesDataChanged += () => LoadPenaltyCards();
         }
 
         private void CleanOldOTPRecords()
