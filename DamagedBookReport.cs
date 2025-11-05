@@ -24,43 +24,60 @@ namespace Library_Final
 
         // ✅ ADD THESE FLAGS
         private bool isUpdatingFields = false;
-
-        public DamagedBookReport(int employeeId)
+        // ✅ OPTION 2: Keep constructor parameter but validate with SessionData
+        public DamagedBookReport()
         {
             InitializeComponent();
-            currentEmployeeID = employeeId;
 
+   
+
+             
         }
 
-        
+
 
 
 
         private void LoadEmployeeFullName()
         {
-            MessageBox.Show($"Debug: currentEmployeeID = {currentEmployeeID}");
+            // ✅ Use SessionData instead of the potentially incorrect currentEmployeeID
+            int employeeID = SessionData.CurrentEmployeeID;
 
+            MessageBox.Show($"Debug: Loading employee with ID = {employeeID}");
 
-            string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
-        string query = "SELECT FirstName, LastName FROM Employees WHERE EmployeeID = @EmployeeID";
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
+            string query = "SELECT FirstName, LastName FROM Employees WHERE EmployeeID = @EmployeeID";
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@EmployeeID", currentEmployeeID);
-
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    string fullName = $"{reader["FirstName"]} {reader["LastName"]}";
-                    guna2ComboBox1.Items.Clear();
-                    guna2ComboBox1.Items.Add(fullName);
-                    guna2ComboBox1.SelectedIndex = 0; // show immediately
-                }
+                    cmd.Parameters.AddWithValue("@EmployeeID", employeeID);
 
-                reader.Close();
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        string fullName = $"{reader["FirstName"]} {reader["LastName"]}";
+                        guna2ComboBox1.Items.Clear();
+                        guna2ComboBox1.Items.Add(fullName);
+                        guna2ComboBox1.SelectedIndex = 0;
+
+                        MessageBox.Show($"Successfully loaded: {fullName}", "Success");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"No employee found with ID: {employeeID}", "Not Found");
+                    }
+
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading employee: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -1,39 +1,42 @@
 ﻿using Library_Final;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using OnBarcode.Barcode;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing;
 using PdfSharp.Drawing;
+using PdfSharp.Drawing;
+using ZXing.Rendering;
+using PdfSharp.Fonts;
+using PdfSharp.Fonts;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf;
+using PdfSharp.Pdf;
 using QRCoder;
 using QRCoder;
+using QRCoder;
+using System.Drawing;          // Bitmap
+using System.Drawing.Imaging;  // ImageFormat
+using System;
 using System;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data;
+using System.Data;
 using System.Diagnostics.Metrics;
 using System.Drawing;
-using System;
-using System.Data;
 using System.Drawing;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Imaging;
+using System.Drawing.Imaging;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Windows.Forms;
-using Microsoft.Data.SqlClient;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using PdfSharp.Fonts;
-using QRCoder;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Imaging;
-using System.Drawing.Imaging;
 using System.IO;
 using System.IO;
 using System.Linq;
@@ -42,10 +45,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms;
+using System.Windows.Forms;
+using ZXing;
+using ZXing.Common;
+using ZXing.QrCode;
 using static System.Collections.Specialized.BitVector32;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using PdfSharp.Fonts;
 
 namespace LibraryCGC
 {
@@ -243,11 +249,19 @@ namespace LibraryCGC
 
 
 
-                // --- Generate QR Code for ClientID ---
-                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(clientId.ToString(), QRCodeGenerator.ECCLevel.Q);
-                QRCoder.QRCode qrCode = new QRCoder.QRCode(qrCodeData);
-                Bitmap qrImage = qrCode.GetGraphic(12); // Slightly larger for better clarity
+                var writer = new BarcodeWriter<Bitmap>
+                {
+                    Format = BarcodeFormat.CODE_128,
+                    Renderer = new SimpleBitmapRenderer(),
+                    Options = new EncodingOptions
+                    {
+                        Width = 300,
+                        Height = 80,
+                        Margin = 2
+                    }
+                };
+
+                Bitmap barcodeImage = writer.Write(clientId.ToString());
 
                 // --- Create PDF Label (58 mm x 40 mm) ---
                 PdfDocument pdf = new PdfDocument();
@@ -268,25 +282,26 @@ namespace LibraryCGC
                 gfx.DrawString("CGC Library System", fontHeader, XBrushes.Black,
                     new XRect(margin, margin, labelWidth, 10), XStringFormats.TopCenter);
 
-                // --- QR Code (centered) ---
-                double qrSize = XUnit.FromMillimeter(22); // slightly smaller to free vertical space
-                double qrX = (page.Width - qrSize) / 2;
-                double qrY = margin + 11;
+                // --- Barcode (centered) ---
+                double barcodeWidth = XUnit.FromMillimeter(45);
+                double barcodeHeight = XUnit.FromMillimeter(15);
+                double barcodeX = (page.Width - barcodeWidth) / 2;
+                double barcodeY = margin + 11;
 
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    qrImage.Save(ms, ImageFormat.Png);
+                    barcodeImage.Save(ms, ImageFormat.Png);
                     XImage xImage = XImage.FromStream(ms);
-                    gfx.DrawImage(xImage, qrX, qrY, qrSize, qrSize);
+                    gfx.DrawImage(xImage, barcodeX, barcodeY, barcodeWidth, barcodeHeight);
                 }
 
-                // --- Text below QR ---
-                double textStart = qrY + qrSize + XUnit.FromMillimeter(1.5); // smaller gap under QR
+                // --- Text below barcode ---
+                double textStart = barcodeY + barcodeHeight + XUnit.FromMillimeter(1.5);
 
                 // Shorten long names if needed
                 string shortName = Name.Text.Length > 18 ? Name.Text.Substring(0, 17) + "…" : Name.Text;
 
-                // --- Draw info (tighter spacing) ---
+                // --- Draw info ---
                 gfx.DrawString($"ID: {clientId}", fontRegular, XBrushes.Black,
                     new XRect(margin, textStart, labelWidth, 10), XStringFormats.TopCenter);
                 gfx.DrawString(shortName, fontRegular, XBrushes.Black,
@@ -294,15 +309,13 @@ namespace LibraryCGC
                 gfx.DrawString(Role.Text, fontRegular, XBrushes.Black,
                     new XRect(margin, textStart + 14, labelWidth, 10), XStringFormats.TopCenter);
 
-
-
                 // --- Save and open ---
-                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Library_QRCodes");
+                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Library_Barcodes");
                 Directory.CreateDirectory(folderPath);
                 string pdfPath = Path.Combine(folderPath, $"Client_{clientId}.pdf");
                 pdf.Save(pdfPath);
                 pdf.Close();
-                qrImage.Dispose();
+                barcodeImage.Dispose();
 
                 MessageBox.Show($"Label PDF created:\n{pdfPath}");
 

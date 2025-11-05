@@ -34,6 +34,7 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(REGISTER));
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             linkForgotPassword = new LinkLabel();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
@@ -42,7 +43,9 @@
             txtUsername = new Guna.UI2.WinForms.Guna2TextBox();
             label6 = new Label();
             label5 = new Label();
+            pictureBox1 = new PictureBox();
             arthanPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // arthanPanel1
@@ -51,6 +54,7 @@
             arthanPanel1.BorderStyle = BorderStyle.FixedSingle;
             arthanPanel1.BottomLeftRadius = 0;
             arthanPanel1.BottomRightRadius = 0;
+            arthanPanel1.Controls.Add(pictureBox1);
             arthanPanel1.Controls.Add(linkForgotPassword);
             arthanPanel1.Controls.Add(guna2Button1);
             arthanPanel1.Controls.Add(txtPassword);
@@ -64,13 +68,12 @@
             arthanPanel1.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel1.GradientEndColor = Color.White;
             arthanPanel1.GradientStartColor = SystemColors.Control;
-            arthanPanel1.Location = new Point(467, 195);
-            arthanPanel1.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel1.Location = new Point(26, 25);
             arthanPanel1.Name = "arthanPanel1";
             arthanPanel1.ShadowBlur = 0;
             arthanPanel1.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel1.ShadowOffset = 0;
-            arthanPanel1.Size = new Size(903, 353);
+            arthanPanel1.Size = new Size(790, 327);
             arthanPanel1.TabIndex = 27;
             arthanPanel1.TopLeftRadius = 0;
             arthanPanel1.TopRightRadius = 0;
@@ -80,9 +83,9 @@
             // linkForgotPassword
             // 
             linkForgotPassword.AutoSize = true;
-            linkForgotPassword.Location = new Point(668, 243);
+            linkForgotPassword.Location = new Point(581, 180);
             linkForgotPassword.Name = "linkForgotPassword";
-            linkForgotPassword.Size = new Size(125, 20);
+            linkForgotPassword.Size = new Size(100, 15);
             linkForgotPassword.TabIndex = 52;
             linkForgotPassword.TabStop = true;
             linkForgotPassword.Text = "Forgot Password?";
@@ -96,12 +99,14 @@
             guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button1.FillColor = Color.FromArgb(220, 38, 38);
             guna2Button1.Font = new Font("Segoe UI", 9F);
             guna2Button1.ForeColor = Color.White;
-            guna2Button1.Location = new Point(306, 268);
+            guna2Button1.Location = new Point(35, 260);
+            guna2Button1.Margin = new Padding(3, 2, 3, 2);
             guna2Button1.Name = "guna2Button1";
             guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2Button1.Size = new Size(225, 56);
+            guna2Button1.Size = new Size(197, 42);
             guna2Button1.TabIndex = 51;
             guna2Button1.Text = "Create Account";
             guna2Button1.Click += guna2Button1_Click;
@@ -121,13 +126,12 @@
             txtPassword.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtPassword.Font = new Font("Segoe UI", 9F);
             txtPassword.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtPassword.Location = new Point(412, 143);
-            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Location = new Point(525, 149);
             txtPassword.Name = "txtPassword";
             txtPassword.PlaceholderText = "";
             txtPassword.SelectedText = "";
             txtPassword.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            txtPassword.Size = new Size(246, 37);
+            txtPassword.Size = new Size(215, 28);
             txtPassword.TabIndex = 50;
             // 
             // arthanButton5
@@ -148,10 +152,9 @@
             arthanButton5.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton5.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton5.Image = null;
-            arthanButton5.Location = new Point(337, 198);
-            arthanButton5.Margin = new Padding(3, 4, 3, 4);
+            arthanButton5.Location = new Point(563, 210);
             arthanButton5.Name = "arthanButton5";
-            arthanButton5.Size = new Size(157, 63);
+            arthanButton5.Size = new Size(137, 47);
             arthanButton5.TabIndex = 29;
             arthanButton5.Text = "Login";
             arthanButton5.TextColor = Color.Black;
@@ -174,22 +177,21 @@
             txtUsername.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtUsername.Font = new Font("Segoe UI", 9F);
             txtUsername.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtUsername.Location = new Point(412, 76);
-            txtUsername.Margin = new Padding(3, 4, 3, 4);
+            txtUsername.Location = new Point(525, 91);
             txtUsername.Name = "txtUsername";
             txtUsername.PlaceholderText = "";
             txtUsername.SelectedText = "";
             txtUsername.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            txtUsername.Size = new Size(246, 37);
+            txtUsername.Size = new Size(215, 28);
             txtUsername.TabIndex = 49;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Sans Serif Collection", 11.999999F);
-            label6.Location = new Point(203, 126);
+            label6.Location = new Point(278, 149);
             label6.Name = "label6";
-            label6.Size = new Size(172, 68);
+            label6.Size = new Size(206, 39);
             label6.TabIndex = 43;
             label6.Text = "Enter Password";
             // 
@@ -197,24 +199,36 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Sans Serif Collection", 11.999999F);
-            label5.Location = new Point(203, 58);
+            label5.Location = new Point(278, 91);
             label5.Name = "label5";
-            label5.Size = new Size(178, 68);
+            label5.Size = new Size(211, 39);
             label5.TabIndex = 35;
             label5.Text = "Enter Username";
             label5.Click += label5_Click;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Location = new Point(3, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(260, 243);
+            pictureBox1.TabIndex = 28;
+            pictureBox1.TabStop = false;
+            // 
             // REGISTER
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1902, 1033);
+            ClientSize = new Size(844, 369);
             Controls.Add(arthanPanel1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "REGISTER";
             Text = "REGISTER";
             Load += REGISTER_Load;
             arthanPanel1.ResumeLayout(false);
             arthanPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -228,5 +242,6 @@
         private Label label5;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
         private LinkLabel linkForgotPassword;
+        private PictureBox pictureBox1;
     }
 }

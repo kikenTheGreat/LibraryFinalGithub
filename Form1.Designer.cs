@@ -30,61 +30,63 @@
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel14 = new LibraryCGC.Components.ArthanPanel();
-            arthanButton3 = new LibraryCGC.Components.ArthanButton();
-            arthanPanel16 = new LibraryCGC.Components.ArthanPanel();
-            arthanButton5 = new LibraryCGC.Components.ArthanButton();
-            arthanPanel27 = new LibraryCGC.Components.ArthanPanel();
-            arthanButton8 = new LibraryCGC.Components.ArthanButton();
-            arthanPanel13 = new LibraryCGC.Components.ArthanPanel();
-            arthanButton2 = new LibraryCGC.Components.ArthanButton();
-            arthanPanel15 = new LibraryCGC.Components.ArthanPanel();
-            arthanButton4 = new LibraryCGC.Components.ArthanButton();
-            arthanPanel12 = new LibraryCGC.Components.ArthanPanel();
-            arthanButton1 = new LibraryCGC.Components.ArthanButton();
-            arthanPanel11 = new LibraryCGC.Components.ArthanPanel();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            arthanPanel1 = new Components.ArthanPanel();
+            arthanPanel14 = new Components.ArthanPanel();
+            arthanButton3 = new Components.ArthanButton();
+            arthanPanel16 = new Components.ArthanPanel();
+            arthanButton5 = new Components.ArthanButton();
+            arthanPanel27 = new Components.ArthanPanel();
+            arthanButton8 = new Components.ArthanButton();
+            arthanPanel13 = new Components.ArthanPanel();
+            arthanButton2 = new Components.ArthanButton();
+            arthanPanel15 = new Components.ArthanPanel();
+            arthanButton4 = new Components.ArthanButton();
+            arthanPanel12 = new Components.ArthanPanel();
+            arthanButton1 = new Components.ArthanButton();
+            arthanPanel11 = new Components.ArthanPanel();
             label14 = new Label();
             label13 = new Label();
             pictureBox1 = new PictureBox();
-            arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel22 = new LibraryCGC.Components.ArthanPanel();
-            guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
+            arthanPanel3 = new Components.ArthanPanel();
+            arthanPanel22 = new Components.ArthanPanel();
+            labelEmployeeName = new Label();
+            circlePictureBox = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
-            arthanPanel23 = new LibraryCGC.Components.ArthanPanel();
-            arthanPanel10 = new LibraryCGC.Components.ArthanPanel();
+            guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
+            arthanPanel23 = new Components.ArthanPanel();
+            arthanPanel10 = new Components.ArthanPanel();
             label12 = new Label();
-            arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel4 = new Components.ArthanPanel();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             label2 = new Label();
             label1 = new Label();
-            arthanPanel5 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel5 = new Components.ArthanPanel();
             labelTotalBorrowed = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label4 = new Label();
-            arthanPanel6 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel6 = new Components.ArthanPanel();
             labelTotalBooks = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label5 = new Label();
-            arthanPanel7 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel7 = new Components.ArthanPanel();
             labelTotalArchived = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label7 = new Label();
-            arthanPanel8 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel8 = new Components.ArthanPanel();
             lblOverdueCount = new Guna.UI2.WinForms.Guna2HtmlLabel();
             BookbOO = new Label();
-            arthanPanel9 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel9 = new Components.ArthanPanel();
             label11 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
             Panel4 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             flowPanel1 = new FlowLayoutPanel();
-            arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel2 = new Components.ArthanPanel();
             panel33333 = new Panel();
             flowLayoutPanel22222 = new FlowLayoutPanel();
             panel22222 = new Panel();
@@ -95,8 +97,6 @@
             flowPanel4 = new FlowLayoutPanel();
             panel1 = new Panel();
             flowPanel2 = new FlowLayoutPanel();
-            circlePictureBox = new Guna.UI2.WinForms.Guna2CirclePictureBox();
-            labelEmployeeName = new Label();
             arthanPanel1.SuspendLayout();
             arthanPanel14.SuspendLayout();
             arthanPanel16.SuspendLayout();
@@ -107,6 +107,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel3.SuspendLayout();
             arthanPanel22.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)circlePictureBox).BeginInit();
             arthanPanel10.SuspendLayout();
             arthanPanel4.SuspendLayout();
             arthanPanel5.SuspendLayout();
@@ -121,7 +122,6 @@
             panel2222.SuspendLayout();
             panel333.SuspendLayout();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)circlePictureBox).BeginInit();
             SuspendLayout();
             // 
             // arthanPanel1
@@ -146,12 +146,11 @@
             arthanPanel1.GradientEndColor = Color.FromArgb(45, 45, 45);
             arthanPanel1.GradientStartColor = Color.FromArgb(45, 45, 45);
             arthanPanel1.Location = new Point(-3, -1);
-            arthanPanel1.Margin = new Padding(3, 4, 3, 4);
             arthanPanel1.Name = "arthanPanel1";
             arthanPanel1.ShadowBlur = 5;
             arthanPanel1.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel1.ShadowOffset = 3;
-            arthanPanel1.Size = new Size(350, 1101);
+            arthanPanel1.Size = new Size(306, 826);
             arthanPanel1.TabIndex = 0;
             arthanPanel1.TopLeftRadius = 0;
             arthanPanel1.TopRightRadius = 0;
@@ -170,13 +169,12 @@
             arthanPanel14.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel14.GradientEndColor = Color.White;
             arthanPanel14.GradientStartColor = Color.White;
-            arthanPanel14.Location = new Point(53, 735);
-            arthanPanel14.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel14.Location = new Point(46, 551);
             arthanPanel14.Name = "arthanPanel14";
             arthanPanel14.ShadowBlur = 0;
             arthanPanel14.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel14.ShadowOffset = 0;
-            arthanPanel14.Size = new Size(210, 138);
+            arthanPanel14.Size = new Size(184, 104);
             arthanPanel14.TabIndex = 9;
             arthanPanel14.TopLeftRadius = 15;
             arthanPanel14.TopRightRadius = 15;
@@ -207,9 +205,8 @@
             arthanButton3.Image = null;
             arthanButton3.ImageAlign = ContentAlignment.BottomLeft;
             arthanButton3.Location = new Point(0, 0);
-            arthanButton3.Margin = new Padding(3, 4, 3, 4);
             arthanButton3.Name = "arthanButton3";
-            arthanButton3.Size = new Size(210, 111);
+            arthanButton3.Size = new Size(184, 83);
             arthanButton3.TabIndex = 6;
             arthanButton3.Text = "Report";
             arthanButton3.TextAlign = ContentAlignment.BottomLeft;
@@ -229,13 +226,12 @@
             arthanPanel16.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel16.GradientEndColor = Color.White;
             arthanPanel16.GradientStartColor = Color.White;
-            arthanPanel16.Location = new Point(53, 886);
-            arthanPanel16.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel16.Location = new Point(46, 664);
             arthanPanel16.Name = "arthanPanel16";
             arthanPanel16.ShadowBlur = 0;
             arthanPanel16.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel16.ShadowOffset = 0;
-            arthanPanel16.Size = new Size(210, 138);
+            arthanPanel16.Size = new Size(184, 104);
             arthanPanel16.TabIndex = 8;
             arthanPanel16.TopLeftRadius = 15;
             arthanPanel16.TopRightRadius = 15;
@@ -266,9 +262,8 @@
             arthanButton5.Image = null;
             arthanButton5.ImageAlign = ContentAlignment.BottomLeft;
             arthanButton5.Location = new Point(0, 0);
-            arthanButton5.Margin = new Padding(3, 4, 3, 4);
             arthanButton5.Name = "arthanButton5";
-            arthanButton5.Size = new Size(210, 111);
+            arthanButton5.Size = new Size(184, 83);
             arthanButton5.TabIndex = 6;
             arthanButton5.Text = "Returned Book History";
             arthanButton5.TextAlign = ContentAlignment.BottomLeft;
@@ -287,13 +282,12 @@
             arthanPanel27.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel27.GradientEndColor = Color.White;
             arthanPanel27.GradientStartColor = Color.White;
-            arthanPanel27.Location = new Point(52, 594);
-            arthanPanel27.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel27.Location = new Point(46, 446);
             arthanPanel27.Name = "arthanPanel27";
             arthanPanel27.ShadowBlur = 0;
             arthanPanel27.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel27.ShadowOffset = 0;
-            arthanPanel27.Size = new Size(210, 133);
+            arthanPanel27.Size = new Size(184, 100);
             arthanPanel27.TabIndex = 7;
             arthanPanel27.TopLeftRadius = 15;
             arthanPanel27.TopRightRadius = 15;
@@ -324,11 +318,10 @@
             arthanButton8.Image = null;
             arthanButton8.ImageAlign = ContentAlignment.BottomLeft;
             arthanButton8.Location = new Point(0, 0);
-            arthanButton8.Margin = new Padding(3, 4, 3, 4);
             arthanButton8.Name = "arthanButton8";
             arthanButton8.ShadowBlur = 0;
             arthanButton8.ShadowOffset = 0;
-            arthanButton8.Size = new Size(210, 105);
+            arthanButton8.Size = new Size(184, 79);
             arthanButton8.TabIndex = 6;
             arthanButton8.Text = "    Create Account";
             arthanButton8.TextAlign = ContentAlignment.BottomLeft;
@@ -348,13 +341,12 @@
             arthanPanel13.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel13.GradientEndColor = Color.White;
             arthanPanel13.GradientStartColor = Color.White;
-            arthanPanel13.Location = new Point(52, 289);
-            arthanPanel13.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel13.Location = new Point(46, 217);
             arthanPanel13.Name = "arthanPanel13";
             arthanPanel13.ShadowBlur = 0;
             arthanPanel13.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel13.ShadowOffset = 0;
-            arthanPanel13.Size = new Size(210, 138);
+            arthanPanel13.Size = new Size(184, 104);
             arthanPanel13.TabIndex = 7;
             arthanPanel13.TopLeftRadius = 15;
             arthanPanel13.TopRightRadius = 15;
@@ -384,9 +376,8 @@
             arthanButton2.Image = null;
             arthanButton2.ImageAlign = ContentAlignment.BottomLeft;
             arthanButton2.Location = new Point(0, 0);
-            arthanButton2.Margin = new Padding(3, 4, 3, 4);
             arthanButton2.Name = "arthanButton2";
-            arthanButton2.Size = new Size(210, 100);
+            arthanButton2.Size = new Size(184, 75);
             arthanButton2.TabIndex = 6;
             arthanButton2.Text = "    Archive Books";
             arthanButton2.TextAlign = ContentAlignment.BottomLeft;
@@ -405,13 +396,12 @@
             arthanPanel15.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel15.GradientEndColor = Color.White;
             arthanPanel15.GradientStartColor = Color.White;
-            arthanPanel15.Location = new Point(51, 435);
-            arthanPanel15.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel15.Location = new Point(45, 326);
             arthanPanel15.Name = "arthanPanel15";
             arthanPanel15.ShadowBlur = 0;
             arthanPanel15.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel15.ShadowOffset = 0;
-            arthanPanel15.Size = new Size(211, 141);
+            arthanPanel15.Size = new Size(185, 106);
             arthanPanel15.TabIndex = 8;
             arthanPanel15.TopLeftRadius = 15;
             arthanPanel15.TopRightRadius = 15;
@@ -441,9 +431,8 @@
             arthanButton4.Image = null;
             arthanButton4.ImageAlign = ContentAlignment.BottomLeft;
             arthanButton4.Location = new Point(0, 0);
-            arthanButton4.Margin = new Padding(3, 4, 3, 4);
             arthanButton4.Name = "arthanButton4";
-            arthanButton4.Size = new Size(211, 111);
+            arthanButton4.Size = new Size(185, 83);
             arthanButton4.TabIndex = 6;
             arthanButton4.Text = "Issue / Returned Books";
             arthanButton4.TextAlign = ContentAlignment.BottomLeft;
@@ -462,13 +451,12 @@
             arthanPanel12.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel12.GradientEndColor = Color.White;
             arthanPanel12.GradientStartColor = Color.White;
-            arthanPanel12.Location = new Point(52, 153);
-            arthanPanel12.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel12.Location = new Point(46, 115);
             arthanPanel12.Name = "arthanPanel12";
             arthanPanel12.ShadowBlur = 0;
             arthanPanel12.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel12.ShadowOffset = 0;
-            arthanPanel12.Size = new Size(210, 128);
+            arthanPanel12.Size = new Size(184, 96);
             arthanPanel12.TabIndex = 5;
             arthanPanel12.TopLeftRadius = 15;
             arthanPanel12.TopRightRadius = 15;
@@ -498,11 +486,10 @@
             arthanButton1.Image = null;
             arthanButton1.ImageAlign = ContentAlignment.BottomLeft;
             arthanButton1.Location = new Point(0, 0);
-            arthanButton1.Margin = new Padding(3, 4, 3, 4);
             arthanButton1.Name = "arthanButton1";
             arthanButton1.ShadowBlur = 0;
             arthanButton1.ShadowOffset = 0;
-            arthanButton1.Size = new Size(210, 105);
+            arthanButton1.Size = new Size(184, 79);
             arthanButton1.TabIndex = 6;
             arthanButton1.Text = "    Book Acquisition";
             arthanButton1.TextAlign = ContentAlignment.BottomLeft;
@@ -521,13 +508,12 @@
             arthanPanel11.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel11.GradientEndColor = Color.FromArgb(224, 224, 224);
             arthanPanel11.GradientStartColor = Color.Silver;
-            arthanPanel11.Location = new Point(31, 129);
-            arthanPanel11.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel11.Location = new Point(27, 97);
             arthanPanel11.Name = "arthanPanel11";
             arthanPanel11.ShadowBlur = 0;
             arthanPanel11.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel11.ShadowOffset = 0;
-            arthanPanel11.Size = new Size(281, 9);
+            arthanPanel11.Size = new Size(246, 7);
             arthanPanel11.TabIndex = 4;
             arthanPanel11.TopLeftRadius = 15;
             arthanPanel11.TopRightRadius = 15;
@@ -538,10 +524,10 @@
             label14.AutoSize = true;
             label14.Font = new Font("Sans Serif Collection", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label14.ForeColor = Color.White;
-            label14.Location = new Point(98, 63);
+            label14.Location = new Point(86, 47);
             label14.Margin = new Padding(0);
             label14.Name = "label14";
-            label14.Size = new Size(197, 81);
+            label14.Size = new Size(209, 47);
             label14.TabIndex = 3;
             label14.Text = "Management";
             // 
@@ -550,10 +536,10 @@
             label13.AutoSize = true;
             label13.Font = new Font("Sans Serif Collection", 14.2499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label13.ForeColor = Color.White;
-            label13.Location = new Point(98, 17);
+            label13.Location = new Point(86, 13);
             label13.Margin = new Padding(0);
             label13.Name = "label13";
-            label13.Size = new Size(121, 81);
+            label13.Size = new Size(120, 47);
             label13.TabIndex = 2;
             label13.Text = "Library";
             // 
@@ -561,10 +547,9 @@
             // 
             pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(17, 17);
-            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Location = new Point(15, 13);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(78, 91);
+            pictureBox1.Size = new Size(68, 68);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -580,13 +565,12 @@
             arthanPanel3.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel3.GradientEndColor = Color.White;
             arthanPanel3.GradientStartColor = Color.White;
-            arthanPanel3.Location = new Point(1480, 385);
-            arthanPanel3.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel3.Location = new Point(1295, 289);
             arthanPanel3.Name = "arthanPanel3";
             arthanPanel3.ShadowBlur = 5;
             arthanPanel3.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel3.ShadowOffset = 3;
-            arthanPanel3.Size = new Size(410, 692);
+            arthanPanel3.Size = new Size(359, 519);
             arthanPanel3.TabIndex = 2;
             arthanPanel3.TopLeftRadius = 15;
             arthanPanel3.TopRightRadius = 15;
@@ -608,51 +592,79 @@
             arthanPanel22.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel22.GradientEndColor = Color.Transparent;
             arthanPanel22.GradientStartColor = Color.Transparent;
-            arthanPanel22.Location = new Point(11, 124);
-            arthanPanel22.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel22.Location = new Point(10, 93);
             arthanPanel22.Name = "arthanPanel22";
             arthanPanel22.ShadowBlur = 0;
             arthanPanel22.ShadowColor = Color.FromArgb(0, 0, 0, 0);
             arthanPanel22.ShadowOffset = 0;
-            arthanPanel22.Size = new Size(387, 560);
+            arthanPanel22.Size = new Size(339, 420);
             arthanPanel22.TabIndex = 30;
             arthanPanel22.TopLeftRadius = 15;
             arthanPanel22.TopRightRadius = 15;
             arthanPanel22.UseIndividualCorners = false;
             // 
-            // guna2Button3
+            // labelEmployeeName
             // 
-            guna2Button3.CustomizableEdges = customizableEdges10;
-            guna2Button3.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button3.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button3.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button3.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button3.Font = new Font("Segoe UI", 9F);
-            guna2Button3.ForeColor = Color.White;
-            guna2Button3.Location = new Point(104, 376);
-            guna2Button3.Name = "guna2Button3";
-            guna2Button3.ShadowDecoration.CustomizableEdges = customizableEdges11;
-            guna2Button3.Size = new Size(225, 56);
-            guna2Button3.TabIndex = 36;
-            guna2Button3.Text = "Activity Log Trail";
-            guna2Button3.Click += guna2Button3_Click;
+            labelEmployeeName.AutoSize = true;
+            labelEmployeeName.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelEmployeeName.ForeColor = Color.FromArgb(117, 117, 117);
+            labelEmployeeName.Location = new Point(99, 165);
+            labelEmployeeName.Name = "labelEmployeeName";
+            labelEmployeeName.Size = new Size(213, 39);
+            labelEmployeeName.TabIndex = 3;
+            labelEmployeeName.Text = "User Full Name";
+            // 
+            // circlePictureBox
+            // 
+            circlePictureBox.FillColor = Color.Black;
+            circlePictureBox.ImageRotate = 0F;
+            circlePictureBox.Location = new Point(38, 8);
+            circlePictureBox.Margin = new Padding(3, 2, 3, 2);
+            circlePictureBox.Name = "circlePictureBox";
+            circlePictureBox.ShadowDecoration.CustomizableEdges = customizableEdges1;
+            circlePictureBox.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            circlePictureBox.Size = new Size(276, 154);
+            circlePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            circlePictureBox.TabIndex = 48;
+            circlePictureBox.TabStop = false;
             // 
             // guna2Button2
             // 
-            guna2Button2.CustomizableEdges = customizableEdges12;
+            guna2Button2.CustomizableEdges = customizableEdges2;
             guna2Button2.DisabledState.BorderColor = Color.DarkGray;
             guna2Button2.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button2.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             guna2Button2.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button2.FillColor = Color.Orange;
             guna2Button2.Font = new Font("Segoe UI", 9F);
             guna2Button2.ForeColor = Color.White;
-            guna2Button2.Location = new Point(104, 307);
+            guna2Button2.Location = new Point(91, 230);
+            guna2Button2.Margin = new Padding(3, 2, 3, 2);
             guna2Button2.Name = "guna2Button2";
-            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges13;
-            guna2Button2.Size = new Size(225, 56);
+            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges3;
+            guna2Button2.Size = new Size(197, 42);
             guna2Button2.TabIndex = 35;
             guna2Button2.Text = "Manage Profile";
             guna2Button2.Click += guna2Button2_Click;
+            // 
+            // guna2Button3
+            // 
+            guna2Button3.CustomizableEdges = customizableEdges4;
+            guna2Button3.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button3.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button3.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button3.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button3.FillColor = Color.Orange;
+            guna2Button3.Font = new Font("Segoe UI", 9F);
+            guna2Button3.ForeColor = Color.White;
+            guna2Button3.Location = new Point(91, 282);
+            guna2Button3.Margin = new Padding(3, 2, 3, 2);
+            guna2Button3.Name = "guna2Button3";
+            guna2Button3.ShadowDecoration.CustomizableEdges = customizableEdges5;
+            guna2Button3.Size = new Size(197, 42);
+            guna2Button3.TabIndex = 36;
+            guna2Button3.Text = "Activity Log Trail";
+            guna2Button3.Click += guna2Button3_Click;
             // 
             // arthanPanel23
             // 
@@ -665,13 +677,12 @@
             arthanPanel23.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel23.GradientEndColor = Color.Transparent;
             arthanPanel23.GradientStartColor = Color.Transparent;
-            arthanPanel23.Location = new Point(760, 0);
-            arthanPanel23.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel23.Location = new Point(665, 0);
             arthanPanel23.Name = "arthanPanel23";
             arthanPanel23.ShadowBlur = 0;
             arthanPanel23.ShadowColor = Color.FromArgb(0, 0, 0, 0);
             arthanPanel23.ShadowOffset = 0;
-            arthanPanel23.Size = new Size(379, 568);
+            arthanPanel23.Size = new Size(332, 426);
             arthanPanel23.TabIndex = 30;
             arthanPanel23.TopLeftRadius = 15;
             arthanPanel23.TopRightRadius = 15;
@@ -689,13 +700,12 @@
             arthanPanel10.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel10.GradientEndColor = Color.FromArgb(245, 238, 240);
             arthanPanel10.GradientStartColor = Color.FromArgb(245, 238, 240);
-            arthanPanel10.Location = new Point(1480, 385);
-            arthanPanel10.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel10.Location = new Point(1295, 289);
             arthanPanel10.Name = "arthanPanel10";
             arthanPanel10.ShadowBlur = 5;
             arthanPanel10.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel10.ShadowOffset = 0;
-            arthanPanel10.Size = new Size(410, 113);
+            arthanPanel10.Size = new Size(359, 85);
             arthanPanel10.TabIndex = 7;
             arthanPanel10.TopLeftRadius = 15;
             arthanPanel10.TopRightRadius = 15;
@@ -706,9 +716,9 @@
             label12.AutoSize = true;
             label12.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label12.ForeColor = Color.FromArgb(117, 117, 117);
-            label12.Location = new Point(85, 31);
+            label12.Location = new Point(74, 23);
             label12.Name = "label12";
-            label12.Size = new Size(195, 68);
+            label12.Size = new Size(230, 39);
             label12.TabIndex = 2;
             label12.Text = "Activity Log-Trail";
             // 
@@ -726,13 +736,12 @@
             arthanPanel4.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel4.GradientEndColor = Color.FromArgb(238, 66, 66);
             arthanPanel4.GradientStartColor = Color.FromArgb(220, 38, 38);
-            arthanPanel4.Location = new Point(366, 12);
-            arthanPanel4.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel4.Location = new Point(320, 9);
             arthanPanel4.Name = "arthanPanel4";
             arthanPanel4.ShadowBlur = 5;
             arthanPanel4.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel4.ShadowOffset = 3;
-            arthanPanel4.Size = new Size(1524, 133);
+            arthanPanel4.Size = new Size(1334, 100);
             arthanPanel4.TabIndex = 3;
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
@@ -740,17 +749,19 @@
             // 
             // guna2Button1
             // 
-            guna2Button1.CustomizableEdges = customizableEdges14;
+            guna2Button1.CustomizableEdges = customizableEdges6;
             guna2Button1.DisabledState.BorderColor = Color.DarkGray;
             guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button1.FillColor = Color.AliceBlue;
             guna2Button1.Font = new Font("Segoe UI", 9F);
-            guna2Button1.ForeColor = Color.White;
-            guna2Button1.Location = new Point(1276, 11);
+            guna2Button1.ForeColor = Color.Black;
+            guna2Button1.Location = new Point(1102, 25);
+            guna2Button1.Margin = new Padding(3, 2, 3, 2);
             guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges15;
-            guna2Button1.Size = new Size(225, 56);
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges7;
+            guna2Button1.Size = new Size(197, 42);
             guna2Button1.TabIndex = 2;
             guna2Button1.Text = "Exit";
             guna2Button1.Click += guna2Button1_Click_1;
@@ -760,9 +771,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(17, 67);
+            label2.Location = new Point(15, 50);
             label2.Name = "label2";
-            label2.Size = new Size(720, 58);
+            label2.Size = new Size(823, 32);
             label2.TabIndex = 1;
             label2.Text = "Manage your book collection, track penalties and monitor your  system activities";
             label2.Click += label2_Click;
@@ -772,9 +783,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Sans Serif Collection", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(11, 11);
+            label1.Location = new Point(10, 8);
             label1.Name = "label1";
-            label1.Size = new Size(315, 102);
+            label1.Size = new Size(379, 59);
             label1.TabIndex = 0;
             label1.Text = "Library Dashboard";
             // 
@@ -791,14 +802,13 @@
             arthanPanel5.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel5.GradientEndColor = Color.White;
             arthanPanel5.GradientStartColor = Color.White;
-            arthanPanel5.Location = new Point(546, 174);
-            arthanPanel5.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel5.Location = new Point(478, 130);
             arthanPanel5.Name = "arthanPanel5";
             arthanPanel5.RightToLeft = RightToLeft.No;
             arthanPanel5.ShadowBlur = 5;
             arthanPanel5.ShadowColor = Color.FromArgb(244, 47, 47);
             arthanPanel5.ShadowOffset = 4;
-            arthanPanel5.Size = new Size(259, 160);
+            arthanPanel5.Size = new Size(227, 120);
             arthanPanel5.TabIndex = 4;
             arthanPanel5.TopLeftRadius = 15;
             arthanPanel5.TopRightRadius = 15;
@@ -810,9 +820,10 @@
             labelTotalBorrowed.BackColor = Color.Transparent;
             labelTotalBorrowed.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelTotalBorrowed.ForeColor = Color.FromArgb(244, 47, 47);
-            labelTotalBorrowed.Location = new Point(44, 40);
+            labelTotalBorrowed.Location = new Point(38, 30);
+            labelTotalBorrowed.Margin = new Padding(3, 2, 3, 2);
             labelTotalBorrowed.Name = "labelTotalBorrowed";
-            labelTotalBorrowed.Size = new Size(95, 22);
+            labelTotalBorrowed.Size = new Size(75, 17);
             labelTotalBorrowed.TabIndex = 31;
             labelTotalBorrowed.Text = "Issued Books";
             // 
@@ -821,9 +832,9 @@
             label4.AutoSize = true;
             label4.Font = new Font("Sans Serif Collection", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label4.ForeColor = Color.FromArgb(117, 117, 117);
-            label4.Location = new Point(32, 79);
+            label4.Location = new Point(28, 59);
             label4.Name = "label4";
-            label4.Size = new Size(124, 51);
+            label4.Size = new Size(130, 29);
             label4.TabIndex = 1;
             label4.Text = "Issued Books";
             // 
@@ -840,13 +851,12 @@
             arthanPanel6.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel6.GradientEndColor = Color.White;
             arthanPanel6.GradientStartColor = Color.White;
-            arthanPanel6.Location = new Point(852, 174);
-            arthanPanel6.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel6.Location = new Point(746, 130);
             arthanPanel6.Name = "arthanPanel6";
             arthanPanel6.ShadowBlur = 5;
             arthanPanel6.ShadowColor = Color.FromArgb(252, 201, 71);
             arthanPanel6.ShadowOffset = 4;
-            arthanPanel6.Size = new Size(259, 160);
+            arthanPanel6.Size = new Size(227, 120);
             arthanPanel6.TabIndex = 5;
             arthanPanel6.TopLeftRadius = 15;
             arthanPanel6.TopRightRadius = 15;
@@ -857,9 +867,10 @@
             labelTotalBooks.BackColor = Color.Transparent;
             labelTotalBooks.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelTotalBooks.ForeColor = Color.FromArgb(252, 201, 71);
-            labelTotalBooks.Location = new Point(37, 40);
+            labelTotalBooks.Location = new Point(32, 30);
+            labelTotalBooks.Margin = new Padding(3, 2, 3, 2);
             labelTotalBooks.Name = "labelTotalBooks";
-            labelTotalBooks.Size = new Size(86, 22);
+            labelTotalBooks.Size = new Size(68, 17);
             labelTotalBooks.TabIndex = 32;
             labelTotalBooks.Text = "Total Books";
             // 
@@ -868,9 +879,9 @@
             label5.AutoSize = true;
             label5.Font = new Font("Sans Serif Collection", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label5.ForeColor = Color.FromArgb(117, 117, 117);
-            label5.Location = new Point(37, 79);
+            label5.Location = new Point(32, 59);
             label5.Name = "label5";
-            label5.Size = new Size(111, 51);
+            label5.Size = new Size(118, 29);
             label5.TabIndex = 3;
             label5.Text = "Total Books";
             // 
@@ -887,13 +898,12 @@
             arthanPanel7.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel7.GradientEndColor = Color.White;
             arthanPanel7.GradientStartColor = Color.White;
-            arthanPanel7.Location = new Point(1143, 174);
-            arthanPanel7.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel7.Location = new Point(1000, 130);
             arthanPanel7.Name = "arthanPanel7";
             arthanPanel7.ShadowBlur = 5;
             arthanPanel7.ShadowColor = Color.FromArgb(16, 185, 129);
             arthanPanel7.ShadowOffset = 4;
-            arthanPanel7.Size = new Size(259, 160);
+            arthanPanel7.Size = new Size(227, 120);
             arthanPanel7.TabIndex = 5;
             arthanPanel7.TopLeftRadius = 15;
             arthanPanel7.TopRightRadius = 15;
@@ -904,9 +914,10 @@
             labelTotalArchived.BackColor = Color.Transparent;
             labelTotalArchived.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelTotalArchived.ForeColor = Color.FromArgb(16, 185, 129);
-            labelTotalArchived.Location = new Point(40, 40);
+            labelTotalArchived.Location = new Point(35, 30);
+            labelTotalArchived.Margin = new Padding(3, 2, 3, 2);
             labelTotalArchived.Name = "labelTotalArchived";
-            labelTotalArchived.Size = new Size(112, 22);
+            labelTotalArchived.Size = new Size(90, 17);
             labelTotalArchived.TabIndex = 33;
             labelTotalArchived.Text = "Archived Books";
             // 
@@ -915,9 +926,9 @@
             label7.AutoSize = true;
             label7.Font = new Font("Sans Serif Collection", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.FromArgb(117, 117, 117);
-            label7.Location = new Point(37, 79);
+            label7.Location = new Point(32, 59);
             label7.Name = "label7";
-            label7.Size = new Size(142, 51);
+            label7.Size = new Size(150, 29);
             label7.TabIndex = 5;
             label7.Text = "Archived Books";
             // 
@@ -934,13 +945,12 @@
             arthanPanel8.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel8.GradientEndColor = Color.White;
             arthanPanel8.GradientStartColor = Color.White;
-            arthanPanel8.Location = new Point(1438, 174);
-            arthanPanel8.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel8.Location = new Point(1258, 130);
             arthanPanel8.Name = "arthanPanel8";
             arthanPanel8.ShadowBlur = 5;
             arthanPanel8.ShadowColor = Color.FromArgb(100, 103, 241);
             arthanPanel8.ShadowOffset = 4;
-            arthanPanel8.Size = new Size(259, 160);
+            arthanPanel8.Size = new Size(227, 120);
             arthanPanel8.TabIndex = 5;
             arthanPanel8.TopLeftRadius = 15;
             arthanPanel8.TopRightRadius = 15;
@@ -951,9 +961,10 @@
             lblOverdueCount.BackColor = Color.Transparent;
             lblOverdueCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblOverdueCount.ForeColor = Color.FromArgb(100, 103, 241);
-            lblOverdueCount.Location = new Point(72, 40);
+            lblOverdueCount.Location = new Point(63, 30);
+            lblOverdueCount.Margin = new Padding(3, 2, 3, 2);
             lblOverdueCount.Name = "lblOverdueCount";
-            lblOverdueCount.Size = new Size(62, 22);
+            lblOverdueCount.Size = new Size(52, 17);
             lblOverdueCount.TabIndex = 35;
             lblOverdueCount.Text = "Overdue";
             lblOverdueCount.Click += lblOverdueCount_Click;
@@ -963,9 +974,9 @@
             BookbOO.AutoSize = true;
             BookbOO.Font = new Font("Sans Serif Collection", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BookbOO.ForeColor = Color.FromArgb(117, 117, 117);
-            BookbOO.Location = new Point(17, 79);
+            BookbOO.Location = new Point(15, 59);
             BookbOO.Name = "BookbOO";
-            BookbOO.Size = new Size(177, 51);
+            BookbOO.Size = new Size(195, 29);
             BookbOO.TabIndex = 5;
             BookbOO.Text = "Total Book Penalties";
             // 
@@ -981,13 +992,12 @@
             arthanPanel9.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel9.GradientEndColor = Color.FromArgb(245, 238, 240);
             arthanPanel9.GradientStartColor = Color.FromArgb(245, 238, 240);
-            arthanPanel9.Location = new Point(366, 385);
-            arthanPanel9.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel9.Location = new Point(320, 289);
             arthanPanel9.Name = "arthanPanel9";
             arthanPanel9.ShadowBlur = 5;
             arthanPanel9.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel9.ShadowOffset = 0;
-            arthanPanel9.Size = new Size(1075, 113);
+            arthanPanel9.Size = new Size(941, 85);
             arthanPanel9.TabIndex = 6;
             arthanPanel9.TopLeftRadius = 15;
             arthanPanel9.TopRightRadius = 15;
@@ -998,20 +1008,21 @@
             label11.AutoSize = true;
             label11.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label11.ForeColor = Color.FromArgb(117, 117, 117);
-            label11.Location = new Point(85, 31);
+            label11.Location = new Point(74, 23);
             label11.Name = "label11";
-            label11.Size = new Size(278, 68);
+            label11.Size = new Size(332, 39);
             label11.TabIndex = 2;
             label11.Text = "Book Borrower Penalties";
             // 
             // Panel4
             // 
             Panel4.Controls.Add(flowPanel1);
-            Panel4.CustomizableEdges = customizableEdges16;
-            Panel4.Location = new Point(35, 175);
+            Panel4.CustomizableEdges = customizableEdges8;
+            Panel4.Location = new Point(31, 131);
+            Panel4.Margin = new Padding(3, 2, 3, 2);
             Panel4.Name = "Panel4";
-            Panel4.ShadowDecoration.CustomizableEdges = customizableEdges17;
-            Panel4.Size = new Size(291, 166);
+            Panel4.ShadowDecoration.CustomizableEdges = customizableEdges9;
+            Panel4.Size = new Size(255, 124);
             Panel4.TabIndex = 32;
             // 
             // flowPanel1
@@ -1020,9 +1031,10 @@
             flowPanel1.BackColor = Color.WhiteSmoke;
             flowPanel1.Dock = DockStyle.Fill;
             flowPanel1.Location = new Point(0, 0);
+            flowPanel1.Margin = new Padding(3, 2, 3, 2);
             flowPanel1.Name = "flowPanel1";
-            flowPanel1.Padding = new Padding(10);
-            flowPanel1.Size = new Size(291, 166);
+            flowPanel1.Padding = new Padding(9, 8, 9, 8);
+            flowPanel1.Size = new Size(255, 124);
             flowPanel1.TabIndex = 31;
             flowPanel1.Paint += flowLayoutPanelPenalties_Paint;
             // 
@@ -1044,13 +1056,12 @@
             arthanPanel2.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel2.GradientEndColor = Color.White;
             arthanPanel2.GradientStartColor = Color.White;
-            arthanPanel2.Location = new Point(366, 385);
-            arthanPanel2.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel2.Location = new Point(320, 289);
             arthanPanel2.Name = "arthanPanel2";
             arthanPanel2.ShadowBlur = 5;
             arthanPanel2.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel2.ShadowOffset = 3;
-            arthanPanel2.Size = new Size(1075, 692);
+            arthanPanel2.Size = new Size(941, 519);
             arthanPanel2.TabIndex = 1;
             arthanPanel2.TopLeftRadius = 0;
             arthanPanel2.TopRightRadius = 0;
@@ -1061,9 +1072,10 @@
             // 
             panel33333.AutoScroll = true;
             panel33333.Controls.Add(flowLayoutPanel22222);
-            panel33333.Location = new Point(768, 407);
+            panel33333.Location = new Point(672, 305);
+            panel33333.Margin = new Padding(3, 2, 3, 2);
             panel33333.Name = "panel33333";
-            panel33333.Size = new Size(291, 163);
+            panel33333.Size = new Size(255, 122);
             panel33333.TabIndex = 34;
             // 
             // flowLayoutPanel22222
@@ -1072,8 +1084,9 @@
             flowLayoutPanel22222.Dock = DockStyle.Fill;
             flowLayoutPanel22222.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel22222.Location = new Point(0, 0);
+            flowLayoutPanel22222.Margin = new Padding(3, 2, 3, 2);
             flowLayoutPanel22222.Name = "flowLayoutPanel22222";
-            flowLayoutPanel22222.Size = new Size(291, 163);
+            flowLayoutPanel22222.Size = new Size(255, 122);
             flowLayoutPanel22222.TabIndex = 0;
             flowLayoutPanel22222.WrapContents = false;
             // 
@@ -1081,9 +1094,10 @@
             // 
             panel22222.AutoScroll = true;
             panel22222.Controls.Add(flowLayoutPanel11111);
-            panel22222.Location = new Point(768, 178);
+            panel22222.Location = new Point(672, 134);
+            panel22222.Margin = new Padding(3, 2, 3, 2);
             panel22222.Name = "panel22222";
-            panel22222.Size = new Size(291, 163);
+            panel22222.Size = new Size(255, 122);
             panel22222.TabIndex = 34;
             // 
             // flowLayoutPanel11111
@@ -1092,17 +1106,19 @@
             flowLayoutPanel11111.Dock = DockStyle.Fill;
             flowLayoutPanel11111.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel11111.Location = new Point(0, 0);
+            flowLayoutPanel11111.Margin = new Padding(3, 2, 3, 2);
             flowLayoutPanel11111.Name = "flowLayoutPanel11111";
-            flowLayoutPanel11111.Size = new Size(291, 163);
+            flowLayoutPanel11111.Size = new Size(255, 122);
             flowLayoutPanel11111.TabIndex = 0;
             flowLayoutPanel11111.WrapContents = false;
             // 
             // panel2222
             // 
             panel2222.Controls.Add(flowPanel3);
-            panel2222.Location = new Point(35, 417);
+            panel2222.Location = new Point(31, 313);
+            panel2222.Margin = new Padding(3, 2, 3, 2);
             panel2222.Name = "panel2222";
-            panel2222.Size = new Size(291, 163);
+            panel2222.Size = new Size(255, 122);
             panel2222.TabIndex = 34;
             // 
             // flowPanel3
@@ -1111,17 +1127,19 @@
             flowPanel3.Dock = DockStyle.Fill;
             flowPanel3.FlowDirection = FlowDirection.TopDown;
             flowPanel3.Location = new Point(0, 0);
+            flowPanel3.Margin = new Padding(3, 2, 3, 2);
             flowPanel3.Name = "flowPanel3";
-            flowPanel3.Size = new Size(291, 163);
+            flowPanel3.Size = new Size(255, 122);
             flowPanel3.TabIndex = 0;
             flowPanel3.WrapContents = false;
             // 
             // panel333
             // 
             panel333.Controls.Add(flowPanel4);
-            panel333.Location = new Point(401, 417);
+            panel333.Location = new Point(351, 313);
+            panel333.Margin = new Padding(3, 2, 3, 2);
             panel333.Name = "panel333";
-            panel333.Size = new Size(291, 163);
+            panel333.Size = new Size(255, 122);
             panel333.TabIndex = 34;
             // 
             // flowPanel4
@@ -1130,8 +1148,9 @@
             flowPanel4.Dock = DockStyle.Fill;
             flowPanel4.FlowDirection = FlowDirection.TopDown;
             flowPanel4.Location = new Point(0, 0);
+            flowPanel4.Margin = new Padding(3, 2, 3, 2);
             flowPanel4.Name = "flowPanel4";
-            flowPanel4.Size = new Size(291, 163);
+            flowPanel4.Size = new Size(255, 122);
             flowPanel4.TabIndex = 0;
             flowPanel4.TabStop = true;
             flowPanel4.WrapContents = false;
@@ -1140,9 +1159,10 @@
             // 
             panel1.AutoScroll = true;
             panel1.Controls.Add(flowPanel2);
-            panel1.Location = new Point(401, 178);
+            panel1.Location = new Point(351, 134);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(291, 163);
+            panel1.Size = new Size(255, 122);
             panel1.TabIndex = 33;
             // 
             // flowPanel2
@@ -1151,41 +1171,18 @@
             flowPanel2.Dock = DockStyle.Fill;
             flowPanel2.FlowDirection = FlowDirection.TopDown;
             flowPanel2.Location = new Point(0, 0);
+            flowPanel2.Margin = new Padding(3, 2, 3, 2);
             flowPanel2.Name = "flowPanel2";
-            flowPanel2.Size = new Size(291, 163);
+            flowPanel2.Size = new Size(255, 122);
             flowPanel2.TabIndex = 0;
             flowPanel2.WrapContents = false;
             // 
-            // circlePictureBox
-            // 
-            circlePictureBox.FillColor = Color.Black;
-            circlePictureBox.ImageRotate = 0F;
-            circlePictureBox.Location = new Point(44, 11);
-            circlePictureBox.Name = "circlePictureBox";
-            circlePictureBox.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            circlePictureBox.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            circlePictureBox.Size = new Size(315, 206);
-            circlePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            circlePictureBox.TabIndex = 48;
-            circlePictureBox.TabStop = false;
-            // 
-            // labelEmployeeName
-            // 
-            labelEmployeeName.AutoSize = true;
-            labelEmployeeName.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            labelEmployeeName.ForeColor = Color.FromArgb(117, 117, 117);
-            labelEmployeeName.Location = new Point(113, 220);
-            labelEmployeeName.Name = "labelEmployeeName";
-            labelEmployeeName.Size = new Size(181, 68);
-            labelEmployeeName.TabIndex = 3;
-            labelEmployeeName.Text = "User Full Name";
-            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
-            ClientSize = new Size(1902, 1033);
+            ClientSize = new Size(1664, 775);
             Controls.Add(arthanPanel10);
             Controls.Add(arthanPanel9);
             Controls.Add(arthanPanel8);
@@ -1197,7 +1194,6 @@
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel3);
             FormBorderStyle = FormBorderStyle.FixedDialog;
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CGC Library Management System";
@@ -1214,6 +1210,7 @@
             arthanPanel3.ResumeLayout(false);
             arthanPanel22.ResumeLayout(false);
             arthanPanel22.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)circlePictureBox).EndInit();
             arthanPanel10.ResumeLayout(false);
             arthanPanel10.PerformLayout();
             arthanPanel4.ResumeLayout(false);
@@ -1235,7 +1232,6 @@
             panel2222.ResumeLayout(false);
             panel333.ResumeLayout(false);
             panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)circlePictureBox).EndInit();
             ResumeLayout(false);
         }
 

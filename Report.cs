@@ -74,7 +74,7 @@ Trust Server Certificate=True;
             cmbClientType.Items.Add("Faculty");
             cmbClientType.SelectedIndex = 0;
 
-          
+
 
             cmbSource.Items.Add("All");
             cmbSource.Items.Add("Purchased");
@@ -104,7 +104,7 @@ Trust Server Certificate=True;
                 }
 
                 // Overdue filter
-               
+
 
                 // Source filter
                 if (cmbSource.SelectedItem != null && cmbSource.SelectedItem.ToString() != "All")
@@ -220,7 +220,7 @@ Trust Server Certificate=True;
                 Lowstack.Text = cmdLow.ExecuteScalar().ToString();
 
                 // Archived (BookType = 'Archived')
-               
+
                 string archivedQuery = "SELECT ISNULL(SUM(Quantity), 0) FROM BooksArchive";
                 SqlCommand cmdArchived = new SqlCommand(archivedQuery, conn);
                 Archived.Text = cmdArchived.ExecuteScalar().ToString();
@@ -440,7 +440,7 @@ Trust Server Certificate=True;
                     query += " AND ClientType = @clientType";
                 }
 
-                
+
 
                 // Source filter
                 if (cmbSource.SelectedItem != null && cmbSource.SelectedItem.ToString() != "All")
@@ -655,6 +655,13 @@ Trust Server Certificate=True;
         private void cmbSource_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyReturnedBookFilters();
+        }
+
+        private void arthanButton2_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.ShowDialog();
+            this.Hide();
         }
     }
 }

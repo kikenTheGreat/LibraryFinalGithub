@@ -21,6 +21,7 @@
     <PackageReference Include="OnBarcode.QRCode" Version="10.3.1.12" />
     <PackageReference Include="PDFsharpNetStandard2" Version="1.51.4845" />
     <PackageReference Include="QRCoderNetCore" Version="1.0.0" />
+    <PackageReference Include="ZXing.Net" Version="0.16.11" />
   </ItemGroup>
 
   <ItemGroup>

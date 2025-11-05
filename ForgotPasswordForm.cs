@@ -338,5 +338,13 @@ namespace Library_Final
         {
 
         }
+
+        private void arthanButton2_Click(object sender, EventArgs e)
+        {
+            REGISTER rEGISTER1 = new REGISTER();
+            rEGISTER1.Show();
+            this.Hide();
+                
+        }
     }
 }

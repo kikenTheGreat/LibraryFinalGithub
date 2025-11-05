@@ -32,7 +32,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
-
         {
             components = new System.ComponentModel.Container();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -59,6 +58,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -89,9 +90,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            kupal = new LibraryCGC.Components.ArthanPanel();
+            kupal = new Components.ArthanPanel();
             issuedCondition = new Guna.UI2.WinForms.Guna2ComboBox();
             label17 = new Label();
             IssueRole = new Guna.UI2.WinForms.Guna2ComboBox();
@@ -112,13 +111,14 @@
             label3 = new Label();
             label4 = new Label();
             label2 = new Label();
-            arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel3 = new Components.ArthanPanel();
             label10 = new Label();
-            arthanTextBox10 = new LibraryCGC.Components.ArthanTextBox();
+            arthanTextBox10 = new Components.ArthanTextBox();
             label8 = new Label();
             label5 = new Label();
             panelReturnBooks = new Panel();
-            arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel1 = new Components.ArthanPanel();
+            ReturnBookStatus = new Guna.UI2.WinForms.Guna2TextBox();
             label18 = new Label();
             returnCondition = new Guna.UI2.WinForms.Guna2ComboBox();
             label12 = new Label();
@@ -133,26 +133,26 @@
             lblReturnDate = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label24 = new Label();
             label11 = new Label();
-            arthanTextBox1 = new LibraryCGC.Components.ArthanTextBox();
+            arthanTextBox1 = new Components.ArthanTextBox();
             label13 = new Label();
             label14 = new Label();
             label15 = new Label();
             ReturnButton = new Guna.UI2.WinForms.Guna2Button();
             label25 = new Label();
-            arthanPanel5 = new LibraryCGC.Components.ArthanPanel();
-            arthanTextBox2 = new LibraryCGC.Components.ArthanTextBox();
+            arthanPanel5 = new Components.ArthanPanel();
+            arthanTextBox2 = new Components.ArthanTextBox();
             label26 = new Label();
-            arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel4 = new Components.ArthanPanel();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             btnReturnBooks = new Guna.UI2.WinForms.Guna2Button();
             btnIssueBooks = new Guna.UI2.WinForms.Guna2Button();
-            arthanButton1 = new LibraryCGC.Components.ArthanButton();
+            arthanButton1 = new Components.ArthanButton();
             pictureBox1 = new PictureBox();
             label1 = new Label();
-            arthanPanel7 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel7 = new Components.ArthanPanel();
             lblOverdueCount = new Guna.UI2.WinForms.Guna2HtmlLabel();
             label16 = new Label();
-            arthanPanel10 = new LibraryCGC.Components.ArthanPanel();
+            arthanPanel10 = new Components.ArthanPanel();
             dgvBorrowList = new Krypton.Toolkit.KryptonDataGridView();
             overdueTimer = new System.Windows.Forms.Timer(components);
             panelIssueBooks = new Panel();
@@ -161,7 +161,6 @@
             ReturnPANEL = new Panel();
             returnDatagrid = new Guna.UI2.WinForms.Guna2DataGridView();
             PANELdataList = new Panel();
-            ReturnBookStatus = new Guna.UI2.WinForms.Guna2TextBox();
             kupal.SuspendLayout();
             panelReturnBooks.SuspendLayout();
             arthanPanel1.SuspendLayout();
@@ -215,12 +214,11 @@
             kupal.GradientEndColor = Color.White;
             kupal.GradientStartColor = Color.White;
             kupal.Location = new Point(0, 0);
-            kupal.Margin = new Padding(3, 4, 3, 4);
             kupal.Name = "kupal";
             kupal.ShadowBlur = 8;
             kupal.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             kupal.ShadowOffset = 1;
-            kupal.Size = new Size(424, 848);
+            kupal.Size = new Size(371, 636);
             kupal.TabIndex = 8;
             kupal.TopLeftRadius = 15;
             kupal.TopRightRadius = 15;
@@ -240,19 +238,20 @@
             issuedCondition.Font = new Font("Segoe UI", 10F);
             issuedCondition.ForeColor = Color.FromArgb(68, 88, 112);
             issuedCondition.ItemHeight = 30;
-            issuedCondition.Location = new Point(11, 499);
+            issuedCondition.Location = new Point(10, 374);
+            issuedCondition.Margin = new Padding(3, 2, 3, 2);
             issuedCondition.Name = "issuedCondition";
             issuedCondition.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            issuedCondition.Size = new Size(344, 36);
+            issuedCondition.Size = new Size(302, 36);
             issuedCondition.TabIndex = 48;
             // 
             // label17
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Sans Serif Collection", 7.799999F);
-            label17.Location = new Point(11, 476);
+            label17.Location = new Point(10, 357);
             label17.Name = "label17";
-            label17.Size = new Size(111, 44);
+            label17.Size = new Size(132, 27);
             label17.TabIndex = 47;
             label17.Text = "Book Condition";
             // 
@@ -267,19 +266,20 @@
             IssueRole.Font = new Font("Segoe UI", 10F);
             IssueRole.ForeColor = Color.FromArgb(68, 88, 112);
             IssueRole.ItemHeight = 30;
-            IssueRole.Location = new Point(15, 560);
+            IssueRole.Location = new Point(13, 420);
+            IssueRole.Margin = new Padding(3, 2, 3, 2);
             IssueRole.Name = "IssueRole";
             IssueRole.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            IssueRole.Size = new Size(341, 36);
+            IssueRole.Size = new Size(299, 36);
             IssueRole.TabIndex = 46;
             // 
             // RoleComboBox
             // 
             RoleComboBox.AutoSize = true;
             RoleComboBox.Font = new Font("Sans Serif Collection", 7.799999F);
-            RoleComboBox.Location = new Point(15, 538);
+            RoleComboBox.Location = new Point(13, 404);
             RoleComboBox.Name = "RoleComboBox";
-            RoleComboBox.Size = new Size(45, 44);
+            RoleComboBox.Size = new Size(49, 27);
             RoleComboBox.TabIndex = 45;
             RoleComboBox.Text = "Role";
             RoleComboBox.Click += RoleComboBox_Click;
@@ -293,12 +293,13 @@
             dueDate.FillColor = Color.White;
             dueDate.Font = new Font("Segoe UI", 9F);
             dueDate.Format = DateTimePickerFormat.Long;
-            dueDate.Location = new Point(22, 720);
+            dueDate.Location = new Point(19, 540);
+            dueDate.Margin = new Padding(3, 2, 3, 2);
             dueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dueDate.Name = "dueDate";
             dueDate.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            dueDate.Size = new Size(341, 45);
+            dueDate.Size = new Size(298, 34);
             dueDate.TabIndex = 39;
             dueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
             // 
@@ -306,9 +307,9 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Sans Serif Collection", 7.799999F);
-            label6.Location = new Point(22, 691);
+            label6.Location = new Point(19, 518);
             label6.Name = "label6";
-            label6.Size = new Size(73, 44);
+            label6.Size = new Size(86, 27);
             label6.TabIndex = 15;
             label6.Text = "Due Date";
             // 
@@ -327,13 +328,12 @@
             ISBN.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ISBN.Font = new Font("Segoe UI", 9F);
             ISBN.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ISBN.Location = new Point(18, 241);
-            ISBN.Margin = new Padding(3, 4, 3, 4);
+            ISBN.Location = new Point(16, 181);
             ISBN.Name = "ISBN";
             ISBN.PlaceholderText = "";
             ISBN.SelectedText = "";
             ISBN.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            ISBN.Size = new Size(344, 39);
+            ISBN.Size = new Size(301, 29);
             ISBN.TabIndex = 43;
             ISBN.TextChanged += ISBN_TextChanged;
             // 
@@ -352,13 +352,12 @@
             Source.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             Source.Font = new Font("Segoe UI", 9F);
             Source.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            Source.Location = new Point(18, 379);
-            Source.Margin = new Padding(3, 4, 3, 4);
+            Source.Location = new Point(16, 284);
             Source.Name = "Source";
             Source.PlaceholderText = "";
             Source.SelectedText = "";
             Source.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            Source.Size = new Size(344, 39);
+            Source.Size = new Size(301, 29);
             Source.TabIndex = 42;
             // 
             // Status
@@ -375,10 +374,11 @@
             Status.Font = new Font("Segoe UI", 10F);
             Status.ForeColor = Color.FromArgb(68, 88, 112);
             Status.ItemHeight = 30;
-            Status.Location = new Point(12, 441);
+            Status.Location = new Point(10, 331);
+            Status.Margin = new Padding(3, 2, 3, 2);
             Status.Name = "Status";
             Status.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            Status.Size = new Size(344, 36);
+            Status.Size = new Size(302, 36);
             Status.TabIndex = 38;
             // 
             // BookTitle
@@ -395,10 +395,11 @@
             BookTitle.Font = new Font("Segoe UI", 10F);
             BookTitle.ForeColor = Color.FromArgb(68, 88, 112);
             BookTitle.ItemHeight = 30;
-            BookTitle.Location = new Point(19, 313);
+            BookTitle.Location = new Point(17, 235);
+            BookTitle.Margin = new Padding(3, 2, 3, 2);
             BookTitle.Name = "BookTitle";
             BookTitle.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            BookTitle.Size = new Size(344, 36);
+            BookTitle.Size = new Size(302, 36);
             BookTitle.TabIndex = 37;
             // 
             // ClientID
@@ -416,13 +417,12 @@
             ClientID.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ClientID.Font = new Font("Segoe UI", 9F);
             ClientID.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ClientID.Location = new Point(22, 99);
-            ClientID.Margin = new Padding(3, 4, 3, 4);
+            ClientID.Location = new Point(19, 74);
             ClientID.Name = "ClientID";
             ClientID.PlaceholderText = "";
             ClientID.SelectedText = "";
             ClientID.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            ClientID.Size = new Size(344, 39);
+            ClientID.Size = new Size(301, 29);
             ClientID.TabIndex = 33;
             ClientID.TextChanged += ClientID_TextChanged;
             // 
@@ -440,10 +440,11 @@
             ClientName.Font = new Font("Segoe UI", 10F);
             ClientName.ForeColor = Color.FromArgb(68, 88, 112);
             ClientName.ItemHeight = 30;
-            ClientName.Location = new Point(19, 176);
+            ClientName.Location = new Point(17, 132);
+            ClientName.Margin = new Padding(3, 2, 3, 2);
             ClientName.Name = "ClientName";
             ClientName.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            ClientName.Size = new Size(344, 36);
+            ClientName.Size = new Size(302, 36);
             ClientName.TabIndex = 35;
             // 
             // btnConfirmBorrow
@@ -458,10 +459,11 @@
             btnConfirmBorrow.FillColor = Color.Orange;
             btnConfirmBorrow.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnConfirmBorrow.ForeColor = Color.Black;
-            btnConfirmBorrow.Location = new Point(202, 773);
+            btnConfirmBorrow.Location = new Point(177, 580);
+            btnConfirmBorrow.Margin = new Padding(3, 2, 3, 2);
             btnConfirmBorrow.Name = "btnConfirmBorrow";
             btnConfirmBorrow.ShadowDecoration.CustomizableEdges = customizableEdges20;
-            btnConfirmBorrow.Size = new Size(157, 63);
+            btnConfirmBorrow.Size = new Size(137, 47);
             btnConfirmBorrow.TabIndex = 41;
             btnConfirmBorrow.Text = "Confirm";
             btnConfirmBorrow.Click += btnConfirmBorrow_Click_1;
@@ -476,12 +478,13 @@
             btnAddToList.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnAddToList.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnAddToList.FillColor = Color.Orange;
-            btnAddToList.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAddToList.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnAddToList.ForeColor = Color.Black;
-            btnAddToList.Location = new Point(27, 773);
+            btnAddToList.Location = new Point(24, 580);
+            btnAddToList.Margin = new Padding(3, 2, 3, 2);
             btnAddToList.Name = "btnAddToList";
             btnAddToList.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            btnAddToList.Size = new Size(157, 63);
+            btnAddToList.Size = new Size(137, 47);
             btnAddToList.TabIndex = 40;
             btnAddToList.Text = "Add to List";
             btnAddToList.Click += btnAddToList_Click_1;
@@ -495,12 +498,13 @@
             issueDate.FillColor = Color.White;
             issueDate.Font = new Font("Segoe UI", 9F);
             issueDate.Format = DateTimePickerFormat.Long;
-            issueDate.Location = new Point(25, 624);
+            issueDate.Location = new Point(22, 468);
+            issueDate.Margin = new Padding(3, 2, 3, 2);
             issueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             issueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             issueDate.Name = "issueDate";
             issueDate.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            issueDate.Size = new Size(341, 45);
+            issueDate.Size = new Size(298, 34);
             issueDate.TabIndex = 35;
             issueDate.Value = new DateTime(2025, 10, 11, 23, 9, 32, 333);
             issueDate.ValueChanged += issueDate_ValueChanged;
@@ -509,9 +513,9 @@
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Sans Serif Collection", 7.799999F);
-            label9.Location = new Point(22, 215);
+            label9.Location = new Point(19, 161);
             label9.Name = "label9";
-            label9.Size = new Size(48, 44);
+            label9.Size = new Size(53, 27);
             label9.TabIndex = 9;
             label9.Text = "ISBN";
             // 
@@ -519,9 +523,9 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Sans Serif Collection", 7.799999F);
-            label7.Location = new Point(19, 284);
+            label7.Location = new Point(17, 213);
             label7.Name = "label7";
-            label7.Size = new Size(77, 44);
+            label7.Size = new Size(91, 27);
             label7.TabIndex = 13;
             label7.Text = "Book Title";
             // 
@@ -529,9 +533,9 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Sans Serif Collection", 7.799999F);
-            label3.Location = new Point(19, 354);
+            label3.Location = new Point(17, 266);
             label3.Name = "label3";
-            label3.Size = new Size(93, 44);
+            label3.Size = new Size(113, 27);
             label3.TabIndex = 3;
             label3.Text = "Book Source";
             // 
@@ -539,9 +543,9 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Sans Serif Collection", 7.799999F);
-            label4.Location = new Point(13, 415);
+            label4.Location = new Point(11, 311);
             label4.Name = "label4";
-            label4.Size = new Size(57, 44);
+            label4.Size = new Size(63, 27);
             label4.TabIndex = 7;
             label4.Text = "Status";
             label4.Click += label4_Click;
@@ -550,9 +554,9 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 7.799999F);
-            label2.Location = new Point(22, 70);
+            label2.Location = new Point(19, 52);
             label2.Name = "label2";
-            label2.Size = new Size(68, 44);
+            label2.Size = new Size(78, 27);
             label2.TabIndex = 1;
             label2.Text = "Client ID";
             // 
@@ -568,13 +572,12 @@
             arthanPanel3.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel3.GradientEndColor = Color.FromArgb(252, 201, 71);
             arthanPanel3.GradientStartColor = Color.FromArgb(220, 38, 38);
-            arthanPanel3.Location = new Point(22, 59);
-            arthanPanel3.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel3.Location = new Point(19, 44);
             arthanPanel3.Name = "arthanPanel3";
             arthanPanel3.ShadowBlur = 0;
             arthanPanel3.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel3.ShadowOffset = 0;
-            arthanPanel3.Size = new Size(344, 7);
+            arthanPanel3.Size = new Size(301, 5);
             arthanPanel3.TabIndex = 28;
             arthanPanel3.TopLeftRadius = 50;
             arthanPanel3.TopRightRadius = 50;
@@ -585,9 +588,9 @@
             label10.AutoSize = true;
             label10.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label10.ForeColor = Color.FromArgb(220, 38, 38);
-            label10.Location = new Point(15, 13);
+            label10.Location = new Point(13, 10);
             label10.Name = "label10";
-            label10.Size = new Size(169, 68);
+            label10.Size = new Size(196, 39);
             label10.TabIndex = 27;
             label10.Text = "Book Inventory";
             // 
@@ -600,11 +603,11 @@
             arthanTextBox10.BorderSize = 2;
             arthanTextBox10.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             arthanTextBox10.ForeColor = Color.DimGray;
-            arthanTextBox10.Location = new Point(11, 369);
-            arthanTextBox10.Margin = new Padding(5);
+            arthanTextBox10.Location = new Point(10, 277);
+            arthanTextBox10.Margin = new Padding(4, 4, 4, 4);
             arthanTextBox10.Multiline = true;
             arthanTextBox10.Name = "arthanTextBox10";
-            arthanTextBox10.Padding = new Padding(11, 9, 11, 9);
+            arthanTextBox10.Padding = new Padding(10, 7, 10, 7);
             arthanTextBox10.PasswordChar = false;
             arthanTextBox10.PlaceholderColor = Color.DarkGray;
             arthanTextBox10.PlaceholderText = "";
@@ -617,9 +620,9 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Sans Serif Collection", 7.799999F);
-            label8.Location = new Point(22, 599);
+            label8.Location = new Point(19, 449);
             label8.Name = "label8";
-            label8.Size = new Size(80, 44);
+            label8.Size = new Size(95, 27);
             label8.TabIndex = 11;
             label8.Text = "Issue Date";
             // 
@@ -627,9 +630,9 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Sans Serif Collection", 7.799999F);
-            label5.Location = new Point(19, 142);
+            label5.Location = new Point(17, 106);
             label5.Name = "label5";
-            label5.Size = new Size(91, 44);
+            label5.Size = new Size(108, 27);
             label5.TabIndex = 5;
             label5.Text = "Client Name";
             label5.Click += label5_Click;
@@ -637,9 +640,10 @@
             // panelReturnBooks
             // 
             panelReturnBooks.Controls.Add(arthanPanel1);
-            panelReturnBooks.Location = new Point(12, 146);
+            panelReturnBooks.Location = new Point(10, 110);
+            panelReturnBooks.Margin = new Padding(3, 2, 3, 2);
             panelReturnBooks.Name = "panelReturnBooks";
-            panelReturnBooks.Size = new Size(421, 845);
+            panelReturnBooks.Size = new Size(368, 634);
             panelReturnBooks.TabIndex = 27;
             // 
             // arthanPanel1
@@ -679,25 +683,47 @@
             arthanPanel1.GradientEndColor = Color.White;
             arthanPanel1.GradientStartColor = Color.White;
             arthanPanel1.Location = new Point(0, 0);
-            arthanPanel1.Margin = new Padding(3, 4, 3, 4);
             arthanPanel1.Name = "arthanPanel1";
             arthanPanel1.ShadowBlur = 8;
             arthanPanel1.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel1.ShadowOffset = 1;
-            arthanPanel1.Size = new Size(421, 845);
+            arthanPanel1.Size = new Size(368, 634);
             arthanPanel1.TabIndex = 28;
             arthanPanel1.TopLeftRadius = 15;
             arthanPanel1.TopRightRadius = 15;
             arthanPanel1.UseIndividualCorners = false;
             arthanPanel1.Paint += arthanPanel1_Paint;
             // 
+            // ReturnBookStatus
+            // 
+            ReturnBookStatus.BorderColor = Color.FromArgb(224, 224, 224);
+            ReturnBookStatus.BorderRadius = 4;
+            ReturnBookStatus.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            ReturnBookStatus.BorderThickness = 2;
+            ReturnBookStatus.CustomizableEdges = customizableEdges25;
+            ReturnBookStatus.DefaultText = "";
+            ReturnBookStatus.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            ReturnBookStatus.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            ReturnBookStatus.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            ReturnBookStatus.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            ReturnBookStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            ReturnBookStatus.Font = new Font("Segoe UI", 9F);
+            ReturnBookStatus.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            ReturnBookStatus.Location = new Point(10, 286);
+            ReturnBookStatus.Name = "ReturnBookStatus";
+            ReturnBookStatus.PlaceholderText = "Nothing to Return";
+            ReturnBookStatus.SelectedText = "";
+            ReturnBookStatus.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            ReturnBookStatus.Size = new Size(301, 29);
+            ReturnBookStatus.TabIndex = 59;
+            // 
             // label18
             // 
             label18.AutoSize = true;
             label18.Font = new Font("Sans Serif Collection", 7.799999F);
-            label18.Location = new Point(21, 614);
+            label18.Location = new Point(18, 460);
             label18.Name = "label18";
-            label18.Size = new Size(192, 44);
+            label18.Size = new Size(241, 27);
             label18.TabIndex = 58;
             label18.Text = "Book Condition before issued";
             // 
@@ -715,19 +741,20 @@
             returnCondition.Font = new Font("Segoe UI", 10F);
             returnCondition.ForeColor = Color.FromArgb(68, 88, 112);
             returnCondition.ItemHeight = 30;
-            returnCondition.Location = new Point(14, 653);
+            returnCondition.Location = new Point(12, 490);
+            returnCondition.Margin = new Padding(3, 2, 3, 2);
             returnCondition.Name = "returnCondition";
             returnCondition.ShadowDecoration.CustomizableEdges = customizableEdges28;
-            returnCondition.Size = new Size(344, 36);
+            returnCondition.Size = new Size(302, 36);
             returnCondition.TabIndex = 57;
             // 
             // label12
             // 
             label12.AutoSize = true;
             label12.Font = new Font("Sans Serif Collection", 7.799999F);
-            label12.Location = new Point(16, 477);
+            label12.Location = new Point(14, 358);
             label12.Name = "label12";
-            label12.Size = new Size(45, 44);
+            label12.Size = new Size(49, 27);
             label12.TabIndex = 56;
             label12.Text = "Role";
             // 
@@ -742,10 +769,11 @@
             ReturnRoleComboBox.Font = new Font("Segoe UI", 10F);
             ReturnRoleComboBox.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnRoleComboBox.ItemHeight = 30;
-            ReturnRoleComboBox.Location = new Point(15, 512);
+            ReturnRoleComboBox.Location = new Point(13, 384);
+            ReturnRoleComboBox.Margin = new Padding(3, 2, 3, 2);
             ReturnRoleComboBox.Name = "ReturnRoleComboBox";
             ReturnRoleComboBox.ShadowDecoration.CustomizableEdges = customizableEdges30;
-            ReturnRoleComboBox.Size = new Size(341, 36);
+            ReturnRoleComboBox.Size = new Size(299, 36);
             ReturnRoleComboBox.TabIndex = 45;
             // 
             // ReturnDate
@@ -763,13 +791,12 @@
             ReturnDate.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ReturnDate.Font = new Font("Segoe UI", 9F);
             ReturnDate.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ReturnDate.Location = new Point(18, 306);
-            ReturnDate.Margin = new Padding(3, 4, 3, 4);
+            ReturnDate.Location = new Point(16, 230);
             ReturnDate.Name = "ReturnDate";
             ReturnDate.PlaceholderText = "";
             ReturnDate.SelectedText = "";
             ReturnDate.ShadowDecoration.CustomizableEdges = customizableEdges32;
-            ReturnDate.Size = new Size(344, 39);
+            ReturnDate.Size = new Size(301, 29);
             ReturnDate.TabIndex = 53;
             ReturnDate.TextChanged += guna2TextBox1_TextChanged;
             // 
@@ -787,10 +814,11 @@
             ReturnedBookID.Font = new Font("Segoe UI", 10F);
             ReturnedBookID.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnedBookID.ItemHeight = 30;
-            ReturnedBookID.Location = new Point(18, 241);
+            ReturnedBookID.Location = new Point(16, 181);
+            ReturnedBookID.Margin = new Padding(3, 2, 3, 2);
             ReturnedBookID.Name = "ReturnedBookID";
             ReturnedBookID.ShadowDecoration.CustomizableEdges = customizableEdges34;
-            ReturnedBookID.Size = new Size(344, 36);
+            ReturnedBookID.Size = new Size(302, 36);
             ReturnedBookID.TabIndex = 52;
             // 
             // ReturnBookQty
@@ -807,10 +835,11 @@
             ReturnBookQty.Font = new Font("Segoe UI", 10F);
             ReturnBookQty.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnBookQty.ItemHeight = 30;
-            ReturnBookQty.Location = new Point(17, 189);
+            ReturnBookQty.Location = new Point(15, 142);
+            ReturnBookQty.Margin = new Padding(3, 2, 3, 2);
             ReturnBookQty.Name = "ReturnBookQty";
             ReturnBookQty.ShadowDecoration.CustomizableEdges = customizableEdges36;
-            ReturnBookQty.Size = new Size(344, 36);
+            ReturnBookQty.Size = new Size(302, 36);
             ReturnBookQty.TabIndex = 50;
             ReturnBookQty.SelectedIndexChanged += ReturnBookQty_SelectedIndexChanged;
             // 
@@ -829,13 +858,12 @@
             ReturnPenalty.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ReturnPenalty.Font = new Font("Segoe UI", 9F);
             ReturnPenalty.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ReturnPenalty.Location = new Point(16, 438);
-            ReturnPenalty.Margin = new Padding(3, 4, 3, 4);
+            ReturnPenalty.Location = new Point(14, 328);
             ReturnPenalty.Name = "ReturnPenalty";
             ReturnPenalty.PlaceholderText = "";
             ReturnPenalty.SelectedText = "";
             ReturnPenalty.ShadowDecoration.CustomizableEdges = customizableEdges38;
-            ReturnPenalty.Size = new Size(344, 39);
+            ReturnPenalty.Size = new Size(301, 29);
             ReturnPenalty.TabIndex = 46;
             // 
             // CMBbookConditon
@@ -852,10 +880,11 @@
             CMBbookConditon.Font = new Font("Segoe UI", 10F);
             CMBbookConditon.ForeColor = Color.FromArgb(68, 88, 112);
             CMBbookConditon.ItemHeight = 30;
-            CMBbookConditon.Location = new Point(14, 575);
+            CMBbookConditon.Location = new Point(12, 431);
+            CMBbookConditon.Margin = new Padding(3, 2, 3, 2);
             CMBbookConditon.Name = "CMBbookConditon";
             CMBbookConditon.ShadowDecoration.CustomizableEdges = customizableEdges40;
-            CMBbookConditon.Size = new Size(344, 36);
+            CMBbookConditon.Size = new Size(302, 36);
             CMBbookConditon.TabIndex = 45;
             CMBbookConditon.SelectedIndexChanged += CMBbookConditon_SelectedIndexChanged;
             // 
@@ -874,13 +903,12 @@
             ReturnClientID.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ReturnClientID.Font = new Font("Segoe UI", 9F);
             ReturnClientID.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ReturnClientID.Location = new Point(14, 52);
-            ReturnClientID.Margin = new Padding(3, 4, 3, 4);
+            ReturnClientID.Location = new Point(12, 39);
             ReturnClientID.Name = "ReturnClientID";
             ReturnClientID.PlaceholderText = "";
             ReturnClientID.SelectedText = "";
             ReturnClientID.ShadowDecoration.CustomizableEdges = customizableEdges42;
-            ReturnClientID.Size = new Size(344, 39);
+            ReturnClientID.Size = new Size(301, 29);
             ReturnClientID.TabIndex = 33;
             ReturnClientID.TextChanged += ReturnClientID_TextChanged;
             // 
@@ -898,16 +926,18 @@
             ReturnClientName.Font = new Font("Segoe UI", 10F);
             ReturnClientName.ForeColor = Color.FromArgb(68, 88, 112);
             ReturnClientName.ItemHeight = 30;
-            ReturnClientName.Location = new Point(14, 121);
+            ReturnClientName.Location = new Point(12, 91);
+            ReturnClientName.Margin = new Padding(3, 2, 3, 2);
             ReturnClientName.Name = "ReturnClientName";
             ReturnClientName.ShadowDecoration.CustomizableEdges = customizableEdges44;
-            ReturnClientName.Size = new Size(344, 36);
+            ReturnClientName.Size = new Size(302, 36);
             ReturnClientName.TabIndex = 35;
             // 
             // lblReturnDate
             // 
             lblReturnDate.BackColor = Color.Transparent;
-            lblReturnDate.Location = new Point(74, 435);
+            lblReturnDate.Location = new Point(65, 326);
+            lblReturnDate.Margin = new Padding(3, 2, 3, 2);
             lblReturnDate.Name = "lblReturnDate";
             lblReturnDate.Size = new Size(3, 2);
             lblReturnDate.TabIndex = 55;
@@ -917,9 +947,9 @@
             // 
             label24.AutoSize = true;
             label24.Font = new Font("Sans Serif Collection", 7.799999F);
-            label24.Location = new Point(14, 281);
+            label24.Location = new Point(12, 211);
             label24.Name = "label24";
-            label24.Size = new Size(105, 44);
+            label24.Size = new Size(127, 27);
             label24.TabIndex = 54;
             label24.Text = "Returned Date";
             label24.Click += label24_Click;
@@ -928,9 +958,9 @@
             // 
             label11.AutoSize = true;
             label11.Font = new Font("Sans Serif Collection", 7.799999F);
-            label11.Location = new Point(14, 160);
+            label11.Location = new Point(12, 120);
             label11.Name = "label11";
-            label11.Size = new Size(166, 44);
+            label11.Size = new Size(203, 27);
             label11.TabIndex = 48;
             label11.Text = "Book Quantity Borrowed";
             // 
@@ -943,11 +973,11 @@
             arthanTextBox1.BorderSize = 2;
             arthanTextBox1.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             arthanTextBox1.ForeColor = Color.DimGray;
-            arthanTextBox1.Location = new Point(7, 278);
-            arthanTextBox1.Margin = new Padding(5);
+            arthanTextBox1.Location = new Point(6, 208);
+            arthanTextBox1.Margin = new Padding(4, 4, 4, 4);
             arthanTextBox1.Multiline = true;
             arthanTextBox1.Name = "arthanTextBox1";
-            arthanTextBox1.Padding = new Padding(11, 9, 11, 9);
+            arthanTextBox1.Padding = new Padding(10, 7, 10, 7);
             arthanTextBox1.PasswordChar = false;
             arthanTextBox1.PlaceholderColor = Color.DarkGray;
             arthanTextBox1.PlaceholderText = "";
@@ -960,9 +990,9 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Sans Serif Collection", 7.799999F);
-            label13.Location = new Point(16, 549);
+            label13.Location = new Point(14, 412);
             label13.Name = "label13";
-            label13.Size = new Size(183, 44);
+            label13.Size = new Size(223, 27);
             label13.TabIndex = 47;
             label13.Text = "Book Condition in returning";
             // 
@@ -970,9 +1000,9 @@
             // 
             label14.AutoSize = true;
             label14.Font = new Font("Sans Serif Collection", 7.799999F);
-            label14.Location = new Point(11, 413);
+            label14.Location = new Point(10, 310);
             label14.Name = "label14";
-            label14.Size = new Size(64, 44);
+            label14.Size = new Size(72, 27);
             label14.TabIndex = 44;
             label14.Text = "Penalty";
             // 
@@ -980,9 +1010,9 @@
             // 
             label15.AutoSize = true;
             label15.Font = new Font("Sans Serif Collection", 7.799999F);
-            label15.Location = new Point(11, 349);
+            label15.Location = new Point(10, 262);
             label15.Name = "label15";
-            label15.Size = new Size(57, 44);
+            label15.Size = new Size(63, 27);
             label15.TabIndex = 42;
             label15.Text = "Status";
             // 
@@ -998,10 +1028,11 @@
             ReturnButton.FillColor = Color.Orange;
             ReturnButton.Font = new Font("Arial", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             ReturnButton.ForeColor = Color.Black;
-            ReturnButton.Location = new Point(116, 750);
+            ReturnButton.Location = new Point(102, 562);
+            ReturnButton.Margin = new Padding(3, 2, 3, 2);
             ReturnButton.Name = "ReturnButton";
             ReturnButton.ShadowDecoration.CustomizableEdges = customizableEdges46;
-            ReturnButton.Size = new Size(157, 63);
+            ReturnButton.Size = new Size(137, 47);
             ReturnButton.TabIndex = 41;
             ReturnButton.Text = "Confirm";
             ReturnButton.Click += ReturnButton_Click;
@@ -1010,9 +1041,9 @@
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Sans Serif Collection", 7.799999F);
-            label25.Location = new Point(14, 15);
+            label25.Location = new Point(12, 11);
             label25.Name = "label25";
-            label25.Size = new Size(68, 44);
+            label25.Size = new Size(78, 27);
             label25.TabIndex = 1;
             label25.Text = "Client ID";
             // 
@@ -1028,13 +1059,12 @@
             arthanPanel5.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel5.GradientEndColor = Color.FromArgb(252, 201, 71);
             arthanPanel5.GradientStartColor = Color.FromArgb(220, 38, 38);
-            arthanPanel5.Location = new Point(24, 4);
-            arthanPanel5.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel5.Location = new Point(21, 3);
             arthanPanel5.Name = "arthanPanel5";
             arthanPanel5.ShadowBlur = 0;
             arthanPanel5.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel5.ShadowOffset = 0;
-            arthanPanel5.Size = new Size(344, 7);
+            arthanPanel5.Size = new Size(301, 5);
             arthanPanel5.TabIndex = 28;
             arthanPanel5.TopLeftRadius = 50;
             arthanPanel5.TopRightRadius = 50;
@@ -1049,11 +1079,11 @@
             arthanTextBox2.BorderSize = 2;
             arthanTextBox2.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             arthanTextBox2.ForeColor = Color.DimGray;
-            arthanTextBox2.Location = new Point(14, 431);
-            arthanTextBox2.Margin = new Padding(5);
+            arthanTextBox2.Location = new Point(12, 323);
+            arthanTextBox2.Margin = new Padding(4, 4, 4, 4);
             arthanTextBox2.Multiline = true;
             arthanTextBox2.Name = "arthanTextBox2";
-            arthanTextBox2.Padding = new Padding(11, 9, 11, 9);
+            arthanTextBox2.Padding = new Padding(10, 7, 10, 7);
             arthanTextBox2.PasswordChar = false;
             arthanTextBox2.PlaceholderColor = Color.DarkGray;
             arthanTextBox2.PlaceholderText = "";
@@ -1066,9 +1096,9 @@
             // 
             label26.AutoSize = true;
             label26.Font = new Font("Sans Serif Collection", 7.799999F);
-            label26.Location = new Point(14, 87);
+            label26.Location = new Point(12, 65);
             label26.Name = "label26";
-            label26.Size = new Size(91, 44);
+            label26.Size = new Size(108, 27);
             label26.TabIndex = 5;
             label26.Text = "Client Name";
             // 
@@ -1089,13 +1119,12 @@
             arthanPanel4.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel4.GradientEndColor = Color.FromArgb(238, 66, 66);
             arthanPanel4.GradientStartColor = Color.FromArgb(220, 38, 38);
-            arthanPanel4.Location = new Point(30, 16);
-            arthanPanel4.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel4.Location = new Point(26, 12);
             arthanPanel4.Name = "arthanPanel4";
             arthanPanel4.ShadowBlur = 5;
             arthanPanel4.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel4.ShadowOffset = 3;
-            arthanPanel4.Size = new Size(1860, 133);
+            arthanPanel4.Size = new Size(1628, 100);
             arthanPanel4.TabIndex = 7;
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
@@ -1111,12 +1140,13 @@
             guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             guna2Button1.FillColor = Color.Orange;
-            guna2Button1.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2Button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             guna2Button1.ForeColor = Color.Black;
-            guna2Button1.Location = new Point(731, 25);
+            guna2Button1.Location = new Point(697, 19);
+            guna2Button1.Margin = new Padding(3, 2, 3, 2);
             guna2Button1.Name = "guna2Button1";
             guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges48;
-            guna2Button1.Size = new Size(157, 63);
+            guna2Button1.Size = new Size(137, 47);
             guna2Button1.TabIndex = 45;
             guna2Button1.Text = "Report";
             guna2Button1.Click += guna2Button1_Click;
@@ -1131,12 +1161,13 @@
             btnReturnBooks.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnReturnBooks.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnReturnBooks.FillColor = Color.Orange;
-            btnReturnBooks.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnReturnBooks.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnReturnBooks.ForeColor = Color.Black;
-            btnReturnBooks.Location = new Point(548, 25);
+            btnReturnBooks.Location = new Point(537, 19);
+            btnReturnBooks.Margin = new Padding(3, 2, 3, 2);
             btnReturnBooks.Name = "btnReturnBooks";
             btnReturnBooks.ShadowDecoration.CustomizableEdges = customizableEdges50;
-            btnReturnBooks.Size = new Size(157, 63);
+            btnReturnBooks.Size = new Size(137, 47);
             btnReturnBooks.TabIndex = 44;
             btnReturnBooks.Text = "Return Books";
             btnReturnBooks.Click += btnReturnBooks_Click;
@@ -1151,12 +1182,13 @@
             btnIssueBooks.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnIssueBooks.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnIssueBooks.FillColor = Color.Orange;
-            btnIssueBooks.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnIssueBooks.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnIssueBooks.ForeColor = Color.Black;
-            btnIssueBooks.Location = new Point(356, 25);
+            btnIssueBooks.Location = new Point(369, 19);
+            btnIssueBooks.Margin = new Padding(3, 2, 3, 2);
             btnIssueBooks.Name = "btnIssueBooks";
             btnIssueBooks.ShadowDecoration.CustomizableEdges = customizableEdges52;
-            btnIssueBooks.Size = new Size(157, 63);
+            btnIssueBooks.Size = new Size(137, 47);
             btnIssueBooks.TabIndex = 43;
             btnIssueBooks.Text = "Issue Books";
             btnIssueBooks.Click += btnIssueBooks_Click;
@@ -1178,10 +1210,9 @@
             arthanButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton1.Image = null;
-            arthanButton1.Location = new Point(1719, 35);
-            arthanButton1.Margin = new Padding(3, 4, 3, 4);
+            arthanButton1.Location = new Point(1504, 26);
             arthanButton1.Name = "arthanButton1";
-            arthanButton1.Size = new Size(109, 53);
+            arthanButton1.Size = new Size(95, 40);
             arthanButton1.TabIndex = 5;
             arthanButton1.Text = "Home";
             arthanButton1.TextColor = Color.Black;
@@ -1193,10 +1224,9 @@
             // 
             pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(11, 13);
-            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Location = new Point(10, 10);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(78, 91);
+            pictureBox1.Size = new Size(68, 68);
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
             // 
@@ -1205,9 +1235,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Sans Serif Collection", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(96, 25);
+            label1.Location = new Point(84, 19);
             label1.Name = "label1";
-            label1.Size = new Size(217, 102);
+            label1.Size = new Size(256, 59);
             label1.TabIndex = 0;
             label1.Text = "Issue Books";
             // 
@@ -1225,13 +1255,12 @@
             arthanPanel7.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel7.GradientEndColor = Color.White;
             arthanPanel7.GradientStartColor = Color.White;
-            arthanPanel7.Location = new Point(1556, 163);
-            arthanPanel7.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel7.Location = new Point(1362, 122);
             arthanPanel7.Name = "arthanPanel7";
             arthanPanel7.ShadowBlur = 8;
             arthanPanel7.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel7.ShadowOffset = 1;
-            arthanPanel7.Size = new Size(334, 168);
+            arthanPanel7.Size = new Size(292, 126);
             arthanPanel7.TabIndex = 23;
             arthanPanel7.TopLeftRadius = 15;
             arthanPanel7.TopRightRadius = 15;
@@ -1243,9 +1272,10 @@
             lblOverdueCount.BackColor = Color.Transparent;
             lblOverdueCount.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblOverdueCount.ForeColor = Color.FromArgb(244, 47, 47);
-            lblOverdueCount.Location = new Point(99, 64);
+            lblOverdueCount.Location = new Point(87, 48);
+            lblOverdueCount.Margin = new Padding(3, 2, 3, 2);
             lblOverdueCount.Name = "lblOverdueCount";
-            lblOverdueCount.Size = new Size(62, 22);
+            lblOverdueCount.Size = new Size(52, 17);
             lblOverdueCount.TabIndex = 34;
             lblOverdueCount.Text = "Overdue";
             lblOverdueCount.Click += lblOverdueCount_Click;
@@ -1255,9 +1285,9 @@
             label16.AutoSize = true;
             label16.Font = new Font("Sans Serif Collection", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label16.ForeColor = Color.FromArgb(117, 117, 117);
-            label16.Location = new Point(67, 89);
+            label16.Location = new Point(59, 67);
             label16.Name = "label16";
-            label16.Size = new Size(135, 51);
+            label16.Size = new Size(146, 29);
             label16.TabIndex = 36;
             label16.Text = "Total Over Due";
             // 
@@ -1272,13 +1302,12 @@
             arthanPanel10.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel10.GradientEndColor = Color.FromArgb(252, 201, 71);
             arthanPanel10.GradientStartColor = Color.FromArgb(220, 38, 38);
-            arthanPanel10.Location = new Point(16, 25);
-            arthanPanel10.Margin = new Padding(3, 4, 3, 4);
+            arthanPanel10.Location = new Point(14, 19);
             arthanPanel10.Name = "arthanPanel10";
             arthanPanel10.ShadowBlur = 0;
             arthanPanel10.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel10.ShadowOffset = 0;
-            arthanPanel10.Size = new Size(286, 7);
+            arthanPanel10.Size = new Size(250, 5);
             arthanPanel10.TabIndex = 30;
             arthanPanel10.TopLeftRadius = 50;
             arthanPanel10.TopRightRadius = 50;
@@ -1290,9 +1319,10 @@
             dgvBorrowList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvBorrowList.Dock = DockStyle.Fill;
             dgvBorrowList.Location = new Point(0, 0);
+            dgvBorrowList.Margin = new Padding(3, 2, 3, 2);
             dgvBorrowList.Name = "dgvBorrowList";
             dgvBorrowList.RowHeadersWidth = 51;
-            dgvBorrowList.Size = new Size(1069, 156);
+            dgvBorrowList.Size = new Size(935, 117);
             dgvBorrowList.TabIndex = 24;
             dgvBorrowList.CellClick += dgvBorrowList_CellClick;
             dgvBorrowList.CellContentClick += dgvBorrowList_CellContentClick;
@@ -1304,17 +1334,19 @@
             // panelIssueBooks
             // 
             panelIssueBooks.Controls.Add(kupal);
-            panelIssueBooks.Location = new Point(12, 156);
+            panelIssueBooks.Location = new Point(10, 117);
+            panelIssueBooks.Margin = new Padding(3, 2, 3, 2);
             panelIssueBooks.Name = "panelIssueBooks";
-            panelIssueBooks.Size = new Size(424, 848);
+            panelIssueBooks.Size = new Size(371, 636);
             panelIssueBooks.TabIndex = 25;
             // 
             // panel1IssueDataGrid
             // 
             panel1IssueDataGrid.Controls.Add(IssueBooksDataGrid);
-            panel1IssueDataGrid.Location = new Point(447, 340);
+            panel1IssueDataGrid.Location = new Point(391, 255);
+            panel1IssueDataGrid.Margin = new Padding(3, 2, 3, 2);
             panel1IssueDataGrid.Name = "panel1IssueDataGrid";
-            panel1IssueDataGrid.Size = new Size(1443, 664);
+            panel1IssueDataGrid.Size = new Size(1263, 498);
             panel1IssueDataGrid.TabIndex = 26;
             // 
             // IssueBooksDataGrid
@@ -1322,17 +1354,19 @@
             IssueBooksDataGrid.BorderStyle = BorderStyle.None;
             IssueBooksDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             IssueBooksDataGrid.Location = new Point(0, 0);
+            IssueBooksDataGrid.Margin = new Padding(3, 2, 3, 2);
             IssueBooksDataGrid.Name = "IssueBooksDataGrid";
             IssueBooksDataGrid.RowHeadersWidth = 51;
-            IssueBooksDataGrid.Size = new Size(1443, 664);
+            IssueBooksDataGrid.Size = new Size(1263, 498);
             IssueBooksDataGrid.TabIndex = 27;
             // 
             // ReturnPANEL
             // 
             ReturnPANEL.Controls.Add(returnDatagrid);
-            ReturnPANEL.Location = new Point(444, 331);
+            ReturnPANEL.Location = new Point(388, 248);
+            ReturnPANEL.Margin = new Padding(3, 2, 3, 2);
             ReturnPANEL.Name = "ReturnPANEL";
-            ReturnPANEL.Size = new Size(1440, 635);
+            ReturnPANEL.Size = new Size(1260, 476);
             ReturnPANEL.TabIndex = 28;
             // 
             // returnDatagrid
@@ -1360,10 +1394,12 @@
             returnDatagrid.Dock = DockStyle.Fill;
             returnDatagrid.GridColor = Color.FromArgb(231, 229, 255);
             returnDatagrid.Location = new Point(0, 0);
+            returnDatagrid.Margin = new Padding(3, 2, 3, 2);
             returnDatagrid.Name = "returnDatagrid";
             returnDatagrid.RowHeadersVisible = false;
             returnDatagrid.RowHeadersWidth = 51;
-            returnDatagrid.Size = new Size(1440, 635);
+            returnDatagrid.RowTemplate.Height = 29;
+            returnDatagrid.Size = new Size(1260, 476);
             returnDatagrid.TabIndex = 49;
             returnDatagrid.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
             returnDatagrid.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -1390,40 +1426,17 @@
             // PANELdataList
             // 
             PANELdataList.Controls.Add(dgvBorrowList);
-            PANELdataList.Location = new Point(456, 169);
+            PANELdataList.Location = new Point(399, 127);
+            PANELdataList.Margin = new Padding(3, 2, 3, 2);
             PANELdataList.Name = "PANELdataList";
-            PANELdataList.Size = new Size(1069, 156);
+            PANELdataList.Size = new Size(935, 117);
             PANELdataList.TabIndex = 29;
-            // 
-            // ReturnBookStatus
-            // 
-            ReturnBookStatus.BorderColor = Color.FromArgb(224, 224, 224);
-            ReturnBookStatus.BorderRadius = 4;
-            ReturnBookStatus.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            ReturnBookStatus.BorderThickness = 2;
-            ReturnBookStatus.CustomizableEdges = customizableEdges25;
-            ReturnBookStatus.DefaultText = "";
-            ReturnBookStatus.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            ReturnBookStatus.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            ReturnBookStatus.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            ReturnBookStatus.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            ReturnBookStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            ReturnBookStatus.Font = new Font("Segoe UI", 9F);
-            ReturnBookStatus.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ReturnBookStatus.Location = new Point(11, 382);
-            ReturnBookStatus.Margin = new Padding(3, 4, 3, 4);
-            ReturnBookStatus.Name = "ReturnBookStatus";
-            ReturnBookStatus.PlaceholderText = "Nothing to Return";
-            ReturnBookStatus.SelectedText = "";
-            ReturnBookStatus.ShadowDecoration.CustomizableEdges = customizableEdges26;
-            ReturnBookStatus.Size = new Size(344, 39);
-            ReturnBookStatus.TabIndex = 59;
             // 
             // Issue
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1902, 1033);
+            ClientSize = new Size(1664, 775);
             Controls.Add(panelReturnBooks);
             Controls.Add(panelIssueBooks);
             Controls.Add(PANELdataList);
@@ -1431,7 +1444,6 @@
             Controls.Add(panel1IssueDataGrid);
             Controls.Add(arthanPanel7);
             Controls.Add(arthanPanel4);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Issue";
             Text = "Issue";
             Load += Issue_Load;

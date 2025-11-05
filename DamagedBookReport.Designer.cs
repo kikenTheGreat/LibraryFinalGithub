@@ -103,9 +103,9 @@
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Sans Serif Collection", 7.799999F);
-            label25.Location = new Point(46, 280);
+            label25.Location = new Point(45, 179);
             label25.Name = "label25";
-            label25.Size = new Size(68, 44);
+            label25.Size = new Size(78, 27);
             label25.TabIndex = 2;
             label25.Text = "Client ID";
             // 
@@ -113,9 +113,9 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Sans Serif Collection", 7.799999F);
-            label1.Location = new Point(46, 182);
+            label1.Location = new Point(45, 126);
             label1.Name = "label1";
-            label1.Size = new Size(44, 44);
+            label1.Size = new Size(47, 27);
             label1.TabIndex = 3;
             label1.Text = "Title";
             // 
@@ -123,9 +123,9 @@
             // 
             sda.AutoSize = true;
             sda.Font = new Font("Sans Serif Collection", 7.799999F);
-            sda.Location = new Point(45, 110);
+            sda.Location = new Point(45, 73);
             sda.Name = "sda";
-            sda.Size = new Size(48, 44);
+            sda.Size = new Size(53, 27);
             sda.TabIndex = 4;
             sda.Text = "ISBN";
             // 
@@ -144,13 +144,12 @@
             txtFineAmount.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtFineAmount.Font = new Font("Segoe UI", 9F);
             txtFineAmount.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtFineAmount.Location = new Point(44, 798);
-            txtFineAmount.Margin = new Padding(3, 4, 3, 4);
+            txtFineAmount.Location = new Point(33, 571);
             txtFineAmount.Name = "txtFineAmount";
             txtFineAmount.PlaceholderText = "";
             txtFineAmount.SelectedText = "";
             txtFineAmount.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            txtFineAmount.Size = new Size(344, 39);
+            txtFineAmount.Size = new Size(301, 29);
             txtFineAmount.TabIndex = 35;
             // 
             // txtDamageDescription
@@ -168,13 +167,12 @@
             txtDamageDescription.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtDamageDescription.Font = new Font("Segoe UI", 9F);
             txtDamageDescription.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtDamageDescription.Location = new Point(45, 615);
-            txtDamageDescription.Margin = new Padding(3, 4, 3, 4);
+            txtDamageDescription.Location = new Point(33, 444);
             txtDamageDescription.Name = "txtDamageDescription";
             txtDamageDescription.PlaceholderText = "";
             txtDamageDescription.SelectedText = "";
             txtDamageDescription.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            txtDamageDescription.Size = new Size(344, 39);
+            txtDamageDescription.Size = new Size(301, 29);
             txtDamageDescription.TabIndex = 37;
             // 
             // txtClientID
@@ -192,13 +190,12 @@
             txtClientID.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtClientID.Font = new Font("Segoe UI", 9F);
             txtClientID.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtClientID.Location = new Point(45, 315);
-            txtClientID.Margin = new Padding(3, 4, 3, 4);
+            txtClientID.Location = new Point(32, 200);
             txtClientID.Name = "txtClientID";
             txtClientID.PlaceholderText = "";
             txtClientID.SelectedText = "";
             txtClientID.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            txtClientID.Size = new Size(344, 39);
+            txtClientID.Size = new Size(301, 29);
             txtClientID.TabIndex = 39;
             txtClientID.TextChanged += txtClientID_TextChanged;
             // 
@@ -217,13 +214,12 @@
             txtBookTitle.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtBookTitle.Font = new Font("Segoe UI", 9F);
             txtBookTitle.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtBookTitle.Location = new Point(45, 223);
-            txtBookTitle.Margin = new Padding(3, 4, 3, 4);
+            txtBookTitle.Location = new Point(32, 147);
             txtBookTitle.Name = "txtBookTitle";
             txtBookTitle.PlaceholderText = "";
             txtBookTitle.SelectedText = "";
             txtBookTitle.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            txtBookTitle.Size = new Size(344, 39);
+            txtBookTitle.Size = new Size(301, 29);
             txtBookTitle.TabIndex = 40;
             // 
             // txtISBN
@@ -241,13 +237,12 @@
             txtISBN.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtISBN.Font = new Font("Segoe UI", 9F);
             txtISBN.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtISBN.Location = new Point(45, 139);
-            txtISBN.Margin = new Padding(3, 4, 3, 4);
+            txtISBN.Location = new Point(32, 93);
             txtISBN.Name = "txtISBN";
             txtISBN.PlaceholderText = "";
             txtISBN.SelectedText = "";
             txtISBN.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            txtISBN.Size = new Size(344, 39);
+            txtISBN.Size = new Size(301, 29);
             txtISBN.TabIndex = 41;
             txtISBN.TextChanged += txtISBN_TextChanged;
             // 
@@ -255,9 +250,9 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Sans Serif Collection", 7.799999F);
-            label5.Location = new Point(45, 761);
+            label5.Location = new Point(45, 541);
             label5.Name = "label5";
-            label5.Size = new Size(95, 44);
+            label5.Size = new Size(111, 27);
             label5.TabIndex = 44;
             label5.Text = "Fine Amount";
             // 
@@ -265,9 +260,9 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Sans Serif Collection", 7.799999F);
-            label6.Location = new Point(45, 658);
+            label6.Location = new Point(45, 476);
             label6.Name = "label6";
-            label6.Size = new Size(90, 44);
+            label6.Size = new Size(107, 27);
             label6.TabIndex = 45;
             label6.Text = "Date Report";
             // 
@@ -275,9 +270,9 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Sans Serif Collection", 7.799999F);
-            label7.Location = new Point(45, 567);
+            label7.Location = new Point(45, 414);
             label7.Name = "label7";
-            label7.Size = new Size(147, 44);
+            label7.Size = new Size(182, 27);
             label7.TabIndex = 46;
             label7.Text = "Damaged Description";
             // 
@@ -285,9 +280,9 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Sans Serif Collection", 7.799999F);
-            label8.Location = new Point(45, 358);
+            label8.Location = new Point(45, 232);
             label8.Name = "label8";
-            label8.Size = new Size(193, 44);
+            label8.Size = new Size(241, 27);
             label8.TabIndex = 47;
             label8.Text = "Book Condition before Issued";
             // 
@@ -305,10 +300,11 @@
             cmbBookCondition.Font = new Font("Segoe UI", 10F);
             cmbBookCondition.ForeColor = Color.FromArgb(68, 88, 112);
             cmbBookCondition.ItemHeight = 30;
-            cmbBookCondition.Location = new Point(45, 393);
+            cmbBookCondition.Location = new Point(32, 252);
+            cmbBookCondition.Margin = new Padding(3, 2, 3, 2);
             cmbBookCondition.Name = "cmbBookCondition";
             cmbBookCondition.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            cmbBookCondition.Size = new Size(344, 36);
+            cmbBookCondition.Size = new Size(302, 36);
             cmbBookCondition.TabIndex = 51;
             // 
             // dtpReportDate
@@ -317,12 +313,13 @@
             dtpReportDate.CustomizableEdges = customizableEdges13;
             dtpReportDate.Font = new Font("Segoe UI", 9F);
             dtpReportDate.Format = DateTimePickerFormat.Long;
-            dtpReportDate.Location = new Point(45, 686);
+            dtpReportDate.Location = new Point(33, 505);
+            dtpReportDate.Margin = new Padding(3, 2, 3, 2);
             dtpReportDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpReportDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpReportDate.Name = "dtpReportDate";
             dtpReportDate.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            dtpReportDate.Size = new Size(344, 45);
+            dtpReportDate.Size = new Size(301, 34);
             dtpReportDate.TabIndex = 52;
             dtpReportDate.Value = new DateTime(2025, 11, 2, 15, 54, 21, 541);
             // 
@@ -330,9 +327,9 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 7.799999F);
-            label2.Location = new Point(46, 20);
+            label2.Location = new Point(40, 15);
             label2.Name = "label2";
-            label2.Size = new Size(113, 44);
+            label2.Size = new Size(135, 27);
             label2.TabIndex = 54;
             label2.Text = "Borrower Name";
             // 
@@ -351,13 +348,12 @@
             txtReportedBy.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtReportedBy.Font = new Font("Segoe UI", 9F);
             txtReportedBy.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtReportedBy.Location = new Point(45, 57);
-            txtReportedBy.Margin = new Padding(3, 4, 3, 4);
+            txtReportedBy.Location = new Point(32, 41);
             txtReportedBy.Name = "txtReportedBy";
             txtReportedBy.PlaceholderText = "";
             txtReportedBy.SelectedText = "";
             txtReportedBy.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            txtReportedBy.Size = new Size(344, 39);
+            txtReportedBy.Size = new Size(301, 29);
             txtReportedBy.TabIndex = 53;
             // 
             // btnSave
@@ -370,12 +366,13 @@
             btnSave.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnSave.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnSave.FillColor = Color.Orange;
-            btnSave.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSave.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnSave.ForeColor = Color.Black;
-            btnSave.Location = new Point(36, 919);
+            btnSave.Location = new Point(31, 707);
+            btnSave.Margin = new Padding(3, 2, 3, 2);
             btnSave.Name = "btnSave";
             btnSave.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            btnSave.Size = new Size(157, 63);
+            btnSave.Size = new Size(137, 47);
             btnSave.TabIndex = 55;
             btnSave.Text = "Save";
             btnSave.Click += btnSave_Click;
@@ -390,12 +387,13 @@
             btnClear.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnClear.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnClear.FillColor = Color.Orange;
-            btnClear.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnClear.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnClear.ForeColor = Color.Black;
-            btnClear.Location = new Point(225, 919);
+            btnClear.Location = new Point(196, 707);
+            btnClear.Margin = new Padding(3, 2, 3, 2);
             btnClear.Name = "btnClear";
             btnClear.ShadowDecoration.CustomizableEdges = customizableEdges20;
-            btnClear.Size = new Size(157, 63);
+            btnClear.Size = new Size(137, 47);
             btnClear.TabIndex = 56;
             btnClear.Text = "Clear";
             btnClear.Click += btnClear_Click;
@@ -423,11 +421,13 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvDamageReports.DefaultCellStyle = dataGridViewCellStyle3;
             dgvDamageReports.GridColor = Color.FromArgb(231, 229, 255);
-            dgvDamageReports.Location = new Point(476, 100);
+            dgvDamageReports.Location = new Point(415, 105);
+            dgvDamageReports.Margin = new Padding(3, 2, 3, 2);
             dgvDamageReports.Name = "dgvDamageReports";
             dgvDamageReports.RowHeadersVisible = false;
             dgvDamageReports.RowHeadersWidth = 51;
-            dgvDamageReports.Size = new Size(1381, 448);
+            dgvDamageReports.RowTemplate.Height = 29;
+            dgvDamageReports.Size = new Size(1208, 336);
             dgvDamageReports.TabIndex = 59;
             dgvDamageReports.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
             dgvDamageReports.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -462,12 +462,13 @@
             guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             guna2Button1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             guna2Button1.FillColor = Color.Orange;
-            guna2Button1.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2Button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             guna2Button1.ForeColor = Color.Black;
-            guna2Button1.Location = new Point(418, 919);
+            guna2Button1.Location = new Point(365, 707);
+            guna2Button1.Margin = new Padding(3, 2, 3, 2);
             guna2Button1.Name = "guna2Button1";
             guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            guna2Button1.Size = new Size(157, 63);
+            guna2Button1.Size = new Size(137, 47);
             guna2Button1.TabIndex = 60;
             guna2Button1.Text = "Back";
             guna2Button1.Click += guna2Button1_Click;
@@ -475,9 +476,10 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Location = new Point(906, 21);
+            guna2HtmlLabel1.Location = new Point(793, 16);
+            guna2HtmlLabel1.Margin = new Padding(3, 2, 3, 2);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(98, 22);
+            guna2HtmlLabel1.Size = new Size(78, 17);
             guna2HtmlLabel1.TabIndex = 63;
             guna2HtmlLabel1.Text = "Enter Client ID";
             // 
@@ -496,13 +498,12 @@
             txtClientIDStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtClientIDStatus.Font = new Font("Segoe UI", 9F);
             txtClientIDStatus.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtClientIDStatus.Location = new Point(906, 50);
-            txtClientIDStatus.Margin = new Padding(3, 4, 3, 4);
+            txtClientIDStatus.Location = new Point(793, 38);
             txtClientIDStatus.Name = "txtClientIDStatus";
             txtClientIDStatus.PlaceholderText = "";
             txtClientIDStatus.SelectedText = "";
             txtClientIDStatus.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            txtClientIDStatus.Size = new Size(344, 39);
+            txtClientIDStatus.Size = new Size(301, 29);
             txtClientIDStatus.TabIndex = 61;
             // 
             // btnMarkReturned
@@ -515,12 +516,13 @@
             btnMarkReturned.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnMarkReturned.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnMarkReturned.FillColor = Color.Orange;
-            btnMarkReturned.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnMarkReturned.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnMarkReturned.ForeColor = Color.Black;
-            btnMarkReturned.Location = new Point(718, 31);
+            btnMarkReturned.Location = new Point(628, 23);
+            btnMarkReturned.Margin = new Padding(3, 2, 3, 2);
             btnMarkReturned.Name = "btnMarkReturned";
             btnMarkReturned.ShadowDecoration.CustomizableEdges = customizableEdges26;
-            btnMarkReturned.Size = new Size(157, 63);
+            btnMarkReturned.Size = new Size(137, 47);
             btnMarkReturned.TabIndex = 62;
             btnMarkReturned.Text = "Mark as Returned";
             btnMarkReturned.Click += btnMarkReturned_Click;
@@ -540,22 +542,21 @@
             txtClientType.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtClientType.Font = new Font("Segoe UI", 9F);
             txtClientType.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtClientType.Location = new Point(51, 533);
-            txtClientType.Margin = new Padding(3, 4, 3, 4);
+            txtClientType.Location = new Point(33, 382);
             txtClientType.Name = "txtClientType";
             txtClientType.PlaceholderText = "";
             txtClientType.SelectedText = "";
             txtClientType.ShadowDecoration.CustomizableEdges = customizableEdges28;
-            txtClientType.Size = new Size(344, 39);
+            txtClientType.Size = new Size(301, 29);
             txtClientType.TabIndex = 67;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Sans Serif Collection", 7.799999F);
-            label3.Location = new Point(51, 504);
+            label3.Location = new Point(45, 357);
             label3.Name = "label3";
-            label3.Size = new Size(84, 44);
+            label3.Size = new Size(102, 27);
             label3.TabIndex = 65;
             label3.Text = "Client Type";
             // 
@@ -563,9 +564,9 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Sans Serif Collection", 7.799999F);
-            label4.Location = new Point(51, 432);
+            label4.Location = new Point(45, 290);
             label4.Name = "label4";
-            label4.Size = new Size(186, 44);
+            label4.Size = new Size(230, 27);
             label4.TabIndex = 64;
             label4.Text = "Book Condition in Returning";
             // 
@@ -583,10 +584,11 @@
             cmbReturnBookCondition.Font = new Font("Segoe UI", 10F);
             cmbReturnBookCondition.ForeColor = Color.FromArgb(68, 88, 112);
             cmbReturnBookCondition.ItemHeight = 30;
-            cmbReturnBookCondition.Location = new Point(51, 465);
+            cmbReturnBookCondition.Location = new Point(32, 319);
+            cmbReturnBookCondition.Margin = new Padding(3, 2, 3, 2);
             cmbReturnBookCondition.Name = "cmbReturnBookCondition";
             cmbReturnBookCondition.ShadowDecoration.CustomizableEdges = customizableEdges30;
-            cmbReturnBookCondition.Size = new Size(344, 36);
+            cmbReturnBookCondition.Size = new Size(302, 36);
             cmbReturnBookCondition.TabIndex = 68;
             // 
             // txtStatus
@@ -604,22 +606,21 @@
             txtStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtStatus.Font = new Font("Segoe UI", 9F);
             txtStatus.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtStatus.Location = new Point(36, 873);
-            txtStatus.Margin = new Padding(3, 4, 3, 4);
+            txtStatus.Location = new Point(33, 624);
             txtStatus.Name = "txtStatus";
             txtStatus.PlaceholderText = "";
             txtStatus.SelectedText = "";
             txtStatus.ShadowDecoration.CustomizableEdges = customizableEdges32;
-            txtStatus.Size = new Size(344, 39);
+            txtStatus.Size = new Size(301, 29);
             txtStatus.TabIndex = 69;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Sans Serif Collection", 7.799999F);
-            label9.Location = new Point(36, 841);
+            label9.Location = new Point(45, 603);
             label9.Name = "label9";
-            label9.Size = new Size(57, 44);
+            label9.Size = new Size(63, 27);
             label9.TabIndex = 70;
             label9.Text = "Status";
             // 
@@ -627,9 +628,9 @@
             // 
             asd.AutoSize = true;
             asd.Font = new Font("Sans Serif Collection", 7.799999F);
-            asd.Location = new Point(549, 658);
+            asd.Location = new Point(365, 603);
             asd.Name = "asd";
-            asd.Size = new Size(90, 44);
+            asd.Size = new Size(107, 27);
             asd.TabIndex = 72;
             asd.Text = "ReportedBy";
             // 
@@ -644,17 +645,18 @@
             guna2ComboBox1.Font = new Font("Segoe UI", 10F);
             guna2ComboBox1.ForeColor = Color.FromArgb(68, 88, 112);
             guna2ComboBox1.ItemHeight = 30;
-            guna2ComboBox1.Location = new Point(557, 694);
+            guna2ComboBox1.Location = new Point(365, 624);
+            guna2ComboBox1.Margin = new Padding(3, 2, 3, 2);
             guna2ComboBox1.Name = "guna2ComboBox1";
             guna2ComboBox1.ShadowDecoration.CustomizableEdges = customizableEdges34;
-            guna2ComboBox1.Size = new Size(175, 36);
+            guna2ComboBox1.Size = new Size(154, 36);
             guna2ComboBox1.TabIndex = 73;
             // 
             // DamagedBookReport
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1902, 1033);
+            ClientSize = new Size(1664, 775);
             Controls.Add(guna2ComboBox1);
             Controls.Add(asd);
             Controls.Add(label9);
@@ -686,6 +688,7 @@
             Controls.Add(sda);
             Controls.Add(label1);
             Controls.Add(label25);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "DamagedBookReport";
             Text = "DamagedBookReport";
             Load += DamagedBookReport_Load;

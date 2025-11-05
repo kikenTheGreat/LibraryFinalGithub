@@ -39,6 +39,7 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ActivityLog));
             DataGridActivity = new Guna.UI2.WinForms.Guna2DataGridView();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
             dtpFrom = new Guna.UI2.WinForms.Guna2DateTimePicker();
@@ -56,7 +57,11 @@
             txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             btnClearFilter = new LibraryCGC.Components.ArthanButton();
             btnApplyFilter = new LibraryCGC.Components.ArthanButton();
+            arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
+            pictureBox1 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)DataGridActivity).BeginInit();
+            arthanPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // DataGridActivity
@@ -82,11 +87,13 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             DataGridActivity.DefaultCellStyle = dataGridViewCellStyle3;
             DataGridActivity.GridColor = Color.FromArgb(231, 229, 255);
-            DataGridActivity.Location = new Point(12, 190);
+            DataGridActivity.Location = new Point(10, 142);
+            DataGridActivity.Margin = new Padding(3, 2, 3, 2);
             DataGridActivity.Name = "DataGridActivity";
             DataGridActivity.RowHeadersVisible = false;
             DataGridActivity.RowHeadersWidth = 51;
-            DataGridActivity.Size = new Size(1878, 820);
+            DataGridActivity.RowTemplate.Height = 29;
+            DataGridActivity.Size = new Size(1643, 615);
             DataGridActivity.TabIndex = 0;
             DataGridActivity.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
             DataGridActivity.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -128,10 +135,9 @@
             arthanButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton1.Image = null;
-            arthanButton1.Location = new Point(1581, 62);
-            arthanButton1.Margin = new Padding(3, 4, 3, 4);
+            arthanButton1.Location = new Point(1516, 41);
             arthanButton1.Name = "arthanButton1";
-            arthanButton1.Size = new Size(109, 53);
+            arthanButton1.Size = new Size(95, 40);
             arthanButton1.TabIndex = 6;
             arthanButton1.Text = "Home";
             arthanButton1.TextColor = Color.Black;
@@ -144,12 +150,13 @@
             dtpFrom.CustomizableEdges = customizableEdges1;
             dtpFrom.Font = new Font("Segoe UI", 9F);
             dtpFrom.Format = DateTimePickerFormat.Long;
-            dtpFrom.Location = new Point(53, 62);
+            dtpFrom.Location = new Point(107, 58);
+            dtpFrom.Margin = new Padding(3, 2, 3, 2);
             dtpFrom.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpFrom.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpFrom.Name = "dtpFrom";
             dtpFrom.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            dtpFrom.Size = new Size(250, 45);
+            dtpFrom.Size = new Size(219, 34);
             dtpFrom.TabIndex = 7;
             dtpFrom.Value = new DateTime(2025, 10, 28, 17, 23, 25, 383);
             dtpFrom.ValueChanged += dtpFrom_ValueChanged;
@@ -160,12 +167,13 @@
             dtpTo.CustomizableEdges = customizableEdges3;
             dtpTo.Font = new Font("Segoe UI", 9F);
             dtpTo.Format = DateTimePickerFormat.Long;
-            dtpTo.Location = new Point(347, 62);
+            dtpTo.Location = new Point(339, 58);
+            dtpTo.Margin = new Padding(3, 2, 3, 2);
             dtpTo.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpTo.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpTo.Name = "dtpTo";
             dtpTo.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            dtpTo.Size = new Size(250, 45);
+            dtpTo.Size = new Size(219, 34);
             dtpTo.TabIndex = 8;
             dtpTo.Value = new DateTime(2025, 10, 28, 17, 23, 25, 383);
             dtpTo.ValueChanged += dtpTo_ValueChanged;
@@ -173,36 +181,40 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Location = new Point(108, 20);
+            guna2HtmlLabel1.Location = new Point(107, 37);
+            guna2HtmlLabel1.Margin = new Padding(3, 2, 3, 2);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(70, 22);
+            guna2HtmlLabel1.Size = new Size(54, 17);
             guna2HtmlLabel1.TabIndex = 9;
             guna2HtmlLabel1.Text = "Start Date";
             // 
             // guna2HtmlLabel2
             // 
             guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Location = new Point(407, 20);
+            guna2HtmlLabel2.Location = new Point(339, 37);
+            guna2HtmlLabel2.Margin = new Padding(3, 2, 3, 2);
             guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(64, 22);
+            guna2HtmlLabel2.Size = new Size(50, 17);
             guna2HtmlLabel2.TabIndex = 10;
             guna2HtmlLabel2.Text = "End Date";
             // 
             // cmbAction
             // 
             cmbAction.FormattingEnabled = true;
-            cmbAction.Location = new Point(664, 62);
+            cmbAction.Location = new Point(1025, 68);
+            cmbAction.Margin = new Padding(3, 2, 3, 2);
             cmbAction.Name = "cmbAction";
-            cmbAction.Size = new Size(151, 28);
+            cmbAction.Size = new Size(133, 23);
             cmbAction.TabIndex = 11;
             cmbAction.SelectedIndexChanged += cmbAction_SelectedIndexChanged;
             // 
             // cmbModule
             // 
             cmbModule.FormattingEnabled = true;
-            cmbModule.Location = new Point(851, 62);
+            cmbModule.Location = new Point(1176, 68);
+            cmbModule.Margin = new Padding(3, 2, 3, 2);
             cmbModule.Name = "cmbModule";
-            cmbModule.Size = new Size(151, 28);
+            cmbModule.Size = new Size(133, 23);
             cmbModule.TabIndex = 12;
             cmbModule.SelectedIndexChanged += cmbModule_SelectedIndexChanged;
             // 
@@ -221,31 +233,32 @@
             txtUser.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtUser.Font = new Font("Segoe UI", 9F);
             txtUser.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtUser.Location = new Point(655, 125);
-            txtUser.Margin = new Padding(3, 4, 3, 4);
+            txtUser.Location = new Point(571, 63);
             txtUser.Name = "txtUser";
             txtUser.PlaceholderText = "";
             txtUser.SelectedText = "";
             txtUser.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            txtUser.Size = new Size(246, 37);
+            txtUser.Size = new Size(215, 28);
             txtUser.TabIndex = 50;
             txtUser.TextChanged += txtUser_TextChanged;
             // 
             // guna2HtmlLabel3
             // 
             guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Location = new Point(909, 20);
+            guna2HtmlLabel3.Location = new Point(1176, 41);
+            guna2HtmlLabel3.Margin = new Padding(3, 2, 3, 2);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(54, 22);
+            guna2HtmlLabel3.Size = new Size(44, 17);
             guna2HtmlLabel3.TabIndex = 51;
             guna2HtmlLabel3.Text = "Module";
             // 
             // guna2HtmlLabel4
             // 
             guna2HtmlLabel4.BackColor = Color.Transparent;
-            guna2HtmlLabel4.Location = new Point(717, 20);
+            guna2HtmlLabel4.Location = new Point(1025, 41);
+            guna2HtmlLabel4.Margin = new Padding(3, 2, 3, 2);
             guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            guna2HtmlLabel4.Size = new Size(46, 22);
+            guna2HtmlLabel4.Size = new Size(38, 17);
             guna2HtmlLabel4.TabIndex = 52;
             guna2HtmlLabel4.Text = "Action";
             // 
@@ -262,23 +275,25 @@
             guna2ContextMenuStrip1.RenderStyle.SelectionForeColor = Color.White;
             guna2ContextMenuStrip1.RenderStyle.SeparatorColor = Color.Gainsboro;
             guna2ContextMenuStrip1.RenderStyle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            guna2ContextMenuStrip1.Size = new Size(211, 32);
+            guna2ContextMenuStrip1.Size = new Size(61, 4);
             // 
             // guna2HtmlLabel5
             // 
             guna2HtmlLabel5.BackColor = Color.Transparent;
-            guna2HtmlLabel5.Location = new Point(664, 96);
+            guna2HtmlLabel5.Location = new Point(579, 41);
+            guna2HtmlLabel5.Margin = new Padding(3, 2, 3, 2);
             guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            guna2HtmlLabel5.Size = new Size(69, 22);
+            guna2HtmlLabel5.Size = new Size(56, 17);
             guna2HtmlLabel5.TabIndex = 54;
             guna2HtmlLabel5.Text = "Username";
             // 
             // guna2HtmlLabel6
             // 
             guna2HtmlLabel6.BackColor = Color.Transparent;
-            guna2HtmlLabel6.Location = new Point(916, 96);
+            guna2HtmlLabel6.Location = new Point(800, 41);
+            guna2HtmlLabel6.Margin = new Padding(3, 2, 3, 2);
             guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(49, 22);
+            guna2HtmlLabel6.Size = new Size(38, 17);
             guna2HtmlLabel6.TabIndex = 56;
             guna2HtmlLabel6.Text = "Details";
             // 
@@ -297,13 +312,12 @@
             txtSearch.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtSearch.Font = new Font("Segoe UI", 9F);
             txtSearch.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtSearch.Location = new Point(907, 125);
-            txtSearch.Margin = new Padding(3, 4, 3, 4);
+            txtSearch.Location = new Point(799, 63);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "";
             txtSearch.SelectedText = "";
             txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            txtSearch.Size = new Size(246, 37);
+            txtSearch.Size = new Size(215, 28);
             txtSearch.TabIndex = 55;
             txtSearch.TextChanged += txtSearch_TextChanged;
             // 
@@ -325,10 +339,9 @@
             btnClearFilter.HoverEndColor = Color.FromArgb(147, 211, 251);
             btnClearFilter.HoverStartColor = Color.FromArgb(86, 143, 190);
             btnClearFilter.Image = null;
-            btnClearFilter.Location = new Point(1208, 109);
-            btnClearFilter.Margin = new Padding(3, 4, 3, 4);
+            btnClearFilter.Location = new Point(1327, 60);
             btnClearFilter.Name = "btnClearFilter";
-            btnClearFilter.Size = new Size(157, 63);
+            btnClearFilter.Size = new Size(137, 47);
             btnClearFilter.TabIndex = 57;
             btnClearFilter.Text = "Clear";
             btnClearFilter.TextColor = Color.Black;
@@ -353,43 +366,79 @@
             btnApplyFilter.HoverEndColor = Color.FromArgb(147, 211, 251);
             btnApplyFilter.HoverStartColor = Color.FromArgb(86, 143, 190);
             btnApplyFilter.Image = null;
-            btnApplyFilter.Location = new Point(1208, 13);
-            btnApplyFilter.Margin = new Padding(3, 4, 3, 4);
+            btnApplyFilter.Location = new Point(1327, 11);
             btnApplyFilter.Name = "btnApplyFilter";
-            btnApplyFilter.Size = new Size(157, 63);
+            btnApplyFilter.Size = new Size(137, 47);
             btnApplyFilter.TabIndex = 58;
             btnApplyFilter.Text = "Apply";
             btnApplyFilter.TextColor = Color.Black;
             btnApplyFilter.UseVisualStyleBackColor = false;
             btnApplyFilter.Click += btnApplyFilter_Click;
             // 
+            // arthanPanel4
+            // 
+            arthanPanel4.BackColor = Color.Transparent;
+            arthanPanel4.BottomLeftRadius = 15;
+            arthanPanel4.BottomRightRadius = 15;
+            arthanPanel4.Controls.Add(pictureBox1);
+            arthanPanel4.Controls.Add(arthanButton1);
+            arthanPanel4.Controls.Add(btnApplyFilter);
+            arthanPanel4.Controls.Add(btnClearFilter);
+            arthanPanel4.Controls.Add(guna2HtmlLabel1);
+            arthanPanel4.Controls.Add(dtpFrom);
+            arthanPanel4.Controls.Add(guna2HtmlLabel6);
+            arthanPanel4.Controls.Add(dtpTo);
+            arthanPanel4.Controls.Add(txtSearch);
+            arthanPanel4.Controls.Add(guna2HtmlLabel2);
+            arthanPanel4.Controls.Add(guna2HtmlLabel5);
+            arthanPanel4.Controls.Add(cmbModule);
+            arthanPanel4.Controls.Add(guna2HtmlLabel4);
+            arthanPanel4.Controls.Add(cmbAction);
+            arthanPanel4.Controls.Add(guna2HtmlLabel3);
+            arthanPanel4.Controls.Add(txtUser);
+            arthanPanel4.CornerRadius = 15;
+            arthanPanel4.EnableDragging = false;
+            arthanPanel4.EnableDropShadow = true;
+            arthanPanel4.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
+            arthanPanel4.GradientEndColor = Color.FromArgb(238, 66, 66);
+            arthanPanel4.GradientStartColor = Color.FromArgb(220, 38, 38);
+            arthanPanel4.Location = new Point(12, 10);
+            arthanPanel4.Name = "arthanPanel4";
+            arthanPanel4.ShadowBlur = 5;
+            arthanPanel4.ShadowColor = Color.FromArgb(50, 0, 0, 0);
+            arthanPanel4.ShadowOffset = 3;
+            arthanPanel4.Size = new Size(1640, 127);
+            arthanPanel4.TabIndex = 59;
+            arthanPanel4.TopLeftRadius = 15;
+            arthanPanel4.TopRightRadius = 15;
+            arthanPanel4.UseIndividualCorners = false;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            pictureBox1.Location = new Point(10, 27);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(68, 68);
+            pictureBox1.TabIndex = 5;
+            pictureBox1.TabStop = false;
+            // 
             // ActivityLog
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1902, 1033);
-            Controls.Add(btnApplyFilter);
-            Controls.Add(btnClearFilter);
-            Controls.Add(guna2HtmlLabel6);
-            Controls.Add(txtSearch);
-            Controls.Add(guna2HtmlLabel5);
-            Controls.Add(guna2HtmlLabel4);
-            Controls.Add(guna2HtmlLabel3);
-            Controls.Add(txtUser);
-            Controls.Add(cmbModule);
-            Controls.Add(cmbAction);
-            Controls.Add(guna2HtmlLabel2);
-            Controls.Add(guna2HtmlLabel1);
-            Controls.Add(dtpTo);
-            Controls.Add(dtpFrom);
-            Controls.Add(arthanButton1);
+            ClientSize = new Size(1664, 775);
+            Controls.Add(arthanPanel4);
             Controls.Add(DataGridActivity);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "ActivityLog";
             Text = "ActivityLog";
             Load += ActivityLog_Load;
             ((System.ComponentModel.ISupportInitialize)DataGridActivity).EndInit();
+            arthanPanel4.ResumeLayout(false);
+            arthanPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -411,5 +460,7 @@
         private Guna.UI2.WinForms.Guna2TextBox txtSearch;
         private LibraryCGC.Components.ArthanButton btnClearFilter;
         private LibraryCGC.Components.ArthanButton btnApplyFilter;
+        private LibraryCGC.Components.ArthanPanel arthanPanel4;
+        private PictureBox pictureBox1;
     }
 }

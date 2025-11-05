@@ -190,5 +190,12 @@ Trust Server Certificate=True;
             report.Show();
             this.Hide();
         }
+
+        private void arthanButton2_Click(object sender, EventArgs e)
+        {
+            Report report = new Report();
+            report.Show();
+            this.Hide();
+        }
     }
 }

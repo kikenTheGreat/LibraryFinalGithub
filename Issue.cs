@@ -1510,7 +1510,7 @@ ORDER BY IssueDate DESC";
                                 transaction.Rollback();
 
                                 // ✅ Open the damage report form with dynamic data
-                                DamagedBookReport damageForm = new DamagedBookReport(currentEmployeeID)
+                                DamagedBookReport damageForm = new DamagedBookReport()
                                 {
                                     StartPosition = FormStartPosition.CenterScreen,
                                     PreClientID = ReturnClientID.Text.Trim(),
@@ -2036,7 +2036,7 @@ Trust Server Certificate=True;";
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            DamagedBookReport report = new DamagedBookReport(currentEmployeeID);
+            DamagedBookReport report = new DamagedBookReport();
             report.Show();
 
             this.Hide();
