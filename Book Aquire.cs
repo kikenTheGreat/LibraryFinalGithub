@@ -25,6 +25,7 @@ namespace LibraryCGC
     public partial class Book_Aquire : Form
     {
         private int currentEmployeeID;
+       
 
         private DataTable booksTable = new DataTable();
         private int? editingRowIndex = null;
@@ -77,7 +78,9 @@ namespace LibraryCGC
         }
 
 
-        // 🔹 Manual Mode setup
+        // 🔹
+        //
+        // Mode setup
 
 
 
@@ -299,6 +302,7 @@ namespace LibraryCGC
             LoadBooksGrid();
             DataGridTotalBooks.CellPainting += DataGridTotalBooks_CellPainting;
 
+          
 
             scannerMode = true;
             // Set default button text
@@ -327,6 +331,8 @@ namespace LibraryCGC
                 box.BackColor = Color.LightGray;
             }
 
+          
+
         }
 
         private void label15_Click(object sender, EventArgs e)
@@ -334,126 +340,7 @@ namespace LibraryCGC
 
         }
 
-        private void arthanButton1_Load(object sender, EventArgs e)
-        {
 
-        }
-
-        private void arthanButton1_Click(object sender, EventArgs e)
-        {
-            using (SqlConnection con = new SqlConnection(
-                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
-            {
-                con.Open();
-
-                // 🧠 Step 1: Check if ISBN already exists
-                string checkQuery = "SELECT Quantity FROM BooksAcq WHERE ISBN = @ISBN";
-                using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
-                {
-                    checkCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
-
-                    object existingQtyObj = checkCmd.ExecuteScalar();
-
-                    if (existingQtyObj != null)
-                    {
-                        // ✅ ISBN exists → just update quantity
-                        int existingQty = Convert.ToInt32(existingQtyObj);
-                        int newQty = existingQty + Convert.ToInt32(Quantity.Value);
-
-                        string updateQuery = "UPDATE BooksAcq SET Quantity = @Quantity WHERE ISBN = @ISBN";
-                        using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
-                        {
-                            updateCmd.Parameters.AddWithValue("@Quantity", newQty);
-                            updateCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
-                            updateCmd.ExecuteNonQuery();
-                        }
-
-                        MessageBox.Show("Quantity updated successfully (same ISBN found).",
-                                        "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        // 🆕 ISBN not found → insert new record
-                        string insertQuery = @"INSERT INTO BooksAcq 
-(BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType,BookCondition) 
-VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType,@BookCondition)";
-
-                        using (SqlCommand insertCmd = new SqlCommand(insertQuery, con))
-                        {
-                            insertCmd.Parameters.AddWithValue("@BookTitle", BookTitle.Texts);
-                            insertCmd.Parameters.AddWithValue("@Author", Author.Texts);
-                            insertCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
-                            insertCmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
-                            insertCmd.Parameters.AddWithValue("@Source", Source.Text);
-                            insertCmd.Parameters.AddWithValue("@Quantity", Quantity.Value);
-                            insertCmd.Parameters.AddWithValue("@Published", Published.Texts);
-                            insertCmd.Parameters.AddWithValue("@Category", Category.Texts);
-                            insertCmd.Parameters.AddWithValue("@BookCondition", BookConditioncmb.Text);
-
-                            // Detect BookType
-                            string typeOfBook;
-                            string category = Category.Text.ToLower();
-                            if (category.Contains("magazine") || category.Contains("journal"))
-                                typeOfBook = "Magazine";
-                            else if (category.Contains("newspaper") || category.Contains("news"))
-                                typeOfBook = "Newspaper";
-                            else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
-                                typeOfBook = "Report / Document";
-                            else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
-                                typeOfBook = "Catalog / Pamphlet";
-                            else
-                                typeOfBook = "Book";
-
-                            insertCmd.Parameters.AddWithValue("@BookType", typeOfBook);
-                            insertCmd.ExecuteNonQuery();
-
-                            MessageBox.Show($"{typeOfBook} added successfully!");
-                        }
-                    }
-                }
-            }
-
-            // 🔄 Refresh grid
-            LoadBooksGrid();
-            GlobalEvents.RaiseBooksDataChanged();
-
-            ActivityLog.RecordActivity(
-           SessionData.CurrentUserName,
-           "Add Book",
-           "Book Acquisition",
-           $"Added book: {BookTitle.Texts}"
-       );
-
-
-
-
-
-
-
-
-
-
-            // 🧹 Clear input fields
-            BookTitle.Texts = "";
-            Author.Texts = "";
-            ISBN.Texts = "";
-            Publisher.Texts = "";
-            Published.Texts = "";
-            Category.Texts = "";
-
-            picCover.BackgroundImage = null;
-            Quantity.Value = 1;
-            BookConditioncmb.Text = "";
-
-            // 🔁 Update dashboard if open
-            var dashboardForm = Application.OpenForms["Form1"] as Form1;
-            if (dashboardForm != null)
-                dashboardForm.UpdateTotalBooksLabel();
-
-
-
-
-        }
 
 
 
@@ -928,58 +815,47 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 return;
             }
 
-
-            // ✅ Update logic with change tracking
             if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Update")
             {
+                // Enter edit mode
                 if (editingRowIndex == null)
                 {
                     editingRowIndex = e.RowIndex;
-
-                    // ✅ Allow the grid to be editable overall
                     DataGridTotalBooks.ReadOnly = false;
 
-                    // 🔹 Allow editing only specific columns
                     foreach (DataGridViewColumn col in DataGridTotalBooks.Columns)
                     {
                         bool isEditable = col.Name == "Source" ||
                                           col.Name == "Quantity" ||
                                           col.Name == "BookType" ||
                                           col.Name == "BookCondition";
-                        DataGridTotalBooks.Columns[col.Index].ReadOnly = !isEditable;
+                        col.ReadOnly = !isEditable;
                     }
 
-                    // 🔹 Disable editing for all other rows
                     foreach (DataGridViewRow r in DataGridTotalBooks.Rows)
                     {
-                        if (r.Index != e.RowIndex)
-                            r.ReadOnly = true;
+                        if (r.Index != e.RowIndex) r.ReadOnly = true;
                     }
 
-                    // Optional visual feedback
                     foreach (DataGridViewCell cell in DataGridTotalBooks.Rows[e.RowIndex].Cells)
                     {
-                        if (!cell.ReadOnly)
-                            cell.Style.BackColor = Color.LightYellow; // highlight editable cells
+                        if (!cell.ReadOnly) cell.Style.BackColor = Color.LightYellow;
                     }
 
-                    // Change button text
                     DataGridTotalBooks.Rows[e.RowIndex].Cells["Update"].Value = "Save";
-
                     MessageBox.Show("You can now edit Source, Quantity, Book Type, and Book Condition only.",
                                     "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
                     return;
                 }
 
+                // Save path (editingRowIndex == this row)
                 if (editingRowIndex == e.RowIndex)
                 {
                     var confirm = MessageBox.Show("Do you want to save the changes to this book?",
                                                   "Confirm Save",
                                                   MessageBoxButtons.YesNo,
                                                   MessageBoxIcon.Question);
-                    if (confirm == DialogResult.No)
-                        return;
+                    if (confirm == DialogResult.No) return;
 
                     try
                     {
@@ -990,97 +866,155 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                         string author = editRow.Cells["Author"].Value?.ToString() ?? "";
                         string isbn = editRow.Cells["ISBN"].Value?.ToString() ?? "";
                         string publisher = editRow.Cells["Publisher"].Value?.ToString() ?? "";
-                        string source = editRow.Cells["Source"].Value?.ToString() ?? "";
-                        int quantity = Convert.ToInt32(editRow.Cells["Quantity"].Value);
-                        string published = editRow.Cells["Published"].Value?.ToString() ?? "";
                         string category = editRow.Cells["Category"].Value?.ToString() ?? "";
-                        string bookCondition = editRow.Cells["BookCondition"].Value?.ToString() ?? "";
+                        string published = editRow.Cells["Published"].Value?.ToString() ?? "";
 
-                        string bookType = "Book";
-                        string lowerCategory = category.ToLower();
-                        if (lowerCategory.Contains("magazine") || lowerCategory.Contains("journal"))
-                            bookType = "Magazine";
-                        else if (lowerCategory.Contains("newspaper") || lowerCategory.Contains("news"))
-                            bookType = "Newspaper";
-                        else if (lowerCategory.Contains("catalog") || lowerCategory.Contains("pamphlet"))
-                            bookType = "Catalog / Pamphlet";
-                        else if (lowerCategory.Contains("report") || lowerCategory.Contains("document"))
-                            bookType = "Report / Document";
+                        // --- Read raw edited cell values (user input)
+                        string rawSource = editRow.Cells["Source"].Value?.ToString()?.Trim() ?? "";
+                        string rawQuantityStr = editRow.Cells["Quantity"].Value?.ToString()?.Trim() ?? "";
+                        string rawBookType = editRow.Cells["BookType"].Value?.ToString()?.Trim() ?? "";
+                        string rawBookCondition = editRow.Cells["BookCondition"].Value?.ToString()?.Trim() ?? "";
 
-                        // 🧩 Step 1: Get OLD values before updating
+                        // --- Validation + normalization
+
+                        // Source: only "Purchased" or "Donate"
+                        string[] validSources = { "Purchased", "Donate" };
+                        string normalizedSource = null;
+                        foreach (var s in validSources)
+                        {
+                            if (string.Equals(s, rawSource, StringComparison.OrdinalIgnoreCase))
+                            {
+                                normalizedSource = s; // canonical casing
+                                break;
+                            }
+                        }
+                        if (normalizedSource == null)
+                        {
+                            MessageBox.Show("Invalid Source. Only 'Purchased' or 'Donate' are allowed.",
+                                            "Invalid Source", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                            LoadBooksGrid(); // refresh grid from DB
+                            return; // STOP - do NOT save
+                        }
+
+                        // Quantity: integer >= 1
+                        if (!int.TryParse(rawQuantityStr, out int quantity) || quantity < 1)
+                        {
+                            MessageBox.Show("Quantity must be a valid whole number and at least 1.",
+                                            "Invalid Quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            LoadBooksGrid(); // refresh grid from DB
+                            return; // STOP - do NOT save
+                        }
+
+                        // BookType: only Book, Magazine, Newspaper, Catalog
+                        string[] validBookTypes = { "Book", "Magazine", "Newspaper", "Catalog" };
+                        string normalizedBookType = null;
+                        foreach (var t in validBookTypes)
+                        {
+                            if (string.Equals(t, rawBookType, StringComparison.OrdinalIgnoreCase))
+                            {
+                                normalizedBookType = t;
+                                break;
+                            }
+                        }
+                        // If user left BookType blank, optionally derive from category (but still normalize)
+                        if (string.IsNullOrEmpty(normalizedBookType))
+                        {
+                            // try derive from category (but still enforce allowed set)
+                            string lowerCategory = category.ToLower();
+                            if (lowerCategory.Contains("magazine") || lowerCategory.Contains("journal")) normalizedBookType = "Magazine";
+                            else if (lowerCategory.Contains("newspaper") || lowerCategory.Contains("news")) normalizedBookType = "Newspaper";
+                            else if (lowerCategory.Contains("catalog") || lowerCategory.Contains("pamphlet")) normalizedBookType = "Catalog";
+                            else normalizedBookType = "Book";
+                            // normalizedBookType is guaranteed in allowed list
+                        }
+
+                        // BookCondition: only Good, Minor Damaged, Damaged
+                        string[] validConditions = { "Good", "Minor Damaged", "Damaged" };
+                        string normalizedCondition = null;
+                        foreach (var c in validConditions)
+                        {
+                            if (string.Equals(c, rawBookCondition, StringComparison.OrdinalIgnoreCase))
+                            {
+                                normalizedCondition = c;
+                                break;
+                            }
+                        }
+                        if (normalizedCondition == null)
+                        {
+                            MessageBox.Show("Invalid Book Condition. Only 'Good', 'Minor Damaged', or 'Damaged' are allowed.",
+                                            "Invalid Condition", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                            LoadBooksGrid(); // refresh grid from DB
+                            return; // STOP - do NOT save
+                        }
+
+                        // --- At this point all validations passed and we have canonical values.
+                        // Update grid cells with normalized values (so UI reflects auto-correction)
+                        editRow.Cells["Source"].Value = normalizedSource;
+                        editRow.Cells["Quantity"].Value = quantity;
+                        editRow.Cells["BookType"].Value = normalizedBookType;
+                        editRow.Cells["BookCondition"].Value = normalizedCondition;
+
+                        // --- Fetch old values for logging
                         string oldSource = "";
                         int oldQuantity = 0;
                         string oldBookType = "";
-                        string BookCondition = "";
+                        string oldCondition = "";
 
                         using (SqlConnection conn = new SqlConnection(
                             @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;
                       Integrated Security=True;Encrypt=True;TrustServerCertificate=True"))
                         {
                             conn.Open();
-                            string selectQuery = "SELECT Source, Quantity, BookType,BookCondition FROM BooksAcq WHERE BookID = @BookID";
+                            string selectQuery = "SELECT Source, Quantity, BookType, BookCondition FROM BooksAcq WHERE BookID = @BookID";
                             using (SqlCommand selectCmd = new SqlCommand(selectQuery, conn))
                             {
                                 selectCmd.Parameters.AddWithValue("@BookID", bookID);
-                                SqlDataReader reader = selectCmd.ExecuteReader();
-                                if (reader.Read())
+                                using (SqlDataReader reader = selectCmd.ExecuteReader())
                                 {
-                                    oldSource = reader["Source"].ToString();
-                                    oldQuantity = Convert.ToInt32(reader["Quantity"]);
-                                    oldBookType = reader["BookType"].ToString();
-                                    BookCondition = reader["BookCondition"].ToString();
+                                    if (reader.Read())
+                                    {
+                                        oldSource = reader["Source"]?.ToString() ?? "";
+                                        oldQuantity = reader["Quantity"] != DBNull.Value ? Convert.ToInt32(reader["Quantity"]) : 0;
+                                        oldBookType = reader["BookType"]?.ToString() ?? "";
+                                        oldCondition = reader["BookCondition"]?.ToString() ?? "";
+                                    }
                                 }
                             }
                         }
 
-                        foreach (DataGridViewColumn col in DataGridTotalBooks.Columns)
-                        {
-                            bool isEditable = col.Name == "Source" || col.Name == "Quantity" ||
-                                              col.Name == "BookType" || col.Name == "BookCondition";
-                            var cell = DataGridTotalBooks.Rows[e.RowIndex].Cells[col.Index];
-                            cell.ReadOnly = !isEditable;
-                            cell.Style.BackColor = isEditable ? Color.LightYellow : Color.White;
-                        }
-
-                        // 🧩 Step 2: Perform the UPDATE
+                        // --- Perform DB update with normalized values
                         using (SqlConnection con = new SqlConnection(
                             @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;
                       Integrated Security=True;Encrypt=True;TrustServerCertificate=True"))
                         {
                             con.Open();
-                            SqlCommand cmd = new SqlCommand(@"
+                            using (SqlCommand cmd = new SqlCommand(@"
 UPDATE BooksAcq
 SET 
     Source = @Source,
     Quantity = @Quantity,
     BookType = @BookType,
     BookCondition = @BookCondition
-WHERE BookID = @BookID", con);
-
-
-                            cmd.Parameters.AddWithValue("@Source", source);
-                            cmd.Parameters.AddWithValue("@Quantity", quantity);
-                            cmd.Parameters.AddWithValue("@BookType", bookType);
-                            cmd.Parameters.AddWithValue("@BookCondition", bookCondition);
-                            cmd.Parameters.AddWithValue("@BookID", bookID);
-
-                            cmd.ExecuteNonQuery();
+WHERE BookID = @BookID", con))
+                            {
+                                cmd.Parameters.AddWithValue("@Source", normalizedSource);
+                                cmd.Parameters.AddWithValue("@Quantity", quantity);
+                                cmd.Parameters.AddWithValue("@BookType", normalizedBookType);
+                                cmd.Parameters.AddWithValue("@BookCondition", normalizedCondition);
+                                cmd.Parameters.AddWithValue("@BookID", bookID);
+                                cmd.ExecuteNonQuery();
+                            }
                         }
 
-                        // 🧩 Step 3: Detect and record CHANGES
+                        // --- Log changes
                         string changes = "";
-                        if (oldSource != source)
-                            changes += $"Source: {oldSource} → {source}; ";
-                        if (oldQuantity != quantity)
-                            changes += $"Quantity: {oldQuantity} → {quantity}; ";
-                        if (oldBookType != bookType)
-                            changes += $"Type: {oldBookType} → {bookType}; ";
-                        if (BookCondition != bookCondition)
-                            changes += $"Condition: {BookCondition} → {bookCondition}; ";
-
-
-                        if (string.IsNullOrEmpty(changes))
-                            changes = "No significant changes.";
+                        if (!string.Equals(oldSource, normalizedSource)) changes += $"Source: {oldSource} → {normalizedSource}; ";
+                        if (oldQuantity != quantity) changes += $"Quantity: {oldQuantity} → {quantity}; ";
+                        if (!string.Equals(oldBookType, normalizedBookType)) changes += $"Type: {oldBookType} → {normalizedBookType}; ";
+                        if (!string.Equals(oldCondition, normalizedCondition)) changes += $"Condition: {oldCondition} → {normalizedCondition}; ";
+                        if (string.IsNullOrEmpty(changes)) changes = "No significant changes.";
 
                         ActivityLog.RecordActivity(
                             SessionData.CurrentUserName,
@@ -1089,9 +1023,9 @@ WHERE BookID = @BookID", con);
                             $"Updated book: {bookTitle}. Changes: {changes}"
                         );
 
-                        MessageBox.Show("Book updated successfully!",
-                                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Book updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                        // Reset edit mode state
                         editingRowIndex = null;
                         DataGridTotalBooks.ReadOnly = true;
                         DataGridTotalBooks.Rows[e.RowIndex].Cells["Update"].Value = "Edit";
@@ -1099,12 +1033,13 @@ WHERE BookID = @BookID", con);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error updating book: {ex.Message}",
-                                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Error updating book: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
+
+
 
 
 
@@ -1309,7 +1244,7 @@ WHERE BookID = @BookID", con);
 
             // --- Book ID (hidden) ---
             var colBookID = new DataGridViewTextBoxColumn();
-            colBookID.HeaderText = "Book ID";
+            colBookID.HeaderText = "Accession Number";
             colBookID.DataPropertyName = "BookID";
             colBookID.Name = "BookID";      // 🔹 must have this
             colBookID.Visible = false;
@@ -1712,37 +1647,39 @@ WHERE BookID = @BookID", con);
             {
                 con.Open();
 
-                // 🧠 Step 1: Check if ISBN already exists
-                string checkQuery = "SELECT Quantity FROM BooksAcq WHERE ISBN = @ISBN";
+                // 🧠 Step 1: Check if same ISBN AND Source already exist
+                string checkQuery = "SELECT Quantity FROM BooksAcq WHERE ISBN = @ISBN AND Source = @Source";
                 using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
                 {
                     checkCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
+                    checkCmd.Parameters.AddWithValue("@Source", Source.Text.Trim());
 
                     object existingQtyObj = checkCmd.ExecuteScalar();
 
                     if (existingQtyObj != null)
                     {
-                        // ✅ ISBN exists → just update quantity
+                        // ✅ ISBN + Source exist → just update quantity
                         int existingQty = Convert.ToInt32(existingQtyObj);
                         int newQty = existingQty + Convert.ToInt32(Quantity.Value);
 
-                        string updateQuery = "UPDATE BooksAcq SET Quantity = @Quantity WHERE ISBN = @ISBN";
+                        string updateQuery = "UPDATE BooksAcq SET Quantity = @Quantity WHERE ISBN = @ISBN AND Source = @Source";
                         using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
                         {
                             updateCmd.Parameters.AddWithValue("@Quantity", newQty);
                             updateCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
+                            updateCmd.Parameters.AddWithValue("@Source", Source.Text.Trim());
                             updateCmd.ExecuteNonQuery();
                         }
 
-                        MessageBox.Show("Quantity updated successfully (same ISBN found).",
+                        MessageBox.Show("Quantity updated successfully (same ISBN and Source found).",
                                         "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        // 🆕 ISBN not found → insert new record
+                        // 🆕 ISBN + Source combination not found → insert new record
                         string insertQuery = @"INSERT INTO BooksAcq 
-(BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType,BookCondition) 
-VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType,@BookCondition)";
+(BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition) 
+VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition)";
 
                         using (SqlCommand insertCmd = new SqlCommand(insertQuery, con))
                         {
@@ -1750,7 +1687,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                             insertCmd.Parameters.AddWithValue("@Author", Author.Texts);
                             insertCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
                             insertCmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
-                            insertCmd.Parameters.AddWithValue("@Source", Source.Text);
+                            insertCmd.Parameters.AddWithValue("@Source", Source.Text.Trim());
                             insertCmd.Parameters.AddWithValue("@Quantity", Quantity.Value);
                             insertCmd.Parameters.AddWithValue("@Published", Published.Texts);
                             insertCmd.Parameters.AddWithValue("@Category", Category.Texts);
@@ -1784,20 +1721,11 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             GlobalEvents.RaiseBooksDataChanged();
 
             ActivityLog.RecordActivity(
-           SessionData.CurrentUserName,
-           "Add Book",
-           "Book Acquisition",
-           $"Added book: {BookTitle.Texts}"
-       );
-
-
-
-
-
-
-
-
-
+               SessionData.CurrentUserName,
+               "Add Book",
+               "Book Acquisition",
+               $"Added book: {BookTitle.Texts}"
+            );
 
             // 🧹 Clear input fields
             BookTitle.Texts = "";
@@ -1806,7 +1734,6 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             Publisher.Texts = "";
             Published.Texts = "";
             Category.Texts = "";
-
             picCover.BackgroundImage = null;
             Quantity.Value = 1;
             BookConditioncmb.Text = "";
@@ -1818,8 +1745,8 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
             // ✅ Refocus ISBN textbox
             this.BeginInvoke((Action)(() => ISBN.Focus()));
-
         }
+
 
         private void guna2Button1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1828,6 +1755,16 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 e.SuppressKeyPress = true; // prevent "ding" sound
                 guna2Button1.PerformClick(); // trigger button click
             }
+        }
+
+        private void Published__TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+           
         }
     }
 

@@ -422,7 +422,8 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvDamageReports.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dgvDamageReports.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDamageReports.ColumnHeadersHeight = 4;
+            dgvDamageReports.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
@@ -450,7 +451,7 @@
             dgvDamageReports.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvDamageReports.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
             dgvDamageReports.ThemeStyle.HeaderStyle.ForeColor = Color.White;
-            dgvDamageReports.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDamageReports.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
             dgvDamageReports.ThemeStyle.HeaderStyle.Height = 4;
             dgvDamageReports.ThemeStyle.ReadOnly = false;
             dgvDamageReports.ThemeStyle.RowsStyle.BackColor = Color.White;

@@ -66,13 +66,13 @@
             label8 = new Label();
             Category = new LibraryCGC.Components.ArthanTextBox();
             label7 = new Label();
-            Published = new LibraryCGC.Components.ArthanTextBox();
             label6 = new Label();
             label10 = new Label();
             Source = new Krypton.Toolkit.KryptonComboBox();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             BookConditioncmb = new Guna.UI2.WinForms.Guna2ComboBox();
+            Published = new LibraryCGC.Components.ArthanTextBox();
             Quantity = new Guna.UI2.WinForms.Guna2NumericUpDown();
             picCover = new PictureBox();
             contextMenuStrip1 = new ContextMenuStrip(components);
@@ -164,7 +164,6 @@
             arthanButton1.Text = "Home";
             arthanButton1.TextColor = Color.Black;
             arthanButton1.UseVisualStyleBackColor = false;
-            arthanButton1.Load += arthanButton1_Load;
             arthanButton1.Click += arthanButton1_HomeClick;
             // 
             // pictureBox1
@@ -419,38 +418,15 @@
             label7.TabIndex = 13;
             label7.Text = "Category";
             // 
-            // Published
-            // 
-            Published.AutoSize = true;
-            Published.BackColor = SystemColors.Window;
-            Published.BorderColor = Color.FromArgb(217, 217, 217);
-            Published.BorderFocusColor = Color.HotPink;
-            Published.BorderRadius = 5;
-            Published.BorderSize = 2;
-            Published.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            Published.ForeColor = Color.DimGray;
-            Published.Location = new Point(200, 427);
-            Published.Margin = new Padding(5);
-            Published.Multiline = false;
-            Published.Name = "Published";
-            Published.Padding = new Padding(8, 9, 8, 9);
-            Published.PasswordChar = false;
-            Published.PlaceholderColor = Color.DarkGray;
-            Published.PlaceholderText = "mm/dd/yyyy";
-            Published.Size = new Size(173, 39);
-            Published.TabIndex = 14;
-            Published.Texts = "";
-            Published.UnderlinedStyle = false;
-            // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Sans Serif Collection", 7.799999F);
             label6.Location = new Point(200, 397);
             label6.Name = "label6";
-            label6.Size = new Size(47, 44);
+            label6.Size = new Size(108, 44);
             label6.TabIndex = 15;
-            label6.Text = "Date";
+            label6.Text = "Date Published";
             // 
             // label10
             // 
@@ -556,6 +532,30 @@
             BookConditioncmb.ShadowDecoration.CustomizableEdges = customizableEdges4;
             BookConditioncmb.Size = new Size(175, 36);
             BookConditioncmb.TabIndex = 73;
+            // 
+            // Published
+            // 
+            Published.AutoSize = true;
+            Published.BackColor = SystemColors.Window;
+            Published.BorderColor = Color.FromArgb(217, 217, 217);
+            Published.BorderFocusColor = Color.HotPink;
+            Published.BorderRadius = 5;
+            Published.BorderSize = 2;
+            Published.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Published.ForeColor = Color.DimGray;
+            Published.Location = new Point(200, 427);
+            Published.Margin = new Padding(5);
+            Published.Multiline = false;
+            Published.Name = "Published";
+            Published.Padding = new Padding(8, 9, 8, 9);
+            Published.PasswordChar = false;
+            Published.PlaceholderColor = Color.DarkGray;
+            Published.PlaceholderText = "mm/dd/yyyy";
+            Published.Size = new Size(173, 39);
+            Published.TabIndex = 14;
+            Published.Texts = "";
+            Published.UnderlinedStyle = false;
+            Published._TextChanged += Published__TextChanged;
             // 
             // Quantity
             // 
@@ -982,7 +982,6 @@
         private Label label8;
         private Components.ArthanTextBox Category;
         private Label label7;
-        private Components.ArthanTextBox Published;
         private Label label6;
         private Label label10;
         private Krypton.Toolkit.KryptonComboBox Source;
@@ -1017,5 +1016,6 @@
         private Components.ArthanPanel arthanPanel3;
         private Components.ArthanButton arthanButton2;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Components.ArthanTextBox Published;
     }
 }
