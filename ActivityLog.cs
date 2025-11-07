@@ -17,11 +17,11 @@ namespace Library_Final
         private System.Windows.Forms.Timer filterTimer = new System.Windows.Forms.Timer();
 
         private string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
-
+        private bool isLoading = false;
         public ActivityLog()
         {
             InitializeComponent();
-    
+
 
             filterTimer.Interval = 500; // half a second
             filterTimer.Tick += (s, e) =>
@@ -35,10 +35,13 @@ namespace Library_Final
 
         private void ActivityLog_Load(object sender, EventArgs e)
         {
-           
+            isLoading = true;
+            LoadFilterOptions();   // set up combo boxes first
+            LoadActivityLogs();    // then load data
             StyleDataGrid(DataGridActivity);
-            LoadActivityLogs();
-            LoadFilterOptions();
+
+            isLoading = false;
+
         }
 
         private void LoadFilterOptions()
@@ -279,7 +282,7 @@ namespace Library_Final
                 {
                     query += " AND Details LIKE @Search";
                     cmd.Parameters.AddWithValue("@Search", "%" + txtSearch.Text + "%");
-                   
+
                 }
 
                 // Final order
@@ -365,11 +368,13 @@ namespace Library_Final
 
         private void cmbAction_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (isLoading) return;
             LoadFilteredActivityLogs();
         }
 
         private void cmbModule_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (isLoading) return;
             LoadFilteredActivityLogs();
         }
 

@@ -50,17 +50,17 @@ namespace LibraryCGC
             ISBN.TextChanged += ISBN_TextChanged; // trigger when ISBN box changes
 
 
-
+            ISBN.KeyDown += ISBN_KeyDown; // 👈 attach here
 
             //Source Combobox fill
             Source.Items.AddRange(new string[] { "Purchased ", "Donate " });
             Source.SelectedIndex = 0;
-            
+
             BookConditioncmb.Items.AddRange(new string[] { "Good", "Minor Damaged", "Damaged" });
             BookConditioncmb.SelectedIndex = 0;
 
             //filtering combobox fill
-         
+
             BookCondition.Items.Add("Good");
             BookCondition.Items.Add("Minor Damaged");
             BookCondition.Items.Add("Damaged ");
@@ -277,6 +277,13 @@ namespace LibraryCGC
             isbnTimer.Stop();
             isbnTimer.Start(); // restart timer every time they type
 
+            // Check if the textbox has any text
+            if (ISBN.Text.Length > 9)
+            {
+                // Move focus to the button
+                guna2Button1.Focus();
+            }
+
         }
 
 
@@ -442,6 +449,10 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
             var dashboardForm = Application.OpenForms["Form1"] as Form1;
             if (dashboardForm != null)
                 dashboardForm.UpdateTotalBooksLabel();
+
+
+
+
         }
 
 
@@ -1150,7 +1161,11 @@ WHERE BookID = @BookID", con);
             }
 
             // optionally prevent 'ding' sound on Enter
-            e.SuppressKeyPress = true;
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Prevent "ding" sound
+                guna2Button1.PerformClick(); // Simulate button click
+            }
         }
 
 
@@ -1671,6 +1686,148 @@ WHERE BookID = @BookID", con);
         private void numArchiveQty(object sender, EventArgs e)
         {
 
+        }
+
+        public void PerformClick()
+        {
+            this.OnClick(EventArgs.Empty);
+        }
+
+        private void ISBN_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (ISBN.Text.Length > 10)
+            {
+                e.SuppressKeyPress = true;
+                guna2Button1.Focus(); // now it will actually focus
+            }
+            // move focus properly
+            this.BeginInvoke((Action)(() => guna2Button1.Focus()));
+
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection(
+               "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+            {
+                con.Open();
+
+                // 🧠 Step 1: Check if ISBN already exists
+                string checkQuery = "SELECT Quantity FROM BooksAcq WHERE ISBN = @ISBN";
+                using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
+                {
+                    checkCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
+
+                    object existingQtyObj = checkCmd.ExecuteScalar();
+
+                    if (existingQtyObj != null)
+                    {
+                        // ✅ ISBN exists → just update quantity
+                        int existingQty = Convert.ToInt32(existingQtyObj);
+                        int newQty = existingQty + Convert.ToInt32(Quantity.Value);
+
+                        string updateQuery = "UPDATE BooksAcq SET Quantity = @Quantity WHERE ISBN = @ISBN";
+                        using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
+                        {
+                            updateCmd.Parameters.AddWithValue("@Quantity", newQty);
+                            updateCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
+                            updateCmd.ExecuteNonQuery();
+                        }
+
+                        MessageBox.Show("Quantity updated successfully (same ISBN found).",
+                                        "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        // 🆕 ISBN not found → insert new record
+                        string insertQuery = @"INSERT INTO BooksAcq 
+(BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType,BookCondition) 
+VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType,@BookCondition)";
+
+                        using (SqlCommand insertCmd = new SqlCommand(insertQuery, con))
+                        {
+                            insertCmd.Parameters.AddWithValue("@BookTitle", BookTitle.Texts);
+                            insertCmd.Parameters.AddWithValue("@Author", Author.Texts);
+                            insertCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
+                            insertCmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
+                            insertCmd.Parameters.AddWithValue("@Source", Source.Text);
+                            insertCmd.Parameters.AddWithValue("@Quantity", Quantity.Value);
+                            insertCmd.Parameters.AddWithValue("@Published", Published.Texts);
+                            insertCmd.Parameters.AddWithValue("@Category", Category.Texts);
+                            insertCmd.Parameters.AddWithValue("@BookCondition", BookConditioncmb.Text);
+
+                            // Detect BookType
+                            string typeOfBook;
+                            string category = Category.Text.ToLower();
+                            if (category.Contains("magazine") || category.Contains("journal"))
+                                typeOfBook = "Magazine";
+                            else if (category.Contains("newspaper") || category.Contains("news"))
+                                typeOfBook = "Newspaper";
+                            else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
+                                typeOfBook = "Report / Document";
+                            else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
+                                typeOfBook = "Catalog / Pamphlet";
+                            else
+                                typeOfBook = "Book";
+
+                            insertCmd.Parameters.AddWithValue("@BookType", typeOfBook);
+                            insertCmd.ExecuteNonQuery();
+
+                            MessageBox.Show($"{typeOfBook} added successfully!");
+                        }
+                    }
+                }
+            }
+
+            // 🔄 Refresh grid
+            LoadBooksGrid();
+            GlobalEvents.RaiseBooksDataChanged();
+
+            ActivityLog.RecordActivity(
+           SessionData.CurrentUserName,
+           "Add Book",
+           "Book Acquisition",
+           $"Added book: {BookTitle.Texts}"
+       );
+
+
+
+
+
+
+
+
+
+
+            // 🧹 Clear input fields
+            BookTitle.Texts = "";
+            Author.Texts = "";
+            ISBN.Texts = "";
+            Publisher.Texts = "";
+            Published.Texts = "";
+            Category.Texts = "";
+
+            picCover.BackgroundImage = null;
+            Quantity.Value = 1;
+            BookConditioncmb.Text = "";
+
+            // Update dashboard if open
+            var dashboardForm = Application.OpenForms["Form1"] as Form1;
+            if (dashboardForm != null)
+                dashboardForm.UpdateTotalBooksLabel();
+
+            // ✅ Refocus ISBN textbox
+            this.BeginInvoke((Action)(() => ISBN.Focus()));
+
+        }
+
+        private void guna2Button1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // prevent "ding" sound
+                guna2Button1.PerformClick(); // trigger button click
+            }
         }
     }
 

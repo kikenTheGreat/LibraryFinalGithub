@@ -20,7 +20,7 @@ namespace Library_Final
         public string PreISBN { get; set; }
         public string PreBookTitle { get; set; }
 
-  
+
 
         // ✅ ADD THESE FLAGS
         private bool isUpdatingFields = false;
@@ -29,9 +29,9 @@ namespace Library_Final
         {
             InitializeComponent();
 
-   
 
-             
+
+
         }
 
 
@@ -43,7 +43,7 @@ namespace Library_Final
             // ✅ Use SessionData instead of the potentially incorrect currentEmployeeID
             int employeeID = SessionData.CurrentEmployeeID;
 
-           
+
 
             string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
             string query = "SELECT FirstName, LastName FROM Employees WHERE EmployeeID = @EmployeeID";
@@ -69,7 +69,7 @@ namespace Library_Final
                     }
                     else
                     {
-                       
+
                     }
 
                     reader.Close();
@@ -374,69 +374,54 @@ VALUES
                 {
                     con.Open();
 
-                    string query;
-
-                    // ✅ If txtClientID has value, filter by that ClientID
-                    if (!string.IsNullOrWhiteSpace(txtClientID.Text))
-                    {
-                        query = @"
-                    SELECT 
-                        d.DamageID,
-                        d.ISBN,
-                        d.Title,
-                        d.BookCondition,
-                        d.DamageDescription,
-                        d.ReportDate,
-                        d.FineAmount,
-                        d.ClientID,
-                        i.StudentName AS BorrowerName,
-                        i.Status
-                    FROM DamagedBooks d
-                    LEFT JOIN IssueBooks i ON d.ClientID = i.ClientID AND d.ISBN = i.ISBN
-                    WHERE d.ClientID = @ClientID
-                    ORDER BY d.ReportDate DESC";
-                    }
-                    else
-                    {
-                        // ✅ Otherwise, load all damage reports
-                        query = @"
-                    SELECT 
-                        d.DamageID,
-                        d.ISBN,
-                        d.Title,
-                        d.BookCondition,
-                        d.DamageDescription,
-                        d.ReportDate,
-                        d.FineAmount,
-                        d.ClientID,
-                        i.StudentName AS BorrowerName,
-                        i.Status
-                    FROM DamagedBooks d
-                    LEFT JOIN IssueBooks i ON d.ClientID = i.ClientID AND d.ISBN = i.ISBN
-                    ORDER BY d.ReportDate DESC";
-                    }
+                    string query = @"
+                SELECT 
+                    d.DamageID,
+                    d.ISBN,
+                    d.Title AS BookTitle,
+                    d.BookCondition,
+                    d.DamageDescription,
+                    d.ReportDate,
+                    d.FineAmount,
+                    d.ClientID,
+                    i.StudentName AS BorrowerName,
+                    i.Status
+                FROM DamagedBooks d
+                LEFT JOIN IssueBooks i ON d.ClientID = i.ClientID AND d.ISBN = i.ISBN
+                ORDER BY d.ReportDate DESC";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     {
-                        if (!string.IsNullOrWhiteSpace(txtClientID.Text))
-                            cmd.Parameters.AddWithValue("@ClientID", txtClientID.Text.Trim());
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
 
-                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            da.Fill(dt);
-                            dgvDamageReports.DataSource = dt;
-                        }
+                        dgvDamageReports.DataSource = null;
+                        dgvDamageReports.Columns.Clear();
+                        dgvDamageReports.AutoGenerateColumns = true;
+                        dgvDamageReports.DataSource = dt;
+
+                        // Apply styling
+                        StyleLogDataGrid(dgvDamageReports);
+
+                        // Rename columns
+                        if (dgvDamageReports.Columns.Contains("DamageDescription"))
+                            dgvDamageReports.Columns["DamageDescription"].HeaderText = "Damage Description";
+                        if (dgvDamageReports.Columns.Contains("BookCondition"))
+                            dgvDamageReports.Columns["BookCondition"].HeaderText = "Book Condition";
+                        if (dgvDamageReports.Columns.Contains("FineAmount"))
+                            dgvDamageReports.Columns["FineAmount"].HeaderText = "Fine";
+                        if (dgvDamageReports.Columns.Contains("BorrowerName"))
+                            dgvDamageReports.Columns["BorrowerName"].HeaderText = "Borrower";
+                        if (dgvDamageReports.Columns.Contains("ReportDate"))
+                            dgvDamageReports.Columns["ReportDate"].HeaderText = "Report Date";
+                        if (dgvDamageReports.Columns.Contains("BookTitle"))
+                            dgvDamageReports.Columns["BookTitle"].HeaderText = "Book Title";
+
+                        // Adjust columns
+                        AdjustDamageColumns(dgvDamageReports);
                     }
                 }
-
-                // ✅ Beautify DataGridView
-                dgvDamageReports.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                dgvDamageReports.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dgvDamageReports.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                dgvDamageReports.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                dgvDamageReports.DefaultCellStyle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
-                dgvDamageReports.RowTemplate.Height = 30;
             }
             catch (Exception ex)
             {
@@ -444,7 +429,6 @@ VALUES
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void ClearFields()
         {
@@ -468,55 +452,267 @@ VALUES
             this.Hide();
         }
 
-        private void DamagedBookReport_Load(object sender, EventArgs e)
+        private async void DamagedBookReport_Load(object sender, EventArgs e)
+
         {
-            LoadEmployeeFullName();
-            // ✅ ADD THIS DEBUGGING
-       
+            await Task.Delay(100);
+            await LoadEmployeeFullNameAsync();
+            await LoadDamageReportsAsync(); // This already handles all styling
 
-            //end of deletion
+            // Pre-populate fields if passed from another form
+            if (!string.IsNullOrEmpty(PreClientID))
+                txtClientID.Text = PreClientID;
 
-            if (string.IsNullOrEmpty(txtClientID.Text))
-            {
-                if (!string.IsNullOrEmpty(PreClientID))
-                    txtClientID.Text = PreClientID;
-            }
-
-            if (string.IsNullOrEmpty(txtISBN.Text))
-            {
-                if (!string.IsNullOrEmpty(PreISBN))
-                    txtISBN.Text = PreISBN;
-            }
+            if (!string.IsNullOrEmpty(PreISBN))
+                txtISBN.Text = PreISBN;
 
             if (!string.IsNullOrEmpty(PreBookTitle))
                 txtBookTitle.Text = PreBookTitle;
 
-
-
-            LoadDamageReports();
+            // Populate return condition dropdown
+            cmbReturnBookCondition.Items.Clear();
             cmbReturnBookCondition.Items.AddRange(new string[]
-           {
-    
-    "Minor Damaged",
-    "Damaged",
-    "Lost"
-           });
-
+            {
+        "Minor Damaged",
+        "Damaged",
+        "Lost"
+            });
             cmbReturnBookCondition.SelectedIndex = 0;
-
-
-        
-
-
         }
 
 
 
+
+
+
+        private async Task LoadDamageReportsAsync()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(
+                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;"))
+                {
+                    await con.OpenAsync();
+
+                    string query = @"
+                SELECT 
+                    d.ISBN,
+                    d.Title AS BookTitle,
+                    d.BookCondition,
+                    d.DamageDescription,
+                    d.ReportDate,
+                    d.FineAmount,
+                    d.ClientID,
+                    i.StudentName AS BorrowerName,
+                    i.Status
+                FROM DamagedBooks d
+                LEFT JOIN IssueBooks i ON d.ClientID = i.ClientID AND d.ISBN = i.ISBN
+                ORDER BY d.ReportDate DESC";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        await Task.Run(() => da.Fill(dt));
+
+                        dgvDamageReports.Invoke(new Action(() =>
+                        {
+                            // Clear and set up the DataGridView
+                            dgvDamageReports.DataSource = null;
+                            dgvDamageReports.Columns.Clear();
+                            dgvDamageReports.AutoGenerateColumns = true;
+                            dgvDamageReports.DataSource = dt;
+
+                            // Apply styling FIRST
+                            StyleLogDataGrid(dgvDamageReports);
+
+                            // THEN customize column headers
+                            if (dgvDamageReports.Columns.Contains("DamageDescription"))
+                                dgvDamageReports.Columns["DamageDescription"].HeaderText = "Damage Description";
+                            if (dgvDamageReports.Columns.Contains("BookCondition"))
+                                dgvDamageReports.Columns["BookCondition"].HeaderText = "Book Condition";
+                            if (dgvDamageReports.Columns.Contains("FineAmount"))
+                                dgvDamageReports.Columns["FineAmount"].HeaderText = "Fine";
+                            if (dgvDamageReports.Columns.Contains("BorrowerName"))
+                                dgvDamageReports.Columns["BorrowerName"].HeaderText = "Borrower";
+                            if (dgvDamageReports.Columns.Contains("ReportDate"))
+                                dgvDamageReports.Columns["ReportDate"].HeaderText = "Report Date";
+                            if (dgvDamageReports.Columns.Contains("BookTitle"))
+                                dgvDamageReports.Columns["BookTitle"].HeaderText = "Book Title";
+
+                            // FINALLY adjust column widths
+                            AdjustDamageColumns(dgvDamageReports);
+                        }));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading damage reports: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        // Replace your StyleLogDataGrid method with this:
+        private void StyleLogDataGrid(DataGridView dgv)
+        {
+            // General layout
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgv.RowHeadersVisible = false;
+            dgv.EnableHeadersVisualStyles = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgv.MultiSelect = false;
+            dgv.ReadOnly = true;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            // Alternating row colors
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 247, 250);
+            dgv.RowsDefaultCellStyle.BackColor = Color.White;
+
+            // Row style
+            dgv.RowsDefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            dgv.RowsDefaultCellStyle.ForeColor = Color.Black;
+            dgv.RowsDefaultCellStyle.SelectionBackColor = Color.FromArgb(220, 235, 245);
+            dgv.RowsDefaultCellStyle.SelectionForeColor = Color.Black;
+            dgv.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgv.RowsDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv.RowsDefaultCellStyle.Padding = new Padding(5);
+            dgv.RowTemplate.Height = 45;
+
+            // Header style
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(0, 102, 204);
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dgv.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv.ColumnHeadersHeight = 40;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            // Grid lines
+            dgv.GridColor = Color.LightGray;
+
+            // Auto-size
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+        }
+
+
+        // REMOVE THE OLD AdjustDamageColumns method and replace with this ONE:
+        private void AdjustDamageColumns(DataGridView dgv)
+        {
+            if (dgv.Columns.Count == 0) return;
+
+            // Set fill mode
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // Adjust column weights
+            if (dgv.Columns.Contains("DamageID"))
+            {
+                dgv.Columns["DamageID"].FillWeight = 8;
+                dgv.Columns["DamageID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            if (dgv.Columns.Contains("ISBN"))
+            {
+                dgv.Columns["ISBN"].FillWeight = 12;
+                dgv.Columns["ISBN"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            if (dgv.Columns.Contains("BookTitle"))
+            {
+                dgv.Columns["BookTitle"].FillWeight = 20;
+                dgv.Columns["BookTitle"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            }
+
+            if (dgv.Columns.Contains("ClientID"))
+            {
+                dgv.Columns["ClientID"].FillWeight = 10;
+                dgv.Columns["ClientID"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            if (dgv.Columns.Contains("BorrowerName"))
+            {
+                dgv.Columns["BorrowerName"].FillWeight = 15;
+                dgv.Columns["BorrowerName"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            }
+
+            if (dgv.Columns.Contains("BookCondition"))
+            {
+                dgv.Columns["BookCondition"].FillWeight = 15;
+                dgv.Columns["BookCondition"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            if (dgv.Columns.Contains("DamageDescription"))
+            {
+                dgv.Columns["DamageDescription"].FillWeight = 35;
+                dgv.Columns["DamageDescription"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.TopLeft;
+                dgv.Columns["DamageDescription"].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            }
+
+            if (dgv.Columns.Contains("ReportDate"))
+            {
+                dgv.Columns["ReportDate"].FillWeight = 15;
+                dgv.Columns["ReportDate"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgv.Columns["ReportDate"].DefaultCellStyle.Format = "MM/dd/yyyy";
+            }
+
+            if (dgv.Columns.Contains("FineAmount"))
+            {
+                dgv.Columns["FineAmount"].FillWeight = 10;
+                dgv.Columns["FineAmount"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dgv.Columns["FineAmount"].DefaultCellStyle.Format = "C2"; // Currency format
+            }
+
+            if (dgv.Columns.Contains("Status"))
+            {
+                dgv.Columns["Status"].FillWeight = 15;
+                dgv.Columns["Status"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+        }
         private void btnClear_Click(object sender, EventArgs e)
         {
             ClearFields();
 
         }
+
+        private async Task LoadEmployeeFullNameAsync()
+        {
+            int employeeID = SessionData.CurrentEmployeeID;
+
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;";
+            string query = "SELECT FirstName, LastName FROM Employees WHERE EmployeeID = @EmployeeID";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@EmployeeID", employeeID);
+                    await conn.OpenAsync();
+                    SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+                    if (await reader.ReadAsync())
+                    {
+                        string fullName = $"{reader["FirstName"]} {reader["LastName"]}";
+                        guna2ComboBox1.Items.Clear();
+                        guna2ComboBox1.Items.Add(fullName);
+                        guna2ComboBox1.SelectedIndex = 0;
+                    }
+
+                    await reader.CloseAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading employee: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         private void txtClientID_TextChanged(object sender, EventArgs e)
         {
@@ -559,7 +755,6 @@ VALUES
                 {
                     con.Open();
 
-                    // ✅ Check if client exists with that status
                     string checkQuery = @"
                 SELECT COUNT(*) FROM IssueBooks
                 WHERE ClientID = @ClientID AND Status = 'Report filed by librarian'";
@@ -577,7 +772,6 @@ VALUES
                         }
                     }
 
-                    // ✅ Update status to "Returned"
                     string updateQuery = @"
                 UPDATE IssueBooks
                 SET Status = 'Returned', ReturnDate = GETDATE()
@@ -593,7 +787,7 @@ VALUES
                             MessageBox.Show("Client's status updated to 'Returned' successfully!",
                                 "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            LoadDamageReports(); // refresh the grid
+                            LoadDamageReports(); // Refresh the grid
                             txtClientIDStatus.Clear();
                         }
                         else
@@ -609,6 +803,11 @@ VALUES
                 MessageBox.Show("Error updating status: " + ex.Message,
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void dgvDamageReports_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

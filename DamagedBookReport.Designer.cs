@@ -100,18 +100,20 @@
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
+            panel1 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dgvDamageReports).BeginInit();
             arthanPanel3.SuspendLayout();
             arthanPanel1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label25
             // 
             label25.AutoSize = true;
             label25.Font = new Font("Sans Serif Collection", 7.799999F);
-            label25.Location = new Point(36, 192);
+            label25.Location = new Point(41, 256);
             label25.Name = "label25";
-            label25.Size = new Size(78, 27);
+            label25.Size = new Size(68, 44);
             label25.TabIndex = 2;
             label25.Text = "Client ID";
             // 
@@ -119,9 +121,9 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Sans Serif Collection", 7.799999F);
-            label1.Location = new Point(36, 140);
+            label1.Location = new Point(41, 187);
             label1.Name = "label1";
-            label1.Size = new Size(47, 27);
+            label1.Size = new Size(44, 44);
             label1.TabIndex = 3;
             label1.Text = "Title";
             // 
@@ -129,9 +131,9 @@
             // 
             sda.AutoSize = true;
             sda.Font = new Font("Sans Serif Collection", 7.799999F);
-            sda.Location = new Point(40, 87);
+            sda.Location = new Point(46, 116);
             sda.Name = "sda";
-            sda.Size = new Size(53, 27);
+            sda.Size = new Size(48, 44);
             sda.TabIndex = 4;
             sda.Text = "ISBN";
             // 
@@ -150,12 +152,13 @@
             txtFineAmount.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtFineAmount.Font = new Font("Segoe UI", 9F);
             txtFineAmount.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtFineAmount.Location = new Point(33, 603);
+            txtFineAmount.Location = new Point(38, 804);
+            txtFineAmount.Margin = new Padding(3, 5, 3, 5);
             txtFineAmount.Name = "txtFineAmount";
             txtFineAmount.PlaceholderText = "";
             txtFineAmount.SelectedText = "";
             txtFineAmount.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            txtFineAmount.Size = new Size(301, 29);
+            txtFineAmount.Size = new Size(344, 39);
             txtFineAmount.TabIndex = 35;
             // 
             // txtDamageDescription
@@ -173,12 +176,13 @@
             txtDamageDescription.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtDamageDescription.Font = new Font("Segoe UI", 9F);
             txtDamageDescription.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtDamageDescription.Location = new Point(36, 444);
+            txtDamageDescription.Location = new Point(41, 592);
+            txtDamageDescription.Margin = new Padding(3, 5, 3, 5);
             txtDamageDescription.Name = "txtDamageDescription";
             txtDamageDescription.PlaceholderText = "";
             txtDamageDescription.SelectedText = "";
             txtDamageDescription.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            txtDamageDescription.Size = new Size(297, 61);
+            txtDamageDescription.Size = new Size(339, 81);
             txtDamageDescription.TabIndex = 37;
             // 
             // txtClientID
@@ -196,12 +200,13 @@
             txtClientID.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtClientID.Font = new Font("Segoe UI", 9F);
             txtClientID.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtClientID.Location = new Point(36, 215);
+            txtClientID.Location = new Point(41, 287);
+            txtClientID.Margin = new Padding(3, 5, 3, 5);
             txtClientID.Name = "txtClientID";
             txtClientID.PlaceholderText = "";
             txtClientID.SelectedText = "";
             txtClientID.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            txtClientID.Size = new Size(298, 29);
+            txtClientID.Size = new Size(341, 39);
             txtClientID.TabIndex = 39;
             txtClientID.TextChanged += txtClientID_TextChanged;
             // 
@@ -220,12 +225,13 @@
             txtBookTitle.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtBookTitle.Font = new Font("Segoe UI", 9F);
             txtBookTitle.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtBookTitle.Location = new Point(36, 160);
+            txtBookTitle.Location = new Point(41, 213);
+            txtBookTitle.Margin = new Padding(3, 5, 3, 5);
             txtBookTitle.Name = "txtBookTitle";
             txtBookTitle.PlaceholderText = "";
             txtBookTitle.SelectedText = "";
             txtBookTitle.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            txtBookTitle.Size = new Size(297, 29);
+            txtBookTitle.Size = new Size(339, 39);
             txtBookTitle.TabIndex = 40;
             // 
             // txtISBN
@@ -243,12 +249,13 @@
             txtISBN.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtISBN.Font = new Font("Segoe UI", 9F);
             txtISBN.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtISBN.Location = new Point(36, 108);
+            txtISBN.Location = new Point(41, 144);
+            txtISBN.Margin = new Padding(3, 5, 3, 5);
             txtISBN.Name = "txtISBN";
             txtISBN.PlaceholderText = "";
             txtISBN.SelectedText = "";
             txtISBN.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            txtISBN.Size = new Size(297, 29);
+            txtISBN.Size = new Size(339, 39);
             txtISBN.TabIndex = 41;
             txtISBN.TextChanged += txtISBN_TextChanged;
             // 
@@ -256,9 +263,9 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Sans Serif Collection", 7.799999F);
-            label5.Location = new Point(36, 582);
+            label5.Location = new Point(41, 776);
             label5.Name = "label5";
-            label5.Size = new Size(111, 27);
+            label5.Size = new Size(95, 44);
             label5.TabIndex = 44;
             label5.Text = "Fine Amount";
             // 
@@ -266,9 +273,9 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Sans Serif Collection", 7.799999F);
-            label6.Location = new Point(36, 508);
+            label6.Location = new Point(41, 677);
             label6.Name = "label6";
-            label6.Size = new Size(107, 27);
+            label6.Size = new Size(90, 44);
             label6.TabIndex = 45;
             label6.Text = "Date Report";
             // 
@@ -276,9 +283,9 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Sans Serif Collection", 7.799999F);
-            label7.Location = new Point(36, 423);
+            label7.Location = new Point(41, 564);
             label7.Name = "label7";
-            label7.Size = new Size(182, 27);
+            label7.Size = new Size(147, 44);
             label7.TabIndex = 46;
             label7.Text = "Damaged Description";
             // 
@@ -286,9 +293,9 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Sans Serif Collection", 7.799999F);
-            label8.Location = new Point(36, 247);
+            label8.Location = new Point(41, 329);
             label8.Name = "label8";
-            label8.Size = new Size(241, 27);
+            label8.Size = new Size(193, 44);
             label8.TabIndex = 47;
             label8.Text = "Book Condition before Issued";
             // 
@@ -306,11 +313,10 @@
             cmbBookCondition.Font = new Font("Segoe UI", 10F);
             cmbBookCondition.ForeColor = Color.FromArgb(68, 88, 112);
             cmbBookCondition.ItemHeight = 30;
-            cmbBookCondition.Location = new Point(36, 270);
-            cmbBookCondition.Margin = new Padding(3, 2, 3, 2);
+            cmbBookCondition.Location = new Point(41, 360);
             cmbBookCondition.Name = "cmbBookCondition";
             cmbBookCondition.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            cmbBookCondition.Size = new Size(298, 36);
+            cmbBookCondition.Size = new Size(340, 36);
             cmbBookCondition.TabIndex = 51;
             // 
             // dtpReportDate
@@ -320,13 +326,12 @@
             dtpReportDate.FillColor = Color.FromArgb(255, 224, 192);
             dtpReportDate.Font = new Font("Segoe UI", 9F);
             dtpReportDate.Format = DateTimePickerFormat.Long;
-            dtpReportDate.Location = new Point(36, 537);
-            dtpReportDate.Margin = new Padding(3, 2, 3, 2);
+            dtpReportDate.Location = new Point(41, 716);
             dtpReportDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpReportDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpReportDate.Name = "dtpReportDate";
             dtpReportDate.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            dtpReportDate.Size = new Size(298, 34);
+            dtpReportDate.Size = new Size(341, 45);
             dtpReportDate.TabIndex = 52;
             dtpReportDate.Value = new DateTime(2025, 11, 2, 15, 54, 21, 541);
             // 
@@ -334,9 +339,9 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 7.799999F);
-            label2.Location = new Point(36, 23);
+            label2.Location = new Point(41, 31);
             label2.Name = "label2";
-            label2.Size = new Size(135, 27);
+            label2.Size = new Size(113, 44);
             label2.TabIndex = 54;
             label2.Text = "Borrower Name";
             // 
@@ -355,12 +360,13 @@
             txtReportedBy.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtReportedBy.Font = new Font("Segoe UI", 9F);
             txtReportedBy.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtReportedBy.Location = new Point(36, 55);
+            txtReportedBy.Location = new Point(41, 73);
+            txtReportedBy.Margin = new Padding(3, 5, 3, 5);
             txtReportedBy.Name = "txtReportedBy";
             txtReportedBy.PlaceholderText = "";
             txtReportedBy.SelectedText = "";
             txtReportedBy.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            txtReportedBy.Size = new Size(297, 29);
+            txtReportedBy.Size = new Size(339, 39);
             txtReportedBy.TabIndex = 53;
             // 
             // btnSave
@@ -375,11 +381,10 @@
             btnSave.FillColor = Color.Orange;
             btnSave.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnSave.ForeColor = Color.Black;
-            btnSave.Location = new Point(31, 707);
-            btnSave.Margin = new Padding(3, 2, 3, 2);
+            btnSave.Location = new Point(35, 943);
             btnSave.Name = "btnSave";
             btnSave.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            btnSave.Size = new Size(79, 36);
+            btnSave.Size = new Size(90, 48);
             btnSave.TabIndex = 55;
             btnSave.Text = "Save";
             btnSave.Click += btnSave_Click;
@@ -396,11 +401,10 @@
             btnClear.FillColor = Color.Orange;
             btnClear.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnClear.ForeColor = Color.Black;
-            btnClear.Location = new Point(144, 707);
-            btnClear.Margin = new Padding(3, 2, 3, 2);
+            btnClear.Location = new Point(165, 943);
             btnClear.Name = "btnClear";
             btnClear.ShadowDecoration.CustomizableEdges = customizableEdges20;
-            btnClear.Size = new Size(79, 36);
+            btnClear.Size = new Size(90, 48);
             btnClear.TabIndex = 56;
             btnClear.Text = "Clear";
             btnClear.Click += btnClear_Click;
@@ -409,6 +413,7 @@
             // 
             dataGridViewCellStyle1.BackColor = Color.White;
             dgvDamageReports.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvDamageReports.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
@@ -417,8 +422,7 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvDamageReports.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dgvDamageReports.ColumnHeadersHeight = 4;
-            dgvDamageReports.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dgvDamageReports.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
@@ -427,14 +431,13 @@
             dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvDamageReports.DefaultCellStyle = dataGridViewCellStyle3;
+            dgvDamageReports.Dock = DockStyle.Fill;
             dgvDamageReports.GridColor = Color.FromArgb(231, 229, 255);
-            dgvDamageReports.Location = new Point(375, 125);
-            dgvDamageReports.Margin = new Padding(3, 2, 3, 2);
+            dgvDamageReports.Location = new Point(0, 0);
             dgvDamageReports.Name = "dgvDamageReports";
             dgvDamageReports.RowHeadersVisible = false;
             dgvDamageReports.RowHeadersWidth = 51;
-            dgvDamageReports.RowTemplate.Height = 29;
-            dgvDamageReports.Size = new Size(1277, 555);
+            dgvDamageReports.Size = new Size(1452, 753);
             dgvDamageReports.TabIndex = 59;
             dgvDamageReports.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
             dgvDamageReports.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -447,7 +450,7 @@
             dgvDamageReports.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
             dgvDamageReports.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
             dgvDamageReports.ThemeStyle.HeaderStyle.ForeColor = Color.White;
-            dgvDamageReports.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
+            dgvDamageReports.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvDamageReports.ThemeStyle.HeaderStyle.Height = 4;
             dgvDamageReports.ThemeStyle.ReadOnly = false;
             dgvDamageReports.ThemeStyle.RowsStyle.BackColor = Color.White;
@@ -458,6 +461,7 @@
             dgvDamageReports.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
             dgvDamageReports.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
             dgvDamageReports.CellClick += dgvDamageReports_CellClick;
+            dgvDamageReports.CellContentClick += dgvDamageReports_CellContentClick;
             // 
             // guna2Button1
             // 
@@ -471,11 +475,10 @@
             guna2Button1.FillColor = Color.Orange;
             guna2Button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             guna2Button1.ForeColor = Color.Black;
-            guna2Button1.Location = new Point(254, 707);
-            guna2Button1.Margin = new Padding(3, 2, 3, 2);
+            guna2Button1.Location = new Point(290, 943);
             guna2Button1.Name = "guna2Button1";
             guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            guna2Button1.Size = new Size(79, 36);
+            guna2Button1.Size = new Size(90, 48);
             guna2Button1.TabIndex = 60;
             guna2Button1.Text = "Back";
             guna2Button1.Click += guna2Button1_Click;
@@ -483,10 +486,9 @@
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Location = new Point(198, 17);
-            guna2HtmlLabel1.Margin = new Padding(3, 2, 3, 2);
+            guna2HtmlLabel1.Location = new Point(226, 23);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(78, 17);
+            guna2HtmlLabel1.Size = new Size(98, 22);
             guna2HtmlLabel1.TabIndex = 63;
             guna2HtmlLabel1.Text = "Enter Client ID";
             // 
@@ -505,12 +507,13 @@
             txtClientIDStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtClientIDStatus.Font = new Font("Segoe UI", 9F);
             txtClientIDStatus.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtClientIDStatus.Location = new Point(198, 39);
+            txtClientIDStatus.Location = new Point(226, 52);
+            txtClientIDStatus.Margin = new Padding(3, 5, 3, 5);
             txtClientIDStatus.Name = "txtClientIDStatus";
             txtClientIDStatus.PlaceholderText = "";
             txtClientIDStatus.SelectedText = "";
             txtClientIDStatus.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            txtClientIDStatus.Size = new Size(301, 29);
+            txtClientIDStatus.Size = new Size(344, 39);
             txtClientIDStatus.TabIndex = 61;
             // 
             // btnMarkReturned
@@ -525,11 +528,10 @@
             btnMarkReturned.FillColor = Color.Orange;
             btnMarkReturned.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnMarkReturned.ForeColor = Color.Black;
-            btnMarkReturned.Location = new Point(29, 17);
-            btnMarkReturned.Margin = new Padding(3, 2, 3, 2);
+            btnMarkReturned.Location = new Point(33, 23);
             btnMarkReturned.Name = "btnMarkReturned";
             btnMarkReturned.ShadowDecoration.CustomizableEdges = customizableEdges26;
-            btnMarkReturned.Size = new Size(137, 47);
+            btnMarkReturned.Size = new Size(157, 63);
             btnMarkReturned.TabIndex = 62;
             btnMarkReturned.Text = "Mark as Returned";
             btnMarkReturned.Click += btnMarkReturned_Click;
@@ -549,21 +551,22 @@
             txtClientType.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtClientType.Font = new Font("Segoe UI", 9F);
             txtClientType.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtClientType.Location = new Point(36, 391);
+            txtClientType.Location = new Point(41, 521);
+            txtClientType.Margin = new Padding(3, 5, 3, 5);
             txtClientType.Name = "txtClientType";
             txtClientType.PlaceholderText = "";
             txtClientType.SelectedText = "";
             txtClientType.ShadowDecoration.CustomizableEdges = customizableEdges28;
-            txtClientType.Size = new Size(297, 29);
+            txtClientType.Size = new Size(339, 39);
             txtClientType.TabIndex = 67;
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Sans Serif Collection", 7.799999F);
-            label3.Location = new Point(36, 368);
+            label3.Location = new Point(41, 491);
             label3.Name = "label3";
-            label3.Size = new Size(102, 27);
+            label3.Size = new Size(84, 44);
             label3.TabIndex = 65;
             label3.Text = "Client Type";
             // 
@@ -571,9 +574,9 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Sans Serif Collection", 7.799999F);
-            label4.Location = new Point(36, 308);
+            label4.Location = new Point(41, 411);
             label4.Name = "label4";
-            label4.Size = new Size(230, 27);
+            label4.Size = new Size(186, 44);
             label4.TabIndex = 64;
             label4.Text = "Book Condition in Returning";
             // 
@@ -591,11 +594,10 @@
             cmbReturnBookCondition.Font = new Font("Segoe UI", 10F);
             cmbReturnBookCondition.ForeColor = Color.FromArgb(68, 88, 112);
             cmbReturnBookCondition.ItemHeight = 30;
-            cmbReturnBookCondition.Location = new Point(36, 330);
-            cmbReturnBookCondition.Margin = new Padding(3, 2, 3, 2);
+            cmbReturnBookCondition.Location = new Point(41, 440);
             cmbReturnBookCondition.Name = "cmbReturnBookCondition";
             cmbReturnBookCondition.ShadowDecoration.CustomizableEdges = customizableEdges30;
-            cmbReturnBookCondition.Size = new Size(298, 36);
+            cmbReturnBookCondition.Size = new Size(340, 36);
             cmbReturnBookCondition.TabIndex = 68;
             // 
             // txtStatus
@@ -613,21 +615,22 @@
             txtStatus.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtStatus.Font = new Font("Segoe UI", 9F);
             txtStatus.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtStatus.Location = new Point(31, 658);
+            txtStatus.Location = new Point(35, 877);
+            txtStatus.Margin = new Padding(3, 5, 3, 5);
             txtStatus.Name = "txtStatus";
             txtStatus.PlaceholderText = "";
             txtStatus.SelectedText = "";
             txtStatus.ShadowDecoration.CustomizableEdges = customizableEdges32;
-            txtStatus.Size = new Size(302, 29);
+            txtStatus.Size = new Size(345, 39);
             txtStatus.TabIndex = 69;
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Sans Serif Collection", 7.799999F);
-            label9.Location = new Point(33, 635);
+            label9.Location = new Point(38, 847);
             label9.Name = "label9";
-            label9.Size = new Size(63, 27);
+            label9.Size = new Size(57, 44);
             label9.TabIndex = 70;
             label9.Text = "Status";
             // 
@@ -635,9 +638,9 @@
             // 
             asd.AutoSize = true;
             asd.Font = new Font("Sans Serif Collection", 7.799999F);
-            asd.Location = new Point(385, 693);
+            asd.Location = new Point(440, 924);
             asd.Name = "asd";
-            asd.Size = new Size(107, 27);
+            asd.Size = new Size(90, 44);
             asd.TabIndex = 72;
             asd.Text = "ReportedBy";
             // 
@@ -652,11 +655,10 @@
             guna2ComboBox1.Font = new Font("Segoe UI", 10F);
             guna2ComboBox1.ForeColor = Color.FromArgb(68, 88, 112);
             guna2ComboBox1.ItemHeight = 30;
-            guna2ComboBox1.Location = new Point(385, 722);
-            guna2ComboBox1.Margin = new Padding(3, 2, 3, 2);
+            guna2ComboBox1.Location = new Point(440, 963);
             guna2ComboBox1.Name = "guna2ComboBox1";
             guna2ComboBox1.ShadowDecoration.CustomizableEdges = customizableEdges34;
-            guna2ComboBox1.Size = new Size(154, 36);
+            guna2ComboBox1.Size = new Size(313, 36);
             guna2ComboBox1.TabIndex = 73;
             // 
             // arthanPanel3
@@ -671,12 +673,13 @@
             arthanPanel3.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel3.GradientEndColor = Color.White;
             arthanPanel3.GradientStartColor = Color.White;
-            arthanPanel3.Location = new Point(12, 16);
+            arthanPanel3.Location = new Point(14, 21);
+            arthanPanel3.Margin = new Padding(3, 4, 3, 4);
             arthanPanel3.Name = "arthanPanel3";
             arthanPanel3.ShadowBlur = 5;
             arthanPanel3.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel3.ShadowOffset = 3;
-            arthanPanel3.Size = new Size(357, 747);
+            arthanPanel3.Size = new Size(408, 996);
             arthanPanel3.TabIndex = 75;
             arthanPanel3.TopLeftRadius = 15;
             arthanPanel3.TopRightRadius = 15;
@@ -699,9 +702,10 @@
             arthanButton1.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton1.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton1.Image = null;
-            arthanButton1.Location = new Point(1507, 24);
+            arthanButton1.Location = new Point(1722, 32);
+            arthanButton1.Margin = new Padding(3, 4, 3, 4);
             arthanButton1.Name = "arthanButton1";
-            arthanButton1.Size = new Size(95, 40);
+            arthanButton1.Size = new Size(109, 53);
             arthanButton1.TabIndex = 5;
             arthanButton1.Text = "Home";
             arthanButton1.TextColor = Color.Black;
@@ -722,12 +726,13 @@
             arthanPanel1.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel1.GradientEndColor = Color.White;
             arthanPanel1.GradientStartColor = Color.White;
-            arthanPanel1.Location = new Point(375, 16);
+            arthanPanel1.Location = new Point(429, 21);
+            arthanPanel1.Margin = new Padding(3, 4, 3, 4);
             arthanPanel1.Name = "arthanPanel1";
             arthanPanel1.ShadowBlur = 5;
             arthanPanel1.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel1.ShadowOffset = 3;
-            arthanPanel1.Size = new Size(540, 94);
+            arthanPanel1.Size = new Size(617, 125);
             arthanPanel1.TabIndex = 76;
             arthanPanel1.TopLeftRadius = 15;
             arthanPanel1.TopRightRadius = 15;
@@ -750,19 +755,29 @@
             arthanButton2.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton2.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton2.Image = null;
-            arthanButton2.Location = new Point(1507, 24);
+            arthanButton2.Location = new Point(1722, 32);
+            arthanButton2.Margin = new Padding(3, 4, 3, 4);
             arthanButton2.Name = "arthanButton2";
-            arthanButton2.Size = new Size(95, 40);
+            arthanButton2.Size = new Size(109, 53);
             arthanButton2.TabIndex = 5;
             arthanButton2.Text = "Home";
             arthanButton2.TextColor = Color.Black;
             arthanButton2.UseVisualStyleBackColor = false;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(dgvDamageReports);
+            panel1.Location = new Point(438, 163);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1452, 753);
+            panel1.TabIndex = 77;
+            // 
             // DamagedBookReport
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1664, 775);
+            ClientSize = new Size(1902, 1033);
+            Controls.Add(panel1);
             Controls.Add(guna2ComboBox1);
             Controls.Add(asd);
             Controls.Add(txtStatus);
@@ -771,7 +786,6 @@
             Controls.Add(label3);
             Controls.Add(label4);
             Controls.Add(guna2Button1);
-            Controls.Add(dgvDamageReports);
             Controls.Add(btnClear);
             Controls.Add(btnSave);
             Controls.Add(label2);
@@ -793,7 +807,6 @@
             Controls.Add(label7);
             Controls.Add(arthanPanel3);
             Controls.Add(arthanPanel1);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "DamagedBookReport";
             Text = "DamagedBookReport";
             Load += DamagedBookReport_Load;
@@ -801,6 +814,7 @@
             arthanPanel3.ResumeLayout(false);
             arthanPanel1.ResumeLayout(false);
             arthanPanel1.PerformLayout();
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -842,5 +856,6 @@
         private LibraryCGC.Components.ArthanButton arthanButton1;
         private LibraryCGC.Components.ArthanPanel arthanPanel1;
         private LibraryCGC.Components.ArthanButton arthanButton2;
+        private Panel panel1;
     }
 }

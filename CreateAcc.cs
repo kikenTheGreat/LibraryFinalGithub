@@ -118,13 +118,7 @@ namespace LibraryCGC
             colName.Width = 180;
             AddStudentAccDataGrid.Columns.Add(colName);
 
-            // --- Year Level ---
-            var colYearLevel = new DataGridViewTextBoxColumn();
-            colYearLevel.HeaderText = "Year Level";
-            colYearLevel.DataPropertyName = "YearLevel";
-            colYearLevel.Name = "YearLevel";
-            colYearLevel.Width = 100;
-            AddStudentAccDataGrid.Columns.Add(colYearLevel);
+         
 
             // --- Section / SY ---
             var colSection = new DataGridViewTextBoxColumn();
@@ -158,13 +152,7 @@ namespace LibraryCGC
             colDepartment.Width = 120;
             AddStudentAccDataGrid.Columns.Add(colDepartment);
 
-            // --- Semester ---
-            var colSemester = new DataGridViewTextBoxColumn();
-            colSemester.HeaderText = "Semester";
-            colSemester.DataPropertyName = "Semester";
-            colSemester.Name = "Semester";
-            colSemester.Width = 100;
-            AddStudentAccDataGrid.Columns.Add(colSemester);
+          
 
             // --- Role ---
             var colRole = new DataGridViewTextBoxColumn();
