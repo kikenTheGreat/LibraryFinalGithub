@@ -119,6 +119,12 @@ Trust Server Certificate=True;";
             GlobalEvents.BorrowedDataChanged += () => UpdateTotalBorrowedLabel();
             GlobalEvents.ArchivedDataChanged += () => UpdateTotalArchivedLabel();
             GlobalEvents.PenaltiesDataChanged += () => LoadPenaltyCards();
+
+            // ✅ START A TIMER TO KEEP PENALTIES UPDATED
+            System.Windows.Forms.Timer penaltyUpdateTimer = new System.Windows.Forms.Timer();
+            penaltyUpdateTimer.Interval = 60000; // Update every minute
+            penaltyUpdateTimer.Tick += (s, args) => LoadPenaltyCards();
+            penaltyUpdateTimer.Start();
         }
 
         private void CleanOldOTPRecords()
@@ -319,6 +325,12 @@ Trust Server Certificate=True;
 
 
 
+        // ✅ FIXED LoadPenaltyCards method for Form1.cs
+        // Replace your existing LoadPenaltyCards() method with this:
+
+        // ✅ FIXED LoadPenaltyCards method for Form1.cs
+        // This version handles missing AddStudentAcc records gracefully
+
         public void LoadPenaltyCards()
         {
             if (InvokeRequired)
@@ -349,84 +361,120 @@ Integrated Security=True;
 Encrypt=True;
 Trust Server Certificate=True;";
 
+            // ✅ FIXED QUERY - Use LEFT JOIN and get data from IssueBooks directly
             string query = @"
         SELECT 
-            sa.ClientID,
+            ib.ClientID,
             ib.StudentName,
-            sa.Role,
-            sa.SectionSY,
-            sa.Email,
+            ISNULL(sa.Role, 'Student') AS Role,
+            ISNULL(sa.SectionSY, 'N/A') AS SectionSY,
+            ISNULL(sa.Email, 'Not Available') AS Email,
             SUM(ib.OverdueDays) AS TotalOverdueDays,
-            SUM(ib.Penalty) AS TotalPenalty
+            SUM(ib.Penalty) AS TotalPenalty,
+            COUNT(*) AS BookCount
         FROM IssueBooks ib
-        INNER JOIN AddStudentAcc sa ON ib.ClientID = sa.ClientID
-        WHERE ib.OverdueDays > 0 AND ib.Status <> 'Returned'
-        GROUP BY sa.ClientID, ib.StudentName, sa.Role, sa.SectionSY, sa.Email
+        LEFT JOIN AddStudentAcc sa ON ib.ClientID = sa.ClientID
+        WHERE ib.Status = 'Overdue'
+          AND ib.OverdueDays > 0
+          AND ib.Penalty > 0
+        GROUP BY ib.ClientID, ib.StudentName, sa.Role, sa.SectionSY, sa.Email
         ORDER BY ib.StudentName;
     ";
 
-            using (SqlConnection con = new SqlConnection(connectionString))
-            using (SqlCommand cmd = new SqlCommand(query, con))
+            try
             {
-                con.Open();
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    while (reader.Read())
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        string studentName = reader["StudentName"].ToString();
-                        string role = reader["Role"].ToString();
-                        string section = reader["SectionSY"].ToString();
-                        string email = reader["Email"].ToString();
-                        int overdueDays = Convert.ToInt32(reader["TotalOverdueDays"]);
-                        decimal penalty = Convert.ToDecimal(reader["TotalPenalty"]);
+                        int recordCount = 0;
 
-                        Panel card = new Panel
+                        while (reader.Read())
                         {
-                            Size = new Size(230, 120),
-                            BackColor = Color.White,
-                            BorderStyle = BorderStyle.FixedSingle,
-                            Margin = new Padding(8)
-                        };
+                            recordCount++;
 
-                        Label lblInfo = new Label
+                            string studentName = reader["StudentName"]?.ToString() ?? "Unknown";
+                            string role = reader["Role"]?.ToString() ?? "Student";
+                            string section = reader["SectionSY"]?.ToString() ?? "N/A";
+                            string email = reader["Email"]?.ToString() ?? "Not Available";
+                            int overdueDays = Convert.ToInt32(reader["TotalOverdueDays"]);
+                            decimal penalty = Convert.ToDecimal(reader["TotalPenalty"]);
+                            int bookCount = Convert.ToInt32(reader["BookCount"]);
+
+                            Panel card = new Panel
+                            {
+                                Size = new Size(230, 140),
+                                BackColor = Color.White,
+                                BorderStyle = BorderStyle.FixedSingle,
+                                Margin = new Padding(8)
+                            };
+
+                            Label lblInfo = new Label
+                            {
+                                AutoSize = false,
+                                Dock = DockStyle.Fill,
+                                Font = new Font("Segoe UI", 8.5F),
+                                TextAlign = ContentAlignment.MiddleLeft,
+                                Padding = new Padding(8),
+                                Text = $"👤 {studentName}\n" +
+                                       $"{role} - {section}\n" +
+                                       $"📧 {email}\n" +
+                                       $"📚 Books: {bookCount}\n" +
+                                       $"📅 Overdue: {overdueDays} days\n" +
+                                       $"💰 Penalty: ₱{penalty:F2}"
+                            };
+
+                            card.Controls.Add(lblInfo);
+
+                            // Distribute to columns
+                            FlowLayoutPanel[] columns =
+                            {
+                        flowPanel1, flowPanel2, flowPanel3, flowPanel4,
+                        flowLayoutPanel11111, flowLayoutPanel22222
+                    };
+
+                            FlowLayoutPanel target = columns.OrderBy(p => p.Controls.Count).First();
+                            target.Controls.Add(card);
+                        }
+
+                        if (recordCount == 0)
                         {
-                            AutoSize = false,
-                            Dock = DockStyle.Fill,
-                            Font = new Font("Segoe UI", 9),
-                            TextAlign = ContentAlignment.MiddleLeft,
-                            Padding = new Padding(10),
-                            Text = $"👤 {studentName}\n" +
-                                   $"{role} - {section}\n" +
-                                   $"{email}\n\n" +
-                                   $"📅 Total Overdue: {overdueDays} days\n" +
-                                   $"💰 Total Penalty: ₱{penalty:F2}"
-                        };
-
-                        card.Controls.Add(lblInfo);
-
-                        // Distribute dynamically to the column with the fewest cards
-                        FlowLayoutPanel[] columns =
+                            Label noData = new Label
+                            {
+                                Text = "No overdue books at this time",
+                                Font = new Font("Segoe UI", 10F, FontStyle.Italic),
+                                ForeColor = Color.Gray,
+                                AutoSize = true,
+                                Padding = new Padding(10)
+                            };
+                            flowPanel1.Controls.Add(noData);
+                        }
+                        else
                         {
-                    flowPanel1, flowPanel2, flowPanel3, flowPanel4,
-                    flowLayoutPanel11111, flowLayoutPanel22222
-                };
-
-                        FlowLayoutPanel target = columns.OrderBy(p => p.Controls.Count).First();
-                        target.Controls.Add(card);
+                            Console.WriteLine($"✅ Loaded {recordCount} penalty cards");
+                        }
                     }
                 }
             }
-
-            // Resume layouts
-            flowPanel1.ResumeLayout();
-            flowPanel2.ResumeLayout();
-            flowPanel3.ResumeLayout();
-            flowPanel4.ResumeLayout();
-            flowLayoutPanel11111.ResumeLayout();
-            flowLayoutPanel22222.ResumeLayout();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading penalty cards:\n{ex.Message}",
+                               "Database Error",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Error);
+            }
+            finally
+            {
+                flowPanel1.ResumeLayout();
+                flowPanel2.ResumeLayout();
+                flowPanel3.ResumeLayout();
+                flowPanel4.ResumeLayout();
+                flowLayoutPanel11111.ResumeLayout();
+                flowLayoutPanel22222.ResumeLayout();
+            }
         }
-
-
 
 
 

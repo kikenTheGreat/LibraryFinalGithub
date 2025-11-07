@@ -224,6 +224,18 @@ Trust Server Certificate=True;
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Report)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+ 
+
+
             Report report = new Report();
             report.ShowDialog();
             this.Hide();

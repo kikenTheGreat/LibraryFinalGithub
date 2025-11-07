@@ -544,6 +544,7 @@
             arthanButton2.TopLeftRadius = 10;
             arthanButton2.TopRightRadius = 10;
             arthanButton2.UseVisualStyleBackColor = false;
+            arthanButton2.Click += arthanButton2_Click;
             // 
             // pictureBox1
             // 

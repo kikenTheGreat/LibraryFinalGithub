@@ -197,5 +197,24 @@ namespace Library_Final
         {
 
         }
+
+        private void arthanButton2_Click(object sender, EventArgs e)
+        {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Form1)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
+            // ✅ Use SessionData when creating new Form1
+            Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
+            form1.Show();
+            this.Hide();
+
+        }
     }
 }

@@ -341,10 +341,23 @@ using Microsoft.Data.SqlClient;
 
         private void arthanButton2_Click(object sender, EventArgs e)
         {
+         
+
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is REGISTER)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
             REGISTER rEGISTER1 = new REGISTER();
             rEGISTER1.Show();
             this.Hide();
-                
+
+
         }
     }
 }
