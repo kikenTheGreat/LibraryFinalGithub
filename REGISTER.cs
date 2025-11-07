@@ -57,18 +57,17 @@ namespace Library_Final
 
                     if (result != null)
                     {
-                        // ✅ Define employeeId here
                         int employeeId = Convert.ToInt32(result);
 
-                        // ✅ Save the currently logged-in user globally
-                        SessionData.CurrentUserName = txtUsername.Text;
+                        // ✅ SAVE TO SessionData
+                        SessionData.InitializeSession(employeeId, txtUsername.Text);
 
                         MessageBox.Show("Login successful!", "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // ✅ Pass the employeeId to your main form
                         Form1 form = new Form1(employeeId);
                         form.Show();
                         this.Hide();
+
                     }
                     else
                     {

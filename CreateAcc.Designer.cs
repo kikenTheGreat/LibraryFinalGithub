@@ -100,6 +100,10 @@
             arthanButton2.BackColor = Color.Transparent;
             arthanButton2.BackgroundColor = Color.AliceBlue;
             arthanButton2.BorderColor = Color.PaleVioletRed;
+            arthanButton2.BorderRadius = 10;
+            arthanButton2.BottomLeftRadius = 10;
+            arthanButton2.BottomRightRadius = 10;
+            arthanButton2.CornerRadius = 10;
             arthanButton2.FlatAppearance.BorderColor = Color.Empty;
             arthanButton2.FlatAppearance.BorderSize = 0;
             arthanButton2.FlatAppearance.MouseDownBackColor = Color.Empty;
@@ -118,6 +122,8 @@
             arthanButton2.TabIndex = 26;
             arthanButton2.Text = "Home";
             arthanButton2.TextColor = Color.Black;
+            arthanButton2.TopLeftRadius = 10;
+            arthanButton2.TopRightRadius = 10;
             arthanButton2.UseVisualStyleBackColor = false;
             arthanButton2.Click += arthanButton2_Click;
             // 
@@ -227,6 +233,10 @@
             arthanButton5.BackColor = Color.Transparent;
             arthanButton5.BackgroundColor = Color.Red;
             arthanButton5.BorderColor = Color.PaleVioletRed;
+            arthanButton5.BorderRadius = 10;
+            arthanButton5.BottomLeftRadius = 10;
+            arthanButton5.BottomRightRadius = 10;
+            arthanButton5.CornerRadius = 10;
             arthanButton5.FlatAppearance.BorderColor = Color.Empty;
             arthanButton5.FlatAppearance.BorderSize = 0;
             arthanButton5.FlatAppearance.MouseDownBackColor = Color.Empty;
@@ -246,6 +256,8 @@
             arthanButton5.TabIndex = 29;
             arthanButton5.Text = "Create Account";
             arthanButton5.TextColor = Color.Black;
+            arthanButton5.TopLeftRadius = 10;
+            arthanButton5.TopRightRadius = 10;
             arthanButton5.UseVisualStyleBackColor = false;
             arthanButton5.Load += arthanButton5_Load_1;
             arthanButton5.Click += arthanButton5_Click;
@@ -344,7 +356,7 @@
             StudentNumber.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             StudentNumber.Font = new Font("Segoe UI", 9F);
             StudentNumber.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            StudentNumber.Location = new Point(570, 120);
+            StudentNumber.Location = new Point(570, 123);
             StudentNumber.Name = "StudentNumber";
             StudentNumber.PlaceholderText = "";
             StudentNumber.SelectedText = "";

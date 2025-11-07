@@ -15,9 +15,9 @@ using System.Net.Mail;       // For email sending
 using Microsoft.Data.SqlClient;
 
 
-namespace Library_Final
+ namespace Library_Final
 {
-    public partial class ForgotPasswordForm : Form
+  public partial class ForgotPasswordForm : Form
     {
         private string connectionString = " Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n";
         private string currentOTP = "";

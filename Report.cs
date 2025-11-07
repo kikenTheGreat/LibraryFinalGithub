@@ -355,7 +355,7 @@ Trust Server Certificate=True;
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
+            Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
             form1.Show();
             this.Hide();
         }
@@ -659,7 +659,7 @@ Trust Server Certificate=True;
 
         private void arthanButton2_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
+            Form1 form1 = new Form1(SessionData.CurrentEmployeeID);  // ✅ Pass the stored ID
             form1.ShowDialog();
             this.Hide();
         }

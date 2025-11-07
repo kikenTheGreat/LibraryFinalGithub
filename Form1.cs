@@ -313,7 +313,7 @@ Trust Server Certificate=True;
             }
         }
 
-     
+
 
 
 
@@ -603,8 +603,9 @@ Trust Server Certificate=True;
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-            ManageProfileForm form = new ManageProfileForm(currentEmployeeID);
-            form.Show();
+
+            ManageProfileForm manageProfileForm = new ManageProfileForm(currentEmployeeID);
+            manageProfileForm.Show();
             this.Hide();
         }
 
@@ -625,6 +626,13 @@ Trust Server Certificate=True;
         private void arthanPanel16_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void guna2Button4_Click(object sender, EventArgs e)
+        {
+            sign_in sign_In = new sign_in();
+            sign_In.Show();
+            this.Hide();
         }
     }
 }

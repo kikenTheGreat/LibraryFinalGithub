@@ -29,27 +29,27 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Archive));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             label1 = new Label();
             pictureBox1 = new PictureBox();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
             arthanPanel9 = new LibraryCGC.Components.ArthanPanel();
+            RestoreQty = new Guna.UI2.WinForms.Guna2NumericUpDown();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             txtArchiveISBN = new Guna.UI2.WinForms.Guna2TextBox();
             btnArchiveBook = new Guna.UI2.WinForms.Guna2Button();
             DataGridTotalBooks = new DataGridView();
-            RestoreQty = new Guna.UI2.WinForms.Guna2NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel4.SuspendLayout();
             arthanPanel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).BeginInit();
             ((System.ComponentModel.ISupportInitialize)RestoreQty).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -94,7 +94,7 @@
             arthanPanel4.ShadowBlur = 5;
             arthanPanel4.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel4.ShadowOffset = 3;
-            arthanPanel4.Size = new Size(1860, 133);
+            arthanPanel4.Size = new Size(1861, 133);
             arthanPanel4.TabIndex = 24;
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
@@ -105,6 +105,10 @@
             arthanButton2.BackColor = Color.Transparent;
             arthanButton2.BackgroundColor = Color.AliceBlue;
             arthanButton2.BorderColor = Color.PaleVioletRed;
+            arthanButton2.BorderRadius = 10;
+            arthanButton2.BottomLeftRadius = 10;
+            arthanButton2.BottomRightRadius = 10;
+            arthanButton2.CornerRadius = 10;
             arthanButton2.FlatAppearance.BorderColor = Color.Empty;
             arthanButton2.FlatAppearance.BorderSize = 0;
             arthanButton2.FlatAppearance.MouseDownBackColor = Color.Empty;
@@ -124,6 +128,8 @@
             arthanButton2.TabIndex = 6;
             arthanButton2.Text = "Home";
             arthanButton2.TextColor = Color.Black;
+            arthanButton2.TopLeftRadius = 10;
+            arthanButton2.TopRightRadius = 10;
             arthanButton2.UseVisualStyleBackColor = false;
             arthanButton2.Load += arthanButton2_Load;
             arthanButton2.Click += arthanButton2_Click;
@@ -149,17 +155,30 @@
             arthanPanel9.ShadowBlur = 5;
             arthanPanel9.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel9.ShadowOffset = 0;
-            arthanPanel9.Size = new Size(1860, 113);
+            arthanPanel9.Size = new Size(727, 113);
             arthanPanel9.TabIndex = 27;
             arthanPanel9.TopLeftRadius = 15;
             arthanPanel9.TopRightRadius = 15;
             arthanPanel9.UseIndividualCorners = true;
             arthanPanel9.Paint += arthanPanel9_Paint;
             // 
+            // RestoreQty
+            // 
+            RestoreQty.BackColor = Color.Transparent;
+            RestoreQty.CustomizableEdges = customizableEdges1;
+            RestoreQty.Font = new Font("Segoe UI", 9F);
+            RestoreQty.Location = new Point(395, 33);
+            RestoreQty.Margin = new Padding(3, 5, 3, 5);
+            RestoreQty.Name = "RestoreQty";
+            RestoreQty.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            RestoreQty.Size = new Size(125, 51);
+            RestoreQty.TabIndex = 80;
+            RestoreQty.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
             // guna2HtmlLabel1
             // 
             guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Location = new Point(1239, 21);
+            guna2HtmlLabel1.Location = new Point(23, 21);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
             guna2HtmlLabel1.Size = new Size(73, 22);
             guna2HtmlLabel1.TabIndex = 42;
@@ -171,7 +190,7 @@
             txtArchiveISBN.BorderRadius = 4;
             txtArchiveISBN.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             txtArchiveISBN.BorderThickness = 2;
-            txtArchiveISBN.CustomizableEdges = customizableEdges7;
+            txtArchiveISBN.CustomizableEdges = customizableEdges3;
             txtArchiveISBN.DefaultText = "";
             txtArchiveISBN.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtArchiveISBN.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -180,12 +199,12 @@
             txtArchiveISBN.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtArchiveISBN.Font = new Font("Segoe UI", 9F);
             txtArchiveISBN.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtArchiveISBN.Location = new Point(1239, 50);
-            txtArchiveISBN.Margin = new Padding(3, 4, 3, 4);
+            txtArchiveISBN.Location = new Point(23, 51);
+            txtArchiveISBN.Margin = new Padding(3, 5, 3, 5);
             txtArchiveISBN.Name = "txtArchiveISBN";
             txtArchiveISBN.PlaceholderText = "";
             txtArchiveISBN.SelectedText = "";
-            txtArchiveISBN.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            txtArchiveISBN.ShadowDecoration.CustomizableEdges = customizableEdges4;
             txtArchiveISBN.Size = new Size(344, 39);
             txtArchiveISBN.TabIndex = 34;
             // 
@@ -193,20 +212,20 @@
             // 
             btnArchiveBook.BorderRadius = 18;
             btnArchiveBook.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnArchiveBook.CustomizableEdges = customizableEdges9;
+            btnArchiveBook.CustomizableEdges = customizableEdges5;
             btnArchiveBook.DisabledState.BorderColor = Color.DarkGray;
             btnArchiveBook.DisabledState.CustomBorderColor = Color.DarkGray;
             btnArchiveBook.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnArchiveBook.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnArchiveBook.FillColor = Color.Orange;
-            btnArchiveBook.Font = new Font("Arial Rounded MT Bold", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnArchiveBook.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnArchiveBook.ForeColor = Color.Black;
-            btnArchiveBook.Location = new Point(1049, 47);
+            btnArchiveBook.Location = new Point(538, 27);
             btnArchiveBook.Name = "btnArchiveBook";
-            btnArchiveBook.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnArchiveBook.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnArchiveBook.Size = new Size(157, 63);
             btnArchiveBook.TabIndex = 41;
-            btnArchiveBook.Text = "Restore Book";
+            btnArchiveBook.Text = "Unarchived Book";
             btnArchiveBook.Click += btnRestoreBook_Click;
             // 
             // DataGridTotalBooks
@@ -215,21 +234,8 @@
             DataGridTotalBooks.Location = new Point(30, 308);
             DataGridTotalBooks.Name = "DataGridTotalBooks";
             DataGridTotalBooks.RowHeadersWidth = 51;
-            DataGridTotalBooks.Size = new Size(1860, 703);
+            DataGridTotalBooks.Size = new Size(1861, 703);
             DataGridTotalBooks.TabIndex = 28;
-            // 
-            // RestoreQty
-            // 
-            RestoreQty.BackColor = Color.Transparent;
-            RestoreQty.CustomizableEdges = customizableEdges11;
-            RestoreQty.Font = new Font("Segoe UI", 9F);
-            RestoreQty.Location = new Point(1064, -7);
-            RestoreQty.Margin = new Padding(3, 4, 3, 4);
-            RestoreQty.Name = "RestoreQty";
-            RestoreQty.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            RestoreQty.Size = new Size(125, 50);
-            RestoreQty.TabIndex = 80;
-            RestoreQty.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // Archive
             // 
@@ -248,10 +254,9 @@
             arthanPanel4.PerformLayout();
             arthanPanel9.ResumeLayout(false);
             arthanPanel9.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).EndInit();
             ((System.ComponentModel.ISupportInitialize)RestoreQty).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DataGridTotalBooks).EndInit();
             ResumeLayout(false);
-
         }
 
         #endregion

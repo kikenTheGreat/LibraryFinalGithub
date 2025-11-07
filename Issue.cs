@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace LibraryCGC
@@ -386,7 +387,7 @@ Trust Server Certificate=True;
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
 
-         
+
 
 
 
@@ -429,6 +430,7 @@ Trust Server Certificate=True;
             panelIssueBooks.Visible = true;
             panel1IssueDataGrid.Visible = true;
             PANELdataList.Visible = true;
+            PANELoverdue.Visible = true;
 
             panelReturnBooks.Visible = false;
             ReturnPANEL.Visible = false;
@@ -538,33 +540,33 @@ Trust Server Certificate=True;
 
 
 
-      
 
-private void btnAddToList_Click_1(object sender, EventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(ISBN.Text) || string.IsNullOrWhiteSpace(BookTitle.Text))
+
+        private void btnAddToList_Click_1(object sender, EventArgs e)
         {
-            MessageBox.Show("Please select a valid book.");
-            return;
-        }
+            if (string.IsNullOrWhiteSpace(ISBN.Text) || string.IsNullOrWhiteSpace(BookTitle.Text))
+            {
+                MessageBox.Show("Please select a valid book.");
+                return;
+            }
 
-        if (string.IsNullOrWhiteSpace(ClientID.Text))
-        {
-            MessageBox.Show("Please enter a valid Client ID.");
-            return;
-        }
+            if (string.IsNullOrWhiteSpace(ClientID.Text))
+            {
+                MessageBox.Show("Please enter a valid Client ID.");
+                return;
+            }
 
-        // ✅ Local duplicate check (in-memory)
-        bool alreadyExists = borrowList.Any(item => item.Item1 == ISBN.Text);
-        if (alreadyExists)
-        {
-            MessageBox.Show("This book (same ISBN) is already in the borrow list.",
-                "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return;
-        }
+            // ✅ Local duplicate check (in-memory)
+            bool alreadyExists = borrowList.Any(item => item.Item1 == ISBN.Text);
+            if (alreadyExists)
+            {
+                MessageBox.Show("This book (same ISBN) is already in the borrow list.",
+                    "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-        // ✅ Database duplicate check
-        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"; // ← Replace with your actual connection string
+            // ✅ Database duplicate check
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"; // ← Replace with your actual connection string
             string query = @"
     SELECT COUNT(*) 
     FROM IssueBooks 
@@ -574,60 +576,60 @@ private void btnAddToList_Click_1(object sender, EventArgs e)
 
 
             using (SqlConnection conn = new SqlConnection(connectionString))
-        using (SqlCommand cmd = new SqlCommand(query, conn))
-        {
-            cmd.Parameters.AddWithValue("@ClientID", ClientID.Text.Trim());
-            cmd.Parameters.AddWithValue("@ISBN", ISBN.Text.Trim());
-
-            conn.Open();
-            int existingCount = (int)cmd.ExecuteScalar();
-            conn.Close();
-
-            if (existingCount > 0)
+            using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                MessageBox.Show("This client has already borrowed this book and it is still marked as 'Issued' or Report filed by librarian.",
-                    "Already Borrowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmd.Parameters.AddWithValue("@ClientID", ClientID.Text.Trim());
+                cmd.Parameters.AddWithValue("@ISBN", ISBN.Text.Trim());
+
+                conn.Open();
+                int existingCount = (int)cmd.ExecuteScalar();
+                conn.Close();
+
+                if (existingCount > 0)
+                {
+                    MessageBox.Show("This client has already borrowed this book and it is still marked as 'Issued' or Report filed by librarian.",
+                        "Already Borrowed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     ClearField();
 
-                return;
+                    return;
+                }
             }
+
+            // ✅ Add to borrow list
+            borrowList.Add((ISBN.Text, BookTitle.Text, Source.Text, issuedCondition.Text));
+
+            // ✅ Setup DataGridView columns (only once)
+            if (dgvBorrowList.Columns.Count < 4)
+            {
+                dgvBorrowList.Columns.Clear();
+                dgvBorrowList.Columns.Add("ISBN", "ISBN");
+                dgvBorrowList.Columns.Add("BookTitle", "Book Title");
+                dgvBorrowList.Columns.Add("Source", "Source");
+
+                DataGridViewButtonColumn removeButton = new DataGridViewButtonColumn();
+                removeButton.Name = "Remove";
+                removeButton.HeaderText = "Action";
+                removeButton.Text = "Remove";
+                removeButton.UseColumnTextForButtonValue = true;
+                removeButton.FlatStyle = FlatStyle.Flat;
+                removeButton.DefaultCellStyle.BackColor = Color.OrangeRed;
+                removeButton.DefaultCellStyle.ForeColor = Color.White;
+                removeButton.Width = 90;
+                dgvBorrowList.Columns.Add(removeButton);
+            }
+
+            dgvBorrowList.Rows.Add(ISBN.Text, BookTitle.Text, Source.Text);
+
+            // Clear fields
+            ISBN.Clear();
+            BookTitle.Items.Clear();
+            BookTitle.Text = "";
+            Source.Text = "";
         }
 
-        // ✅ Add to borrow list
-        borrowList.Add((ISBN.Text, BookTitle.Text, Source.Text, issuedCondition.Text));
-
-        // ✅ Setup DataGridView columns (only once)
-        if (dgvBorrowList.Columns.Count < 4)
-        {
-            dgvBorrowList.Columns.Clear();
-            dgvBorrowList.Columns.Add("ISBN", "ISBN");
-            dgvBorrowList.Columns.Add("BookTitle", "Book Title");
-            dgvBorrowList.Columns.Add("Source", "Source");
-
-            DataGridViewButtonColumn removeButton = new DataGridViewButtonColumn();
-            removeButton.Name = "Remove";
-            removeButton.HeaderText = "Action";
-            removeButton.Text = "Remove";
-            removeButton.UseColumnTextForButtonValue = true;
-            removeButton.FlatStyle = FlatStyle.Flat;
-            removeButton.DefaultCellStyle.BackColor = Color.OrangeRed;
-            removeButton.DefaultCellStyle.ForeColor = Color.White;
-            removeButton.Width = 90;
-            dgvBorrowList.Columns.Add(removeButton);
-        }
-
-        dgvBorrowList.Rows.Add(ISBN.Text, BookTitle.Text, Source.Text);
-
-        // Clear fields
-        ISBN.Clear();
-        BookTitle.Items.Clear();
-        BookTitle.Text = "";
-        Source.Text = "";
-    }
 
 
-
-    private void ClearField()
+        private void ClearField()
         {
             ISBN.Clear();
             BookTitle.Items.Clear();
@@ -877,7 +879,7 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
         private void dgvBorrowList_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
-         
+
 
 
 
@@ -916,13 +918,10 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
                 }
             }
 
-            // If not open, create it
-            Form1 form1 = new Form1();
+            // ✅ Use SessionData when creating new Form1
+            Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
             form1.Show();
             this.Hide();
-
-
-
         }
 
         private void arthanButton1_Load(object sender, EventArgs e)
@@ -1045,10 +1044,12 @@ Trust Server Certificate=True;
             panelIssueBooks.Visible = true;
             panel1IssueDataGrid.Visible = true;
             PANELdataList.Visible = true;
+            PANELoverdue.Visible = true;
 
             // Hide Return Books panel
             panelReturnBooks.Visible = false;
             ReturnPANEL.Visible = false;
+
 
 
 
@@ -1067,6 +1068,7 @@ Trust Server Certificate=True;
             panelIssueBooks.Visible = false;
             panel1IssueDataGrid.Visible = false;
             PANELdataList.Visible = false;
+            PANELoverdue.Visible = false;
         }
 
 
@@ -1075,116 +1077,72 @@ Trust Server Certificate=True;
         {
             string clientID = ClientID.Text.Trim();
 
-            // 🧩 Validate ClientID length first
-            if (clientID.Length >= 6)
+            // 🧩 1️⃣ Too short — clear and stop
+            if (clientID.Length < 4)
+            {
+                ClientName.Text = "";
+                IssueRole.Text = "";
+                return;
+            }
+
+            // 🧩 2️⃣ Too long — invalid ID
+            if (clientID.Length > 6)
             {
                 MessageBox.Show("Student not found. Please check the Client ID.",
                                 "Not Found",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
 
-                // Clear fields
-                if (ClientName is ComboBox nameCombo)
-                    nameCombo.Items.Clear();
-                else
-                    ClientName.Text = "";
-
-                if (IssueRole is ComboBox roleCombo)
-                    roleCombo.Items.Clear();
-                else
-                    IssueRole.Text = "";
-
-                return; // stop further execution
+                ClientName.Text = "";
+                IssueRole.Text = "";
+                return;
             }
 
-            if (clientID.Length >= 4)
-            {
-                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+            // 🧩 3️⃣ Retrieve from AddStudentAcc
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
 Integrated Security=True;
 Encrypt=True;
 Trust Server Certificate=True;";
 
-                // ✅ Get both Name and Role from AddStudentAcc
-                string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+            string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
 
-                using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@ClientID", clientID);
+                con.Open();
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    if (reader.Read())
                     {
-                        cmd.Parameters.AddWithValue("@ClientID", clientID);
+                        // 🧍 Fill Name
+                        ClientName.Text = reader["Name"].ToString();
 
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
+                        // 🎓 Fill Role
+                        IssueRole.Text = reader["Role"].ToString();
 
-                        if (reader.Read())
-                        {
-                            // 🧍 Fill Client Name
-                            string name = reader["Name"].ToString();
-                            if (ClientName is ComboBox nameCombo)
-                            {
-                                nameCombo.Items.Clear();
-                                nameCombo.Items.Add(name);
-                                nameCombo.SelectedIndex = 0;
-                            }
-                            else
-                            {
-                                ClientName.Text = name;
-                            }
+                        // 🧮 Auto-compute due date
+                        DateTime issueDateValue = DateTime.Now;
+                        DateTime dueDateValue = ComputeDueDate(IssueRole.Text, issueDateValue);
+                        dueDate.Value = dueDateValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Student not found. Please check the Client ID.",
+                                        "Not Found",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
 
-                            // 🎓 Fill Role
-                            string role = reader["Role"].ToString();
-                            if (IssueRole is ComboBox roleCombo)
-                            {
-                                roleCombo.Items.Clear();
-                                roleCombo.Items.Add(role);
-                                roleCombo.SelectedIndex = 0;
-                            }
-                            else
-                            {
-                                IssueRole.Text = role;
-                            }
-
-                            // 🧮 Auto-update due date
-                            DateTime issueDateValue = DateTime.Now;
-                            DateTime dueDateValue = ComputeDueDate(role, issueDateValue);
-                            dueDate.Value = dueDateValue;
-                        }
-                        else
-                        {
-                            // ❌ No match found for this ClientID
-                            MessageBox.Show("Student not found. Please check the Client ID.",
-                                            "Not Found",
-                                            MessageBoxButtons.OK,
-                                            MessageBoxIcon.Warning);
-
-                            if (ClientName is ComboBox nameCombo)
-                                nameCombo.Items.Clear();
-                            else
-                                ClientName.Text = "";
-
-                            if (IssueRole is ComboBox roleCombo)
-                                roleCombo.Items.Clear();
-                            else
-                                IssueRole.Text = "";
-                        }
+                        ClientName.Text = "";
+                        IssueRole.Text = "";
                     }
                 }
             }
-            else
-            {
-                // Clear if ClientID too short
-                if (ClientName is ComboBox nameCombo)
-                    nameCombo.Items.Clear();
-                else
-                    ClientName.Text = "";
-
-                if (IssueRole is ComboBox roleCombo)
-                    roleCombo.Items.Clear();
-                else
-                    IssueRole.Text = "";
-            }
         }
+
+
 
 
 
@@ -1598,7 +1556,7 @@ VALUES
 
                     // 🔄 Clear UI
                     ReturnClientID.Clear();
-                    ReturnClientName.Items.Clear();
+                    ReturnClientName.Text = " ";
                     ReturnedBookID.Items.Clear();
                     ReturnBookStatus.Text = "";
                     ReturnPenalty.Clear();
@@ -1772,15 +1730,12 @@ VALUES
                                 MessageBoxIcon.Warning);
 
                 // Clear all fields
-                ReturnClientName.Items.Clear();
+                ReturnClientName.Text = " ";
                 ReturnPenalty.Clear();
 
-                if (ReturnRoleComboBox is ComboBox roleCombo)
-                    roleCombo.Items.Clear();
-                else
-                    ReturnRoleComboBox.Text = "";
 
-                ReturnBookQty.Items.Clear();
+
+                ReturnBookQty.Text = "";
                 ReturnedBookID.Items.Clear();
                 ReturnBookStatus.Text = "";
                 CMBbookConditon.Items.Clear();
@@ -1804,30 +1759,18 @@ Trust Server Certificate=True;";
                     string queryClient = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
                     using (SqlCommand cmdClient = new SqlCommand(queryClient, con))
                     {
-                        cmdClient.Parameters.AddWithValue("@ClientID", clientID);
+                        cmdClient.Parameters.AddWithValue("@ClientID", ReturnClientID.Text.Trim());
                         using (SqlDataReader reader = cmdClient.ExecuteReader())
                         {
-                            ReturnClientName.Items.Clear();
-
                             if (reader.Read())
                             {
-                                // 🧍 Fill client name ComboBox
+                                // 🧍 Fill client name TextBox
                                 string name = reader["Name"].ToString();
-                                ReturnClientName.Items.Add(name);
-                                ReturnClientName.SelectedIndex = 0;
+                                ReturnClientName.Text = name; // ✅ Now using Text, not Items
 
                                 // 🎓 Fill role (Student/Faculty)
                                 string role = reader["Role"].ToString();
-                                if (ReturnRoleComboBox is ComboBox combo)
-                                {
-                                    combo.Items.Clear();
-                                    combo.Items.Add(role);
-                                    combo.SelectedIndex = 0;
-                                }
-                                else
-                                {
-                                    ReturnRoleComboBox.Text = role;
-                                }
+                                ReturnRoleComboBox.Text = role; // ✅ Works for both ComboBox or Guna2TextBox
                             }
                             else
                             {
@@ -1836,20 +1779,50 @@ Trust Server Certificate=True;";
                                                 MessageBoxButtons.OK,
                                                 MessageBoxIcon.Warning);
 
-                                ReturnClientName.Items.Clear();
-                                if (ReturnRoleComboBox is ComboBox combo)
-                                    combo.Items.Clear();
-                                else
-                                    ReturnRoleComboBox.Text = "";
-
-                                ReturnBookQty.Items.Clear();
-                                ReturnedBookID.Items.Clear();
+                                // 🧹 Clear all related fields
+                                ReturnClientName.Clear();
+                                ReturnRoleComboBox.Text = "";
+                                ReturnBookQty.Clear(); // ✅ Changed from ComboBox to TextBox
+                                ReturnedBookID.Items.Clear(); // Assuming this one is still a ComboBox
                                 ReturnBookStatus.Text = "";
                                 ReturnPenalty.Clear();
                                 CMBbookConditon.Items.Clear();
                                 return;
                             }
+
+                            // 🎓 Fill role (Student/Faculty)
+                            string userRole = reader["Role"]?.ToString() ?? "";
+
+                            // Check if ReturnRoleComboBox is a real ComboBox (not Guna2TextBox)
+                            if (ReturnRoleComboBox is System.Windows.Forms.ComboBox comboBox)
+                            {
+                                comboBox.Items.Clear();
+
+                                if (!string.IsNullOrWhiteSpace(userRole))
+                                {
+                                    comboBox.Items.Add(userRole);
+                                    comboBox.SelectedIndex = 0;
+                                }
+                                else
+                                {
+                                    comboBox.Text = "";
+                                }
+                            }
+                            else
+                            {
+                                // If it's a TextBox (e.g., Guna2TextBox)
+                                ReturnRoleComboBox.Text = userRole;
+                            }
+
+
+
+
+
+
+
+
                         }
+
                     }
 
                     // ✅ 2️⃣ Get Borrowed Books Info
@@ -1894,9 +1867,8 @@ Trust Server Certificate=True;";
                             }
 
                             // ✅ Fill borrowed book data
-                            ReturnBookQty.Items.Clear();
-                            ReturnBookQty.Items.Add(bookCount.ToString());
-                            ReturnBookQty.SelectedIndex = 0;
+                            ReturnBookQty.Text = bookCount.ToString(); // directly display count in textbox
+
 
                             foreach (var entry in isbnAndTitles)
                                 ReturnedBookID.Items.Add(entry);
@@ -1944,18 +1916,26 @@ Trust Server Certificate=True;";
             }
             else
             {
-                // Clear all if ClientID too short
-                ReturnClientName.Items.Clear();
+                // ✅ Clear all if ClientID too short
+                ReturnClientName.Clear();        // Changed from .Items.Clear()
                 ReturnPenalty.Clear();
-                if (ReturnRoleComboBox is ComboBox combo)
-                    combo.Items.Clear();
-                else
-                    ReturnRoleComboBox.Text = "";
 
-                ReturnBookQty.Items.Clear();
-                ReturnedBookID.Items.Clear();
+                ReturnRoleComboBox.Text = "";    // Works for both ComboBox or Guna2TextBox
+                ReturnBookQty.Clear();           // Changed from .Items.Clear()
+
+                ReturnedBookID.Items.Clear();    // Assuming this is still a ComboBox
                 ReturnBookStatus.Text = "";
-                CMBbookConditon.Items.Clear();
+                CMBbookConditon.Items.Clear();   // Assuming this is still a ComboBox
+
+            }
+
+
+
+            // Check if the textbox has any text
+            if (ReturnClientID.Text.Length == 4)
+            {
+                // Move focus to the button
+                ReturnButton.Focus();
             }
         }
 
@@ -2055,8 +2035,17 @@ Trust Server Certificate=True;";
                 {
                     borrowList.RemoveAt(e.RowIndex);
                     dgvBorrowList.Rows.RemoveAt(e.RowIndex);
-                   
+
                 }
+            }
+        }
+
+        private void ReturnClientID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // prevent "ding" sound
+                ReturnButton.PerformClick(); // trigger button click
             }
         }
     }

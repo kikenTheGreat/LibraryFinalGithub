@@ -1204,7 +1204,7 @@ WHERE BookID = @BookID", con);
             }
 
             // If not open, create it
-            Form1 form1 = new Form1();
+            Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
             form1.Show();
             this.Hide();
 

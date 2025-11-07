@@ -229,12 +229,14 @@ namespace LibraryCGC
                 SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM AddStudentAcc WHERE StudentNumber = @StudentNumber", con);
                 checkCmd.Parameters.AddWithValue("@StudentNumber", StudentNumber.Text);
                 int exists = (int)checkCmd.ExecuteScalar();
+                // Check if the student number is not blank first
 
-                if (exists > 0)
-                {
-                    MessageBox.Show("This student number already exists!", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+
+              
+
+           
+
+
 
 
                 int clientId = (int)cmd.ExecuteScalar();

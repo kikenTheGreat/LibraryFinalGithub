@@ -43,7 +43,7 @@ namespace Library_Final
             // ✅ Use SessionData instead of the potentially incorrect currentEmployeeID
             int employeeID = SessionData.CurrentEmployeeID;
 
-            MessageBox.Show($"Debug: Loading employee with ID = {employeeID}");
+           
 
             string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
             string query = "SELECT FirstName, LastName FROM Employees WHERE EmployeeID = @EmployeeID";
@@ -69,7 +69,7 @@ namespace Library_Final
                     }
                     else
                     {
-                        MessageBox.Show($"No employee found with ID: {employeeID}", "Not Found");
+                       
                     }
 
                     reader.Close();
@@ -462,7 +462,8 @@ VALUES
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1();
+            // ✅ Use SessionData
+            Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
             form1.Show();
             this.Hide();
         }
