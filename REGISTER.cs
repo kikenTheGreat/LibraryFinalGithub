@@ -33,16 +33,18 @@ namespace Library_Final
         }
 
         private void arthanButton5_Click(object sender, EventArgs e)
-        {
-            // 1️⃣ Basic validation
+        { // 1️⃣ Basic validation
             if (string.IsNullOrWhiteSpace(txtUsername.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                MessageBox.Show("Please enter both username and password.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter both username and password.", "Missing Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2️⃣ Query to get EmployeeID if credentials match
-            string query = "SELECT EmployeeID FROM Employees WHERE Username = @Username AND Password = @Password";
+            // 2️⃣ Query to get complete employee info including profile image
+            string query = @"SELECT EmployeeID, Username, FirstName, LastName, ProfileImage 
+                    FROM Employees 
+                    WHERE Username = @Username AND Password = @Password";
 
             try
             {
@@ -53,31 +55,55 @@ namespace Library_Final
                     cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
 
                     conn.Open();
-                    object result = cmd.ExecuteScalar(); // returns EmployeeID or null
 
-                    if (result != null)
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        int employeeId = Convert.ToInt32(result);
+                        if (reader.Read())
+                        {
+                            int employeeId = Convert.ToInt32(reader["EmployeeID"]);
+                            string username = reader["Username"].ToString();
+                            string firstName = reader["FirstName"].ToString();
+                            string lastName = reader["LastName"].ToString();
 
-                        // ✅ SAVE TO SessionData
-                        SessionData.InitializeSession(employeeId, txtUsername.Text);
+                            // Load profile image
+                            Image profileImage = null;
+                            if (reader["ProfileImage"] != DBNull.Value)
+                            {
+                                byte[] imageData = (byte[])reader["ProfileImage"];
+                                using (MemoryStream ms = new MemoryStream(imageData))
+                                {
+                                    profileImage = Image.FromStream(ms);
+                                }
+                            }
 
-                        MessageBox.Show("Login successful!", "Welcome", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            // ✅ INITIALIZE COMPLETE SESSION WITH ALL DATA
+                            SessionData.InitializeSessionComplete(
+                                employeeId,
+                                username,
+                                firstName,
+                                lastName,
+                                profileImage
+                            );
 
-                        Form1 form = new Form1(employeeId);
-                        form.Show();
-                        this.Hide();
+                            MessageBox.Show("Login successful!", "Welcome",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Form1 form = new Form1(employeeId);
+                            form.Show();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid username or password.", "Login Failed",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}", "Database Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

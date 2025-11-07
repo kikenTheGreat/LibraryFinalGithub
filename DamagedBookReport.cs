@@ -446,10 +446,22 @@ VALUES
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            // ✅ Use SessionData
+            // ✅ Check if Form1 is already open
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Form1)
+                {
+                    openForm.Show();
+                    openForm.BringToFront();
+                    this.Close(); // Use Close instead of Hide
+                    return;
+                }
+            }
+
+            // ✅ If not open, create new instance with SessionData
             Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
             form1.Show();
-            this.Hide();
+            this.Close(); // Use Close instead of Hide
         }
 
         private async void DamagedBookReport_Load(object sender, EventArgs e)

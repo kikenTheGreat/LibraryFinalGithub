@@ -29,16 +29,18 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(REGISTER));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            guna2CirclePictureBox2 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             pictureBox1 = new PictureBox();
+            guna2CirclePictureBox1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             linkForgotPassword = new LinkLabel();
             txtPassword = new Guna.UI2.WinForms.Guna2TextBox();
             arthanButton5 = new LibraryCGC.Components.ArthanButton();
@@ -46,16 +48,14 @@
             label6 = new Label();
             label5 = new Label();
             guna2ShapesTool1 = new Guna.UI2.WinForms.Guna2ShapesTool(components);
-            guna2CirclePictureBox1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
-            guna2CirclePictureBox2 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
-            label1 = new Label();
             label2 = new Label();
+            label1 = new Label();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox2).BeginInit();
             arthanPanel2.SuspendLayout();
             SuspendLayout();
             // 
@@ -76,33 +76,63 @@
             arthanPanel1.GradientEndColor = Color.FromArgb(192, 0, 0);
             arthanPanel1.GradientStartColor = Color.FromArgb(150, 26, 26);
             arthanPanel1.Location = new Point(0, 0);
+            arthanPanel1.Margin = new Padding(3, 4, 3, 4);
             arthanPanel1.Name = "arthanPanel1";
             arthanPanel1.ShadowBlur = 0;
             arthanPanel1.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel1.ShadowOffset = 0;
-            arthanPanel1.Size = new Size(366, 449);
+            arthanPanel1.Size = new Size(418, 599);
             arthanPanel1.TabIndex = 27;
             arthanPanel1.TopLeftRadius = 0;
             arthanPanel1.TopRightRadius = 0;
             arthanPanel1.UseIndividualCorners = false;
             arthanPanel1.Paint += arthanPanel1_Paint;
             // 
+            // guna2CirclePictureBox2
+            // 
+            guna2CirclePictureBox2.BackColor = Color.FromArgb(192, 0, 0);
+            guna2CirclePictureBox2.FillColor = Color.FromArgb(192, 64, 0);
+            guna2CirclePictureBox2.ImageRotate = 0F;
+            guna2CirclePictureBox2.Location = new Point(202, 556);
+            guna2CirclePictureBox2.Margin = new Padding(3, 4, 3, 4);
+            guna2CirclePictureBox2.Name = "guna2CirclePictureBox2";
+            guna2CirclePictureBox2.ShadowDecoration.CustomizableEdges = customizableEdges1;
+            guna2CirclePictureBox2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            guna2CirclePictureBox2.Size = new Size(264, 293);
+            guna2CirclePictureBox2.TabIndex = 54;
+            guna2CirclePictureBox2.TabStop = false;
+            // 
             // pictureBox1
             // 
             pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(50, 93);
+            pictureBox1.Location = new Point(57, 124);
+            pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(260, 243);
+            pictureBox1.Size = new Size(297, 324);
             pictureBox1.TabIndex = 28;
             pictureBox1.TabStop = false;
+            // 
+            // guna2CirclePictureBox1
+            // 
+            guna2CirclePictureBox1.BackColor = Color.Transparent;
+            guna2CirclePictureBox1.FillColor = Color.FromArgb(192, 64, 0);
+            guna2CirclePictureBox1.ImageRotate = 0F;
+            guna2CirclePictureBox1.Location = new Point(-170, -212);
+            guna2CirclePictureBox1.Margin = new Padding(3, 4, 3, 4);
+            guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
+            guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            guna2CirclePictureBox1.Size = new Size(281, 328);
+            guna2CirclePictureBox1.TabIndex = 29;
+            guna2CirclePictureBox1.TabStop = false;
             // 
             // linkForgotPassword
             // 
             linkForgotPassword.AutoSize = true;
-            linkForgotPassword.Location = new Point(199, 312);
+            linkForgotPassword.Location = new Point(227, 416);
             linkForgotPassword.Name = "linkForgotPassword";
-            linkForgotPassword.Size = new Size(100, 15);
+            linkForgotPassword.Size = new Size(125, 20);
             linkForgotPassword.TabIndex = 52;
             linkForgotPassword.TabStop = true;
             linkForgotPassword.Text = "Forgot Password?";
@@ -124,12 +154,13 @@
             txtPassword.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtPassword.Font = new Font("Segoe UI", 9F);
             txtPassword.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtPassword.Location = new Point(21, 254);
+            txtPassword.Location = new Point(24, 339);
+            txtPassword.Margin = new Padding(3, 5, 3, 5);
             txtPassword.Name = "txtPassword";
             txtPassword.PlaceholderText = "";
             txtPassword.SelectedText = "";
             txtPassword.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            txtPassword.Size = new Size(278, 55);
+            txtPassword.Size = new Size(318, 73);
             txtPassword.TabIndex = 50;
             // 
             // arthanButton5
@@ -150,13 +181,14 @@
             arthanButton5.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton5.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton5.Image = null;
-            arthanButton5.Location = new Point(21, 364);
+            arthanButton5.Location = new Point(27, 440);
+            arthanButton5.Margin = new Padding(3, 4, 3, 4);
             arthanButton5.Name = "arthanButton5";
             arthanButton5.RightToLeft = RightToLeft.No;
             arthanButton5.ShadowBlur = 20;
             arthanButton5.ShadowColor = Color.Black;
             arthanButton5.ShadowOffset = 20;
-            arthanButton5.Size = new Size(278, 47);
+            arthanButton5.Size = new Size(318, 63);
             arthanButton5.TabIndex = 29;
             arthanButton5.Text = "Login";
             arthanButton5.TextColor = Color.Black;
@@ -179,21 +211,22 @@
             txtUsername.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             txtUsername.Font = new Font("Segoe UI", 9F);
             txtUsername.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtUsername.Location = new Point(21, 156);
+            txtUsername.Location = new Point(24, 208);
+            txtUsername.Margin = new Padding(3, 5, 3, 5);
             txtUsername.Name = "txtUsername";
             txtUsername.PlaceholderText = "";
             txtUsername.SelectedText = "";
             txtUsername.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            txtUsername.Size = new Size(278, 55);
+            txtUsername.Size = new Size(318, 73);
             txtUsername.TabIndex = 49;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Sans Serif Collection", 8.25F);
-            label6.Location = new Point(24, 224);
+            label6.Location = new Point(27, 299);
             label6.Name = "label6";
-            label6.Size = new Size(137, 27);
+            label6.Size = new Size(122, 48);
             label6.TabIndex = 43;
             label6.Text = "Enter Password";
             // 
@@ -201,9 +234,9 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Sans Serif Collection", 8.25F);
-            label5.Location = new Point(21, 126);
+            label5.Location = new Point(24, 168);
             label5.Name = "label5";
-            label5.Size = new Size(140, 27);
+            label5.Size = new Size(127, 48);
             label5.TabIndex = 35;
             label5.Text = "Enter Username";
             label5.Click += label5_Click;
@@ -216,32 +249,6 @@
             guna2ShapesTool1.RoundedEdges = customizableEdges7;
             guna2ShapesTool1.Size = new Size(200, 200);
             guna2ShapesTool1.TargetControl = null;
-            // 
-            // guna2CirclePictureBox1
-            // 
-            guna2CirclePictureBox1.BackColor = Color.Transparent;
-            guna2CirclePictureBox1.FillColor = Color.FromArgb(192, 64, 0);
-            guna2CirclePictureBox1.ImageRotate = 0F;
-            guna2CirclePictureBox1.Location = new Point(-149, -159);
-            guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
-            guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            guna2CirclePictureBox1.Size = new Size(246, 246);
-            guna2CirclePictureBox1.TabIndex = 29;
-            guna2CirclePictureBox1.TabStop = false;
-            // 
-            // guna2CirclePictureBox2
-            // 
-            guna2CirclePictureBox2.BackColor = Color.FromArgb(192, 0, 0);
-            guna2CirclePictureBox2.FillColor = Color.FromArgb(192, 64, 0);
-            guna2CirclePictureBox2.ImageRotate = 0F;
-            guna2CirclePictureBox2.Location = new Point(177, 417);
-            guna2CirclePictureBox2.Name = "guna2CirclePictureBox2";
-            guna2CirclePictureBox2.ShadowDecoration.CustomizableEdges = customizableEdges1;
-            guna2CirclePictureBox2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            guna2CirclePictureBox2.Size = new Size(231, 220);
-            guna2CirclePictureBox2.TabIndex = 54;
-            guna2CirclePictureBox2.TabStop = false;
             // 
             // arthanPanel2
             // 
@@ -264,37 +271,38 @@
             arthanPanel2.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             arthanPanel2.GradientEndColor = Color.White;
             arthanPanel2.GradientStartColor = Color.White;
-            arthanPanel2.Location = new Point(361, 0);
+            arthanPanel2.Location = new Point(413, 0);
+            arthanPanel2.Margin = new Padding(3, 4, 3, 4);
             arthanPanel2.Name = "arthanPanel2";
             arthanPanel2.ShadowBlur = 0;
             arthanPanel2.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel2.ShadowOffset = 0;
-            arthanPanel2.Size = new Size(324, 449);
+            arthanPanel2.Size = new Size(370, 599);
             arthanPanel2.TabIndex = 55;
             arthanPanel2.TopLeftRadius = 0;
             arthanPanel2.TopRightRadius = 0;
             arthanPanel2.UseIndividualCorners = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Sans Serif Collection", 11.999999F);
-            label1.Location = new Point(79, 33);
-            label1.Name = "label1";
-            label1.Size = new Size(165, 39);
-            label1.TabIndex = 56;
-            label1.Text = "CGC Library";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.FromArgb(192, 0, 0);
-            label2.Location = new Point(73, 73);
+            label2.Location = new Point(83, 97);
             label2.Name = "label2";
-            label2.Size = new Size(178, 29);
+            label2.Size = new Size(166, 51);
             label2.TabIndex = 57;
             label2.Text = "Management System";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Sans Serif Collection", 11.999999F);
+            label1.Location = new Point(90, 44);
+            label1.Name = "label1";
+            label1.Size = new Size(137, 68);
+            label1.TabIndex = 56;
+            label1.Text = "CGC Library";
             // 
             // arthanPanel3
             // 
@@ -310,11 +318,12 @@
             arthanPanel3.GradientEndColor = Color.White;
             arthanPanel3.GradientStartColor = Color.White;
             arthanPanel3.Location = new Point(0, 0);
+            arthanPanel3.Margin = new Padding(3, 4, 3, 4);
             arthanPanel3.Name = "arthanPanel3";
             arthanPanel3.ShadowBlur = 0;
             arthanPanel3.ShadowColor = Color.FromArgb(50, 0, 0, 0);
             arthanPanel3.ShadowOffset = 0;
-            arthanPanel3.Size = new Size(685, 449);
+            arthanPanel3.Size = new Size(783, 599);
             arthanPanel3.TabIndex = 58;
             arthanPanel3.TopLeftRadius = 0;
             arthanPanel3.TopRightRadius = 0;
@@ -322,19 +331,18 @@
             // 
             // REGISTER
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(685, 449);
+            ClientSize = new Size(783, 599);
             Controls.Add(arthanPanel2);
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel3);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "REGISTER";
             Load += REGISTER_Load;
             arthanPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox2).EndInit();
             arthanPanel2.ResumeLayout(false);
             arthanPanel2.PerformLayout();
             ResumeLayout(false);

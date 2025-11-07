@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Library_Final
 {
@@ -29,6 +30,17 @@ namespace Library_Final
         public static string CurrentUserRole { get; set; } = "";
 
         /// <summary>
+        /// Store the profile image to avoid repeated database calls
+        /// </summary>
+        public static Image CurrentUserProfileImage { get; set; } = null;
+
+        /// <summary>
+        /// Store first and last name separately
+        /// </summary>
+        public static string CurrentUserFirstName { get; set; } = "";
+        public static string CurrentUserLastName { get; set; } = "";
+
+        /// <summary>
         /// Check if a user is currently logged in
         /// </summary>
         public static bool IsLoggedIn => CurrentEmployeeID > 0;
@@ -42,6 +54,15 @@ namespace Library_Final
             CurrentUserName = "";
             CurrentUserFullName = "";
             CurrentUserRole = "";
+            CurrentUserFirstName = "";
+            CurrentUserLastName = "";
+
+            // Dispose image if exists
+            if (CurrentUserProfileImage != null)
+            {
+                CurrentUserProfileImage.Dispose();
+                CurrentUserProfileImage = null;
+            }
         }
 
         /// <summary>
@@ -56,6 +77,26 @@ namespace Library_Final
         }
 
         /// <summary>
+        /// Initialize session with complete user data including profile image
+        /// </summary>
+        public static void InitializeSessionComplete(int employeeId, string username, string firstName,
+            string lastName, Image profileImage = null, string role = "")
+        {
+            CurrentEmployeeID = employeeId;
+            CurrentUserName = username;
+            CurrentUserFirstName = firstName;
+            CurrentUserLastName = lastName;
+            CurrentUserFullName = $"{firstName} {lastName}";
+            CurrentUserRole = role;
+
+            // Clone the image to avoid disposal issues
+            if (profileImage != null)
+            {
+                CurrentUserProfileImage = (Image)profileImage.Clone();
+            }
+        }
+
+        /// <summary>
         /// Get a display name for the current user
         /// </summary>
         public static string GetDisplayName()
@@ -65,6 +106,16 @@ namespace Library_Final
             if (!string.IsNullOrEmpty(CurrentUserName))
                 return CurrentUserName;
             return "Guest";
+        }
+
+        /// <summary>
+        /// Check if session data is fully loaded
+        /// </summary>
+        public static bool IsSessionDataComplete()
+        {
+            return IsLoggedIn &&
+                   !string.IsNullOrEmpty(CurrentUserFullName) &&
+                   CurrentUserProfileImage != null;
         }
     }
 }

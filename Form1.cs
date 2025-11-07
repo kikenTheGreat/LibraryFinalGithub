@@ -12,31 +12,60 @@ namespace LibraryCGC
 
         private int currentEmployeeID;
 
-        // ✅ Default constructor (for forms that don't pass an ID)
-        public Form1()
+        // ✅ UPDATE your constructor
+        // ✅ Single constructor with optional parameter
+        public Form1(int? employeeId = null)
         {
             InitializeComponent();
+
+            // ✅ Use provided ID, or fall back to SessionData
+            if (employeeId.HasValue)
+            {
+                currentEmployeeID = employeeId.Value;
+                SessionData.CurrentEmployeeID = employeeId.Value;
+            }
+            else if (SessionData.IsLoggedIn)
+            {
+                currentEmployeeID = SessionData.CurrentEmployeeID;
+            }
+            else
+            {
+                // If no ID provided and no session, use default
+                currentEmployeeID = 0;
+            }
+
+            // Only initialize if we have a valid employee ID
+            if (currentEmployeeID > 0)
+            {
+                UpdateTotalBooksLabel();
+                UpdateTotalBorrowedLabel();
+                UpdateTotalArchivedLabel();
+                LoadPenaltyCards();
+                UpdateTotalOverdueLabel();
+                CleanOldOTPRecords();
+            }
         }
 
 
-        public Form1(int employeeId)
+
+        // ✅ ADD THIS: Override OnVisibleChanged to refresh profile
+        protected override void OnVisibleChanged(EventArgs e)
         {
-            InitializeComponent();
-            currentEmployeeID = employeeId; // ✅ Set this FIRST
+            base.OnVisibleChanged(e);
 
-            LoadEmployeeProfile(); // ✅ Load employee info and image
-
-            UpdateTotalBooksLabel();
-            UpdateTotalBorrowedLabel();
-            UpdateTotalArchivedLabel();
-            LoadPenaltyCards();
-            UpdateTotalOverdueLabel();
-            CleanOldOTPRecords();
+            if (this.Visible && SessionData.IsLoggedIn)
+            {
+                // Refresh profile when form becomes visible
+                RefreshEmployeeProfile();
+            }
         }
 
-        // ✅ Add this method to your Form1 class
-        private void LoadEmployeeProfile()
+
+        // ✅ NEW METHOD: Force refresh from database and update cache
+        private void RefreshEmployeeProfile()
         {
+            if (!SessionData.IsLoggedIn) return;
+
             string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
 Integrated Security=True;
@@ -51,32 +80,43 @@ Trust Server Certificate=True;";
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@EmployeeID", currentEmployeeID);
+                    cmd.Parameters.AddWithValue("@EmployeeID", SessionData.CurrentEmployeeID);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            // ✅ Combine FirstName and LastName
                             string firstName = reader["FirstName"].ToString();
                             string lastName = reader["LastName"].ToString();
-                            labelEmployeeName.Text = $"{firstName} {lastName}";
+                            string fullName = $"{firstName} {lastName}";
 
-                            // ✅ Load profile image if exists
+                            // Update UI
+                            labelEmployeeName.Text = fullName;
+
+                            // Load and cache profile image
+                            Image profileImage = null;
                             if (reader["ProfileImage"] != DBNull.Value)
                             {
                                 byte[] imageData = (byte[])reader["ProfileImage"];
                                 using (MemoryStream ms = new MemoryStream(imageData))
                                 {
-                                    circlePictureBox.Image = Image.FromStream(ms);
+                                    profileImage = Image.FromStream(ms);
+                                    circlePictureBox.Image = (Image)profileImage.Clone();
                                 }
                             }
                             else
                             {
-                                // ✅ Set default image if no profile picture
                                 circlePictureBox.Image = null;
-                                // Or use: circlePictureBox.Image = Properties.Resources.default_avatar;
                             }
+
+                            // ✅ UPDATE SESSION CACHE
+                            SessionData.InitializeSessionComplete(
+                                SessionData.CurrentEmployeeID,
+                                SessionData.CurrentUserName,
+                                firstName,
+                                lastName,
+                                profileImage
+                            );
                         }
                         else
                         {
@@ -93,38 +133,65 @@ Trust Server Certificate=True;";
         }
 
 
+        // ✅ REPLACE your existing LoadEmployeeProfile with this optimized version
+        // ✅ UPDATED LoadEmployeeProfile with caching
+        private void LoadEmployeeProfile()
+        {
+            // Try to use cached session data first
+            if (SessionData.IsSessionDataComplete())
+            {
+                // Use cached data - instant load!
+                labelEmployeeName.Text = SessionData.CurrentUserFullName;
+
+                if (SessionData.CurrentUserProfileImage != null)
+                {
+                    circlePictureBox.Image = (Image)SessionData.CurrentUserProfileImage.Clone();
+                }
+
+                return; // Exit early, no database call needed
+            }
+
+            // If no cache, load from database
+            RefreshEmployeeProfile();
+        }
+
+
 
         private void label2_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        // ✅ UPDATED Form1_Load
+        private async void Form1_Load(object sender, EventArgs e)
         {
             if (currentEmployeeID > 0)
             {
-                LoadEmployeeProfile(); // ✅ Load profile if employee ID exists
+                await Task.Delay(100);
+
+                // Load profile (will use cache if available)
+                LoadEmployeeProfile();
+
+                UpdateTotalBooksLabel();
+                UpdateTotalBorrowedLabel();
+                UpdateTotalArchivedLabel();
+                LoadPenaltyCards();
+                UpdateTotalOverdueLabel();
+                CleanOldOTPRecords();
+
+                // ✅ Subscribe to live overdue update
+                GlobalEvents.OverdueDataChanged += () => UpdateTotalOverdueLabel();
+                GlobalEvents.BooksDataChanged += () => UpdateTotalBooksLabel();
+                GlobalEvents.BorrowedDataChanged += () => UpdateTotalBorrowedLabel();
+                GlobalEvents.ArchivedDataChanged += () => UpdateTotalArchivedLabel();
+                GlobalEvents.PenaltiesDataChanged += () => LoadPenaltyCards();
+
+                // ✅ START A TIMER TO KEEP PENALTIES UPDATED
+                System.Windows.Forms.Timer penaltyUpdateTimer = new System.Windows.Forms.Timer();
+                penaltyUpdateTimer.Interval = 60000; // Update every minute
+                penaltyUpdateTimer.Tick += (s, args) => LoadPenaltyCards();
+                penaltyUpdateTimer.Start();
             }
-
-            LoadPenaltyCards();
-            UpdateTotalBorrowedLabel();
-            UpdateTotalBooksLabel();
-            UpdateTotalArchivedLabel();
-            UpdateTotalOverdueLabel();
-            CleanOldOTPRecords();
-
-            // ✅ Subscribe to live overdue update
-            GlobalEvents.OverdueDataChanged += () => UpdateTotalOverdueLabel();
-            GlobalEvents.BooksDataChanged += () => UpdateTotalBooksLabel();
-            GlobalEvents.BorrowedDataChanged += () => UpdateTotalBorrowedLabel();
-            GlobalEvents.ArchivedDataChanged += () => UpdateTotalArchivedLabel();
-            GlobalEvents.PenaltiesDataChanged += () => LoadPenaltyCards();
-
-            // ✅ START A TIMER TO KEEP PENALTIES UPDATED
-            System.Windows.Forms.Timer penaltyUpdateTimer = new System.Windows.Forms.Timer();
-            penaltyUpdateTimer.Interval = 60000; // Update every minute
-            penaltyUpdateTimer.Tick += (s, args) => LoadPenaltyCards();
-            penaltyUpdateTimer.Start();
         }
 
         private void CleanOldOTPRecords()
@@ -652,7 +719,8 @@ Trust Server Certificate=True;
         private void guna2Button2_Click(object sender, EventArgs e)
         {
 
-            ManageProfileForm manageProfileForm = new ManageProfileForm(currentEmployeeID);
+            // ✅ Use SessionData instead of local variable
+            ManageProfileForm manageProfileForm = new ManageProfileForm(SessionData.CurrentEmployeeID);
             manageProfileForm.Show();
             this.Hide();
         }
