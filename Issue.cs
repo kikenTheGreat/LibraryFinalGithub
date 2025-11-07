@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.VisualBasic;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -1073,6 +1074,8 @@ Trust Server Certificate=True;
 
 
 
+        private bool suppressTextChanged = false; // 🚫 prevent recursive calls
+
         private void ClientID_TextChanged(object sender, EventArgs e)
         {
             string clientID = ClientID.Text.Trim();
@@ -1106,6 +1109,20 @@ Encrypt=True;
 Trust Server Certificate=True;";
 
             string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+
+
+
+            // 🔍 Validate ClientID — numbers only
+            if (!System.Text.RegularExpressions.Regex.IsMatch(clientID, @"^\d+$"))
+            {
+                MessageBox.Show("Client ID must contain numbers only.",
+                                "Invalid Input",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                ClientID.Text = "";
+                return; // ⛔ Stop execution — don’t query the database
+            }
+
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, con))
@@ -1141,6 +1158,8 @@ Trust Server Certificate=True;";
                 }
             }
         }
+
+
 
 
 
@@ -1625,10 +1644,24 @@ VALUES
         {
             string isbn = ISBN.Text.Trim();
 
+           
+
             if (isbn.Length >= 4)
             {
                 string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
                 string query = "SELECT BookTitle, Source, BookCondition FROM BooksAcq WHERE ISBN = @ISBN";
+
+
+                // 🔍 Validate ISBN — numbers only
+                if (!System.Text.RegularExpressions.Regex.IsMatch(isbn, @"^\d+$"))
+                {
+                    MessageBox.Show("ISBN must contain numbers only.",
+                                    "Invalid Input",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    ISBN.Text = "";
+                    return; // ⛔ Stop execution — don’t query the database
+                }
 
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {

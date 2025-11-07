@@ -105,10 +105,10 @@ namespace LibraryCGC
 
             // --- Book ID (hidden) ---
             var colBookID = new DataGridViewTextBoxColumn();
-            colBookID.HeaderText = "Book ID";
-            colBookID.DataPropertyName = "BookID";
-            colBookID.Name = "BookID";     // 🔹 make sure name matches row.Cells["BookID"]
-            colBookID.Visible = false;
+            colBookID.HeaderText = "Accession Number";
+            colBookID.DataPropertyName = "ArchiveID";
+            colBookID.Name = "ArchiveID";     // 🔹 make sure name matches row.Cells["BookID"]
+           
             DataGridTotalBooks.Columns.Add(colBookID);
 
             // --- Book Title ---
@@ -256,89 +256,7 @@ namespace LibraryCGC
          
         }
 
-        private void RestoreBookByISBN(string isbn)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(
-                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
-                {
-                    con.Open();
-
-                    // Find the book in the archive by ISBN
-                    SqlCommand selectCmd = new SqlCommand("SELECT * FROM BooksArchive WHERE ISBN = @ISBN", con);
-                    selectCmd.Parameters.AddWithValue("@ISBN", isbn);
-
-                    SqlDataReader reader = selectCmd.ExecuteReader();
-                    if (!reader.Read())
-                    {
-                        MessageBox.Show("❌ No archived book found with that ISBN.");
-                        return;
-                    }
-
-                    // Extract book data
-                    string title = reader["BookTitle"].ToString();
-                    string author = reader["Author"].ToString();
-                    string publisher = reader["Publisher"].ToString();
-                    string source = reader["Source"].ToString();
-                    string bookCondition = reader["BookCondition"].ToString();
-                    int quantity = Convert.ToInt32(reader["Quantity"]);
-                    string published = reader["Published"].ToString();
-                    string category = reader["Category"].ToString();
-                    int bookId = Convert.ToInt32(reader["BookID"]);
-                    string booktype = reader["BookType"].ToString();
-
-                    reader.Close();
-
-                    // Insert back into BooksAcq
-                    SqlCommand insertCmd = new SqlCommand(@"
-                INSERT INTO BooksAcq (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category,BookType,BookCondition)
-                VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category,@BookType,@BookCondition)", con);
-
-                    insertCmd.Parameters.AddWithValue("@BookTitle", title);
-                    insertCmd.Parameters.AddWithValue("@Author", author);
-                    insertCmd.Parameters.AddWithValue("@ISBN", isbn);
-                    insertCmd.Parameters.AddWithValue("@Publisher", publisher);
-                    insertCmd.Parameters.AddWithValue("@Source", source);
-                    insertCmd.Parameters.AddWithValue("@Quantity", quantity);
-                    insertCmd.Parameters.AddWithValue("@Published", published);
-                    insertCmd.Parameters.AddWithValue("@Category", category);
-                    insertCmd.Parameters.AddWithValue("@BookType", booktype);
-                    insertCmd.Parameters.AddWithValue("@BookCondition", bookCondition);
-
-                    int result = insertCmd.ExecuteNonQuery();
-                    if (result > 0)
-                    {
-                        // Delete from archive
-                        SqlCommand deleteCmd = new SqlCommand("DELETE FROM BooksArchive WHERE BookID = @BookID", con);
-                        deleteCmd.Parameters.AddWithValue("@BookID", bookId);
-                        deleteCmd.ExecuteNonQuery();
-
-                        // ✅ Step 3: Record activity log
-                        ActivityLog.RecordActivity(
-                            SessionData.CurrentUserName,
-                            "Restore Book",
-                            "Archived Books",
-                            $"Restored book with ISBN: {isbn} — Title: {title}"
-                        );
-
-                        MessageBox.Show("✅ Book restored successfully!");
-                        txtArchiveISBN.Clear();
-                        LoadBooksGrid(); // Refresh DataGrid
-                        GlobalEvents.RaiseBooksDataChanged();
-                        GlobalEvents.RaiseArchivedDataChanged();
-                    }
-                    else
-                    {
-                        MessageBox.Show("⚠️ Restore failed. Please check the database.");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error restoring book: " + ex.Message);
-            }
-        }
+ 
 
         private void btnIssueBooks_Click(object sender, EventArgs e)
         {

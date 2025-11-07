@@ -239,10 +239,11 @@
             IssueRole.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             IssueRole.Font = new Font("Segoe UI", 9F);
             IssueRole.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            IssueRole.Location = new Point(18, 566);
+            IssueRole.Location = new Point(13, 563);
             IssueRole.Margin = new Padding(3, 5, 3, 5);
             IssueRole.Name = "IssueRole";
             IssueRole.PlaceholderText = "";
+            IssueRole.ReadOnly = true;
             IssueRole.SelectedText = "";
             IssueRole.ShadowDecoration.CustomizableEdges = customizableEdges2;
             IssueRole.Size = new Size(344, 39);
@@ -267,6 +268,7 @@
             ClientName.Margin = new Padding(3, 5, 3, 5);
             ClientName.Name = "ClientName";
             ClientName.PlaceholderText = "";
+            ClientName.ReadOnly = true;
             ClientName.SelectedText = "";
             ClientName.ShadowDecoration.CustomizableEdges = customizableEdges4;
             ClientName.Size = new Size(344, 39);
@@ -385,6 +387,7 @@
             Source.Margin = new Padding(3, 5, 3, 5);
             Source.Name = "Source";
             Source.PlaceholderText = "";
+            Source.ReadOnly = true;
             Source.SelectedText = "";
             Source.ShadowDecoration.CustomizableEdges = customizableEdges12;
             Source.Size = new Size(344, 39);
@@ -432,6 +435,7 @@
             // 
             // ClientID
             // 
+            ClientID.AutoValidate = AutoValidate.EnablePreventFocusChange;
             ClientID.BorderColor = Color.FromArgb(224, 224, 224);
             ClientID.BorderRadius = 4;
             ClientID.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
@@ -646,7 +650,7 @@
             // panelReturnBooks
             // 
             panelReturnBooks.Controls.Add(arthanPanel1);
-            panelReturnBooks.Location = new Point(11, 146);
+            panelReturnBooks.Location = new Point(11, 147);
             panelReturnBooks.Name = "panelReturnBooks";
             panelReturnBooks.Size = new Size(421, 845);
             panelReturnBooks.TabIndex = 27;
@@ -717,6 +721,7 @@
             ReturnClientName.Margin = new Padding(3, 5, 3, 5);
             ReturnClientName.Name = "ReturnClientName";
             ReturnClientName.PlaceholderText = "";
+            ReturnClientName.ReadOnly = true;
             ReturnClientName.SelectedText = "";
             ReturnClientName.ShadowDecoration.CustomizableEdges = customizableEdges26;
             ReturnClientName.Size = new Size(346, 39);
@@ -741,6 +746,7 @@
             ReturnBookQty.Margin = new Padding(3, 5, 3, 5);
             ReturnBookQty.Name = "ReturnBookQty";
             ReturnBookQty.PlaceholderText = "";
+            ReturnBookQty.ReadOnly = true;
             ReturnBookQty.SelectedText = "";
             ReturnBookQty.ShadowDecoration.CustomizableEdges = customizableEdges28;
             ReturnBookQty.Size = new Size(352, 39);
@@ -830,6 +836,7 @@
             ReturnBookStatus.Name = "ReturnBookStatus";
             ReturnBookStatus.PlaceholderForeColor = Color.Red;
             ReturnBookStatus.PlaceholderText = "Nothing to Return";
+            ReturnBookStatus.ReadOnly = true;
             ReturnBookStatus.SelectedText = "";
             ReturnBookStatus.ShadowDecoration.CustomizableEdges = customizableEdges34;
             ReturnBookStatus.Size = new Size(350, 39);
@@ -1307,11 +1314,14 @@
             // 
             // dgvBorrowList
             // 
+            dgvBorrowList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvBorrowList.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvBorrowList.BorderStyle = BorderStyle.None;
             dgvBorrowList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvBorrowList.Dock = DockStyle.Fill;
             dgvBorrowList.Location = new Point(0, 0);
             dgvBorrowList.Name = "dgvBorrowList";
+            dgvBorrowList.ReadOnly = true;
             dgvBorrowList.RowHeadersWidth = 51;
             dgvBorrowList.Size = new Size(1069, 156);
             dgvBorrowList.TabIndex = 24;
@@ -1430,8 +1440,8 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
-            Controls.Add(PANELoverdue);
             Controls.Add(panelReturnBooks);
+            Controls.Add(PANELoverdue);
             Controls.Add(panelIssueBooks);
             Controls.Add(PANELdataList);
             Controls.Add(ReturnPANEL);

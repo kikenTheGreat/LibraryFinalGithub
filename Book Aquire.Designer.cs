@@ -252,6 +252,7 @@
             Author.Texts = "";
             Author.UnderlinedStyle = false;
             Author._TextChanged += Author__TextChanged;
+            Author.KeyPress += Author_KeyPress;
             // 
             // label2
             // 
@@ -354,6 +355,7 @@
             ISBN.UnderlinedStyle = false;
             ISBN._TextChanged += ISBN_TextChanged;
             ISBN.KeyDown += ISBN_KeyDown_1;
+            ISBN.KeyPress += ISBN_KeyPress;
             // 
             // label4
             // 
@@ -407,6 +409,7 @@
             Category.TabIndex = 12;
             Category.Texts = "";
             Category.UnderlinedStyle = false;
+            Category.KeyPress += Category_KeyPress;
             // 
             // label7
             // 
@@ -556,6 +559,7 @@
             Published.Texts = "";
             Published.UnderlinedStyle = false;
             Published._TextChanged += Published__TextChanged;
+            Published.KeyPress += Published_KeyPress;
             // 
             // Quantity
             // 

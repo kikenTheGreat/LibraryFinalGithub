@@ -25,7 +25,7 @@ namespace LibraryCGC
     public partial class Book_Aquire : Form
     {
         private int currentEmployeeID;
-       
+
 
         private DataTable booksTable = new DataTable();
         private int? editingRowIndex = null;
@@ -302,7 +302,7 @@ namespace LibraryCGC
             LoadBooksGrid();
             DataGridTotalBooks.CellPainting += DataGridTotalBooks_CellPainting;
 
-          
+
 
             scannerMode = true;
             // Set default button text
@@ -331,7 +331,7 @@ namespace LibraryCGC
                 box.BackColor = Color.LightGray;
             }
 
-          
+
 
         }
 
@@ -1764,7 +1764,50 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-           
+
+        }
+
+        private void ISBN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Only numbers are allowed in ISBN.", "Invalid Input",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void Author_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+        !char.IsLetter(e.KeyChar) &&
+        e.KeyChar != ' ' &&
+        e.KeyChar != '.')
+            {
+                e.Handled = true;
+                MessageBox.Show("Only letters, spaces, and periods are allowed in Author name.",
+                    "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void Category_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) &&
+       !char.IsLetter(e.KeyChar) &&
+       e.KeyChar != ' ')
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void Published_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Only numbers are allowed in Published year.",
+                    "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 
