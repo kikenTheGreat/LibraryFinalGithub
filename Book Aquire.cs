@@ -302,8 +302,6 @@ namespace LibraryCGC
             LoadBooksGrid();
             DataGridTotalBooks.CellPainting += DataGridTotalBooks_CellPainting;
 
-
-
             scannerMode = true;
             // Set default button text
             btnManualMode.Text = "📡 Scanner Mode Active";
@@ -1431,6 +1429,7 @@ WHERE BookID = @BookID", con))
         {
             // Reset combo boxes
             cmbBookTitle.SelectedIndex = -1;
+            
             cmbAuthor.SelectedIndex = -1;
             cmbPublisher.SelectedIndex = -1;
             cmbSource.SelectedIndex = -1;

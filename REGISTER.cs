@@ -156,5 +156,10 @@ namespace Library_Final
         {
 
         }
+
+        private void arthanPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -8,6 +8,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -278,8 +281,8 @@ namespace Library_Final
             {
                 string isbn = txtISBN.Text.Trim();
                 string clientID = txtClientID.Text.Trim();
-                string beforeCondition = cmbBookCondition.Text.Trim();           // before issue
-                string returnedCondition = cmbReturnBookCondition.Text.Trim();   // returning condition
+                string beforeCondition = cmbBookCondition.Text.Trim();
+                string returnedCondition = cmbReturnBookCondition.Text.Trim();
 
                 if (string.IsNullOrEmpty(beforeCondition))
                     beforeCondition = "Unknown";
@@ -292,16 +295,18 @@ namespace Library_Final
                 }
 
                 string combinedCondition = $"{beforeCondition} → {returnedCondition}";
+                int damageReportID = 0;
 
                 using (SqlConnection con = new SqlConnection(
                     "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;"))
                 {
                     con.Open();
 
-                    // ✅ Insert into DamagedBooks
+                    // Insert into DamagedBooks and get the ID
                     string insertQuery = @"
 INSERT INTO DamagedBooks 
     (ISBN, Title, BookCondition, DamageDescription, ReportDate, FineAmount, ClientID, ReportedByEmployeeID, ReportedByName)
+OUTPUT INSERTED.DamageID
 VALUES 
     (@ISBN, @Title, @BookCondition, @DamageDescription, @ReportDate, @FineAmount, @ClientID, @ReportedByEmployeeID, @ReportedByName)";
 
@@ -316,22 +321,21 @@ VALUES
                         cmd.Parameters.AddWithValue("@ReportedByEmployeeID", currentEmployeeID);
                         cmd.Parameters.AddWithValue("@ReportedByName", guna2ComboBox1.Text);
 
-
                         decimal fine = 0;
                         decimal.TryParse(txtFineAmount.Text, out fine);
                         cmd.Parameters.AddWithValue("@FineAmount", fine);
 
-                        cmd.ExecuteNonQuery();
+                        damageReportID = (int)cmd.ExecuteScalar();
                     }
 
-                    // 🧩 Step 4: Update IssueBooks for consistency
+                    // Update IssueBooks for consistency
                     string updateQuery = @"
-    UPDATE IssueBooks
-    SET 
-        Status = 'Report filed by librarian',
-        BookCondition = @BookCondition,
-        Penalty = @FineAmount
-    WHERE ISBN = @ISBN AND ClientID = @ClientID";
+UPDATE IssueBooks
+SET 
+    Status = 'Report filed by librarian',
+    BookCondition = @BookCondition,
+    Penalty = @FineAmount
+WHERE ISBN = @ISBN AND ClientID = @ClientID";
 
                     using (SqlCommand cmdUpdate = new SqlCommand(updateQuery, con))
                     {
@@ -342,12 +346,13 @@ VALUES
                         cmdUpdate.ExecuteNonQuery();
                     }
 
-                    // ✅ Show the updated status in the textbox for user feedback
                     txtStatus.Text = "Report filed by librarian";
 
                     MessageBox.Show("Damage report filed successfully!", "Success",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    // Generate PDF Report
+                    GenerateDamageReportPDF(damageReportID);
 
                     LoadDamageReports();
                     ClearFields();
@@ -360,6 +365,206 @@ VALUES
             }
         }
 
+        // Add this helper method to wrap text into multiple lines
+        private List<string> WrapText(string text, XFont font, double maxWidth, XGraphics gfx)
+        {
+            List<string> lines = new List<string>();
+            string[] words = text.Split(' ');
+            string currentLine = "";
+
+            foreach (string word in words)
+            {
+                string testLine = string.IsNullOrEmpty(currentLine) ? word : currentLine + " " + word;
+                XSize size = gfx.MeasureString(testLine, font);
+
+                if (size.Width > maxWidth && !string.IsNullOrEmpty(currentLine))
+                {
+                    lines.Add(currentLine);
+                    currentLine = word;
+                }
+                else
+                {
+                    currentLine = testLine;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(currentLine))
+                lines.Add(currentLine);
+
+            return lines;
+        }
+
+        // Add this new method to generate the PDF:
+        private void GenerateDamageReportPDF(int reportID)
+        {
+            try
+            {
+                // Create PDF Document
+                PdfDocument pdf = new PdfDocument();
+                PdfPage page = pdf.AddPage();
+                page.Width = XUnit.FromMillimeter(210);  // A4 width
+                page.Height = XUnit.FromMillimeter(297); // A4 height
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                // Fonts
+                var fontTitle = new XFont("Arial", 16, XFontStyle.Bold);
+                var fontHeader = new XFont("Arial", 12, XFontStyle.Bold);
+                var fontRegular = new XFont("Arial", 10);
+                var fontSmall = new XFont("Arial", 9);
+
+                // Margins
+                double margin = XUnit.FromMillimeter(20);
+                double pageWidth = page.Width - (margin * 2);
+                double currentY = margin;
+                double lineHeight = 14;
+
+                // --- Header Section ---
+                gfx.DrawString("CGC LIBRARY SYSTEM", fontTitle, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 20), XStringFormats.TopCenter);
+                currentY += 25;
+
+                gfx.DrawString("Damaged Book Report", fontHeader, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 15), XStringFormats.TopCenter);
+                currentY += 25;
+
+                // Draw separator line
+                gfx.DrawLine(new XPen(XColors.Gray, 1), margin, currentY, page.Width - margin, currentY);
+                currentY += 15;
+
+                // --- Report Information ---
+                gfx.DrawString($"Report ID: {reportID}", fontRegular, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 12), XStringFormats.TopLeft);
+                currentY += 15;
+
+                gfx.DrawString($"Date Filed: {dtpReportDate.Value.ToString("MMMM dd, yyyy")}", fontRegular, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 12), XStringFormats.TopLeft);
+                currentY += 15;
+
+                gfx.DrawString($"Reported By: {guna2ComboBox1.Text}", fontRegular, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 12), XStringFormats.TopLeft);
+                currentY += 20;
+
+                // Draw separator line
+                gfx.DrawLine(new XPen(XColors.Gray, 1), margin, currentY, page.Width - margin, currentY);
+                currentY += 15;
+
+                // --- Book Information Section ---
+                gfx.DrawString("Book Information", fontHeader, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 15), XStringFormats.TopLeft);
+                currentY += 20;
+
+                // Create paragraph text
+                string bookInfo = $"The book titled \"{txtBookTitle.Text.Trim()}\" with ISBN {txtISBN.Text.Trim()} " +
+                                 $"has been reported as damaged. This book was originally issued in {cmbBookCondition.Text.Trim()} condition " +
+                                 $"and was returned in {cmbReturnBookCondition.Text.Trim()} condition.";
+
+                List<string> bookInfoLines = WrapText(bookInfo, fontRegular, pageWidth, gfx);
+                foreach (string line in bookInfoLines)
+                {
+                    gfx.DrawString(line, fontRegular, XBrushes.Black,
+                        new XRect(margin, currentY, pageWidth, lineHeight), XStringFormats.TopLeft);
+                    currentY += lineHeight;
+                }
+                currentY += 10;
+
+                // --- Borrower Information Section ---
+                gfx.DrawString("Borrower Information", fontHeader, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 15), XStringFormats.TopLeft);
+                currentY += 20;
+
+                string borrowerInfo = $"The book was borrowed by {txtReportedBy.Text.Trim()} (Client ID: {txtClientID.Text.Trim()}), " +
+                                     $"who is registered as a {txtClientType.Text.Trim()} in the library system.";
+
+                List<string> borrowerInfoLines = WrapText(borrowerInfo, fontRegular, pageWidth, gfx);
+                foreach (string line in borrowerInfoLines)
+                {
+                    gfx.DrawString(line, fontRegular, XBrushes.Black,
+                        new XRect(margin, currentY, pageWidth, lineHeight), XStringFormats.TopLeft);
+                    currentY += lineHeight;
+                }
+                currentY += 10;
+
+                // --- Damage Description Section ---
+                gfx.DrawString("Damage Description", fontHeader, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 15), XStringFormats.TopLeft);
+                currentY += 20;
+
+                string damageDesc = txtDamageDescription.Text.Trim();
+                if (string.IsNullOrEmpty(damageDesc))
+                    damageDesc = "No detailed description provided.";
+
+                List<string> damageDescLines = WrapText(damageDesc, fontRegular, pageWidth, gfx);
+                foreach (string line in damageDescLines)
+                {
+                    gfx.DrawString(line, fontRegular, XBrushes.Black,
+                        new XRect(margin, currentY, pageWidth, lineHeight), XStringFormats.TopLeft);
+                    currentY += lineHeight;
+                }
+                currentY += 10;
+
+                // --- Fine Information Section ---
+                gfx.DrawString("Financial Assessment", fontHeader, XBrushes.Black,
+                    new XRect(margin, currentY, pageWidth, 15), XStringFormats.TopLeft);
+                currentY += 20;
+
+                decimal fineAmount = 0;
+                decimal.TryParse(txtFineAmount.Text, out fineAmount);
+
+                string fineInfo = $"Based on the extent of damage reported, a fine of P{fineAmount:N2} has been assessed " +
+                                 $"and will be charged to the borrower's account. This amount must be settled before the borrower " +
+                                 $"can borrow additional materials from the library.";
+
+                List<string> fineInfoLines = WrapText(fineInfo, fontRegular, pageWidth, gfx);
+                foreach (string line in fineInfoLines)
+                {
+                    gfx.DrawString(line, fontRegular, XBrushes.Black,
+                        new XRect(margin, currentY, pageWidth, lineHeight), XStringFormats.TopLeft);
+                    currentY += lineHeight;
+                }
+                currentY += 20;
+
+                // Draw separator line
+                gfx.DrawLine(new XPen(XColors.Gray, 1), margin, currentY, page.Width - margin, currentY);
+                currentY += 15;
+
+                // --- Footer Section ---
+                string footer = "This is an official library document. Please keep this report for your records. " +
+                               "For questions or concerns regarding this damage report, please contact the library administration.";
+
+                List<string> footerLines = WrapText(footer, fontSmall, pageWidth, gfx);
+                foreach (string line in footerLines)
+                {
+                    gfx.DrawString(line, fontSmall, XBrushes.Gray,
+                        new XRect(margin, currentY, pageWidth, 12), XStringFormats.TopCenter);
+                    currentY += 12;
+                }
+
+                // Save and open PDF
+                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Library_DamageReports");
+                Directory.CreateDirectory(folderPath);
+                string pdfPath = Path.Combine(folderPath, $"DamageReport_{reportID}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf");
+
+                pdf.Save(pdfPath);
+                pdf.Close();
+
+                MessageBox.Show($"Damage report PDF created:\n{pdfPath}", "PDF Generated",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Automatically open for printing
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = pdfPath,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error generating PDF: {ex.Message}", "PDF Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        
 
 
 

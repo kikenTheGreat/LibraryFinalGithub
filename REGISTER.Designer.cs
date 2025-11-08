@@ -51,10 +51,10 @@
             label5 = new Label();
             guna2ShapesTool1 = new Guna.UI2.WinForms.Guna2ShapesTool(components);
             arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
+            guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             label2 = new Label();
             label1 = new Label();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
-            guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             arthanPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -287,6 +287,20 @@
             arthanPanel2.TopLeftRadius = 0;
             arthanPanel2.TopRightRadius = 0;
             arthanPanel2.UseIndividualCorners = false;
+            arthanPanel2.Paint += arthanPanel2_Paint;
+            // 
+            // guna2PictureBox1
+            // 
+            guna2PictureBox1.BackgroundImageLayout = ImageLayout.Center;
+            guna2PictureBox1.CustomizableEdges = customizableEdges8;
+            guna2PictureBox1.Image = (Image)resources.GetObject("guna2PictureBox1.Image");
+            guna2PictureBox1.ImageRotate = 0F;
+            guna2PictureBox1.Location = new Point(298, 360);
+            guna2PictureBox1.Name = "guna2PictureBox1";
+            guna2PictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges9;
+            guna2PictureBox1.Size = new Size(30, 30);
+            guna2PictureBox1.TabIndex = 58;
+            guna2PictureBox1.TabStop = false;
             // 
             // label2
             // 
@@ -333,19 +347,6 @@
             arthanPanel3.TopLeftRadius = 0;
             arthanPanel3.TopRightRadius = 0;
             arthanPanel3.UseIndividualCorners = false;
-            // 
-            // guna2PictureBox1
-            // 
-            guna2PictureBox1.BackgroundImageLayout = ImageLayout.Center;
-            guna2PictureBox1.CustomizableEdges = customizableEdges8;
-            guna2PictureBox1.Image = (Image)resources.GetObject("guna2PictureBox1.Image");
-            guna2PictureBox1.ImageRotate = 0F;
-            guna2PictureBox1.Location = new Point(298, 360);
-            guna2PictureBox1.Name = "guna2PictureBox1";
-            guna2PictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges9;
-            guna2PictureBox1.Size = new Size(30, 30);
-            guna2PictureBox1.TabIndex = 58;
-            guna2PictureBox1.TabStop = false;
             // 
             // REGISTER
             // 

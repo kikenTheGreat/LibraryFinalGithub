@@ -388,10 +388,6 @@ Trust Server Certificate=True;
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
 
-
-
-
-
             MoveReturnedBooks();
 
             // populate librarian's selectable condition list

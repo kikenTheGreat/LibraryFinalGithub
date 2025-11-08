@@ -92,7 +92,7 @@ namespace LibraryCGC
             LoadBooksGrid();
 
         }
-
+            
         private void SetupArchiveGrid()
         {
             DataGridTotalBooks.Columns.Clear();

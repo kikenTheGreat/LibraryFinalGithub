@@ -336,7 +336,7 @@ using Microsoft.Data.SqlClient;
 
         private void ForgotPasswordForm_Load(object sender, EventArgs e)
         {
-
+            //forgot password form
         }
 
         private void arthanButton2_Click(object sender, EventArgs e)

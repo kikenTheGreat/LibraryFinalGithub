@@ -41,11 +41,20 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
             label1 = new Label();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
+            btnEndSem = new Guna.UI2.WinForms.Guna2Button();
+            btnStartSem = new Guna.UI2.WinForms.Guna2Button();
+            btnStartSemasd = new Guna.UI2.WinForms.Guna2Button();
             Role = new Guna.UI2.WinForms.Guna2ComboBox();
             SectionSY = new Guna.UI2.WinForms.Guna2TextBox();
             arthanButton5 = new LibraryCGC.Components.ArthanButton();
@@ -157,6 +166,9 @@
             arthanPanel1.BorderStyle = BorderStyle.FixedSingle;
             arthanPanel1.BottomLeftRadius = 0;
             arthanPanel1.BottomRightRadius = 0;
+            arthanPanel1.Controls.Add(btnEndSem);
+            arthanPanel1.Controls.Add(btnStartSem);
+            arthanPanel1.Controls.Add(btnStartSemasd);
             arthanPanel1.Controls.Add(Role);
             arthanPanel1.Controls.Add(SectionSY);
             arthanPanel1.Controls.Add(arthanButton5);
@@ -189,10 +201,69 @@
             arthanPanel1.UseIndividualCorners = false;
             arthanPanel1.Paint += arthanPanel1_Paint;
             // 
+            // btnEndSem
+            // 
+            btnEndSem.BorderRadius = 18;
+            btnEndSem.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            btnEndSem.CustomizableEdges = customizableEdges1;
+            btnEndSem.DisabledState.BorderColor = Color.DarkGray;
+            btnEndSem.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnEndSem.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnEndSem.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnEndSem.FillColor = Color.Red;
+            btnEndSem.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEndSem.ForeColor = Color.Black;
+            btnEndSem.Location = new Point(724, 251);
+            btnEndSem.Name = "btnEndSem";
+            btnEndSem.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnEndSem.Size = new Size(157, 63);
+            btnEndSem.TabIndex = 65;
+            btnEndSem.Text = "End Semester";
+            btnEndSem.Click += btnEndSem_Click;
+            // 
+            // btnStartSem
+            // 
+            btnStartSem.BorderRadius = 18;
+            btnStartSem.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            btnStartSem.CustomizableEdges = customizableEdges3;
+            btnStartSem.DisabledState.BorderColor = Color.DarkGray;
+            btnStartSem.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnStartSem.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnStartSem.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnStartSem.FillColor = Color.DeepSkyBlue;
+            btnStartSem.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnStartSem.ForeColor = Color.Black;
+            btnStartSem.Location = new Point(561, 251);
+            btnStartSem.Name = "btnStartSem";
+            btnStartSem.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnStartSem.Size = new Size(157, 63);
+            btnStartSem.TabIndex = 64;
+            btnStartSem.Text = "Start Semester";
+            btnStartSem.Click += btnStartSem_Click;
+            // 
+            // btnStartSemasd
+            // 
+            btnStartSemasd.BorderRadius = 18;
+            btnStartSemasd.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            btnStartSemasd.CustomizableEdges = customizableEdges5;
+            btnStartSemasd.DisabledState.BorderColor = Color.DarkGray;
+            btnStartSemasd.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnStartSemasd.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnStartSemasd.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnStartSemasd.FillColor = Color.DeepSkyBlue;
+            btnStartSemasd.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnStartSemasd.ForeColor = Color.Black;
+            btnStartSemasd.Location = new Point(27, 268);
+            btnStartSemasd.Name = "btnStartSemasd";
+            btnStartSemasd.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnStartSemasd.Size = new Size(157, 63);
+            btnStartSemasd.TabIndex = 63;
+            btnStartSemasd.Text = "Already Have Account";
+            // 
             // Role
             // 
             Role.BackColor = Color.Transparent;
-            Role.CustomizableEdges = customizableEdges1;
+            Role.CustomizableEdges = customizableEdges7;
             Role.DrawMode = DrawMode.OwnerDrawFixed;
             Role.DropDownStyle = ComboBoxStyle.DropDownList;
             Role.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -202,7 +273,7 @@
             Role.ItemHeight = 30;
             Role.Location = new Point(202, 33);
             Role.Name = "Role";
-            Role.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            Role.ShadowDecoration.CustomizableEdges = customizableEdges8;
             Role.Size = new Size(211, 36);
             Role.TabIndex = 51;
             Role.SelectedIndexChanged += Role_SelectedIndexChanged;
@@ -214,7 +285,7 @@
             SectionSY.BorderRadius = 4;
             SectionSY.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             SectionSY.BorderThickness = 2;
-            SectionSY.CustomizableEdges = customizableEdges3;
+            SectionSY.CustomizableEdges = customizableEdges9;
             SectionSY.DefaultText = "";
             SectionSY.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             SectionSY.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -228,14 +299,14 @@
             SectionSY.Name = "SectionSY";
             SectionSY.PlaceholderText = "";
             SectionSY.SelectedText = "";
-            SectionSY.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            SectionSY.ShadowDecoration.CustomizableEdges = customizableEdges10;
             SectionSY.Size = new Size(230, 37);
             SectionSY.TabIndex = 50;
             // 
             // arthanButton5
             // 
             arthanButton5.BackColor = Color.Transparent;
-            arthanButton5.BackgroundColor = Color.Red;
+            arthanButton5.BackgroundColor = Color.OrangeRed;
             arthanButton5.BorderColor = Color.PaleVioletRed;
             arthanButton5.BorderRadius = 10;
             arthanButton5.BottomLeftRadius = 10;
@@ -249,12 +320,12 @@
             arthanButton5.Font = new Font("Sans Serif Collection", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             arthanButton5.ForeColor = Color.Black;
             arthanButton5.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
-            arthanButton5.GradientEndColor = Color.FromArgb(250, 187, 33);
-            arthanButton5.GradientStartColor = Color.FromArgb(246, 166, 17);
+            arthanButton5.GradientEndColor = Color.Red;
+            arthanButton5.GradientStartColor = Color.Red;
             arthanButton5.HoverEndColor = Color.FromArgb(147, 211, 251);
             arthanButton5.HoverStartColor = Color.FromArgb(86, 143, 190);
             arthanButton5.Image = null;
-            arthanButton5.Location = new Point(18, 251);
+            arthanButton5.Location = new Point(190, 268);
             arthanButton5.Margin = new Padding(3, 4, 3, 4);
             arthanButton5.Name = "arthanButton5";
             arthanButton5.Size = new Size(157, 63);
@@ -273,7 +344,7 @@
             Email.BorderRadius = 4;
             Email.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Email.BorderThickness = 2;
-            Email.CustomizableEdges = customizableEdges5;
+            Email.CustomizableEdges = customizableEdges11;
             Email.DefaultText = "";
             Email.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Email.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -287,9 +358,10 @@
             Email.Name = "Email";
             Email.PlaceholderText = "";
             Email.SelectedText = "";
-            Email.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            Email.ShadowDecoration.CustomizableEdges = customizableEdges12;
             Email.Size = new Size(230, 37);
             Email.TabIndex = 49;
+            Email.TextChanged += Email_TextChanged;
             // 
             // Department
             // 
@@ -297,7 +369,7 @@
             Department.BorderRadius = 4;
             Department.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Department.BorderThickness = 2;
-            Department.CustomizableEdges = customizableEdges7;
+            Department.CustomizableEdges = customizableEdges13;
             Department.DefaultText = "";
             Department.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Department.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -311,7 +383,7 @@
             Department.Name = "Department";
             Department.PlaceholderText = "";
             Department.SelectedText = "";
-            Department.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            Department.ShadowDecoration.CustomizableEdges = customizableEdges14;
             Department.Size = new Size(211, 37);
             Department.TabIndex = 45;
             // 
@@ -331,7 +403,7 @@
             Name.BorderRadius = 4;
             Name.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             Name.BorderThickness = 2;
-            Name.CustomizableEdges = customizableEdges9;
+            Name.CustomizableEdges = customizableEdges15;
             Name.DefaultText = "";
             Name.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             Name.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -345,7 +417,7 @@
             Name.Name = "Name";
             Name.PlaceholderText = "";
             Name.SelectedText = "";
-            Name.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            Name.ShadowDecoration.CustomizableEdges = customizableEdges16;
             Name.Size = new Size(211, 37);
             Name.TabIndex = 48;
             // 
@@ -355,7 +427,7 @@
             StudentNumber.BorderRadius = 4;
             StudentNumber.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             StudentNumber.BorderThickness = 2;
-            StudentNumber.CustomizableEdges = customizableEdges11;
+            StudentNumber.CustomizableEdges = customizableEdges17;
             StudentNumber.DefaultText = "";
             StudentNumber.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             StudentNumber.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -369,7 +441,7 @@
             StudentNumber.Name = "StudentNumber";
             StudentNumber.PlaceholderText = "";
             StudentNumber.SelectedText = "";
-            StudentNumber.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            StudentNumber.ShadowDecoration.CustomizableEdges = customizableEdges18;
             StudentNumber.Size = new Size(230, 37);
             StudentNumber.TabIndex = 34;
             StudentNumber.TextChanged += ClientID_TextChanged;
@@ -466,7 +538,7 @@
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel4);
             Margin = new Padding(3, 4, 3, 4);
-          
+            
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CreateAcc";
             WindowState = FormWindowState.Maximized;
@@ -505,5 +577,8 @@
         private Krypton.Toolkit.KryptonDataGridView AddStudentAccDataGrid;
         private Panel panel1;
         private Guna.UI2.WinForms.Guna2ComboBox Role;
+        private Guna.UI2.WinForms.Guna2Button btnStartSem;
+        private Guna.UI2.WinForms.Guna2Button btnStartSemasd;
+        private Guna.UI2.WinForms.Guna2Button btnEndSem;
     }
 }
