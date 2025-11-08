@@ -89,6 +89,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             kupal = new LibraryCGC.Components.ArthanPanel();
+            ISBN = new Guna.UI2.WinForms.Guna2TextBox();
             IssueRole = new Guna.UI2.WinForms.Guna2TextBox();
             ClientName = new Guna.UI2.WinForms.Guna2TextBox();
             issuedCondition = new Guna.UI2.WinForms.Guna2ComboBox();
@@ -96,7 +97,6 @@
             RoleComboBox = new Label();
             dueDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
             label6 = new Label();
-            ISBN = new Guna.UI2.WinForms.Guna2TextBox();
             Source = new Guna.UI2.WinForms.Guna2TextBox();
             Status = new Guna.UI2.WinForms.Guna2ComboBox();
             BookTitle = new Guna.UI2.WinForms.Guna2ComboBox();
@@ -104,16 +104,16 @@
             btnConfirmBorrow = new Guna.UI2.WinForms.Guna2Button();
             btnAddToList = new Guna.UI2.WinForms.Guna2Button();
             issueDate = new Guna.UI2.WinForms.Guna2DateTimePicker();
-            label9 = new Label();
             label7 = new Label();
             label3 = new Label();
-            label4 = new Label();
             label2 = new Label();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
+            label4 = new Label();
             label10 = new Label();
             arthanTextBox10 = new LibraryCGC.Components.ArthanTextBox();
             label8 = new Label();
             label5 = new Label();
+            label9 = new Label();
             panelReturnBooks = new Panel();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             ReturnClientName = new Guna.UI2.WinForms.Guna2TextBox();
@@ -180,6 +180,7 @@
             kupal.BackColor = Color.Transparent;
             kupal.BottomLeftRadius = 15;
             kupal.BottomRightRadius = 15;
+            kupal.Controls.Add(ISBN);
             kupal.Controls.Add(IssueRole);
             kupal.Controls.Add(ClientName);
             kupal.Controls.Add(issuedCondition);
@@ -187,7 +188,6 @@
             kupal.Controls.Add(RoleComboBox);
             kupal.Controls.Add(dueDate);
             kupal.Controls.Add(label6);
-            kupal.Controls.Add(ISBN);
             kupal.Controls.Add(Source);
             kupal.Controls.Add(Status);
             kupal.Controls.Add(BookTitle);
@@ -195,16 +195,16 @@
             kupal.Controls.Add(btnConfirmBorrow);
             kupal.Controls.Add(btnAddToList);
             kupal.Controls.Add(issueDate);
-            kupal.Controls.Add(label9);
             kupal.Controls.Add(label7);
             kupal.Controls.Add(label3);
-            kupal.Controls.Add(label4);
             kupal.Controls.Add(label2);
             kupal.Controls.Add(arthanPanel3);
+            kupal.Controls.Add(label4);
             kupal.Controls.Add(label10);
             kupal.Controls.Add(arthanTextBox10);
             kupal.Controls.Add(label8);
             kupal.Controls.Add(label5);
+            kupal.Controls.Add(label9);
             kupal.CornerRadius = 15;
             kupal.Dock = DockStyle.Fill;
             kupal.EnableDragging = false;
@@ -224,13 +224,38 @@
             kupal.TopRightRadius = 15;
             kupal.UseIndividualCorners = false;
             // 
+            // ISBN
+            // 
+            ISBN.BorderColor = Color.FromArgb(224, 224, 224);
+            ISBN.BorderRadius = 4;
+            ISBN.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            ISBN.BorderThickness = 2;
+            ISBN.CustomizableEdges = customizableEdges1;
+            ISBN.DefaultText = "";
+            ISBN.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            ISBN.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            ISBN.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            ISBN.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            ISBN.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            ISBN.Font = new Font("Segoe UI", 9F);
+            ISBN.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            ISBN.Location = new Point(22, 307);
+            ISBN.Margin = new Padding(3, 5, 3, 5);
+            ISBN.Name = "ISBN";
+            ISBN.PlaceholderText = "";
+            ISBN.SelectedText = "";
+            ISBN.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            ISBN.Size = new Size(344, 39);
+            ISBN.TabIndex = 43;
+            ISBN.TextChanged += ISBN_TextChanged;
+            // 
             // IssueRole
             // 
             IssueRole.BorderColor = Color.FromArgb(224, 224, 224);
             IssueRole.BorderRadius = 4;
             IssueRole.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             IssueRole.BorderThickness = 2;
-            IssueRole.CustomizableEdges = customizableEdges1;
+            IssueRole.CustomizableEdges = customizableEdges3;
             IssueRole.DefaultText = "";
             IssueRole.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             IssueRole.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -239,13 +264,13 @@
             IssueRole.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             IssueRole.Font = new Font("Segoe UI", 9F);
             IssueRole.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            IssueRole.Location = new Point(13, 563);
+            IssueRole.Location = new Point(22, 239);
             IssueRole.Margin = new Padding(3, 5, 3, 5);
             IssueRole.Name = "IssueRole";
             IssueRole.PlaceholderText = "";
             IssueRole.ReadOnly = true;
             IssueRole.SelectedText = "";
-            IssueRole.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            IssueRole.ShadowDecoration.CustomizableEdges = customizableEdges4;
             IssueRole.Size = new Size(344, 39);
             IssueRole.TabIndex = 50;
             // 
@@ -255,7 +280,7 @@
             ClientName.BorderRadius = 4;
             ClientName.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             ClientName.BorderThickness = 2;
-            ClientName.CustomizableEdges = customizableEdges3;
+            ClientName.CustomizableEdges = customizableEdges5;
             ClientName.DefaultText = "";
             ClientName.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             ClientName.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -270,7 +295,7 @@
             ClientName.PlaceholderText = "";
             ClientName.ReadOnly = true;
             ClientName.SelectedText = "";
-            ClientName.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            ClientName.ShadowDecoration.CustomizableEdges = customizableEdges6;
             ClientName.Size = new Size(344, 39);
             ClientName.TabIndex = 49;
             // 
@@ -280,7 +305,7 @@
             issuedCondition.BorderRadius = 4;
             issuedCondition.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             issuedCondition.BorderThickness = 2;
-            issuedCondition.CustomizableEdges = customizableEdges5;
+            issuedCondition.CustomizableEdges = customizableEdges7;
             issuedCondition.DrawMode = DrawMode.OwnerDrawFixed;
             issuedCondition.DropDownStyle = ComboBoxStyle.DropDownList;
             issuedCondition.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -288,17 +313,17 @@
             issuedCondition.Font = new Font("Segoe UI", 10F);
             issuedCondition.ForeColor = Color.FromArgb(68, 88, 112);
             issuedCondition.ItemHeight = 30;
-            issuedCondition.Location = new Point(11, 499);
+            issuedCondition.Location = new Point(22, 504);
             issuedCondition.Name = "issuedCondition";
-            issuedCondition.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            issuedCondition.Size = new Size(345, 36);
+            issuedCondition.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            issuedCondition.Size = new Size(344, 36);
             issuedCondition.TabIndex = 48;
             // 
             // label17
             // 
             label17.AutoSize = true;
             label17.Font = new Font("Sans Serif Collection", 7.799999F);
-            label17.Location = new Point(11, 476);
+            label17.Location = new Point(22, 481);
             label17.Name = "label17";
             label17.Size = new Size(111, 44);
             label17.TabIndex = 47;
@@ -308,7 +333,7 @@
             // 
             RoleComboBox.AutoSize = true;
             RoleComboBox.Font = new Font("Sans Serif Collection", 7.799999F);
-            RoleComboBox.Location = new Point(15, 539);
+            RoleComboBox.Location = new Point(19, 215);
             RoleComboBox.Name = "RoleComboBox";
             RoleComboBox.Size = new Size(45, 44);
             RoleComboBox.TabIndex = 45;
@@ -320,7 +345,8 @@
             dueDate.BackColor = Color.White;
             dueDate.BorderRadius = 5;
             dueDate.Checked = true;
-            dueDate.CustomizableEdges = customizableEdges7;
+            dueDate.CustomizableEdges = customizableEdges9;
+            dueDate.Enabled = false;
             dueDate.FillColor = Color.White;
             dueDate.Font = new Font("Segoe UI", 9F);
             dueDate.Format = DateTimePickerFormat.Long;
@@ -328,7 +354,7 @@
             dueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dueDate.Name = "dueDate";
-            dueDate.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            dueDate.ShadowDecoration.CustomizableEdges = customizableEdges10;
             dueDate.Size = new Size(341, 45);
             dueDate.TabIndex = 39;
             dueDate.Value = new DateTime(2025, 10, 14, 23, 9, 32, 333);
@@ -342,31 +368,6 @@
             label6.Size = new Size(73, 44);
             label6.TabIndex = 15;
             label6.Text = "Due Date";
-            // 
-            // ISBN
-            // 
-            ISBN.BorderColor = Color.FromArgb(224, 224, 224);
-            ISBN.BorderRadius = 4;
-            ISBN.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            ISBN.BorderThickness = 2;
-            ISBN.CustomizableEdges = customizableEdges9;
-            ISBN.DefaultText = "";
-            ISBN.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
-            ISBN.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
-            ISBN.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
-            ISBN.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
-            ISBN.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            ISBN.Font = new Font("Segoe UI", 9F);
-            ISBN.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            ISBN.Location = new Point(18, 241);
-            ISBN.Margin = new Padding(3, 5, 3, 5);
-            ISBN.Name = "ISBN";
-            ISBN.PlaceholderText = "";
-            ISBN.SelectedText = "";
-            ISBN.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            ISBN.Size = new Size(344, 39);
-            ISBN.TabIndex = 43;
-            ISBN.TextChanged += ISBN_TextChanged;
             // 
             // Source
             // 
@@ -383,7 +384,7 @@
             Source.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             Source.Font = new Font("Segoe UI", 9F);
             Source.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            Source.Location = new Point(18, 379);
+            Source.Location = new Point(22, 437);
             Source.Margin = new Padding(3, 5, 3, 5);
             Source.Name = "Source";
             Source.PlaceholderText = "";
@@ -407,7 +408,7 @@
             Status.Font = new Font("Segoe UI", 10F);
             Status.ForeColor = Color.FromArgb(68, 88, 112);
             Status.ItemHeight = 30;
-            Status.Location = new Point(11, 441);
+            Status.Location = new Point(27, 575);
             Status.Name = "Status";
             Status.ShadowDecoration.CustomizableEdges = customizableEdges14;
             Status.Size = new Size(345, 36);
@@ -427,10 +428,10 @@
             BookTitle.Font = new Font("Segoe UI", 10F);
             BookTitle.ForeColor = Color.FromArgb(68, 88, 112);
             BookTitle.ItemHeight = 30;
-            BookTitle.Location = new Point(19, 313);
+            BookTitle.Location = new Point(22, 374);
             BookTitle.Name = "BookTitle";
             BookTitle.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            BookTitle.Size = new Size(345, 36);
+            BookTitle.Size = new Size(344, 36);
             BookTitle.TabIndex = 37;
             // 
             // ClientID
@@ -455,7 +456,7 @@
             ClientID.PlaceholderText = "";
             ClientID.SelectedText = "";
             ClientID.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            ClientID.Size = new Size(344, 39);
+            ClientID.Size = new Size(341, 39);
             ClientID.TabIndex = 33;
             ClientID.TextChanged += ClientID_TextChanged;
             // 
@@ -505,10 +506,11 @@
             issueDate.BorderRadius = 5;
             issueDate.Checked = true;
             issueDate.CustomizableEdges = customizableEdges23;
+            issueDate.Enabled = false;
             issueDate.FillColor = Color.White;
             issueDate.Font = new Font("Segoe UI", 9F);
             issueDate.Format = DateTimePickerFormat.Long;
-            issueDate.Location = new Point(25, 624);
+            issueDate.Location = new Point(22, 647);
             issueDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             issueDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             issueDate.Name = "issueDate";
@@ -518,21 +520,11 @@
             issueDate.Value = new DateTime(2025, 10, 11, 23, 9, 32, 333);
             issueDate.ValueChanged += issueDate_ValueChanged;
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Sans Serif Collection", 7.799999F);
-            label9.Location = new Point(22, 215);
-            label9.Name = "label9";
-            label9.Size = new Size(48, 44);
-            label9.TabIndex = 9;
-            label9.Text = "ISBN";
-            // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Sans Serif Collection", 7.799999F);
-            label7.Location = new Point(19, 284);
+            label7.Location = new Point(22, 342);
             label7.Name = "label7";
             label7.Size = new Size(77, 44);
             label7.TabIndex = 13;
@@ -542,22 +534,11 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Sans Serif Collection", 7.799999F);
-            label3.Location = new Point(19, 355);
+            label3.Location = new Point(22, 413);
             label3.Name = "label3";
             label3.Size = new Size(93, 44);
             label3.TabIndex = 3;
             label3.Text = "Book Source";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Sans Serif Collection", 7.799999F);
-            label4.Location = new Point(13, 415);
-            label4.Name = "label4";
-            label4.Size = new Size(57, 44);
-            label4.TabIndex = 7;
-            label4.Text = "Status";
-            label4.Click += label4_Click;
             // 
             // label2
             // 
@@ -593,6 +574,17 @@
             arthanPanel3.TopRightRadius = 50;
             arthanPanel3.UseIndividualCorners = false;
             // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Sans Serif Collection", 7.799999F);
+            label4.Location = new Point(22, 537);
+            label4.Name = "label4";
+            label4.Size = new Size(57, 44);
+            label4.TabIndex = 7;
+            label4.Text = "Status";
+            label4.Click += label4_Click;
+            // 
             // label10
             // 
             label10.AutoSize = true;
@@ -613,7 +605,7 @@
             arthanTextBox10.BorderSize = 2;
             arthanTextBox10.Font = new Font("Microsoft Sans Serif", 9.5F, FontStyle.Regular, GraphicsUnit.Point, 0);
             arthanTextBox10.ForeColor = Color.DimGray;
-            arthanTextBox10.Location = new Point(11, 369);
+            arthanTextBox10.Location = new Point(5, 427);
             arthanTextBox10.Margin = new Padding(5);
             arthanTextBox10.Multiline = true;
             arthanTextBox10.Name = "arthanTextBox10";
@@ -630,7 +622,7 @@
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Sans Serif Collection", 7.799999F);
-            label8.Location = new Point(22, 599);
+            label8.Location = new Point(22, 614);
             label8.Name = "label8";
             label8.Size = new Size(80, 44);
             label8.TabIndex = 11;
@@ -647,10 +639,20 @@
             label5.Text = "Client Name";
             label5.Click += label5_Click;
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Sans Serif Collection", 7.799999F);
+            label9.Location = new Point(19, 279);
+            label9.Name = "label9";
+            label9.Size = new Size(48, 44);
+            label9.TabIndex = 9;
+            label9.Text = "ISBN";
+            // 
             // panelReturnBooks
             // 
             panelReturnBooks.Controls.Add(arthanPanel1);
-            panelReturnBooks.Location = new Point(11, 147);
+            panelReturnBooks.Location = new Point(12, 147);
             panelReturnBooks.Name = "panelReturnBooks";
             panelReturnBooks.Size = new Size(421, 845);
             panelReturnBooks.TabIndex = 27;
@@ -795,6 +797,8 @@
             ReturnedBookID.ShadowDecoration.CustomizableEdges = customizableEdges32;
             ReturnedBookID.Size = new Size(352, 36);
             ReturnedBookID.TabIndex = 52;
+            ReturnedBookID.SelectedIndexChanged += ReturnedBookID_SelectedIndexChanged;
+            ReturnedBookID.TextChanged += ReturnedBookID_TextChanged;
             // 
             // label20
             // 
@@ -1390,6 +1394,7 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             returnDatagrid.DefaultCellStyle = dataGridViewCellStyle3;
             returnDatagrid.Dock = DockStyle.Fill;
+            returnDatagrid.Enabled = false;
             returnDatagrid.GridColor = Color.FromArgb(231, 229, 255);
             returnDatagrid.Location = new Point(0, 0);
             returnDatagrid.Name = "returnDatagrid";

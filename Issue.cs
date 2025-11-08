@@ -617,6 +617,8 @@ Trust Server Certificate=True;
 
             dgvBorrowList.Rows.Add(ISBN.Text, BookTitle.Text, Source.Text);
 
+            ISBN.Focus();
+
             // Clear fields
             ISBN.Clear();
             BookTitle.Items.Clear();
@@ -1108,6 +1110,7 @@ Trust Server Certificate=True;";
 
 
 
+
             // 🔍 Validate ClientID — numbers only
             if (!System.Text.RegularExpressions.Regex.IsMatch(clientID, @"^\d+$"))
             {
@@ -1140,6 +1143,8 @@ Trust Server Certificate=True;";
                         DateTime issueDateValue = DateTime.Now;
                         DateTime dueDateValue = ComputeDueDate(IssueRole.Text, issueDateValue);
                         dueDate.Value = dueDateValue;
+
+                        ISBN.Focus();
                     }
                     else
                     {
@@ -1405,6 +1410,7 @@ ORDER BY IssueDate DESC";
                             else
                             {
                                 MessageBox.Show("No matching issued book found for return.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                transaction.Rollback();
                                 return;
                             }
                         }
@@ -1427,81 +1433,100 @@ ORDER BY IssueDate DESC";
                         return;
                     }
 
-                    // ✅ CHECK FOR CONDITION MISMATCH
-                    if (!selectedReturnCondition.Equals(issuedConditionFromDB, StringComparison.OrdinalIgnoreCase))
+                    // ✅ ENHANCED CONDITION VALIDATION
+                    string issuedCond = issuedConditionFromDB.Trim().ToLower();
+                    string returnedCond = selectedReturnCondition.Trim().ToLower();
+
+                    // Define condition hierarchy (worst → best)
+                    Dictionary<string, int> conditionRank = new Dictionary<string, int>
+            {
+                { "lost", 1 },
+                { "major damage", 2 },
+                { "damaged", 3 },
+                { "minor damage", 4 },
+                { "minor damaged", 4 }, // handle both variants
+                { "good", 5 },
+                { "good condition", 5 },
+                { "new", 6 }
+            };
+
+                    // ✅ Check if both conditions are valid
+                    if (!conditionRank.ContainsKey(issuedCond))
                     {
-                        string issuedCond = issuedCondition.Text.Trim();
-                        string returnedCond = returnCondition.Text.Trim();
+                        MessageBox.Show($"Invalid issued condition: {issuedConditionFromDB}\n\nPlease contact system administrator.",
+                            "Data Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        transaction.Rollback();
+                        return;
+                    }
 
+                    if (!conditionRank.ContainsKey(returnedCond))
+                    {
+                        MessageBox.Show($"Invalid return condition: {selectedReturnCondition}\n\nPlease select a valid condition from the dropdown.",
+                            "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        transaction.Rollback();
+                        return;
+                    }
 
-                        // Normalize to lowercase to avoid case sensitivity issues
-                        string issued = issuedCond.Trim().ToLower();
-                        string returned = returnedCond.Trim().ToLower();
+                    int issuedRank = conditionRank[issuedCond];
+                    int returnedRank = conditionRank[returnedCond];
 
-                        // Define condition hierarchy (worst → best)
-                        List<string> conditionRank = new List<string>
-{
-    "lost",
-    "major damage",
-    "minor damage",
-    "good condition",
-    "new"
-};
+                    // ✅ PREVENT BETTER CONDITION
+                    if (returnedRank > issuedRank)
+                    {
+                        MessageBox.Show(
+                            $"❌ Invalid Condition!\n\n" +
+                            $"Book was issued as: {issuedConditionFromDB}\n" +
+                            $"Cannot be returned as: {selectedReturnCondition}\n\n" +
+                            $"The returned condition cannot be BETTER than the issued condition.\n" +
+                            $"Please select the correct condition.",
+                            "Condition Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                        transaction.Rollback();
+                        return; // ❌ STOP completely
+                    }
 
-                        // ✅ Check if returned condition is better than issued condition
-                        if (conditionRank.Contains(issued) && conditionRank.Contains(returned))
+                    // ✅ CHECK FOR WORSENED CONDITION
+                    if (returnedRank < issuedRank)
+                    {
+                        DialogResult result = MessageBox.Show(
+                            $"⚠️ Book Condition Mismatch Detected!\n\n" +
+                            $"Issued as: {issuedConditionFromDB}\n" +
+                            $"Returned as: {selectedReturnCondition}\n\n" +
+                            $"The book condition has worsened.\n" +
+                            $"Do you want to create a damage report?",
+                            "Condition Mismatch",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning
+                        );
+
+                        if (result == DialogResult.Yes)
                         {
-                            int issuedIndex = conditionRank.IndexOf(issued);
-                            int returnedIndex = conditionRank.IndexOf(returned);
+                            // ✅ ROLLBACK TRANSACTION - Don't process the return
+                            transaction.Rollback();
 
-                            // If returned is better (higher index → better)
-                            if (returnedIndex > issuedIndex)
+                            // ✅ Open the damage report form with dynamic data
+                            DamagedBookReport damageForm = new DamagedBookReport()
                             {
-                                MessageBox.Show(
-                                    "Returned condition cannot be better than the issued condition.\nPlease check the entered condition.",
-                                    "Invalid Condition",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning
-                                );
-                                return; // ❌ Stop processing completely
-                            }
+                                StartPosition = FormStartPosition.CenterScreen,
+                                PreClientID = ReturnClientID.Text.Trim(),
+                                PreISBN = isbn,
+                                PreBookTitle = bookTitle
+                            };
+                            damageForm.Show();
+
+                            // ✅ EXIT - Stop processing
+                            return;
                         }
-
-                        // ✅ Existing mismatch check (still runs if condition worsened)
-                        if (issued != returned)
+                        else if (result == DialogResult.No)
                         {
-                            DialogResult result = MessageBox.Show(
-                                "Book condition does not match the issued condition. Do you want to create a damage report?",
-                                "Condition Mismatch",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Warning
-                            );
-
-                            if (result == DialogResult.Yes)
-                            {
-                                // ✅ ROLLBACK TRANSACTION - Don't process the return
-                                transaction.Rollback();
-
-                                // ✅ Open the damage report form with dynamic data
-                                DamagedBookReport damageForm = new DamagedBookReport()
-                                {
-                                    StartPosition = FormStartPosition.CenterScreen,
-                                    PreClientID = ReturnClientID.Text.Trim(),
-                                    PreISBN = isbn,
-                                    PreBookTitle = bookTitle
-                                };
-                                damageForm.Show();
-
-                                // ✅ EXIT - Stop processing
-                                return;
-                            }
-                            else if (result == DialogResult.No)
-                            {
-                                return;
-                            }
-                            // If user clicks "No", continue with return process
+                            transaction.Rollback();
+                            return;
                         }
                     }
+
+                    // ✅ If conditions match exactly (issuedRank == returnedRank), continue normally
 
                     // 4️⃣ Update IssueBooks to mark as Returned
                     string updateIssue = @"
@@ -1575,6 +1600,8 @@ VALUES
                     ReturnedBookID.Items.Clear();
                     ReturnBookStatus.Text = "";
                     ReturnPenalty.Clear();
+                    returnCondition.SelectedIndex = -1; // Clear return condition selection
+                    issuedCondition.Items.Clear(); // Clear issued condition
 
                     // 🔄 Refresh UI
                     LoadIssueBooks();
@@ -1640,7 +1667,7 @@ VALUES
         {
             string isbn = ISBN.Text.Trim();
 
-           
+
 
             if (isbn.Length >= 4)
             {
@@ -1686,6 +1713,8 @@ VALUES
                             issuedCondition.Items.Add(condition);
                             issuedCondition.SelectedIndex = 0;
                             issuedCondition.Text = condition;
+
+                            btnAddToList.Focus();
                         }
                         else
                         {
@@ -2106,6 +2135,115 @@ Trust Server Certificate=True;";
             {
                 e.SuppressKeyPress = true; // prevent "ding" sound
                 ReturnButton.PerformClick(); // trigger button click
+            }
+        }
+
+        private void kupal_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ReturnedBookID_TextChanged(object sender, EventArgs e)
+        {
+            if (ReturnedBookID.SelectedItem == null)
+                return;
+
+            // Extract ISBN from selected item (format: "ISBN - BookTitle")
+            string selectedItem = ReturnedBookID.SelectedItem.ToString();
+            string selectedISBN = selectedItem.Split('-')[0].Trim();
+
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                // ✅ Get the BookCondition from IssueBooks (condition when issued)
+                string conditionQuery = @"
+            SELECT BookCondition 
+            FROM IssueBooks 
+            WHERE ISBN = @ISBN 
+              AND ClientID = @ClientID
+              AND (Status = 'Issued' OR Status = 'Overdue')";
+
+                using (SqlCommand cmd = new SqlCommand(conditionQuery, con))
+                {
+                    cmd.Parameters.AddWithValue("@ISBN", selectedISBN);
+                    cmd.Parameters.AddWithValue("@ClientID", ReturnClientID.Text.Trim());
+
+                    object condResult = cmd.ExecuteScalar();
+
+                    if (condResult != null)
+                    {
+                        string issuedCondition = condResult.ToString();
+
+                        // ✅ Update CMBbookConditon (Book Condition before issued)
+                        CMBbookConditon.Items.Clear();
+                        CMBbookConditon.Items.Add(issuedCondition);
+                        CMBbookConditon.SelectedIndex = 0;
+                        CMBbookConditon.Text = issuedCondition;
+
+                        // ✅ Store issued condition for validation later
+                        CMBbookConditon.Tag = issuedCondition; // Store for comparison
+                    }
+                }
+            }
+        }
+
+        private void ReturnedBookID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ReturnedBookID.SelectedItem == null)
+                return;
+
+            // Extract ISBN from selected item (format: "ISBN - BookTitle")
+            string selectedItem = ReturnedBookID.SelectedItem.ToString();
+            string selectedISBN = selectedItem.Split('-')[0].Trim();
+
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                // ✅ Get the BookCondition from IssueBooks (condition when issued)
+                string conditionQuery = @"
+            SELECT BookCondition 
+            FROM IssueBooks 
+            WHERE ISBN = @ISBN 
+              AND ClientID = @ClientID
+              AND (Status = 'Issued' OR Status = 'Overdue')";
+
+                using (SqlCommand cmd = new SqlCommand(conditionQuery, con))
+                {
+                    cmd.Parameters.AddWithValue("@ISBN", selectedISBN);
+                    cmd.Parameters.AddWithValue("@ClientID", ReturnClientID.Text.Trim());
+
+                    object condResult = cmd.ExecuteScalar();
+
+                    if (condResult != null)
+                    {
+                        string issuedCondition = condResult.ToString();
+
+                        // ✅ Update CMBbookConditon (Book Condition before issued)
+                        CMBbookConditon.Items.Clear();
+                        CMBbookConditon.Items.Add(issuedCondition);
+                        CMBbookConditon.SelectedIndex = 0;
+                        CMBbookConditon.Text = issuedCondition;
+                    }
+                }
             }
         }
     }
