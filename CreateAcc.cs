@@ -213,7 +213,8 @@ namespace LibraryCGC
                 }
 
 
-                if (Role.Text == "Student"){
+                if (Role.Text == "Student")
+                {
 
                     // Check if email is empty
                     string email = Email.Text.Trim();
@@ -224,7 +225,7 @@ namespace LibraryCGC
                         return;
                     }
 
-                  
+
                     // Separate if for invalid email
                     if (!string.IsNullOrWhiteSpace(email) &&
                         !email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase) &&
@@ -279,7 +280,7 @@ namespace LibraryCGC
                     }
                 }
 
-               
+
 
 
 
@@ -393,6 +394,7 @@ namespace LibraryCGC
                     if (exists > 0)
                     {
                         MessageBox.Show("This student number already exists!");
+                     
                         return;
                     }
                 }
@@ -693,7 +695,197 @@ namespace LibraryCGC
 
         private void Email_TextChanged(object sender, EventArgs e)
         {
-         
+
+        }
+
+        private void btnActivateStudent_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnActivateAccount_Click(object sender, EventArgs e)
+        {
+            string clientID = ActivateClientID.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(clientID))
+            {
+                MessageBox.Show("Please enter a valid Client ID.", "Missing ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+            {
+                con.Open();
+
+                // ✅ Check if the client exists
+                string checkQuery = "SELECT COUNT(*) FROM AddStudentAcc WHERE ClientID = @ClientID";
+                using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
+                {
+                    checkCmd.Parameters.AddWithValue("@ClientID", clientID);
+                    int exists = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                    if (exists == 0)
+                    {
+                        MessageBox.Show("No student found with this Client ID.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                // ✅ Retrieve the student's info
+                string selectQuery = "SELECT Name, Role, Status FROM AddStudentAcc WHERE ClientID = @ClientID";
+                using (SqlCommand cmd = new SqlCommand(selectQuery, con))
+                {
+                    cmd.Parameters.AddWithValue("@ClientID", clientID);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            ActivateName.Text = reader["Name"].ToString();
+                            ActivateRole.Text = reader["Role"].ToString();
+
+                            string status = reader["Status"].ToString();
+                            if (status == "Active")
+                            {
+                                MessageBox.Show("This account is already active.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                // ✅ Activate the account
+                string updateQuery = "UPDATE AddStudentAcc SET Status = 'Active' WHERE ClientID = @ClientID";
+                using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
+                {
+                    updateCmd.Parameters.AddWithValue("@ClientID", clientID);
+                    updateCmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("Student account successfully activated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ActivateClientID.Text = "";
+                ActivateName.Text = "";
+                ActivateRole.Text = "";
+                LoadStudentAccounts(); // refresh table
+            }
+
+            // ✅ Log the activation
+            ActivityLog.RecordActivity(
+                SessionData.CurrentUserName,
+                "Activate Student",
+                "Account Management",
+                $"Activated student account — ClientID: {clientID}"
+            );
+        }
+
+        private void ActivateClientID_TextChanged(object sender, EventArgs e)
+        {
+            string clientID = ActivateClientID.Text.Trim();
+
+            // 🧩 Trigger only if exactly 4 digits entered
+            if (clientID.Length == 4)
+            {
+                using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                {
+                    try
+                    {
+                        con.Open();
+                        string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            cmd.Parameters.AddWithValue("@ClientID", clientID);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    ActivateName.Text = reader["Name"].ToString();
+                                    ActivateRole.Text = reader["Role"].ToString();
+
+                                    // ✅ Move focus to Activate button
+                                  
+                                    btnActivateAccount.Focus();
+                                }
+                                else
+                                {
+                                    ActivateName.Text = "";
+                                    ActivateRole.Text = "";
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else if (clientID.Length < 4)
+            {
+                // Clear while typing incomplete
+                ActivateName.Text = "";
+                ActivateRole.Text = "";
+            }
+        }
+
+     
+
+        private void ActivateClientID_KeyDown_1(object sender, KeyEventArgs e)
+        {
+            // 🔑 Only trigger when user presses Enter
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // prevents the 'ding' sound
+                string clientID = ActivateClientID.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(clientID))
+                {
+                    MessageBox.Show("Please enter a Client ID first.", "Missing Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                {
+                    try
+                    {
+                        con.Open();
+                        string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            cmd.Parameters.AddWithValue("@ClientID", clientID);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    // ✅ Auto-fill
+                                    ActivateName.Text = reader["Name"].ToString();
+                                    ActivateRole.Text = reader["Role"].ToString();
+
+                                    // ✅ Move focus to Activate button
+                                    btnActivateAccount.Focus();
+                                }
+                                else
+                                {
+                                    // ❌ Not found message
+                                    ActivateName.Text = "";
+                                    ActivateRole.Text = "";
+                                    MessageBox.Show("Student record not found.", "No Record", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    ActivateClientID.Text = "";
+                                    ActivateName.Text = "";
+                                    ActivateRole.Text = "";
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }
