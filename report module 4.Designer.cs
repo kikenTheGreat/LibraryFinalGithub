@@ -574,7 +574,9 @@
             Controls.Add(guna2CustomGradientPanel2);
             Margin = new Padding(3, 4, 3, 4);
             Name = "report_module_4";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "report_module_4";
+            WindowState = FormWindowState.Maximized;
             Load += report_module_4_Load;
             guna2CustomGradientPanel3.ResumeLayout(false);
             guna2CustomGradientPanel3.PerformLayout();

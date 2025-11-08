@@ -37,6 +37,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             guna2CirclePictureBox2 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             pictureBox1 = new PictureBox();
@@ -52,11 +54,13 @@
             label2 = new Label();
             label1 = new Label();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
+            guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             arthanPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
             arthanPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)guna2PictureBox1).BeginInit();
             SuspendLayout();
             // 
             // arthanPanel1
@@ -106,10 +110,10 @@
             // 
             pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(57, 124);
+            pictureBox1.Location = new Point(43, 124);
             pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(297, 324);
+            pictureBox1.Size = new Size(333, 324);
             pictureBox1.TabIndex = 28;
             pictureBox1.TabStop = false;
             // 
@@ -256,6 +260,8 @@
             arthanPanel2.BorderStyle = BorderStyle.FixedSingle;
             arthanPanel2.BottomLeftRadius = 0;
             arthanPanel2.BottomRightRadius = 0;
+            arthanPanel2.Controls.Add(guna2PictureBox1);
+            arthanPanel2.Controls.Add(txtUsername);
             arthanPanel2.Controls.Add(label2);
             arthanPanel2.Controls.Add(label1);
             arthanPanel2.Controls.Add(arthanButton5);
@@ -263,7 +269,6 @@
             arthanPanel2.Controls.Add(label5);
             arthanPanel2.Controls.Add(txtPassword);
             arthanPanel2.Controls.Add(label6);
-            arthanPanel2.Controls.Add(txtUsername);
             arthanPanel2.CornerRadius = 0;
             arthanPanel2.Dock = DockStyle.Right;
             arthanPanel2.EnableDragging = false;
@@ -288,7 +293,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.FromArgb(192, 0, 0);
-            label2.Location = new Point(83, 97);
+            label2.Location = new Point(104, 86);
             label2.Name = "label2";
             label2.Size = new Size(166, 51);
             label2.TabIndex = 57;
@@ -297,10 +302,10 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Sans Serif Collection", 11.999999F);
-            label1.Location = new Point(90, 44);
+            label1.Font = new Font("Sans Serif Collection", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(86, 25);
             label1.Name = "label1";
-            label1.Size = new Size(137, 68);
+            label1.Size = new Size(203, 102);
             label1.TabIndex = 56;
             label1.Text = "CGC Library";
             // 
@@ -329,6 +334,19 @@
             arthanPanel3.TopRightRadius = 0;
             arthanPanel3.UseIndividualCorners = false;
             // 
+            // guna2PictureBox1
+            // 
+            guna2PictureBox1.BackgroundImageLayout = ImageLayout.Center;
+            guna2PictureBox1.CustomizableEdges = customizableEdges8;
+            guna2PictureBox1.Image = (Image)resources.GetObject("guna2PictureBox1.Image");
+            guna2PictureBox1.ImageRotate = 0F;
+            guna2PictureBox1.Location = new Point(298, 360);
+            guna2PictureBox1.Name = "guna2PictureBox1";
+            guna2PictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges9;
+            guna2PictureBox1.Size = new Size(30, 30);
+            guna2PictureBox1.TabIndex = 58;
+            guna2PictureBox1.TabStop = false;
+            // 
             // REGISTER
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -337,7 +355,9 @@
             Controls.Add(arthanPanel2);
             Controls.Add(arthanPanel1);
             Controls.Add(arthanPanel3);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "REGISTER";
+            StartPosition = FormStartPosition.CenterScreen;
             Load += REGISTER_Load;
             arthanPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox2).EndInit();
@@ -345,6 +365,7 @@
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).EndInit();
             arthanPanel2.ResumeLayout(false);
             arthanPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)guna2PictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -365,5 +386,6 @@
         private Label label2;
         private Label label1;
         private LibraryCGC.Components.ArthanPanel arthanPanel3;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
     }
 }

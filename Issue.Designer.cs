@@ -118,7 +118,6 @@
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             ReturnClientName = new Guna.UI2.WinForms.Guna2TextBox();
             ReturnBookQty = new Guna.UI2.WinForms.Guna2TextBox();
-            label14 = new Label();
             ReturnPenalty = new Guna.UI2.WinForms.Guna2TextBox();
             ReturnedBookID = new Guna.UI2.WinForms.Guna2ComboBox();
             label20 = new Label();
@@ -138,6 +137,7 @@
             label26 = new Label();
             label18 = new Label();
             label12 = new Label();
+            label14 = new Label();
             lblReturnDate = new Guna.UI2.WinForms.Guna2HtmlLabel();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
@@ -662,7 +662,6 @@
             arthanPanel1.BottomRightRadius = 15;
             arthanPanel1.Controls.Add(ReturnClientName);
             arthanPanel1.Controls.Add(ReturnBookQty);
-            arthanPanel1.Controls.Add(label14);
             arthanPanel1.Controls.Add(ReturnPenalty);
             arthanPanel1.Controls.Add(ReturnedBookID);
             arthanPanel1.Controls.Add(label20);
@@ -682,6 +681,7 @@
             arthanPanel1.Controls.Add(label26);
             arthanPanel1.Controls.Add(label18);
             arthanPanel1.Controls.Add(label12);
+            arthanPanel1.Controls.Add(label14);
             arthanPanel1.CornerRadius = 15;
             arthanPanel1.Dock = DockStyle.Fill;
             arthanPanel1.EnableDragging = false;
@@ -751,16 +751,6 @@
             ReturnBookQty.ShadowDecoration.CustomizableEdges = customizableEdges28;
             ReturnBookQty.Size = new Size(352, 39);
             ReturnBookQty.TabIndex = 63;
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Font = new Font("Sans Serif Collection", 6.749999F);
-            label14.Location = new Point(36, 571);
-            label14.Name = "label14";
-            label14.Size = new Size(59, 41);
-            label14.TabIndex = 44;
-            label14.Text = "Penalty";
             // 
             // ReturnPenalty
             // 
@@ -1084,6 +1074,16 @@
             label12.TabIndex = 56;
             label12.Text = "Role";
             // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Font = new Font("Sans Serif Collection", 6.749999F);
+            label14.Location = new Point(36, 571);
+            label14.Name = "label14";
+            label14.Size = new Size(59, 41);
+            label14.TabIndex = 44;
+            label14.Text = "Penalty";
+            // 
             // lblReturnDate
             // 
             lblReturnDate.BackColor = Color.Transparent;
@@ -1134,7 +1134,7 @@
             guna2Button1.FillColor = Color.Orange;
             guna2Button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             guna2Button1.ForeColor = Color.Black;
-            guna2Button1.Location = new Point(794, 25);
+            guna2Button1.Location = new Point(791, 25);
             guna2Button1.Name = "guna2Button1";
             guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges46;
             guna2Button1.Size = new Size(157, 63);
@@ -1154,7 +1154,7 @@
             btnReturnBooks.FillColor = Color.Orange;
             btnReturnBooks.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnReturnBooks.ForeColor = Color.Black;
-            btnReturnBooks.Location = new Point(611, 25);
+            btnReturnBooks.Location = new Point(608, 25);
             btnReturnBooks.Name = "btnReturnBooks";
             btnReturnBooks.ShadowDecoration.CustomizableEdges = customizableEdges48;
             btnReturnBooks.Size = new Size(157, 63);
@@ -1174,7 +1174,7 @@
             btnIssueBooks.FillColor = Color.Orange;
             btnIssueBooks.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnIssueBooks.ForeColor = Color.Black;
-            btnIssueBooks.Location = new Point(419, 25);
+            btnIssueBooks.Location = new Point(416, 25);
             btnIssueBooks.Name = "btnIssueBooks";
             btnIssueBooks.ShadowDecoration.CustomizableEdges = customizableEdges50;
             btnIssueBooks.Size = new Size(157, 63);
@@ -1449,7 +1449,9 @@
             Controls.Add(arthanPanel4);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Issue";
-            Text = "Issue";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "1";
+            WindowState = FormWindowState.Maximized;
             Load += Issue_Load;
             kupal.ResumeLayout(false);
             kupal.PerformLayout();

@@ -743,7 +743,9 @@
             Controls.Add(guna2CustomGradientPanel1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "sign_in";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "sign_in";
+            WindowState = FormWindowState.Maximized;
             Load += sign_in_Load;
             guna2CustomGradientPanel1.ResumeLayout(false);
             guna2CustomGradientPanel1.PerformLayout();

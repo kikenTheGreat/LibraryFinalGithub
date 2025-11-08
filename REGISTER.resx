@@ -1095,4 +1095,14 @@
   <metadata name="guna2ShapesTool1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="guna2PictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAD9SURBVEhL7ZTtDcIwDEQ9CqMwCqOwCaMwCqOAXtSTXMtxWyDlR3lSRMmHzznXNfuzA6c4MZKz
+        mT3M7BoXRnI5rCi1ZY7/NzO7T78M5r9Se4kS/OmeEfXCrDF45j34CEQVrIIbkgB73yqFtyjaW8E59jJW
+        o/p4JOpt7CUh0SVXGrIwq4XW4qhEs7UZvQAiE+3ZJ1e6cCsCLJGJ9tqi51aDQ2wg4BJRNEMX6CXTkA3l
+        pomqZbYk3wKU3juylkGMGFkiKb6X1t5UoptawsNBAvhAFRLFxtjDmyCQLFbjM8cgEV8j1bRqq9XoxvrS
+        KIH4ymc1Hc7xRKPtQ9lV7Pe8AMDOacemwCR5AAAAAElFTkSuQmCC
+</value>
+  </data>
 </root>

@@ -2057,8 +2057,36 @@ Trust Server Certificate=True;";
 
         private void dgvBorrowList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && dgvBorrowList.Columns[e.ColumnIndex].Name == "Remove")
+            // ✅ Ignore header clicks or invalid rows
+            if (e.RowIndex < 0 || e.RowIndex >= dgvBorrowList.Rows.Count)
+                return;
+
+            // ✅ Only respond to clicks on the "Remove" column
+            if (dgvBorrowList.Columns[e.ColumnIndex].Name == "Remove")
             {
+                // ✅ Check if borrowList is in sync and index is valid
+                if (borrowList == null || e.RowIndex >= borrowList.Count)
+                {
+                    MessageBox.Show("List is out of sync. Please refresh or try again.",
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // ✅ Get the quantity value safely
+                object cellValue = dgvBorrowList.Rows[e.RowIndex].Cells["Quantity"].Value;
+                int quantity = 0;
+
+                if (cellValue != null && int.TryParse(cellValue.ToString(), out int parsedQty))
+                    quantity = parsedQty;
+
+                // ✅ Prevent removing if quantity < 1
+                if (quantity < 1)
+                {
+                    MessageBox.Show("Quantity cannot be less than 1.", "Invalid Action", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // ✅ Confirm before removal
                 var result = MessageBox.Show("Remove this book from the list?",
                                              "Confirm Remove",
                                              MessageBoxButtons.YesNo,
@@ -2066,9 +2094,12 @@ Trust Server Certificate=True;";
 
                 if (result == DialogResult.Yes)
                 {
-                    borrowList.RemoveAt(e.RowIndex);
-                    dgvBorrowList.Rows.RemoveAt(e.RowIndex);
+                    // ✅ Double-check index range before removal
+                    if (e.RowIndex < borrowList.Count)
+                        borrowList.RemoveAt(e.RowIndex);
 
+                    if (e.RowIndex < dgvBorrowList.Rows.Count)
+                        dgvBorrowList.Rows.RemoveAt(e.RowIndex);
                 }
             }
         }

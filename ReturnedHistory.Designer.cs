@@ -164,7 +164,9 @@
             Controls.Add(arthanPanel9);
             Controls.Add(arthanPanel4);
             Name = "ReturnedHistory";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "ReturnedHistory";
+            WindowState = FormWindowState.Maximized;
             Load += ReturnedHistory_Load;
             arthanPanel4.ResumeLayout(false);
             arthanPanel4.PerformLayout();

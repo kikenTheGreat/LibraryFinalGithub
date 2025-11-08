@@ -705,7 +705,7 @@
             arthanPanel2.GradientDirection = System.Drawing.Drawing2D.LinearGradientMode.Horizontal;
             arthanPanel2.GradientEndColor = Color.FromArgb(252, 201, 71);
             arthanPanel2.GradientStartColor = Color.FromArgb(220, 38, 38);
-            arthanPanel2.Location = new Point(327, 61);
+            arthanPanel2.Location = new Point(359, 63);
             arthanPanel2.Margin = new Padding(3, 4, 3, 4);
             arthanPanel2.Name = "arthanPanel2";
             arthanPanel2.ShadowBlur = 0;
@@ -747,7 +747,7 @@
             // 
             label13.AutoSize = true;
             label13.Font = new Font("Sans Serif Collection", 11.999999F);
-            label13.Location = new Point(380, 0);
+            label13.Location = new Point(412, 2);
             label13.Name = "label13";
             label13.Size = new Size(176, 68);
             label13.TabIndex = 62;

@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ActivityLog));
             DataGridActivity = new Guna.UI2.WinForms.Guna2DataGridView();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
@@ -66,26 +66,26 @@
             // 
             // DataGridActivity
             // 
-            dataGridViewCellStyle1.BackColor = Color.White;
-            DataGridActivity.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(100, 88, 255);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            DataGridActivity.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            DataGridActivity.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(100, 88, 255);
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            DataGridActivity.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             DataGridActivity.ColumnHeadersHeight = 4;
             DataGridActivity.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(231, 229, 255);
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            DataGridActivity.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            DataGridActivity.DefaultCellStyle = dataGridViewCellStyle6;
             DataGridActivity.GridColor = Color.FromArgb(231, 229, 255);
             DataGridActivity.Location = new Point(11, 189);
             DataGridActivity.Name = "DataGridActivity";
@@ -121,6 +121,10 @@
             arthanButton1.BackColor = Color.Transparent;
             arthanButton1.BackgroundColor = Color.AliceBlue;
             arthanButton1.BorderColor = Color.PaleVioletRed;
+            arthanButton1.BorderRadius = 10;
+            arthanButton1.BottomLeftRadius = 10;
+            arthanButton1.BottomRightRadius = 10;
+            arthanButton1.CornerRadius = 10;
             arthanButton1.FlatAppearance.BorderColor = Color.Empty;
             arthanButton1.FlatAppearance.BorderSize = 0;
             arthanButton1.FlatAppearance.MouseDownBackColor = Color.Empty;
@@ -140,13 +144,15 @@
             arthanButton1.TabIndex = 6;
             arthanButton1.Text = "Home";
             arthanButton1.TextColor = Color.Black;
+            arthanButton1.TopLeftRadius = 10;
+            arthanButton1.TopRightRadius = 10;
             arthanButton1.UseVisualStyleBackColor = false;
             arthanButton1.Click += arthanButton1_Click;
             // 
             // dtpFrom
             // 
             dtpFrom.Checked = true;
-            dtpFrom.CustomizableEdges = customizableEdges1;
+            dtpFrom.CustomizableEdges = customizableEdges9;
             dtpFrom.FillColor = Color.FromArgb(255, 224, 192);
             dtpFrom.Font = new Font("Segoe UI", 9F);
             dtpFrom.Format = DateTimePickerFormat.Long;
@@ -154,7 +160,7 @@
             dtpFrom.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpFrom.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpFrom.Name = "dtpFrom";
-            dtpFrom.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            dtpFrom.ShadowDecoration.CustomizableEdges = customizableEdges10;
             dtpFrom.Size = new Size(250, 45);
             dtpFrom.TabIndex = 7;
             dtpFrom.Value = new DateTime(2025, 10, 28, 17, 23, 25, 383);
@@ -163,7 +169,7 @@
             // dtpTo
             // 
             dtpTo.Checked = true;
-            dtpTo.CustomizableEdges = customizableEdges3;
+            dtpTo.CustomizableEdges = customizableEdges11;
             dtpTo.FillColor = Color.FromArgb(255, 224, 192);
             dtpTo.Font = new Font("Segoe UI", 9F);
             dtpTo.Format = DateTimePickerFormat.Long;
@@ -171,7 +177,7 @@
             dtpTo.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpTo.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpTo.Name = "dtpTo";
-            dtpTo.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            dtpTo.ShadowDecoration.CustomizableEdges = customizableEdges12;
             dtpTo.Size = new Size(250, 45);
             dtpTo.TabIndex = 8;
             dtpTo.Value = new DateTime(2025, 10, 28, 17, 23, 25, 383);
@@ -221,7 +227,7 @@
             txtUser.BorderRadius = 4;
             txtUser.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             txtUser.BorderThickness = 2;
-            txtUser.CustomizableEdges = customizableEdges5;
+            txtUser.CustomizableEdges = customizableEdges13;
             txtUser.DefaultText = "";
             txtUser.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtUser.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -235,7 +241,7 @@
             txtUser.Name = "txtUser";
             txtUser.PlaceholderText = "";
             txtUser.SelectedText = "";
-            txtUser.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            txtUser.ShadowDecoration.CustomizableEdges = customizableEdges14;
             txtUser.Size = new Size(246, 37);
             txtUser.TabIndex = 50;
             txtUser.TextChanged += txtUser_TextChanged;
@@ -301,7 +307,7 @@
             txtSearch.BorderRadius = 4;
             txtSearch.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             txtSearch.BorderThickness = 2;
-            txtSearch.CustomizableEdges = customizableEdges7;
+            txtSearch.CustomizableEdges = customizableEdges15;
             txtSearch.DefaultText = "";
             txtSearch.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtSearch.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -315,7 +321,7 @@
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "";
             txtSearch.SelectedText = "";
-            txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges16;
             txtSearch.Size = new Size(246, 37);
             txtSearch.TabIndex = 55;
             txtSearch.TextChanged += txtSearch_TextChanged;
@@ -342,10 +348,10 @@
             btnClearFilter.HoverEndColor = Color.FromArgb(147, 211, 251);
             btnClearFilter.HoverStartColor = Color.FromArgb(86, 143, 190);
             btnClearFilter.Image = null;
-            btnClearFilter.Location = new Point(1530, 85);
+            btnClearFilter.Location = new Point(1519, 91);
             btnClearFilter.Margin = new Padding(3, 4, 3, 4);
             btnClearFilter.Name = "btnClearFilter";
-            btnClearFilter.Size = new Size(120, 57);
+            btnClearFilter.Size = new Size(111, 51);
             btnClearFilter.TabIndex = 57;
             btnClearFilter.Text = "Clear";
             btnClearFilter.TextColor = Color.Black;
@@ -376,10 +382,10 @@
             btnApplyFilter.HoverEndColor = Color.FromArgb(147, 211, 251);
             btnApplyFilter.HoverStartColor = Color.FromArgb(86, 143, 190);
             btnApplyFilter.Image = null;
-            btnApplyFilter.Location = new Point(1530, 20);
+            btnApplyFilter.Location = new Point(1519, 26);
             btnApplyFilter.Margin = new Padding(3, 4, 3, 4);
             btnApplyFilter.Name = "btnApplyFilter";
-            btnApplyFilter.Size = new Size(120, 57);
+            btnApplyFilter.Size = new Size(111, 51);
             btnApplyFilter.TabIndex = 58;
             btnApplyFilter.Text = "Apply";
             btnApplyFilter.TextColor = Color.Black;
@@ -446,7 +452,9 @@
             Controls.Add(arthanPanel4);
             Controls.Add(DataGridActivity);
             Name = "ActivityLog";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "ActivityLog";
+            WindowState = FormWindowState.Maximized;
             Load += ActivityLog_Load;
             ((System.ComponentModel.ISupportInitialize)DataGridActivity).EndInit();
             arthanPanel4.ResumeLayout(false);
