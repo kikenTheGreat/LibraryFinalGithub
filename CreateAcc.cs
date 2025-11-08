@@ -76,6 +76,7 @@ namespace LibraryCGC
             SetupAccountGrid();
             LoadStudentAccounts();
             CheckSemesterStatus(); // ✅ check button states on lo
+            MoveInactiveStudents();
         }
 
         private void LoadStudentAccounts()   //output data grid
@@ -655,18 +656,16 @@ namespace LibraryCGC
 
                 if (activeSemCount == 0)
                 {
-                    MessageBox.Show("There’s no active semester to end.", "No Active Semester");
+                    MessageBox.Show("There's no active semester to end.", "No Active Semester");
                     return;
                 }
 
                 SqlCommand endCmd = new SqlCommand(@"
-            UPDATE AddStudentAcc SET Status = 'Inactive';
-            UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1;", con);
+        UPDATE AddStudentAcc SET Status = 'Inactive';
+        UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1;", con);
                 endCmd.ExecuteNonQuery();
 
                 MessageBox.Show("Semester ended manually. All accounts are now inactive.");
-
-                LoadStudentAccounts();
 
                 ActivityLog.RecordActivity(
                     SessionData.CurrentUserName,
@@ -674,11 +673,14 @@ namespace LibraryCGC
                     "Account Management",
                     "Semester was manually ended — all accounts set to inactive."
                 );
+
                 RefreshSemesterButtons();
-
             }
-        }
 
+            // ✅ Move inactive students to InactiveStudents table
+            MoveInactiveStudents();
+            LoadStudentAccounts();
+        }
 
         private void CheckSemesterStatus()
         {
@@ -708,6 +710,7 @@ namespace LibraryCGC
 
         }
 
+        // Replace your btnActivateAccount_Click method with this:
         private void btnActivateAccount_Click(object sender, EventArgs e)
         {
             string clientID = ActivateClientID.Text.Trim();
@@ -722,8 +725,8 @@ namespace LibraryCGC
             {
                 con.Open();
 
-                // ✅ Check if the client exists
-                string checkQuery = "SELECT COUNT(*) FROM AddStudentAcc WHERE ClientID = @ClientID";
+                // ✅ Check if the client exists in InactiveStudents
+                string checkQuery = "SELECT COUNT(*) FROM InactiveStudents WHERE ClientID = @ClientID";
                 using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
                 {
                     checkCmd.Parameters.AddWithValue("@ClientID", clientID);
@@ -731,13 +734,16 @@ namespace LibraryCGC
 
                     if (exists == 0)
                     {
-                        MessageBox.Show("No student found with this Client ID.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No inactive student found with this Client ID.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
 
-                // ✅ Retrieve the student's info
-                string selectQuery = "SELECT Name, Role, Status FROM AddStudentAcc WHERE ClientID = @ClientID";
+                // ✅ Retrieve the student's info from InactiveStudents
+                string selectQuery = "SELECT Name, Role FROM InactiveStudents WHERE ClientID = @ClientID";
+                string studentName = "";
+                string studentRole = "";
+
                 using (SqlCommand cmd = new SqlCommand(selectQuery, con))
                 {
                     cmd.Parameters.AddWithValue("@ClientID", clientID);
@@ -745,48 +751,63 @@ namespace LibraryCGC
                     {
                         if (reader.Read())
                         {
-                            ActivateName.Text = reader["Name"].ToString();
-                            ActivateRole.Text = reader["Role"].ToString();
-
-                            string status = reader["Status"].ToString();
-                            if (status == "Active")
-                            {
-                                MessageBox.Show("This account is already active.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                return;
-                            }
+                            studentName = reader["Name"].ToString();
+                            studentRole = reader["Role"].ToString();
                         }
                     }
                 }
 
-                // ✅ Activate the account
-                string updateQuery = "UPDATE AddStudentAcc SET Status = 'Active' WHERE ClientID = @ClientID";
-                using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
+                // ✅ Move the record from InactiveStudents → AddStudentAcc
+                try
                 {
-                    updateCmd.Parameters.AddWithValue("@ClientID", clientID);
-                    updateCmd.ExecuteNonQuery();
+                    // Turn on IDENTITY_INSERT to preserve ClientID
+                    string moveQuery = @"
+            SET IDENTITY_INSERT AddStudentAcc ON;
+
+            INSERT INTO AddStudentAcc (ClientID, Name, YearLevel, SectionSY, Email, StudentNumber, Department, Semester, Role, DateCreated, Status)
+            SELECT ClientID, Name, YearLevel, SectionSY, Email, StudentNumber, Department, Semester, Role, DateCreated, 'Active'
+            FROM InactiveStudents
+            WHERE ClientID = @ClientID;
+
+            SET IDENTITY_INSERT AddStudentAcc OFF;
+
+            DELETE FROM InactiveStudents WHERE ClientID = @ClientID;";
+
+                    using (SqlCommand moveCmd = new SqlCommand(moveQuery, con))
+                    {
+                        moveCmd.Parameters.AddWithValue("@ClientID", clientID);
+                        moveCmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Student account successfully activated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Clear fields
+                    ActivateClientID.Text = "";
+                    ActivateName.Text = "";
+                    ActivateRole.Text = "";
+
+                    // ✅ Log the activation
+                    ActivityLog.RecordActivity(
+                        SessionData.CurrentUserName,
+                        "Activate Student",
+                        "Account Management",
+                        $"Activated student account — ClientID: {clientID}, Name: {studentName}"
+                    );
+
+                    LoadStudentAccounts(); // refresh table
                 }
-
-                MessageBox.Show("Student account successfully activated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ActivateClientID.Text = "";
-                ActivateName.Text = "";
-                ActivateRole.Text = "";
-                LoadStudentAccounts(); // refresh table
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error activating account: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-
-            // ✅ Log the activation
-            ActivityLog.RecordActivity(
-                SessionData.CurrentUserName,
-                "Activate Student",
-                "Account Management",
-                $"Activated student account — ClientID: {clientID}"
-            );
         }
 
+        // Update your ActivateClientID_TextChanged to query InactiveStudents:
         private void ActivateClientID_TextChanged(object sender, EventArgs e)
         {
             string clientID = ActivateClientID.Text.Trim();
 
-            // 🧩 Trigger only if exactly 4 digits entered
             if (clientID.Length == 4)
             {
                 using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
@@ -794,7 +815,7 @@ namespace LibraryCGC
                     try
                     {
                         con.Open();
-                        string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+                        string query = "SELECT Name, Role FROM InactiveStudents WHERE ClientID = @ClientID";
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@ClientID", clientID);
@@ -804,9 +825,6 @@ namespace LibraryCGC
                                 {
                                     ActivateName.Text = reader["Name"].ToString();
                                     ActivateRole.Text = reader["Role"].ToString();
-
-                                    // ✅ Move focus to Activate button
-                                  
                                     btnActivateAccount.Focus();
                                 }
                                 else
@@ -825,13 +843,57 @@ namespace LibraryCGC
             }
             else if (clientID.Length < 4)
             {
-                // Clear while typing incomplete
                 ActivateName.Text = "";
                 ActivateRole.Text = "";
             }
         }
 
-     
+        // Replace your MoveInactiveStudents() method with this:
+        private void MoveInactiveStudents()
+        {
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+
+                // ✅ Ensure InactiveStudents table exists
+                string ensureTables = @"
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='InactiveStudents' AND xtype='U')
+        CREATE TABLE InactiveStudents (
+            ClientID INT PRIMARY KEY,
+            Name NVARCHAR(255),
+            YearLevel NVARCHAR(50),
+            SectionSY NVARCHAR(100),
+            Email NVARCHAR(255),
+            StudentNumber NVARCHAR(100),
+            Department NVARCHAR(100),
+            Semester NVARCHAR(50),
+            Role NVARCHAR(50),
+            DateCreated DATETIME,
+            Status NVARCHAR(50)
+        );";
+                new SqlCommand(ensureTables, con).ExecuteNonQuery();
+
+                // ✅ Move Inactive records from AddStudentAcc → InactiveStudents
+                string moveToInactive = @"
+        -- Insert new inactive records
+        INSERT INTO InactiveStudents (ClientID, Name, YearLevel, SectionSY, Email, StudentNumber, Department, Semester, Role, DateCreated, Status)
+        SELECT ClientID, Name, YearLevel, SectionSY, Email, StudentNumber, Department, Semester, Role, DateCreated, Status
+        FROM AddStudentAcc
+        WHERE Status = 'Inactive'
+          AND ClientID NOT IN (SELECT ClientID FROM InactiveStudents);
+
+        -- Delete moved records from AddStudentAcc
+        DELETE FROM AddStudentAcc WHERE Status = 'Inactive';";
+
+                new SqlCommand(moveToInactive, con).ExecuteNonQuery();
+            }
+        }
+
+
+
+
 
         private void ActivateClientID_KeyDown_1(object sender, KeyEventArgs e)
         {
@@ -852,7 +914,7 @@ namespace LibraryCGC
                     try
                     {
                         con.Open();
-                        string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+                        string query = "SELECT Name, Role FROM InactiveStudents WHERE ClientID = @ClientID";
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
                             cmd.Parameters.AddWithValue("@ClientID", clientID);
