@@ -1470,25 +1470,76 @@ ORDER BY IssueDate DESC";
                     int issuedRank = conditionRank[issuedCond];
                     int returnedRank = conditionRank[returnedCond];
 
-                    // ✅ PREVENT BETTER CONDITION
+                    // ✅ CHECK IF CONDITION IMPROVED
                     if (returnedRank > issuedRank)
                     {
-                        MessageBox.Show(
-                            $"❌ Invalid Condition!\n\n" +
+                        DialogResult improvedResult = MessageBox.Show(
+                            $"📈 Book Condition Improved!\n\n" +
                             $"Book was issued as: {issuedConditionFromDB}\n" +
-                            $"Cannot be returned as: {selectedReturnCondition}\n\n" +
-                            $"The returned condition cannot be BETTER than the issued condition.\n" +
-                            $"Please select the correct condition.",
-                            "Condition Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
+                            $"Returned as: {selectedReturnCondition}\n\n" +
+                            $"The book condition has IMPROVED.\n" +
+                            $"Do you want to update the book's condition in the database?\n\n" +
+                            $"Or are you just confused with the condition?\n\n" +
+                            $"• Click YES to save and update the book condition\n" +
+                            $"• Click NO to cancel the entire transaction",
+                            "Condition Improved",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question
                         );
-                        transaction.Rollback();
-                        return; // ❌ STOP completely
+
+                        if (improvedResult == DialogResult.Yes)
+                        {
+                            // ✅ Update BookCondition in BooksAcq table
+                            string updateCondition = @"
+UPDATE BooksAcq 
+SET BookCondition = @NewCondition 
+WHERE ISBN = @ISBN";
+
+                            using (SqlCommand cmdUpdateCond = new SqlCommand(updateCondition, con, transaction))
+                            {
+                                cmdUpdateCond.Parameters.AddWithValue("@NewCondition", selectedReturnCondition);
+                                cmdUpdateCond.Parameters.AddWithValue("@ISBN", isbn);
+                                cmdUpdateCond.ExecuteNonQuery();
+                            }
+
+                            // ✅ ALSO UPDATE IssueBooks BookCondition (so it reflects the improved condition)
+                            string updateIssueCondition = @"
+UPDATE IssueBooks 
+SET BookCondition = @NewCondition 
+WHERE IssueID = @IssueID";
+
+                            using (SqlCommand cmdUpdateIssueCond = new SqlCommand(updateIssueCondition, con, transaction))
+                            {
+                                cmdUpdateIssueCond.Parameters.AddWithValue("@NewCondition", selectedReturnCondition);
+                                cmdUpdateIssueCond.Parameters.AddWithValue("@IssueID", issueID);
+                                cmdUpdateIssueCond.ExecuteNonQuery();
+                            }
+
+                            // ✅ Log the condition improvement
+                            ActivityLog.RecordActivity(
+                                SessionData.CurrentUserName,
+                                "Update Book Condition",
+                                "Return Module",
+                                $"Book condition improved — ISBN: {isbn}, Title: {bookTitle}, From: {issuedConditionFromDB} → To: {selectedReturnCondition}"
+                            );
+                        }
+                        else // User clicked NO
+                        {
+                            // ✅ Cancel the entire transaction - book will NOT be marked as returned
+                            transaction.Rollback();
+                            MessageBox.Show(
+                                "Transaction cancelled. The book has NOT been marked as returned.\n" +
+                                "Please verify the condition and try again.",
+                                "Transaction Cancelled",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information
+                            );
+                            return; // ❌ Exit completely
+                        }
                     }
 
                     // ✅ CHECK FOR WORSENED CONDITION
-                    if (returnedRank < issuedRank)
+                    else if (returnedRank < issuedRank)
                     {
                         DialogResult result = MessageBox.Show(
                             $"⚠️ Book Condition Mismatch Detected!\n\n" +
@@ -1586,7 +1637,7 @@ VALUES
                         SessionData.CurrentUserName,
                         "Return Book",
                         "Return Module",
-                        $"Returned book — Title: {bookTitle}, Borrower: {clientName}"
+                        $"Returned book — Title: {bookTitle}, Borrower: {clientName}, Condition: {selectedReturnCondition}"
                     );
 
                     MessageBox.Show("Book returned successfully! Status updated, moved to ReturnedBooks, and quantity adjusted.",

@@ -72,6 +72,7 @@ namespace LibraryCGC
 
         private void CreateAcc_Load(object sender, EventArgs e)
         {
+            Name.Focus();
             //output data grid
             SetupAccountGrid();
             LoadStudentAccounts();
@@ -395,7 +396,7 @@ namespace LibraryCGC
                     if (exists > 0)
                     {
                         MessageBox.Show("This student number already exists!");
-                     
+
                         return;
                     }
                 }
@@ -946,6 +947,187 @@ namespace LibraryCGC
                     {
                         MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                }
+            }
+        }
+
+        private void txtPrintClientID_TextChanged(object sender, EventArgs e)
+        {
+            string clientID = txtPrintClientID.Text.Trim();
+
+            if (clientID.Length >= 4) // Check when at least 4 digits entered
+            {
+                using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+                {
+                    try
+                    {
+                        con.Open();
+                        // Check in both active and inactive students
+                        string query = @"
+                    SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID
+                    UNION
+                    SELECT Name, Role FROM InactiveStudents WHERE ClientID = @ClientID";
+
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            cmd.Parameters.AddWithValue("@ClientID", clientID);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    txtPrintName.Text = reader["Name"].ToString();
+                                    txtPrintRole.Text = reader["Role"].ToString();
+                                }
+                                else
+                                {
+                                    txtPrintName.Text = "";
+                                    txtPrintRole.Text = "";
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                txtPrintName.Text = "";
+                txtPrintRole.Text = "";
+            }
+        }
+
+        private void btnPrintBarcode_Click(object sender, EventArgs e)
+        {
+            string clientID = txtPrintClientID.Text.Trim();
+            string name = txtPrintName.Text.Trim();
+            string role = txtPrintRole.Text.Trim();
+
+            // Validation
+            if (string.IsNullOrWhiteSpace(clientID))
+            {
+                MessageBox.Show("Please enter a Client ID.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPrintClientID.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(role))
+            {
+                MessageBox.Show("Student record not found. Please check the Client ID.", "Invalid ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                // Generate barcode using ZXing
+                var writer = new BarcodeWriter<Bitmap>
+                {
+                    Format = BarcodeFormat.CODE_128,
+                    Renderer = new SimpleBitmapRenderer(),
+                    Options = new EncodingOptions
+                    {
+                        Width = 300,
+                        Height = 80,
+                        Margin = 2
+                    }
+                };
+
+                Bitmap barcodeImage = writer.Write(clientID);
+
+                // Create PDF document
+                PdfDocument pdf = new PdfDocument();
+                PdfPage page = pdf.AddPage();
+                page.Width = XUnit.FromMillimeter(58);
+                page.Height = XUnit.FromMillimeter(40);
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                var fontHeader = new XFont("Arial", 10);
+                var fontRegular = new XFont("Arial", 8);
+
+                double margin = XUnit.FromMillimeter(3);
+                double labelWidth = page.Width - margin * 2;
+
+                // Draw header
+                gfx.DrawString("CGC Library System", fontHeader, XBrushes.Black,
+                    new XRect(margin, margin, labelWidth, 10), XStringFormats.TopCenter);
+
+                // Draw barcode
+                double barcodeWidth = XUnit.FromMillimeter(45);
+                double barcodeHeight = XUnit.FromMillimeter(15);
+                double barcodeX = (page.Width - barcodeWidth) / 2;
+                double barcodeY = margin + 11;
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    barcodeImage.Save(ms, ImageFormat.Png);
+                    XImage xImage = XImage.FromStream(ms);
+                    gfx.DrawImage(xImage, barcodeX, barcodeY, barcodeWidth, barcodeHeight);
+                }
+
+                // Draw text information
+                double textStart = barcodeY + barcodeHeight + XUnit.FromMillimeter(1.5);
+                string shortName = name.Length > 18 ? name.Substring(0, 17) + "…" : name;
+
+                gfx.DrawString($"ID: {clientID}", fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart, labelWidth, 10), XStringFormats.TopCenter);
+                gfx.DrawString(shortName, fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart + 7, labelWidth, 10), XStringFormats.TopCenter);
+                gfx.DrawString(role, fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart + 14, labelWidth, 10), XStringFormats.TopCenter);
+
+                // Save PDF
+                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Library_Barcodes");
+                Directory.CreateDirectory(folderPath);
+                string pdfPath = Path.Combine(folderPath, $"Client_{clientID}_Reprint.pdf");
+                pdf.Save(pdfPath);
+                pdf.Close();
+                barcodeImage.Dispose();
+
+                MessageBox.Show($"Barcode reprinted successfully!\n{pdfPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Log the reprint activity
+                ActivityLog.RecordActivity(
+                    SessionData.CurrentUserName,
+                    "Reprint Barcode",
+                    "Account Management",
+                    $"Reprinted barcode for ClientID: {clientID}, Name: {name}, Role: {role}"
+                );
+
+                // Open the PDF
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = pdfPath,
+                    UseShellExecute = true
+                });
+
+                // Clear fields after successful print
+                txtPrintClientID.Text = "";
+                txtPrintName.Text = "";
+                txtPrintRole.Text = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error generating barcode: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtPrintClientID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+
+                if (!string.IsNullOrWhiteSpace(txtPrintClientID.Text) &&
+                    !string.IsNullOrWhiteSpace(txtPrintName.Text))
+                {
+                    btnPrintBarcode.Focus();
+                    btnPrintBarcode.PerformClick();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter a valid Client ID.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
