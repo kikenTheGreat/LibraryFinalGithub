@@ -60,10 +60,12 @@ namespace LibraryCGC
 {
     public partial class CreateAcc : Form
     {
-        public CreateAcc()
+        
+        public CreateAcc(   )
         {
             InitializeComponent();
             LoadStudentAccounts();
+          
             GlobalFontSettings.FontResolver = SimpleFontResolver.Instance;
 
 
@@ -80,7 +82,7 @@ namespace LibraryCGC
             MoveInactiveStudents();
         }
 
-        private void LoadStudentAccounts()   //output data grid
+        public void LoadStudentAccounts()   //output data grid
         {
             using (SqlConnection con = new SqlConnection("  Data Source=(LocalDB)\\MSSQLLocalDB;\r\nInitial Catalog=LibraryDB;\r\nIntegrated Security=True;\r\nEncrypt=True;\r\nTrust Server Certificate=True;\r\n"))
             {
@@ -498,7 +500,7 @@ namespace LibraryCGC
 
 
 
-        private void RefreshSemesterButtons()
+        public void RefreshSemesterButtons()
         {
             string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True";
 
@@ -680,6 +682,8 @@ namespace LibraryCGC
         }
 
 
+        // Replace the btnEndSem_Click method in CreateAcc.cs with this updated version:
+
         private void btnEndSem_Click(object sender, EventArgs e)
         {
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
@@ -695,20 +699,47 @@ namespace LibraryCGC
                     return;
                 }
 
-                // Get count of active students
+                // ✅ Get count of active students
                 SqlCommand countCmd = new SqlCommand("SELECT COUNT(*) FROM AddStudentAcc WHERE Status = 'Active'", con);
                 int activeStudentCount = (int)countCmd.ExecuteScalar();
 
-                // Show detailed warning
+                // ✅ Get count of students with penalties or issues (who will REMAIN ACTIVE)
+                SqlCommand penaltyCmd = new SqlCommand(@"
+            SELECT COUNT(DISTINCT ClientID) 
+            FROM IssueBooks 
+            WHERE (Penalty > 0 OR Status = 'Overdue' OR Status = 'Report filed by librarian') 
+            AND (Status != 'Returned')", con);
+                int studentsWithIssues = (int)penaltyCmd.ExecuteScalar();
+
+                // ✅ Get total unreturned books
+                SqlCommand unreturnedCmd = new SqlCommand(@"
+            SELECT COUNT(*) 
+            FROM IssueBooks 
+            WHERE Status IN ('Issued', 'Overdue', 'Report filed by librarian')", con);
+                int unreturnedBooks = (int)unreturnedCmd.ExecuteScalar();
+
+                // ✅ Calculate students who will be deactivated (active students WITHOUT issues)
+                int studentsToDeactivate = activeStudentCount - studentsWithIssues;
+
+                // ✅ Show detailed warning with transaction summary
+                string warningMessage = $"⚠️ WARNING: End Current Semester\n\n" +
+                    $"SEMESTER SUMMARY:\n" +
+                    $"• Total active students: {activeStudentCount}\n" +
+                    $"• Students with penalties/issues (will STAY ACTIVE): {studentsWithIssues}\n" +
+                    $"• Students to be deactivated (clean records): {studentsToDeactivate}\n" +
+                    $"• Unreturned books: {unreturnedBooks}\n\n" +
+                    $"WHAT WILL HAPPEN:\n" +
+                    $"• {studentsToDeactivate} student accounts with clean records will be set to INACTIVE\n" +
+                    $"• {studentsWithIssues} students with penalties/issues will REMAIN ACTIVE for tracking\n" +
+                    $"• Penalties will be recorded in PendingPenalties table\n" +
+                    $"• Unreturned books ({unreturnedBooks}) will remain tracked and block future borrowing\n" +
+                    $"• All completed transactions will be archived\n" +
+                    $"• The semester will be closed\n\n" +
+                    $"⚠️ This action cannot be easily undone!\n\n" +
+                    $"Do you want to proceed with ending the semester?";
+
                 DialogResult result = MessageBox.Show(
-                    "⚠️ WARNING: End Current Semester\n\n" +
-                    "This action will:\n" +
-                    $"• Set ALL {activeStudentCount} active student accounts to INACTIVE\n" +
-                    "• Move all students to the inactive students table\n" +
-                    "• Close the current semester period\n" +
-                    "• Prevent new account creation until a new semester starts\n\n" +
-                    "⚠️ This action cannot be easily undone!\n\n" +
-                    "Do you want to end the semester?",
+                    warningMessage,
                     "Confirm End Semester",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
@@ -717,10 +748,14 @@ namespace LibraryCGC
                 if (result == DialogResult.No)
                     return;
 
-                // Double confirmation for safety
+                // ✅ Double confirmation for safety
                 DialogResult finalConfirm = MessageBox.Show(
                     "Are you absolutely sure?\n\n" +
-                    $"This will deactivate {activeStudentCount} student accounts.",
+                    $"This will:\n" +
+                    $"• Deactivate {studentsToDeactivate} accounts with clean records\n" +
+                    $"• Keep {studentsWithIssues} accounts ACTIVE for penalty tracking\n" +
+                    $"• Track {unreturnedBooks} unreturned books\n\n" +
+                    "Click YES to confirm.",
                     "Final Confirmation",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Exclamation
@@ -729,31 +764,153 @@ namespace LibraryCGC
                 if (finalConfirm == DialogResult.No)
                     return;
 
-                // End semester
-                SqlCommand endCmd = new SqlCommand(@"
-            UPDATE AddStudentAcc SET Status = 'Inactive';
-            UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1;", con);
-                endCmd.ExecuteNonQuery();
+                // ✅ Start transaction to handle all semester-end operations
+                SqlTransaction transaction = con.BeginTransaction();
 
-                MessageBox.Show(
-                    $"✅ Semester ended successfully.\n\n" +
-                    $"• {activeStudentCount} accounts moved to inactive status\n" +
-                    "• Students can be reactivated when a new semester starts",
-                    "Semester Ended",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                try
+                {
+                    // ✅ 1. Create PendingPenalties table if it doesn't exist
+                    string createPenaltiesTable = @"
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='PendingPenalties' AND xtype='U')
+                CREATE TABLE PendingPenalties (
+                    PenaltyID INT IDENTITY(1,1) PRIMARY KEY,
+                    ClientID INT NOT NULL,
+                    ClientName NVARCHAR(255),
+                    BookTitle NVARCHAR(255),
+                    ISBN NVARCHAR(50),
+                    IssueDate DATETIME,
+                    DueDate DATETIME,
+                    PenaltyAmount DECIMAL(10,2),
+                    Status NVARCHAR(50),
+                    Reason NVARCHAR(MAX),
+                    SemesterEnded DATETIME DEFAULT GETDATE(),
+                    IsPaid BIT DEFAULT 0,
+                    DatePaid DATETIME NULL
+                )";
+                    new SqlCommand(createPenaltiesTable, con, transaction).ExecuteNonQuery();
 
-                ActivityLog.RecordActivity(
-                    SessionData.CurrentUserName,
-                    "End Semester",
-                    "Account Management",
-                    $"Semester ended manually — {activeStudentCount} accounts set to inactive."
-                );
+                    // ✅ 2. Move students with penalties to PendingPenalties table (for historical record)
+                    string movePenalties = @"
+                INSERT INTO PendingPenalties 
+                    (ClientID, ClientName, BookTitle, ISBN, IssueDate, DueDate, PenaltyAmount, Status, Reason)
+                SELECT 
+                    i.ClientID,
+                    i.StudentName,
+                    i.BookTitle,
+                    i.ISBN,
+                    i.IssueDate,
+                    i.DueDate,
+                    i.Penalty,
+                    i.Status,
+                    CASE 
+                        WHEN i.Status = 'Overdue' THEN 'Book overdue - ₱' + CAST(i.Penalty AS NVARCHAR) + ' penalty'
+                        WHEN i.Status = 'Report filed by librarian' THEN 'Damage/Loss reported by librarian'
+                        ELSE 'Unreturned book'
+                    END
+                FROM IssueBooks i
+                WHERE (i.Penalty > 0 OR i.Status = 'Overdue' OR i.Status = 'Report filed by librarian')
+                AND i.Status != 'Returned'";
+                    new SqlCommand(movePenalties, con, transaction).ExecuteNonQuery();
 
-                RefreshSemesterButtons();
-                MoveInactiveStudents();
-                LoadStudentAccounts();
+                    // ✅ 3. Archive completed transactions to SemesterArchive
+                    string createArchiveTable = @"
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='SemesterArchive' AND xtype='U')
+                CREATE TABLE SemesterArchive (
+                    ArchiveID INT IDENTITY(1,1) PRIMARY KEY,
+                    OriginalIssueID INT,
+                    ClientID INT,
+                    ClientName NVARCHAR(255),
+                    BookTitle NVARCHAR(255),
+                    ISBN NVARCHAR(50),
+                    IssueDate DATETIME,
+                    DueDate DATETIME,
+                    ReturnDate DATETIME,
+                    Status NVARCHAR(50),
+                    Penalty DECIMAL(10,2),
+                    SemesterEnded DATETIME DEFAULT GETDATE()
+                )";
+                    new SqlCommand(createArchiveTable, con, transaction).ExecuteNonQuery();
+
+                    string archiveCompleted = @"
+                INSERT INTO SemesterArchive 
+                    (OriginalIssueID, ClientID, ClientName, BookTitle, ISBN, IssueDate, DueDate, ReturnDate, Status, Penalty)
+                SELECT 
+                    IssueID, ClientID, StudentName, BookTitle, ISBN, IssueDate, DueDate, ReturnDate, Status, Penalty
+                FROM IssueBooks
+                WHERE Status = 'Returned'";
+                    new SqlCommand(archiveCompleted, con, transaction).ExecuteNonQuery();
+
+                    // ✅ 4. Remove completed transactions (returned books)
+                    string deleteReturned = "DELETE FROM IssueBooks WHERE Status = 'Returned'";
+                    new SqlCommand(deleteReturned, con, transaction).ExecuteNonQuery();
+
+                    // ✅ 5. CRITICAL: Update ONLY students WITHOUT penalties/issues to Inactive
+                    // Students with penalties or "Report filed by librarian" stay ACTIVE
+                    string deactivateStudents = @"
+                UPDATE AddStudentAcc 
+                SET Status = 'Inactive'
+                WHERE ClientID NOT IN (
+                    SELECT DISTINCT ClientID 
+                    FROM IssueBooks 
+                    WHERE (Penalty > 0 OR Status = 'Overdue' OR Status = 'Report filed by librarian')
+                    AND Status != 'Returned'
+                )";
+                    new SqlCommand(deactivateStudents, con, transaction).ExecuteNonQuery();
+
+                    // ✅ 6. End the semester
+                    string endSemester = "UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1";
+                    new SqlCommand(endSemester, con, transaction).ExecuteNonQuery();
+
+                    // ✅ Commit all changes
+                    transaction.Commit();
+
+                    MessageBox.Show(
+                        $"✅ Semester ended successfully!\n\n" +
+                        $"SUMMARY:\n" +
+                        $"• {studentsToDeactivate} accounts with clean records moved to inactive status\n" +
+                        $"• {studentsWithIssues} students with penalties/issues remain ACTIVE for tracking\n" +
+                        $"• {unreturnedBooks} unreturned books being tracked\n" +
+                        $"• All completed transactions archived\n\n" +
+                        $"IMPORTANT NOTES:\n" +
+                        $"• Students with penalties will stay ACTIVE until issues are resolved\n" +
+                        $"• They cannot borrow new books until penalties are settled\n" +
+                        $"• Check 'Pending Penalties' report for outstanding issues\n" +
+                        $"• Clean accounts can be reactivated when new semester starts",
+                        "Semester Ended Successfully",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
+                    ActivityLog.RecordActivity(
+                        SessionData.CurrentUserName,
+                        "End Semester",
+                        "Account Management",
+                        $"Semester ended — {studentsToDeactivate} clean accounts deactivated, {studentsWithIssues} accounts with penalties kept active, {unreturnedBooks} books tracked"
+                    );
+
+                    RefreshSemesterButtons();
+                    MoveInactiveStudents();
+                    LoadStudentAccounts();
+
+                    // ✅ Update Issue form if it's open
+                    var issueForm = Application.OpenForms.OfType<Issue>().FirstOrDefault();
+                    if (issueForm != null)
+                    {
+                        issueForm.LoadIssueBooks();
+                        issueForm.LoadReturnedBooks();
+                        issueForm.UpdateTotalOverdueLabel();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    MessageBox.Show(
+                        $"Error ending semester:\n\n{ex.Message}\n\nAll changes have been rolled back.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
             }
         }
 
@@ -924,7 +1081,7 @@ namespace LibraryCGC
         }
 
         // Replace your MoveInactiveStudents() method with this:
-        private void MoveInactiveStudents()
+        public void MoveInactiveStudents()
         {
             string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
 

@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -42,82 +43,76 @@ namespace LibraryCGC
 
 
 
-        private void LoadIssueBooks()
-        {
+        // Replace your LoadIssueBooks() method in Issue.cs with this updated version:
 
+        // AFTER (public - accessible from other forms):
+        // Replace the LoadIssueBooks() method in Issue.cs with this corrected version:
+
+        public void LoadIssueBooks()
+        {
+            // 🟡 Save current scroll position (if any)
+            int firstDisplayedRow = 0;
+            if (IssueBooksDataGrid.FirstDisplayedScrollingRowIndex >= 0)
+                firstDisplayedRow = IssueBooksDataGrid.FirstDisplayedScrollingRowIndex;
+
+            // ✅ Query that checks BOTH AddStudentAcc AND InactiveStudents tables
             string query = @"
         SELECT 
-            IssueID,
-            Status,
-            DueDate,
-            IssueDate,
-            StudentName,
-            Source,
-            BookTitle,
-            OverdueDays,
-            Penalty,
-            Quantity,
-            ClientID
-        FROM IssueBooks
-        ORDER BY IssueID DESC"; // latest entries first
+            i.IssueID,
+            i.Status,
+            i.DueDate,
+            i.IssueDate,
+            i.StudentName,
+            i.Source,
+            i.BookTitle,
+            i.OverdueDays,
+            i.Penalty,
+            i.Quantity,
+            i.ClientID
+        FROM IssueBooks i
+        WHERE 
+            -- Show if student is active in AddStudentAcc
+            EXISTS (SELECT 1 FROM AddStudentAcc a WHERE a.ClientID = i.ClientID AND a.Status = 'Active')
+            OR
+            -- OR show if they have penalties/issues (regardless of where they are)
+            (i.Penalty > 0 OR i.Status = 'Overdue' OR i.Status = 'Report filed by librarian')
+        ORDER BY i.IssueID DESC";
 
-            using (SqlConnection con = new SqlConnection(@"  Data Source=(LocalDB)\MSSQLLocalDB;
+            using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
 Integrated Security=True;
 Encrypt=True;
-Trust Server Certificate=True;
-
-
-"))
-
+Trust Server Certificate=True;"))
             {
                 SqlDataAdapter da = new SqlDataAdapter(query, con);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 IssueBooksDataGrid.DataSource = dt;
 
+
+
                 HighlightOverdueRows();
                 HighlightStatusRows();
 
-
-                // Clean and user-friendly appearance
-                IssueBooksDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                IssueBooksDataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-                IssueBooksDataGrid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-                IssueBooksDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                IssueBooksDataGrid.MultiSelect = false;
-                IssueBooksDataGrid.ReadOnly = true;
-                IssueBooksDataGrid.RowHeadersVisible = false;
-
-
-
-
-
-
+               
             }
 
-            // ✅ Auto layout and scaling
+            // 🟢 Restore scroll position (if valid)
+            if (firstDisplayedRow >= 0 && firstDisplayedRow < IssueBooksDataGrid.RowCount)
+                IssueBooksDataGrid.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
+
             IssueBooksDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             IssueBooksDataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             IssueBooksDataGrid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-            // ✅ Responsive resizing
             IssueBooksDataGrid.Dock = DockStyle.Fill;
-            // (If you have other controls in the same panel, use Anchors instead:)
-            // IssueBooksDataGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-
-            // 🎨 Bonus — Clean, user-friendly visual settings
             IssueBooksDataGrid.RowHeadersVisible = false;
             IssueBooksDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             IssueBooksDataGrid.MultiSelect = false;
             IssueBooksDataGrid.ReadOnly = true;
             IssueBooksDataGrid.AllowUserToResizeRows = false;
             IssueBooksDataGrid.AllowUserToResizeColumns = false;
-
-            // Optional: center column headers
             IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            // ✅ Highlight overdue rows in red
             foreach (DataGridViewRow row in IssueBooksDataGrid.Rows)
             {
                 if (row.Cells["Status"].Value != null)
@@ -125,15 +120,14 @@ Trust Server Certificate=True;
                     string status = row.Cells["Status"].Value.ToString();
                     if (status.Equals("Overdue", StringComparison.OrdinalIgnoreCase))
                     {
-                        row.DefaultCellStyle.BackColor = Color.LightCoral; // red shade
+                        row.DefaultCellStyle.BackColor = Color.LightCoral;
                         row.DefaultCellStyle.ForeColor = Color.White;
                     }
                 }
             }
-
         }
 
-        private void LoadReturnedBooks()
+        public void LoadReturnedBooks()
         {
             try
             {
@@ -161,16 +155,14 @@ Trust Server Certificate=True;
                     ReturnDate,
                     Status
                 FROM ReturnedBooks
-                ORDER BY ReturnID DESC"; // latest entries first
+                ORDER BY ReturnID DESC";
 
                     SqlDataAdapter da = new SqlDataAdapter(query, con);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
 
-                    // ✅ Assign data to DataGridView
                     returnDatagrid.DataSource = dt;
 
-                    // ✅ Styling and layout (same as IssueBooks)
                     returnDatagrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                     returnDatagrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                     returnDatagrid.MultiSelect = false;
@@ -180,13 +172,8 @@ Trust Server Certificate=True;
                     returnDatagrid.AllowUserToResizeColumns = false;
                     returnDatagrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                    // ✅ Make it responsive inside ArthanPanel
                     returnDatagrid.Dock = DockStyle.Fill;
                 }
-
-
-
-
             }
             catch (Exception ex)
             {
@@ -196,6 +183,10 @@ Trust Server Certificate=True;
                                 MessageBoxIcon.Error);
             }
         }
+
+
+
+
 
 
 
@@ -635,6 +626,8 @@ Trust Server Certificate=True;
             BookTitle.Text = "";
             Source.Text = "";
         }
+        // ===== FOR Issue.cs - btnConfirmBorrow_Click_1 =====
+        // Replace your existing btnConfirmBorrow_Click_1 method with this updated version:
 
         private void btnConfirmBorrow_Click_1(object sender, EventArgs e)
         {
@@ -645,45 +638,71 @@ Trust Server Certificate=True;
             }
 
             DateTime issueDateValue = issueDate.Value;
-
-            // 🔍 Automatically get client type from database
             string clientType = GetClientType(ClientID.Text.Trim());
-
-            // 🧮 Compute due date based on client type
             DateTime dueDateValue = ComputeDueDate(clientType, issueDateValue);
-
-
 
             try
             {
                 using (SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
-        Initial Catalog=LibraryDB;
-        Integrated Security=True;
-        Encrypt=True;
-        Trust Server Certificate=True;"))
+Initial Catalog=LibraryDB;
+Integrated Security=True;
+Encrypt=True;
+Trust Server Certificate=True;"))
                 {
                     con.Open();
 
+                    // ✅ NEW: Check if student has pending penalties from previous semester
+                    string checkPenaltiesQuery = @"
+                SELECT COUNT(*), ISNULL(SUM(PenaltyAmount), 0)
+                FROM PendingPenalties 
+                WHERE ClientID = @ClientID AND IsPaid = 0";
+
+                    using (SqlCommand cmdPenalty = new SqlCommand(checkPenaltiesQuery, con))
+                    {
+                        cmdPenalty.Parameters.AddWithValue("@ClientID", ClientID.Text.Trim());
+
+                        using (SqlDataReader reader = cmdPenalty.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                int penaltyCount = reader.GetInt32(0);
+                                decimal totalPenalty = reader.GetDecimal(1);
+
+                                if (penaltyCount > 0)
+                                {
+                                    MessageBox.Show(
+                                        $"⚠️ BORROWING BLOCKED\n\n" +
+                                        $"This student has {penaltyCount} pending penalty/issue(s) from the previous semester.\n\n" +
+                                        $"Total Amount Due: ₱{totalPenalty:N2}\n\n" +
+                                        $"The student must settle all penalties before borrowing books.\n" +
+                                        $"Please direct them to the library desk to pay their dues.",
+                                        "Pending Penalties",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning
+                                    );
+                                    return; // ❌ Stop the borrow process
+                                }
+                            }
+                        }
+                    }
+
                     // ✅ STEP 1: Check borrow limit (max 3 books for Students, unlimited for Faculty)
                     string checkQuery = @"SELECT COUNT(*) FROM IssueBooks 
-                      WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
+              WHERE ClientID = @ClientID AND (Status = 'Issued' OR Status = 'Overdue')";
                     using (SqlCommand cmdCheck = new SqlCommand(checkQuery, con))
                     {
                         cmdCheck.Parameters.AddWithValue("@ClientID", ClientID.Text);
                         int currentBorrowed = (int)cmdCheck.ExecuteScalar();
 
-                        // 🔹 Get the user's role (you may already have this value from your session or database)
-                        string role = GetUserRole(ClientID.Text.Trim()); // 👈 Make sure this method returns "Faculty", "Student", etc.
+                        string role = GetUserRole(ClientID.Text.Trim());
 
                         if (role.Equals("Faculty", StringComparison.OrdinalIgnoreCase))
                         {
-                            // Faculty can borrow unlimited books
                             MessageBox.Show("Faculty member detected — borrow limit is not applied.",
                                 "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
-                            // Apply 3-book limit for other roles
                             int totalAfterBorrow = currentBorrowed + borrowList.Count;
                             if (totalAfterBorrow > 3)
                             {
@@ -736,9 +755,6 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
                             cmd.Parameters.AddWithValue("@ClientID", ClientID.Text);
                             cmd.Parameters.AddWithValue("@BookCondition", item.BookCondition);
 
-
-
-
                             cmd.ExecuteNonQuery();
                         }
 
@@ -750,12 +766,10 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
                             updateQtyCmd.ExecuteNonQuery();
                         }
 
-
                         MessageBox.Show($"Borrower Type: {clientType}\nDue Date: {dueDateValue:dddd, MMMM dd, yyyy}",
-                      "Due Date Info",
-                      MessageBoxButtons.OK,
-                      MessageBoxIcon.Information);
-
+                          "Due Date Info",
+                          MessageBoxButtons.OK,
+                          MessageBoxIcon.Information);
 
                         // ✅ STEP 6: Log activity for each issued book
                         ActivityLog.RecordActivity(
@@ -765,18 +779,18 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
                             $"Issued book — Title: {item.BookTitle}, ISBN: {item.ISBN}, Borrower: {ClientName.Text}"
                         );
                     }
+
                     // ✅ Clear all input fields after adding
                     ISBN.Clear();
                     BookTitle.Items.Clear();
                     BookTitle.Text = "";
                     Source.Clear();
-                    issuedCondition.SelectedIndex = -1; // clear combo box selection
+                    issuedCondition.SelectedIndex = -1;
                     ClientID.Clear();
                     ClientName.Text = " ";
-                    issueDate.Value = DateTime.Now; // reset to current date, optional
+                    issueDate.Value = DateTime.Now;
                     Source.Clear();
 
-                    // Move focus back to the first field for convenience
                     ClientID.Focus();
 
                     GlobalEvents.RaiseBorrowedDataChanged();
@@ -784,7 +798,7 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
                     GlobalEvents.RaisePenaltiesDataChanged();
                 }
 
-                // ✅ STEP 6: Refresh UI and clear borrow list
+                // ✅ STEP 7: Refresh UI and clear borrow list
                 borrowList.Clear();
                 dgvBorrowList.Rows.Clear();
 
@@ -808,6 +822,8 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
             GlobalEvents.RaiseBorrowedDataChanged();
             LoadReturnedBooks();
         }
+
+     
 
         private string GetUserRole(string clientId)
         {
@@ -980,16 +996,14 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
         }
 
 
+        // AFTER:
         public void UpdateTotalOverdueLabel()
         {
-            string connectionString = @" Data Source=(LocalDB)\MSSQLLocalDB;
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 Initial Catalog=LibraryDB;
 Integrated Security=True;
 Encrypt=True;
-Trust Server Certificate=True;
-
-
-";
+Trust Server Certificate=True;";
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
@@ -997,21 +1011,17 @@ Trust Server Certificate=True;
                 {
                     con.Open();
 
-                    // ✅ Only count rows where Status = 'Overdue'
-                    // and OverdueDays > 0 or Penalty > 0
                     string query = @"
-    SELECT COUNT(*) 
-    FROM IssueBooks
-    WHERE 
-        Status = 'Overdue'
-        AND (OverdueDays IS NOT NULL AND OverdueDays > 0)
-";
+                SELECT COUNT(*) 
+                FROM IssueBooks
+                WHERE 
+                    Status = 'Overdue'
+                    AND (OverdueDays IS NOT NULL AND OverdueDays > 0)";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         int totalOverdue = (int)cmd.ExecuteScalar();
 
-                        // ✅ If no overdue books, display 0
                         lblOverdueCount.Text = totalOverdue > 0
                             ? $"Overdue Books: {totalOverdue}"
                             : "Overdue Books: 0";
