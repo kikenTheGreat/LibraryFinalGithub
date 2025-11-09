@@ -613,35 +613,69 @@ namespace LibraryCGC
             {
                 con.Open();
 
-                // Check if a semester is already active (optional warning only)
+                // Check if a semester is already active
                 SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM SemesterDuration WHERE IsActive = 1", con);
                 int activeSemCount = (int)checkCmd.ExecuteScalar();
 
                 if (activeSemCount > 0)
                 {
                     DialogResult result = MessageBox.Show(
-                        "A semester is already active. Do you want to start a new one and deactivate the old one?",
-                        "Semester Already Active",
+                        "⚠️ WARNING: A semester is already active!\n\n" +
+                        "Starting a new semester will:\n" +
+                        "• Deactivate the current semester\n" +
+                        "• Begin a fresh semester period\n\n" +
+                        "Do you want to continue?",
+                        "Confirm Start New Semester",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning
+                    );
+
+                    if (result == DialogResult.No)
+                        return;
+
+                    // ✅ FIXED: Only deactivate old semester (students already handled by End Semester)
+                    SqlCommand deactivateOld = new SqlCommand(
+                        "UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1", con);
+                    deactivateOld.ExecuteNonQuery();
+                }
+                else
+                {
+                    // No active semester - show confirmation
+                    DialogResult result = MessageBox.Show(
+                        "📅 Start New Semester\n\n" +
+                        "This will:\n" +
+                        "• Begin a new academic semester\n" +
+                        "• Allow creation of new student accounts\n" +
+                        "• Set semester duration to 6 months (can be extended later)\n\n" +
+                        "Do you want to start the semester?",
+                        "Confirm Start Semester",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question
                     );
 
                     if (result == DialogResult.No)
                         return;
-
-                    // Deactivate old semester first
-                    SqlCommand deactivateOld = new SqlCommand("UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1", con);
-                    deactivateOld.ExecuteNonQuery();
                 }
 
                 // Start new semester
                 SqlCommand insertCmd = new SqlCommand("INSERT INTO SemesterDuration (StartDate, IsActive) VALUES (GETDATE(), 1)", con);
                 insertCmd.ExecuteNonQuery();
 
-                MessageBox.Show("Semester has started manually. Accounts created now will belong to this semester.");
+                MessageBox.Show("✅ Semester started successfully!\n\nYou can now create student accounts for this semester.",
+                    "Semester Started",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                // Log activity
+                ActivityLog.RecordActivity(
+                    SessionData.CurrentUserName,
+                    "Start Semester",
+                    "Account Management",
+                    "New semester started manually."
+                );
+
                 RefreshSemesterButtons();
-
-
+                LoadStudentAccounts();
             }
         }
 
@@ -657,30 +691,70 @@ namespace LibraryCGC
 
                 if (activeSemCount == 0)
                 {
-                    MessageBox.Show("There's no active semester to end.", "No Active Semester");
+                    MessageBox.Show("There's no active semester to end.", "No Active Semester", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
+                // Get count of active students
+                SqlCommand countCmd = new SqlCommand("SELECT COUNT(*) FROM AddStudentAcc WHERE Status = 'Active'", con);
+                int activeStudentCount = (int)countCmd.ExecuteScalar();
+
+                // Show detailed warning
+                DialogResult result = MessageBox.Show(
+                    "⚠️ WARNING: End Current Semester\n\n" +
+                    "This action will:\n" +
+                    $"• Set ALL {activeStudentCount} active student accounts to INACTIVE\n" +
+                    "• Move all students to the inactive students table\n" +
+                    "• Close the current semester period\n" +
+                    "• Prevent new account creation until a new semester starts\n\n" +
+                    "⚠️ This action cannot be easily undone!\n\n" +
+                    "Do you want to end the semester?",
+                    "Confirm End Semester",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+
+                if (result == DialogResult.No)
+                    return;
+
+                // Double confirmation for safety
+                DialogResult finalConfirm = MessageBox.Show(
+                    "Are you absolutely sure?\n\n" +
+                    $"This will deactivate {activeStudentCount} student accounts.",
+                    "Final Confirmation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Exclamation
+                );
+
+                if (finalConfirm == DialogResult.No)
+                    return;
+
+                // End semester
                 SqlCommand endCmd = new SqlCommand(@"
-        UPDATE AddStudentAcc SET Status = 'Inactive';
-        UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1;", con);
+            UPDATE AddStudentAcc SET Status = 'Inactive';
+            UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1;", con);
                 endCmd.ExecuteNonQuery();
 
-                MessageBox.Show("Semester ended manually. All accounts are now inactive.");
+                MessageBox.Show(
+                    $"✅ Semester ended successfully.\n\n" +
+                    $"• {activeStudentCount} accounts moved to inactive status\n" +
+                    "• Students can be reactivated when a new semester starts",
+                    "Semester Ended",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
 
                 ActivityLog.RecordActivity(
                     SessionData.CurrentUserName,
                     "End Semester",
                     "Account Management",
-                    "Semester was manually ended — all accounts set to inactive."
+                    $"Semester ended manually — {activeStudentCount} accounts set to inactive."
                 );
 
                 RefreshSemesterButtons();
+                MoveInactiveStudents();
+                LoadStudentAccounts();
             }
-
-            // ✅ Move inactive students to InactiveStudents table
-            MoveInactiveStudents();
-            LoadStudentAccounts();
         }
 
         private void CheckSemesterStatus()
