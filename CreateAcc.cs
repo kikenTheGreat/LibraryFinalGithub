@@ -105,11 +105,29 @@ namespace LibraryCGC
 
                 }
 
-                HighlightStudentStatusRows();
+          HighlightStudentStatusRows(); 
 
 
 
 
+            }
+        }
+
+        private void HighlightStudentStatusRows()
+        {
+            foreach (DataGridViewRow row in AddStudentAccDataGrid.Rows)
+            {
+                if (row.Cells["Status"].Value != null)
+                {
+                    string status = row.Cells["Status"].Value.ToString();
+
+                    if (status.Equals("With Pending Issues", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightCoral;
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+
+                }
             }
         }
 
@@ -542,23 +560,23 @@ namespace LibraryCGC
             }
         }
 
-        private void HighlightStudentStatusRows()
-        {
-            foreach (DataGridViewRow row in AddStudentAccDataGrid.Rows)
-            {
-                if (row.Cells["Status"].Value != null)
-                {
-                    string status = row.Cells["Status"].Value.ToString();
+        //private void HighlightStudentStatusRows()
+        //{
+        //    foreach (DataGridViewRow row in AddStudentAccDataGrid.Rows)
+        //    {
+        //        if (row.Cells["Status"].Value != null)
+        //        {
+        //            string status = row.Cells["Status"].Value.ToString();
 
-                    if (status.Equals("With Pending Issues", StringComparison.OrdinalIgnoreCase))
-                    {
-                        row.DefaultCellStyle.BackColor = Color.LightCoral;
-                        row.DefaultCellStyle.ForeColor = Color.White;
-                    }
+        //            if (status.Equals("With Pending Issues", StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                row.DefaultCellStyle.BackColor = Color.LightCoral;
+        //                row.DefaultCellStyle.ForeColor = Color.White;
+        //            }
                   
-                }
-            }
-        }
+        //        }
+        //    }
+        //}
 
 
 
@@ -1003,7 +1021,44 @@ namespace LibraryCGC
             {
                 con.Open();
 
-                // ✅ Check if the client exists in InactiveStudents
+                // ✅ 1. Check if the semester has started
+                string semCheckQuery = "SELECT TOP 1 StartDate, DurationMonths FROM SemesterDuration WHERE IsActive = 1";
+                using (SqlCommand semCheckCmd = new SqlCommand(semCheckQuery, con))
+                {
+                    using (SqlDataReader reader = semCheckCmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            DateTime startDate = Convert.ToDateTime(reader["StartDate"]);
+                            int durationMonths = Convert.ToInt32(reader["DurationMonths"]);
+
+                            if (DateTime.Now < startDate)
+                            {
+                                MessageBox.Show(
+                                    $"The semester has not started yet.\n\n" +
+                                    $"Start Date: {startDate:MMMM dd, yyyy}\n" +
+                                    $"You can only activate students once the semester begins.",
+                                    "Semester Not Started",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning
+                                );
+                                return; // stop activation
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "No active semester found.\nPlease create or start a new semester before activating students.",
+                                "No Active Semester",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning
+                            );
+                            return; // stop activation
+                        }
+                    }
+                }
+
+                // ✅ 2. Check if the client exists in InactiveStudents
                 string checkQuery = "SELECT COUNT(*) FROM InactiveStudents WHERE ClientID = @ClientID";
                 using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
                 {
@@ -1017,7 +1072,7 @@ namespace LibraryCGC
                     }
                 }
 
-                // ✅ Retrieve the student's info from InactiveStudents
+                // ✅ 3. Retrieve the student's info from InactiveStudents
                 string selectQuery = "SELECT Name, Role FROM InactiveStudents WHERE ClientID = @ClientID";
                 string studentName = "";
                 string studentRole = "";
@@ -1035,21 +1090,20 @@ namespace LibraryCGC
                     }
                 }
 
-                // ✅ Move the record from InactiveStudents → AddStudentAcc
+                // ✅ 4. Move the record from InactiveStudents → AddStudentAcc
                 try
                 {
-                    // Turn on IDENTITY_INSERT to preserve ClientID
                     string moveQuery = @"
-            SET IDENTITY_INSERT AddStudentAcc ON;
+                SET IDENTITY_INSERT AddStudentAcc ON;
 
-            INSERT INTO AddStudentAcc (ClientID, Name, YearLevel, SectionSY, Email, StudentNumber, Department, Semester, Role, DateCreated, Status)
-            SELECT ClientID, Name, YearLevel, SectionSY, Email, StudentNumber, Department, Semester, Role, DateCreated, 'Active'
-            FROM InactiveStudents
-            WHERE ClientID = @ClientID;
+                INSERT INTO AddStudentAcc (ClientID, Name, YearLevel, SectionSY, Email, StudentNumber, Department, Semester, Role, DateCreated, Status)
+                SELECT ClientID, Name, YearLevel, SectionSY, Email, StudentNumber, Department, Semester, Role, DateCreated, 'Active'
+                FROM InactiveStudents
+                WHERE ClientID = @ClientID;
 
-            SET IDENTITY_INSERT AddStudentAcc OFF;
+                SET IDENTITY_INSERT AddStudentAcc OFF;
 
-            DELETE FROM InactiveStudents WHERE ClientID = @ClientID;";
+                DELETE FROM InactiveStudents WHERE ClientID = @ClientID;";
 
                     using (SqlCommand moveCmd = new SqlCommand(moveQuery, con))
                     {
@@ -1057,9 +1111,9 @@ namespace LibraryCGC
                         moveCmd.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Student account successfully activated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("✅ Student account successfully activated!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Clear fields
+                    // Clear input fields
                     ActivateClientID.Text = "";
                     ActivateName.Text = "";
                     ActivateRole.Text = "";
@@ -1080,6 +1134,7 @@ namespace LibraryCGC
                 }
             }
         }
+
 
         // Update your ActivateClientID_TextChanged to query InactiveStudents:
         private void ActivateClientID_TextChanged(object sender, EventArgs e)

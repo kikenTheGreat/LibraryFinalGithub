@@ -968,10 +968,11 @@ WHERE ISBN = @ISBN AND ClientID = @ClientID";
             try
             {
                 using (SqlConnection con = new SqlConnection(
-                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;"))
+                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
                 {
                     con.Open();
 
+                    // ✅ 1. Check if record exists with 'Report filed by librarian' status
                     string checkQuery = @"
                 SELECT COUNT(*) FROM IssueBooks
                 WHERE ClientID = @ClientID AND Status = 'Report filed by librarian'";
@@ -989,6 +990,7 @@ WHERE ISBN = @ISBN AND ClientID = @ClientID";
                         }
                     }
 
+                    // ✅ 2. Update IssueBooks to mark as Returned
                     string updateQuery = @"
                 UPDATE IssueBooks
                 SET Status = 'Returned', ReturnDate = GETDATE()
@@ -1001,11 +1003,119 @@ WHERE ISBN = @ISBN AND ClientID = @ClientID";
 
                         if (rows > 0)
                         {
-                            MessageBox.Show("Client's status updated to 'Returned' successfully!",
-                                "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            // ✅ 3. Automatically mark any pending penalties as paid
+                            string clearPenaltyQuery = @"
+                        UPDATE PendingPenalties
+                        SET IsPaid = 1
+                        WHERE ClientID = @ClientID AND IsPaid = 0";
+                            using (SqlCommand clearPenaltyCmd = new SqlCommand(clearPenaltyQuery, con))
+                            {
+                                clearPenaltyCmd.Parameters.AddWithValue("@ClientID", clientID);
+                                clearPenaltyCmd.ExecuteNonQuery();
+                            }
+
+                            // ✅ 4. Check if student has ANY remaining issues
+                            string checkRemainingIssuesQuery = @"
+                        SELECT COUNT(*) 
+                        FROM IssueBooks 
+                        WHERE ClientID = @ClientID 
+                        AND (
+                            Penalty > 0 
+                            OR Status = 'Overdue' 
+                            OR Status = 'Report filed by librarian'
+                            OR Status = 'Issued'
+                        )
+                        AND Status != 'Returned'";
+
+                            int remainingIssues = 0;
+                            using (SqlCommand checkRemainingCmd = new SqlCommand(checkRemainingIssuesQuery, con))
+                            {
+                                checkRemainingCmd.Parameters.AddWithValue("@ClientID", clientID);
+                                remainingIssues = (int)checkRemainingCmd.ExecuteScalar();
+                            }
+
+                            // ✅ 5. Check again for unpaid penalties (after clearing)
+                            string checkPendingPenaltiesQuery = @"
+                        SELECT COUNT(*) 
+                        FROM PendingPenalties 
+                        WHERE ClientID = @ClientID AND IsPaid = 0";
+                            int pendingPenalties = 0;
+                            using (SqlCommand checkPendingCmd = new SqlCommand(checkPendingPenaltiesQuery, con))
+                            {
+                                checkPendingCmd.Parameters.AddWithValue("@ClientID", clientID);
+                                pendingPenalties = (int)checkPendingCmd.ExecuteScalar();
+                            }
+
+                            // ✅ 6. Update AddStudentAcc status
+                            if (remainingIssues == 0 && pendingPenalties == 0)
+                            {
+                                string updateStatusQuery = @"
+                            UPDATE AddStudentAcc 
+                            SET Status = 'Inactive' 
+                            WHERE ClientID = @ClientID";
+
+                                using (SqlCommand updateStatusCmd = new SqlCommand(updateStatusQuery, con))
+                                {
+                                    updateStatusCmd.Parameters.AddWithValue("@ClientID", clientID);
+                                    int statusUpdated = updateStatusCmd.ExecuteNonQuery();
+
+                                    MessageBox.Show(
+                                        $"✅ Book successfully returned!\n\n" +
+                                        $"Student status updated to 'Returned' (Rows affected: {statusUpdated}).\n" +
+                                        $"The student can now borrow books again.",
+                                        "Success",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information
+                                    );
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                    $"✅ Book returned successfully!\n\n" +
+                                    $"⚠️ However, this student still has:\n" +
+                                    $"• {remainingIssues} unreturned/overdue book(s)\n" +
+                                    $"• {pendingPenalties} unpaid penalty/penalties\n\n" +
+                                    $"Status remains as 'With Pending Issues'.\n" +
+                                    $"Student cannot borrow until all issues are resolved.",
+                                    "Partial Success",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning
+                                );
+                            }
+
+                            // ✅ 7. Log the activity
+                            ActivityLog.RecordActivity(
+                                SessionData.CurrentUserName,
+                                "Mark Returned (Damage Report)",
+                                "Damage Report Module",
+                                $"Marked damage report as returned for ClientID: {clientID}"
+                            );
 
                             LoadDamageReports(); // Refresh the grid
                             txtClientIDStatus.Clear();
+
+                            // ✅ 8. Refresh CreateAcc form if open
+                            foreach (Form openForm in Application.OpenForms)
+                            {
+                                if (openForm is CreateAcc createAccForm)
+                                {
+                                    createAccForm.LoadStudentAccounts();
+                                    break;
+                                }
+                            }
+
+                            // ✅ 9. Refresh Issue form if open
+                            foreach (Form openForm in Application.OpenForms)
+                            {
+                                if (openForm is Issue issueForm)
+                                {
+                                    issueForm.LoadIssueBooks();
+                                    issueForm.LoadReturnedBooks();
+                                    issueForm.UpdateTotalOverdueLabel();
+                                    break;
+                                }
+                            }
                         }
                         else
                         {
@@ -1021,6 +1131,7 @@ WHERE ISBN = @ISBN AND ClientID = @ClientID";
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void dgvDamageReports_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

@@ -182,7 +182,7 @@ Trust Server Certificate=True;
 
 
         // 📚 Load All Books (default)
-        private void LoadAllBooks()
+        private void LoadAllBooks() // --------------------------------------------------------------------------------------------------------------------
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -192,8 +192,13 @@ Trust Server Certificate=True;
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
                 dataGridBooks.DataSource = dt;
-            }
-        }
+
+
+                if (dataGridBooks.Columns.Contains("BookID"))
+                    dataGridBooks.Columns["BookID"].HeaderText = "Book Accession no.";
+
+               }
+                    }
 
 
         // 📚 BOOK INVENTORY (Already in your design)
@@ -264,6 +269,15 @@ Trust Server Certificate=True;
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dgvBorrowedBooks.DataSource = dt;
+
+                // ✅ Hide ReturnID and IssueID columns
+                if (dgvBorrowedBooks.Columns.Contains("IssueID"))
+                    dgvBorrowedBooks.Columns["IssueID"].Visible = false;
+
+  
+
+
+
             }
             finally
             {
@@ -281,12 +295,20 @@ Trust Server Certificate=True;
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dgvReturnedBooks.DataSource = dt;
+
+                // ✅ Hide ReturnID and IssueID columns
+                if (dgvReturnedBooks.Columns.Contains("ReturnID"))
+                    dgvReturnedBooks.Columns["ReturnID"].Visible = false;
+
+                if (dgvReturnedBooks.Columns.Contains("IssueID"))
+                    dgvReturnedBooks.Columns["IssueID"].Visible = false;
             }
             finally
             {
                 con.Close();
             }
         }
+
 
 
 
@@ -673,6 +695,11 @@ Trust Server Certificate=True;
             Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
             form1.Show();
             this.Hide();
+
+        }
+
+        private void dgvReturnedBooks_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }
