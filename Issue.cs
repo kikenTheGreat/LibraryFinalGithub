@@ -142,8 +142,8 @@ Trust Server Certificate=True;"))
 
                     string query = @"
                 SELECT 
-                    ReturnID,
-                    IssueID,
+                   
+                  
                     ClientID,
                     ClientName,
                     ClientType,

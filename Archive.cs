@@ -92,7 +92,7 @@ namespace LibraryCGC
             LoadBooksGrid();
 
         }
-            
+
         private void SetupArchiveGrid()
         {
             DataGridTotalBooks.Columns.Clear();
@@ -108,7 +108,7 @@ namespace LibraryCGC
             colBookID.HeaderText = "Accession Number";
             colBookID.DataPropertyName = "ArchiveID";
             colBookID.Name = "ArchiveID";     // 🔹 make sure name matches row.Cells["BookID"]
-           
+
             DataGridTotalBooks.Columns.Add(colBookID);
 
             // --- Book Title ---
@@ -253,10 +253,10 @@ namespace LibraryCGC
 
         private void btnRestoreBook_Click_1(object sender, EventArgs e)
         {
-         
+
         }
 
- 
+
 
         private void btnIssueBooks_Click(object sender, EventArgs e)
         {
@@ -361,10 +361,10 @@ namespace LibraryCGC
                                 {
                                     // 🆕 Book doesn't exist - insert new record
                                     SqlCommand insertCmd = new SqlCommand(@"
-                                INSERT INTO BooksAcq 
-                                (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition)
-                                VALUES 
-                                (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition)", con);
+                                    INSERT INTO BooksAcq 
+                                    (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition)
+                                    VALUES 
+                                    (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition)", con);
 
                                     insertCmd.Parameters.AddWithValue("@BookTitle", title);
                                     insertCmd.Parameters.AddWithValue("@Author", author);
@@ -428,7 +428,38 @@ namespace LibraryCGC
             }
         }
 
+        private void txtArchiveISBN_TextChanged(object sender, EventArgs e)
+        {
+            string isbn = txtArchiveISBN.Text.Trim();
 
+            // Only search when ISBN length > 10 (means user is done typing)
+            if (isbn.Length > 10)
+            {
+                bool found = false;
 
+                // Loop through DataGridView rows
+                foreach (DataGridViewRow row in DataGridTotalBooks.Rows)
+                {
+                    if (row.Cells["ISBN"].Value != null &&
+                        row.Cells["ISBN"].Value.ToString().Equals(isbn, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Highlight found row
+                        row.Selected = true;
+                        DataGridTotalBooks.CurrentCell = row.Cells[0];
+
+                        // Optionally scroll to it
+                        DataGridTotalBooks.FirstDisplayedScrollingRowIndex = row.Index;
+
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    MessageBox.Show("❌ Book not found in the archive.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
     }
 }
