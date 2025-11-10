@@ -41,6 +41,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel14 = new LibraryCGC.Components.ArthanPanel();
             arthanButton3 = new LibraryCGC.Components.ArthanButton();
@@ -100,6 +102,7 @@
             panel1 = new Panel();
             flowPanel2 = new FlowLayoutPanel();
             Panel4 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
             arthanPanel1.SuspendLayout();
             arthanPanel14.SuspendLayout();
             arthanPanel16.SuspendLayout();
@@ -1209,12 +1212,30 @@
             Panel4.Size = new Size(291, 165);
             Panel4.TabIndex = 32;
             // 
+            // guna2Button5
+            // 
+            guna2Button5.CustomizableEdges = customizableEdges12;
+            guna2Button5.DisabledState.BorderColor = Color.DarkGray;
+            guna2Button5.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2Button5.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2Button5.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2Button5.Font = new Font("Segoe UI", 9F);
+            guna2Button5.ForeColor = Color.White;
+            guna2Button5.Location = new Point(395, 221);
+            guna2Button5.Name = "guna2Button5";
+            guna2Button5.ShadowDecoration.CustomizableEdges = customizableEdges13;
+            guna2Button5.Size = new Size(120, 56);
+            guna2Button5.TabIndex = 8;
+            guna2Button5.Text = "go to dashboard";
+            guna2Button5.Click += guna2Button5_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(241, 241, 242);
             ClientSize = new Size(1902, 1033);
+            Controls.Add(guna2Button5);
             Controls.Add(arthanPanel10);
             Controls.Add(arthanPanel9);
             Controls.Add(arthanPanel8);
@@ -1330,5 +1351,6 @@
         private Guna.UI2.WinForms.Guna2CirclePictureBox circlePictureBox;
         private Guna.UI2.WinForms.Guna2Button guna2Button4;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel Panel4;
+        private Guna.UI2.WinForms.Guna2Button guna2Button5;
     }
 }

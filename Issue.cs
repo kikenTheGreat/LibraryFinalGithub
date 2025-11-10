@@ -24,6 +24,10 @@ namespace LibraryCGC
     public partial class Issue : Form
     {
         private int currentEmployeeID;
+        // Add these fields at the top of your Issue class
+        private System.Windows.Forms.Timer emailNotificationTimer;
+
+        private DateTime lastEmailCheck = DateTime.MinValue;
 
 
         public Issue()
@@ -94,7 +98,7 @@ Trust Server Certificate=True;"))
                 HighlightOverdueRows();
                 HighlightStatusRows();
 
-               
+
             }
 
             // 🟢 Restore scroll position (if valid)
@@ -375,6 +379,7 @@ Trust Server Certificate=True;"))
         private void Issue_Load(object sender, EventArgs e)
         {
             SetupIssueBooksGrid();
+
             // Status combobox setup
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
@@ -385,33 +390,40 @@ Trust Server Certificate=True;"))
             returnCondition.Items.Clear();
             returnCondition.Items.AddRange(new string[]
             {
-    "Good",
-    "Minor Damaged",
-    "Damaged",
-    "Lost"
+        "Good",
+        "Minor Damaged",
+        "Damaged",
+        "Lost"
             });
-
             returnCondition.SelectedIndex = 0;
 
             // Prepare borrow list grid
             dgvBorrowList.Columns.Add("ISBN", "ISBN");
-
             dgvBorrowList.Columns.Add("BookTitle", "Book Title");
             dgvBorrowList.Columns.Add("Source", "Source");
 
+            // ✅ EXISTING TIMER: Update overdue penalties every second
             overdueTimer = new System.Windows.Forms.Timer();
-            overdueTimer.Interval = 1000; // every 1 sec (adjust as you like)
+            overdueTimer.Interval = 1000; // 1 second
             overdueTimer.Tick += overdueTimer_Tick;
             overdueTimer.Start();
+
+            // ✅ NEW TIMER: Check for email notifications every 30 minutes
+            emailNotificationTimer = new System.Windows.Forms.Timer();
+            emailNotificationTimer.Interval = 1800000; // 30 minutes (30 * 60 * 1000)
+            emailNotificationTimer.Tick += EmailNotificationTimer_Tick;
+            emailNotificationTimer.Start();
+
+            // ✅ Run email check immediately on load (if not run today)
+            if (lastEmailCheck.Date != DateTime.Now.Date)
+            {
+                System.Threading.Tasks.Task.Run(() => EmailNotificationService.CheckAndSendAllNotifications());
+                lastEmailCheck = DateTime.Now;
+            }
+
             HighlightOverdueRows();
             HighlightStatusRows();
-
-            overdueTimer = new System.Windows.Forms.Timer();
-            overdueTimer.Interval = 1000; // every 1 sec (adjust as you like)
-            overdueTimer.Tick += overdueTimer_Tick;
-            overdueTimer.Start();
             StyleDataGrid(returnDatagrid);
-
             UpdateTotalOverdueLabel();
 
             //Issue and Return Panel Visibility
@@ -423,21 +435,14 @@ Trust Server Certificate=True;"))
             panelReturnBooks.Visible = false;
             ReturnPANEL.Visible = false;
 
-
-
-
-
-
-
-
-
             LoadReturnedBooks();
 
             issueDate.Value = DateTime.Now;
             issueDate.Format = DateTimePickerFormat.Custom;
-            issueDate.CustomFormat = "dddd, MMMM dd, yyyy"; // Example: Friday, October 25, 2025
+            issueDate.CustomFormat = "dddd, MMMM dd, yyyy";
 
-            StartDateTimeUpdater(); // ✅ Live update the Issue Date picker
+            StartDateTimeUpdater();
+
 
 
         }
@@ -848,7 +853,7 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
             LoadReturnedBooks();
         }
 
-     
+
 
         private string GetUserRole(string clientId)
         {
@@ -1001,7 +1006,7 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
                                 ELSE 'Issued'
                              END
                 WHERE 
-                    (Status = 'Issued' OR Status = 'Overdue')  -- ✅ don't touch Returned
+                    (Status = 'Issued' OR Status = 'Overdue')
                     AND GETDATE() >= IssueDate;
             ";
 
@@ -1849,7 +1854,7 @@ VALUES
             {
                 int validDays = 0;
                 DateTime due = issueDate;
-                while (validDays < 3)
+                while (validDays < 1)
                 {
                     due = due.AddDays(1);
                     if (due.DayOfWeek != DayOfWeek.Sunday && !philippineHolidays.Contains(due.Date))
@@ -2340,6 +2345,96 @@ Trust Server Certificate=True;";
                         CMBbookConditon.Text = issuedCondition;
                     }
                 }
+            }
+        }
+
+        private void EmailNotificationTimer_Tick(object sender, EventArgs e)
+        {
+            // Only send emails once per day (at the first check after midnight)
+            if (lastEmailCheck.Date != DateTime.Now.Date)
+            {
+                // Run in background thread to avoid blocking UI
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    try
+                    {
+                        EmailNotificationService.CheckAndSendAllNotifications();
+                        lastEmailCheck = DateTime.Now;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Email notification error: {ex.Message}");
+                    }
+                });
+            }
+        }
+
+        private void btnSendEmailNotifications_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+       "Send email notifications now?\n\n" +
+       "This will send:\n" +
+       "• Due date reminders (books due tomorrow)\n" +
+       "• Overdue notifications (newly overdue books)\n" +
+       "• Weekly penalty reminders (if today is Monday)\n\n" +
+       "Do you want to continue?",
+       "Send Email Notifications",
+       MessageBoxButtons.YesNo,
+       MessageBoxIcon.Question
+   );
+
+            if (result == DialogResult.Yes)
+            {
+                // Show loading indicator
+                Cursor = Cursors.WaitCursor;
+
+                System.Threading.Tasks.Task.Run(() =>
+                {
+                    EmailNotificationService.CheckAndSendAllNotifications();
+
+                    // Update UI on main thread
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        Cursor = Cursors.Default;
+                        MessageBox.Show(
+                            "Email notifications have been sent successfully!",
+                            "Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                    });
+                });
+            }
+        }
+
+        private void Issue_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            if (overdueTimer != null)
+            {
+                overdueTimer.Stop();
+                overdueTimer.Dispose();
+            }
+
+            if (emailNotificationTimer != null)
+            {
+                emailNotificationTimer.Stop();
+                emailNotificationTimer.Dispose();
+            }
+        }
+
+        private void btnTestEmails_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+       "Send test notifications now?",
+       "Test",
+       MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                EmailNotificationService.CheckAndSendAllNotifications();
+                MessageBox.Show("Check console for results!");
             }
         }
     }

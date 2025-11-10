@@ -140,6 +140,8 @@
             label14 = new Label();
             lblReturnDate = new Guna.UI2.WinForms.Guna2HtmlLabel();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
+            btnTestEmails = new Button();
+            btnSendEmailNotifications = new Button();
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             btnReturnBooks = new Guna.UI2.WinForms.Guna2Button();
             btnIssueBooks = new Guna.UI2.WinForms.Guna2Button();
@@ -159,6 +161,7 @@
             returnDatagrid = new Guna.UI2.WinForms.Guna2DataGridView();
             PANELdataList = new Panel();
             PANELoverdue = new Panel();
+            EmailNotificationTimer = new System.Windows.Forms.Timer(components);
             kupal.SuspendLayout();
             panelReturnBooks.SuspendLayout();
             arthanPanel1.SuspendLayout();
@@ -1102,6 +1105,8 @@
             arthanPanel4.BackColor = Color.Transparent;
             arthanPanel4.BottomLeftRadius = 15;
             arthanPanel4.BottomRightRadius = 15;
+            arthanPanel4.Controls.Add(btnTestEmails);
+            arthanPanel4.Controls.Add(btnSendEmailNotifications);
             arthanPanel4.Controls.Add(guna2Button1);
             arthanPanel4.Controls.Add(btnReturnBooks);
             arthanPanel4.Controls.Add(btnIssueBooks);
@@ -1125,6 +1130,26 @@
             arthanPanel4.TopLeftRadius = 15;
             arthanPanel4.TopRightRadius = 15;
             arthanPanel4.UseIndividualCorners = false;
+            // 
+            // btnTestEmails
+            // 
+            btnTestEmails.Location = new Point(1172, 25);
+            btnTestEmails.Name = "btnTestEmails";
+            btnTestEmails.Size = new Size(144, 63);
+            btnTestEmails.TabIndex = 47;
+            btnTestEmails.Text = "Test email";
+            btnTestEmails.UseVisualStyleBackColor = true;
+            btnTestEmails.Click += btnTestEmails_Click;
+            // 
+            // btnSendEmailNotifications
+            // 
+            btnSendEmailNotifications.Location = new Point(985, 23);
+            btnSendEmailNotifications.Name = "btnSendEmailNotifications";
+            btnSendEmailNotifications.Size = new Size(143, 65);
+            btnSendEmailNotifications.TabIndex = 46;
+            btnSendEmailNotifications.Text = "Send Email Notifcations";
+            btnSendEmailNotifications.UseVisualStyleBackColor = true;
+            btnSendEmailNotifications.Click += btnSendEmailNotifications_Click;
             // 
             // guna2Button1
             // 
@@ -1440,6 +1465,10 @@
             PANELoverdue.Size = new Size(330, 162);
             PANELoverdue.TabIndex = 30;
             // 
+            // EmailNotificationTimer
+            // 
+            EmailNotificationTimer.Tick += EmailNotificationTimer_Tick;
+            // 
             // Issue
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1457,6 +1486,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "1";
             WindowState = FormWindowState.Maximized;
+            FormClosing += Issue_FormClosing;
             Load += Issue_Load;
             kupal.ResumeLayout(false);
             kupal.PerformLayout();
@@ -1553,6 +1583,9 @@
         private Panel PANELoverdue;
         private Guna.UI2.WinForms.Guna2TextBox IssueRole;
         private Guna.UI2.WinForms.Guna2TextBox ClientName;
+        private System.Windows.Forms.Timer EmailNotificationTimer;
+        private Button btnSendEmailNotifications;
+        private Button btnTestEmails;
         // private Panel panelReturnBooks;
     }
 }

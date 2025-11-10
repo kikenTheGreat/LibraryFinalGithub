@@ -13,7 +13,7 @@ namespace Library_Final
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new CreateAcc());//register dapat
+            Application.Run(new Form1());//register dapat
         }
     }
 }

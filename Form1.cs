@@ -750,5 +750,12 @@ Trust Server Certificate=True;
             sign_In.Show();
             this.Hide();
         }
+
+        private void guna2Button5_Click(object sender, EventArgs e)
+        {
+            NotificationDashboard notificationDashboard = new NotificationDashboard();
+            notificationDashboard.Show();
+            this.Hide();
+        }
     }
 }
