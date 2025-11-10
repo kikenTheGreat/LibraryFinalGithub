@@ -653,9 +653,34 @@ Trust Server Certificate=True;"))
 
                     // ✅ NEW: Check if student has pending penalties from previous semester
                     string checkPenaltiesQuery = @"
-                SELECT COUNT(*), ISNULL(SUM(PenaltyAmount), 0)
-                FROM PendingPenalties 
-                WHERE ClientID = @ClientID AND IsPaid = 0";
+    SELECT COUNT(*), ISNULL(SUM(PenaltyAmount), 0)
+    FROM PendingPenalties 
+    WHERE ClientID = @ClientID AND IsPaid = 0";
+
+
+                    // ✅ Check if student has "With Pending Issues" status
+                    string checkStatusQuery = "SELECT Status FROM AddStudentAcc WHERE ClientID = @ClientID";
+                    using (SqlCommand cmdStatus = new SqlCommand(checkStatusQuery, con))
+                    {
+                        cmdStatus.Parameters.AddWithValue("@ClientID", ClientID.Text.Trim());
+                        object statusResult = cmdStatus.ExecuteScalar();
+
+                        if (statusResult != null && statusResult.ToString() == "With Pending Issues")
+                        {
+                            MessageBox.Show(
+                                "⚠️ BORROWING BLOCKED\n\n" +
+                                "This student has pending issues from the previous semester.\n\n" +
+                                "The student must resolve all issues before borrowing books.\n" +
+                                "Please direct them to the library desk to settle their penalties.",
+                                "Pending Issues",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning
+                            );
+                            return;
+                        }
+                    }
+
+                    // Continue with existing penalty check...
 
                     using (SqlCommand cmdPenalty = new SqlCommand(checkPenaltiesQuery, con))
                     {
@@ -2135,9 +2160,19 @@ Trust Server Certificate=True;";
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            DamagedBookReport report = new DamagedBookReport();
-            report.Show();
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is DamagedBookReport)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
 
+            // ✅ Use SessionData when creating new Form1
+            DamagedBookReport damage = new DamagedBookReport();
+            damage.Show();
             this.Hide();
         }
 

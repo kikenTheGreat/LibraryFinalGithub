@@ -193,6 +193,17 @@ Trust Server Certificate=True;
 
         private void arthanButton2_Click(object sender, EventArgs e)
         {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Report)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
+            // ✅ Use SessionData when creating new Form1
             Report report = new Report();
             report.Show();
             this.Hide();

@@ -533,6 +533,7 @@
             AddStudentAccDataGrid.Size = new Size(1840, 464);
             AddStudentAccDataGrid.TabIndex = 60;
             AddStudentAccDataGrid.CellContentClick += AddStudentAccDataGrid_CellContentClick;
+            AddStudentAccDataGrid.CellFormatting += AddStudentAccDataGrid_CellFormatting;
             // 
             // panel1
             // 
@@ -888,7 +889,7 @@
             Controls.Add(arthanPanel2);
             Controls.Add(arthanPanel4);
             Margin = new Padding(3, 4, 3, 4);
-          
+     
             StartPosition = FormStartPosition.CenterScreen;
             Text = "CreateAcc";
             WindowState = FormWindowState.Maximized;

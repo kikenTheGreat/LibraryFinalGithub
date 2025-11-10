@@ -60,12 +60,12 @@ namespace LibraryCGC
 {
     public partial class CreateAcc : Form
     {
-        
-        public CreateAcc(   )
+
+        public CreateAcc()
         {
             InitializeComponent();
             LoadStudentAccounts();
-          
+
             GlobalFontSettings.FontResolver = SimpleFontResolver.Instance;
 
 
@@ -95,7 +95,21 @@ namespace LibraryCGC
                     DataTable dt = new DataTable();
                     da.Fill(dt);
                     AddStudentAccDataGrid.DataSource = dt;
+
+
+                    // ✅ Ensure each DataGridView column has a proper Name
+                    foreach (DataGridViewColumn col in AddStudentAccDataGrid.Columns)
+                    {
+                        col.Name = col.DataPropertyName;
+                    }
+
                 }
+
+                HighlightStudentStatusRows();
+
+
+
+
             }
         }
 
@@ -115,7 +129,7 @@ namespace LibraryCGC
             colClientID.HeaderText = "Client ID";
             colClientID.DataPropertyName = "ClientID";
             colClientID.Name = "ClientID";
-            colClientID.Visible = false;
+            colClientID.Visible = true;
             AddStudentAccDataGrid.Columns.Add(colClientID);
 
             // --- Name ---
@@ -528,6 +542,24 @@ namespace LibraryCGC
             }
         }
 
+        private void HighlightStudentStatusRows()
+        {
+            foreach (DataGridViewRow row in AddStudentAccDataGrid.Rows)
+            {
+                if (row.Cells["Status"].Value != null)
+                {
+                    string status = row.Cells["Status"].Value.ToString();
+
+                    if (status.Equals("With Pending Issues", StringComparison.OrdinalIgnoreCase))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.LightCoral;
+                        row.DefaultCellStyle.ForeColor = Color.White;
+                    }
+                  
+                }
+            }
+        }
+
 
 
 
@@ -722,15 +754,16 @@ namespace LibraryCGC
                 int studentsToDeactivate = activeStudentCount - studentsWithIssues;
 
                 // ✅ Show detailed warning with transaction summary
+                // Around line 460 - Update the warning message
                 string warningMessage = $"⚠️ WARNING: End Current Semester\n\n" +
                     $"SEMESTER SUMMARY:\n" +
                     $"• Total active students: {activeStudentCount}\n" +
-                    $"• Students with penalties/issues (will STAY ACTIVE): {studentsWithIssues}\n" +
+                    $"• Students with penalties/issues (will be marked 'With Pending Issues'): {studentsWithIssues}\n" +
                     $"• Students to be deactivated (clean records): {studentsToDeactivate}\n" +
                     $"• Unreturned books: {unreturnedBooks}\n\n" +
                     $"WHAT WILL HAPPEN:\n" +
                     $"• {studentsToDeactivate} student accounts with clean records will be set to INACTIVE\n" +
-                    $"• {studentsWithIssues} students with penalties/issues will REMAIN ACTIVE for tracking\n" +
+                    $"• {studentsWithIssues} students with penalties/issues will be marked as 'WITH PENDING ISSUES'\n" +
                     $"• Penalties will be recorded in PendingPenalties table\n" +
                     $"• Unreturned books ({unreturnedBooks}) will remain tracked and block future borrowing\n" +
                     $"• All completed transactions will be archived\n" +
@@ -748,12 +781,12 @@ namespace LibraryCGC
                 if (result == DialogResult.No)
                     return;
 
-                // ✅ Double confirmation for safety
+                // Around line 490 - Update the final confirmation message
                 DialogResult finalConfirm = MessageBox.Show(
                     "Are you absolutely sure?\n\n" +
                     $"This will:\n" +
                     $"• Deactivate {studentsToDeactivate} accounts with clean records\n" +
-                    $"• Keep {studentsWithIssues} accounts ACTIVE for penalty tracking\n" +
+                    $"• Mark {studentsWithIssues} accounts as 'WITH PENDING ISSUES'\n" +
                     $"• Track {unreturnedBooks} unreturned books\n\n" +
                     "Click YES to confirm.",
                     "Final Confirmation",
@@ -846,16 +879,28 @@ namespace LibraryCGC
 
                     // ✅ 5. CRITICAL: Update ONLY students WITHOUT penalties/issues to Inactive
                     // Students with penalties or "Report filed by librarian" stay ACTIVE
-                    string deactivateStudents = @"
-                UPDATE AddStudentAcc 
-                SET Status = 'Inactive'
-                WHERE ClientID NOT IN (
-                    SELECT DISTINCT ClientID 
-                    FROM IssueBooks 
-                    WHERE (Penalty > 0 OR Status = 'Overdue' OR Status = 'Report filed by librarian')
-                    AND Status != 'Returned'
-                )";
-                    new SqlCommand(deactivateStudents, con, transaction).ExecuteNonQuery();
+                    // ✅ 5. Update student statuses based on their records
+                    // Students with penalties/issues → "With Pending Issues"
+                    // Clean students → "Inactive"
+
+                    // First, mark students with penalties/issues
+                    string markPendingIssues = @"
+    UPDATE AddStudentAcc 
+    SET Status = 'With Pending Issues'
+    WHERE ClientID IN (
+        SELECT DISTINCT ClientID 
+        FROM IssueBooks 
+        WHERE (Penalty > 0 OR Status = 'Overdue' OR Status = 'Report filed by librarian' OR Status = 'Issued')
+        AND Status != 'Returned'
+    )";
+                    new SqlCommand(markPendingIssues, con, transaction).ExecuteNonQuery();
+
+                    // Then, deactivate students with clean records
+                    string deactivateCleanStudents = @"
+    UPDATE AddStudentAcc 
+    SET Status = 'Inactive'
+    WHERE Status = 'Active'";  // Only affects students still marked as Active
+                    new SqlCommand(deactivateCleanStudents, con, transaction).ExecuteNonQuery();
 
                     // ✅ 6. End the semester
                     string endSemester = "UPDATE SemesterDuration SET IsActive = 0 WHERE IsActive = 1";
@@ -864,16 +909,16 @@ namespace LibraryCGC
                     // ✅ Commit all changes
                     transaction.Commit();
 
+                    // Around line 560 - Update the success message
                     MessageBox.Show(
                         $"✅ Semester ended successfully!\n\n" +
                         $"SUMMARY:\n" +
                         $"• {studentsToDeactivate} accounts with clean records moved to inactive status\n" +
-                        $"• {studentsWithIssues} students with penalties/issues remain ACTIVE for tracking\n" +
+                        $"• {studentsWithIssues} students marked as 'WITH PENDING ISSUES'\n" +
                         $"• {unreturnedBooks} unreturned books being tracked\n" +
                         $"• All completed transactions archived\n\n" +
                         $"IMPORTANT NOTES:\n" +
-                        $"• Students with penalties will stay ACTIVE until issues are resolved\n" +
-                        $"• They cannot borrow new books until penalties are settled\n" +
+                        $"• Students with pending issues cannot borrow until resolved\n" +
                         $"• Check 'Pending Penalties' report for outstanding issues\n" +
                         $"• Clean accounts can be reactivated when new semester starts",
                         "Semester Ended Successfully",
@@ -881,11 +926,12 @@ namespace LibraryCGC
                         MessageBoxIcon.Information
                     );
 
+                    // Around line 575 - Update the activity log
                     ActivityLog.RecordActivity(
                         SessionData.CurrentUserName,
                         "End Semester",
                         "Account Management",
-                        $"Semester ended — {studentsToDeactivate} clean accounts deactivated, {studentsWithIssues} accounts with penalties kept active, {unreturnedBooks} books tracked"
+                        $"Semester ended — {studentsToDeactivate} clean accounts deactivated, {studentsWithIssues} accounts marked 'With Pending Issues', {unreturnedBooks} books tracked"
                     );
 
                     RefreshSemesterButtons();
@@ -1361,6 +1407,18 @@ namespace LibraryCGC
                     MessageBox.Show("Please enter a valid Client ID.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+        }
+
+        private void AddStudentAccDataGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+
+          
+
+
+
+
+
+
         }
     }
 }
