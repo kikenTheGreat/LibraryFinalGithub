@@ -382,12 +382,7 @@ Trust Server Certificate=True;
             this.Hide();
         }
 
-
-
-
-
-
-        private void StyleDataGrid(DataGridView dgv) // dgv usable method for styling any datagridviewvvvvvvvvvvvvvvvvvvvvvvvvv
+        private void StyleDataGrid(DataGridView dgv)
         {
             // 🧭 General layout
             dgv.BorderStyle = BorderStyle.None;
@@ -400,9 +395,11 @@ Trust Server Certificate=True;
             dgv.BackgroundColor = Color.White;
             dgv.EnableHeadersVisualStyles = false;
             dgv.GridColor = Color.LightGray;
+
+            // ✅ Enable wrapping + auto row height
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
             // 🧱 Header style
             dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
@@ -412,23 +409,24 @@ Trust Server Certificate=True;
             dgv.ColumnHeadersHeight = 42;
             dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 
-            // 📘 Row style — add padding and center vertically
+            // 📘 Row style
             dgv.DefaultCellStyle.BackColor = Color.White;
             dgv.DefaultCellStyle.ForeColor = Color.Black;
             dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
             dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
             dgv.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-
-            // ✨ Center vertically + top & bottom padding (8px total)
-            dgv.DefaultCellStyle.Padding = new Padding(5, 6, 5, 6); // left, top, right, bottom
-            dgv.RowTemplate.Height = 38; // Adjust height for padding
+            dgv.DefaultCellStyle.Padding = new Padding(5, 6, 5, 6);
 
             // 🪶 Alternating row style
             dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(250, 250, 250);
             dgv.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
             dgv.AlternatingRowsDefaultCellStyle.Padding = new Padding(5, 6, 5, 6);
 
+            // 🔧 Set a minimum row height (auto expands due to AllCells)
+            dgv.RowTemplate.Height = 38;
+
+            // 🧩 Apply theme style if it's Guna2 grid
             if (dgv is Guna.UI2.WinForms.Guna2DataGridView gunaGrid)
             {
                 gunaGrid.ThemeStyle.AlternatingRowsStyle.BackColor = Color.FromArgb(250, 250, 250);
@@ -436,10 +434,17 @@ Trust Server Certificate=True;
                 gunaGrid.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(240, 240, 240);
                 gunaGrid.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
                 gunaGrid.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(230, 240, 255);
+                // ✅ No WrapMode here — handled by DefaultCellStyle above
             }
 
-
+            dgv.Refresh();
         }
+
+
+
+
+
+
         private void guna2Button1_Click(object sender, EventArgs e) // button for applying filters on returned books
         {
             ApplyReturnedBookFilters();
