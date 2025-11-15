@@ -100,6 +100,7 @@ namespace LibraryCGC
             LoadStudentAccounts();
             CheckSemesterStatus(); // ✅ check button states on lo
             MoveInactiveStudents();
+            LoadData();
         }
 
         public void LoadStudentAccounts()   //output data grid
@@ -1515,6 +1516,20 @@ namespace LibraryCGC
         }
 
 
+        DataTable dt = new DataTable();
+
+        private void LoadData()
+        {
+            using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+            {
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT * from AddStudentAcc", con);
+                sda.Fill(dt);
+                AddStudentAccDataGrid.DataSource = dt;
+            }
+        }
+
+
+
         private void LoadStudentFullInfo(string name)
         {
             using (SqlConnection con = new SqlConnection(
@@ -1905,6 +1920,16 @@ namespace LibraryCGC
         private void txtPrintName_Click(object sender, EventArgs e)
         {
             PopulateFieldsFromSelection();
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string search = txtSearch.Text.Replace("'", "''"); // Escape single quotes
+
+            (AddStudentAccDataGrid.DataSource as DataTable).DefaultView.RowFilter =
+                $"ISNULL(Name, '') LIKE '%{search}%' " +
+                $"OR ISNULL(CONVERT(ClientID, 'System.String'), '') LIKE '%{search}%'";
+
         }
     }
 }

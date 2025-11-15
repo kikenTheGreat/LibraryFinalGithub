@@ -54,8 +54,6 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -68,6 +66,10 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
             arthanButton2 = new LibraryCGC.Components.ArthanButton();
             pictureBox1 = new PictureBox();
@@ -120,6 +122,7 @@
             label13 = new Label();
             label16 = new Label();
             timer1 = new System.Windows.Forms.Timer(components);
+            txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             arthanPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             arthanPanel1.SuspendLayout();
@@ -747,6 +750,7 @@
             arthanPanel3.BorderStyle = BorderStyle.FixedSingle;
             arthanPanel3.BottomLeftRadius = 0;
             arthanPanel3.BottomRightRadius = 0;
+            arthanPanel3.Controls.Add(txtSearch);
             arthanPanel3.Controls.Add(printClassSection);
             arthanPanel3.Controls.Add(txtPrintRole);
             arthanPanel3.Controls.Add(txtPrintName);
@@ -786,7 +790,7 @@
             printClassSection.BorderRadius = 4;
             printClassSection.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             printClassSection.BorderThickness = 2;
-            printClassSection.CustomizableEdges = customizableEdges25;
+            printClassSection.CustomizableEdges = customizableEdges27;
             printClassSection.DefaultText = "";
             printClassSection.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             printClassSection.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -800,7 +804,7 @@
             printClassSection.Name = "printClassSection";
             printClassSection.PlaceholderText = "";
             printClassSection.SelectedText = "";
-            printClassSection.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            printClassSection.ShadowDecoration.CustomizableEdges = customizableEdges28;
             printClassSection.Size = new Size(285, 37);
             printClassSection.TabIndex = 73;
             // 
@@ -810,7 +814,7 @@
             txtPrintRole.BorderRadius = 4;
             txtPrintRole.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             txtPrintRole.BorderThickness = 2;
-            txtPrintRole.CustomizableEdges = customizableEdges27;
+            txtPrintRole.CustomizableEdges = customizableEdges29;
             txtPrintRole.DefaultText = "";
             txtPrintRole.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtPrintRole.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -824,7 +828,7 @@
             txtPrintRole.Name = "txtPrintRole";
             txtPrintRole.PlaceholderText = "";
             txtPrintRole.SelectedText = "";
-            txtPrintRole.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            txtPrintRole.ShadowDecoration.CustomizableEdges = customizableEdges30;
             txtPrintRole.Size = new Size(304, 37);
             txtPrintRole.TabIndex = 66;
             // 
@@ -846,7 +850,7 @@
             printDepartment.BorderRadius = 4;
             printDepartment.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             printDepartment.BorderThickness = 2;
-            printDepartment.CustomizableEdges = customizableEdges29;
+            printDepartment.CustomizableEdges = customizableEdges31;
             printDepartment.DefaultText = "";
             printDepartment.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             printDepartment.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -860,7 +864,7 @@
             printDepartment.Name = "printDepartment";
             printDepartment.PlaceholderText = "";
             printDepartment.SelectedText = "";
-            printDepartment.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            printDepartment.ShadowDecoration.CustomizableEdges = customizableEdges32;
             printDepartment.Size = new Size(304, 37);
             printDepartment.TabIndex = 71;
             // 
@@ -870,7 +874,7 @@
             printEmail.BorderRadius = 4;
             printEmail.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             printEmail.BorderThickness = 2;
-            printEmail.CustomizableEdges = customizableEdges31;
+            printEmail.CustomizableEdges = customizableEdges33;
             printEmail.DefaultText = "";
             printEmail.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             printEmail.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -884,7 +888,7 @@
             printEmail.Name = "printEmail";
             printEmail.PlaceholderText = "";
             printEmail.SelectedText = "";
-            printEmail.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            printEmail.ShadowDecoration.CustomizableEdges = customizableEdges34;
             printEmail.Size = new Size(285, 37);
             printEmail.TabIndex = 72;
             // 
@@ -892,7 +896,7 @@
             // 
             btnPrintBarcode.BorderRadius = 18;
             btnPrintBarcode.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnPrintBarcode.CustomizableEdges = customizableEdges33;
+            btnPrintBarcode.CustomizableEdges = customizableEdges35;
             btnPrintBarcode.DisabledState.BorderColor = Color.DarkGray;
             btnPrintBarcode.DisabledState.CustomBorderColor = Color.DarkGray;
             btnPrintBarcode.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -902,7 +906,7 @@
             btnPrintBarcode.ForeColor = Color.Black;
             btnPrintBarcode.Location = new Point(386, 269);
             btnPrintBarcode.Name = "btnPrintBarcode";
-            btnPrintBarcode.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            btnPrintBarcode.ShadowDecoration.CustomizableEdges = customizableEdges36;
             btnPrintBarcode.Size = new Size(157, 63);
             btnPrintBarcode.TabIndex = 63;
             btnPrintBarcode.Text = "Print Barcode";
@@ -945,7 +949,7 @@
             printStudentID.BorderRadius = 4;
             printStudentID.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             printStudentID.BorderThickness = 2;
-            printStudentID.CustomizableEdges = customizableEdges35;
+            printStudentID.CustomizableEdges = customizableEdges37;
             printStudentID.DefaultText = "";
             printStudentID.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             printStudentID.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -959,7 +963,7 @@
             printStudentID.Name = "printStudentID";
             printStudentID.PlaceholderText = "";
             printStudentID.SelectedText = "";
-            printStudentID.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            printStudentID.ShadowDecoration.CustomizableEdges = customizableEdges38;
             printStudentID.Size = new Size(285, 37);
             printStudentID.TabIndex = 69;
             // 
@@ -1009,7 +1013,7 @@
             txtPrintClientID.BorderRadius = 4;
             txtPrintClientID.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             txtPrintClientID.BorderThickness = 2;
-            txtPrintClientID.CustomizableEdges = customizableEdges37;
+            txtPrintClientID.CustomizableEdges = customizableEdges39;
             txtPrintClientID.DefaultText = "";
             txtPrintClientID.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtPrintClientID.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -1023,7 +1027,7 @@
             txtPrintClientID.Name = "txtPrintClientID";
             txtPrintClientID.PlaceholderText = "";
             txtPrintClientID.SelectedText = "";
-            txtPrintClientID.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            txtPrintClientID.ShadowDecoration.CustomizableEdges = customizableEdges40;
             txtPrintClientID.Size = new Size(211, 37);
             txtPrintClientID.TabIndex = 66;
             txtPrintClientID.TextChanged += txtPrintClientID_TextChanged;
@@ -1053,6 +1057,31 @@
             // 
             timer1.Interval = 300;
             timer1.Tick += timer1_Tick;
+            // 
+            // txtSearch
+            // 
+            txtSearch.BorderColor = Color.FromArgb(224, 224, 224);
+            txtSearch.BorderRadius = 4;
+            txtSearch.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            txtSearch.BorderThickness = 2;
+            txtSearch.CustomizableEdges = customizableEdges25;
+            txtSearch.DefaultText = "";
+            txtSearch.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtSearch.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtSearch.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtSearch.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtSearch.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtSearch.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtSearch.Location = new Point(30, 278);
+            txtSearch.Margin = new Padding(3, 5, 3, 5);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "Search Student Name/ClientID";
+            txtSearch.SelectedText = "";
+            txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            txtSearch.Size = new Size(342, 37);
+            txtSearch.TabIndex = 74;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // CreateAcc
             // 
@@ -1146,5 +1175,6 @@
         private Label label22;
         private Guna.UI2.WinForms.Guna2TextBox printClassSection;
         private System.Windows.Forms.Timer timer1;
+        private Guna.UI2.WinForms.Guna2TextBox txtSearch;
     }
 }
