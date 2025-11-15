@@ -1,4 +1,5 @@
-﻿using Library_Final;
+﻿using Guna.UI2.WinForms;
+using Library_Final;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlClient;
 using Microsoft.Data.SqlClient;
@@ -30,6 +31,7 @@ using System.Diagnostics.Metrics;
 using System.Drawing;          // Bitmap
 using System.Drawing;
 using System.Drawing;
+using System.Drawing;          // Bitmap
 using System.Drawing;
 using System.Drawing.Imaging;  // ImageFormat
 using System.Drawing.Imaging;
@@ -94,14 +96,52 @@ namespace LibraryCGC
 
         private void CreateAcc_Load(object sender, EventArgs e)
         {
-            Name.Focus();
+            heheName.Focus();
             //output data grid
             SetupAccountGrid();
             LoadStudentAccounts();
             CheckSemesterStatus(); // ✅ check button states on lo
             MoveInactiveStudents();
             LoadData();
+
+            SetFieldsEditable(false);   // LOCK ALL FIELDS on startup
+            btnSave.Enabled = false;    // Disable Save until Edit is clicked
+
+
+            // ✅ Add this line
+            MoveSearchToPanel(arthanPanel3);  // Start in Tab 1
+            AddStudentAccDataGrid.RowPrePaint += AddStudentAccDataGrid_RowPrePaint;
         }
+
+
+
+        private void AddStudentAccDataGrid_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= AddStudentAccDataGrid.Rows.Count)
+                return;
+
+            DataGridViewRow row = AddStudentAccDataGrid.Rows[e.RowIndex];
+
+            if (!AddStudentAccDataGrid.Columns.Contains("Status"))
+                return;
+
+            if (row.Cells["Status"].Value != null)
+            {
+                string status = row.Cells["Status"].Value.ToString();
+
+                if (status.Equals("With Pending Issues", StringComparison.OrdinalIgnoreCase))
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightCoral;
+                    row.DefaultCellStyle.ForeColor = Color.White;
+                }
+                else if (status.Equals("Active", StringComparison.OrdinalIgnoreCase))
+                {
+                    row.DefaultCellStyle.BackColor = Color.White; // or LightGreen if you want
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
+        }
+
 
         public void LoadStudentAccounts()   //output data grid
         {
@@ -118,7 +158,8 @@ namespace LibraryCGC
                     AddStudentAccDataGrid.DataSource = dt;
 
 
-                    // ✅ Ensure each DataGridView column has a proper Name
+                    // ✅ Ensure each DataGridView column has a proper
+                    // 
                     foreach (DataGridViewColumn col in AddStudentAccDataGrid.Columns)
                     {
                         col.Name = col.DataPropertyName;
@@ -126,12 +167,13 @@ namespace LibraryCGC
 
                 }
 
-                HighlightStudentStatusRows();
+
 
 
 
 
             }
+            HighlightStudentStatusRows();
         }
 
         private void HighlightStudentStatusRows()
@@ -259,13 +301,13 @@ namespace LibraryCGC
         {
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
             {
-                string name = Name.Text.Trim();
+                string name = heheName.Text.Trim();
                 // --- NAME VALIDATION ---
                 if (string.IsNullOrEmpty(name))
                 {
                     MessageBox.Show("Name cannot be empty.",
                                     "Invalid Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Name.Focus();
+                    heheName.Focus();
                     return;
                 }
 
@@ -425,7 +467,7 @@ namespace LibraryCGC
             OUTPUT INSERTED.ClientID
             VALUES (@Name, @SectionSY, @Email, @StudentNumber, @Department, @Role, GETDATE(), 'Active')", con);
 
-                cmd.Parameters.AddWithValue("@Name", Name.Text);
+                cmd.Parameters.AddWithValue("@Name", heheName.Text);
                 cmd.Parameters.AddWithValue("@SectionSY", SectionSY.Text);
                 cmd.Parameters.AddWithValue("@Email", Email.Text);
                 cmd.Parameters.AddWithValue("@StudentNumber", StudentNumber.Text);
@@ -464,7 +506,7 @@ namespace LibraryCGC
                     SessionData.CurrentUserName,
                     "Create Account",
                     "Account Management",
-                    $"Created new student account — Name: {Name.Text}, Student No: {StudentNumber.Text}, Department: {Department.Text}"
+                    $"Created new student account — Name: {heheName.Text}, Student No: {StudentNumber.Text}, Department: {Department.Text}"
                 );
 
                 // ✅ Step 7: Generate barcode PDF (unchanged from your version)
@@ -510,7 +552,7 @@ namespace LibraryCGC
                 }
 
                 double textStart = barcodeY + barcodeHeight + XUnit.FromMillimeter(1.5);
-                string shortName = Name.Text.Length > 18 ? Name.Text.Substring(0, 17) + "…" : Name.Text;
+                string shortName = heheName.Text.Length > 18 ? heheName.Text.Substring(0, 17) + "…" : heheName.Text;
 
                 gfx.DrawString($"ID: {clientId}", fontRegular, XBrushes.Black,
                     new XRect(margin, textStart, labelWidth, 10), XStringFormats.TopCenter);
@@ -538,7 +580,7 @@ namespace LibraryCGC
             }
 
             // --- Clear fields ---
-            Name.Text = SectionSY.Text = Email.Text = StudentNumber.Text = Department.Text = "";
+            heheName.Text = SectionSY.Text = Email.Text = StudentNumber.Text = Department.Text = "";
             Role.Text = "";
         }
 
@@ -679,6 +721,10 @@ namespace LibraryCGC
 
         private void btnStartSem_Click(object sender, EventArgs e)
         {
+
+
+
+
             using (SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
             {
                 con.Open();
@@ -1314,9 +1360,8 @@ namespace LibraryCGC
                         con.Open();
                         // Check in both active and inactive students
                         string query = @"
-                    SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID
-                    UNION
-                    SELECT Name, Role FROM InactiveStudents WHERE ClientID = @ClientID";
+                    SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
+
 
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
@@ -1929,7 +1974,154 @@ namespace LibraryCGC
             (AddStudentAccDataGrid.DataSource as DataTable).DefaultView.RowFilter =
                 $"ISNULL(Name, '') LIKE '%{search}%' " +
                 $"OR ISNULL(CONVERT(ClientID, 'System.String'), '') LIKE '%{search}%'";
+            HighlightStudentStatusRows();
+        }
 
+
+        private void MoveSearchToPanel(Control targetPanel)
+        {
+            // Remove search box from current parent
+            if (txtSearch.Parent != null)
+            {
+                txtSearch.Parent.Controls.Remove(txtSearch);
+            }
+
+            // Add to new parent at same position
+            txtSearch.Location = new Point(439, 6);
+            targetPanel.Controls.Add(txtSearch);
+            txtSearch.BringToFront();
+
+            // Also move the "Search" label (label23)
+            if (label23.Parent != null)
+            {
+                label23.Parent.Controls.Remove(label23);
+            }
+            label23.Location = new Point(341, -1);
+            targetPanel.Controls.Add(label23);
+            label23.BringToFront();
+        }
+
+
+
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            SetFieldsEditable(true);
+            btnSave.Enabled = true;
+            btnEdit.Enabled = false;
+        }
+
+
+
+        private void SetFieldsEditable(bool enabled)
+        {
+
+            printClassSection.ReadOnly = !enabled;
+            printEmail.ReadOnly = !enabled;
+            printStudentID.ReadOnly = !enabled;
+            printDepartment.ReadOnly = !enabled;
+            txtPrintRole.ReadOnly = !enabled;
+
+
+            Role.Enabled = enabled;  // ComboBox uses Enabled
+            Department.Enabled = enabled;
+            heheName.ReadOnly = !enabled;
+            Email.ReadOnly = !enabled;
+            SectionSY.ReadOnly = !enabled;
+            StudentNumber.ReadOnly = !enabled;
+
+
+
+
+
+            // ClientID always stays locked
+            txtPrintClientID.ReadOnly = true;
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int clientId = int.Parse(txtPrintClientID.Text);
+
+                using (SqlConnection con = new SqlConnection(
+                    "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True"))
+                {
+                    con.Open();
+
+                    string query = @"
+                UPDATE AddStudentAcc
+                SET 
+                    Name = @Name,
+                    SectionSY = @SectionSY,
+                    Email = @Email,
+                    StudentNumber = @StudentNumber,
+                    Department = @Department,
+                    Role = @Role
+                WHERE ClientID = @ClientID";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ClientID", clientId);
+                        cmd.Parameters.AddWithValue("@Name", txtPrintName.Text.Trim());
+                        cmd.Parameters.AddWithValue("@SectionSY", printClassSection.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Email", printEmail.Text.Trim());
+                        cmd.Parameters.AddWithValue("@StudentNumber", printStudentID.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Department", printDepartment.Text.Trim());
+                        cmd.Parameters.AddWithValue("@Role", txtPrintRole.Text.Trim());
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("✔ Student information updated successfully!",
+                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Lock the fields back
+                SetFieldsEditable(false);
+                btnSave.Enabled = false;
+                btnEdit.Enabled = true;
+
+                ActivityLog.RecordActivity(
+                    SessionData.CurrentUserName,
+                    "Edit Student Info",
+                    "Account Management",
+                    $"Updated ClientID: {clientId}"
+                );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Error updating database:\n" + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void guna2TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (guna2TabControl1.SelectedIndex == 1)  // Tab 2: Manage Account
+            {
+                SetFieldsEditable(true);
+                MoveSearchToPanel(arthanPanel1);  // ✅ Move to Tab 2 panel
+            }
+            else  // Tab 1: Print Barcode
+            {
+                SetFieldsEditable(false);
+                MoveSearchToPanel(arthanPanel3);  // ✅ Move to Tab 1 panel
+            }
+        }
+
+        private void guna2TextBox1_TextChanged(object sender, EventArgs e)
+        {
+            string search = txtSearch.Text.Replace("'", "''"); // Escape single quotes
+
+            (AddStudentAccDataGrid.DataSource as DataTable).DefaultView.RowFilter =
+                $"ISNULL(Name, '') LIKE '%{search}%' " +
+                $"OR ISNULL(CONVERT(ClientID, 'System.String'), '') LIKE '%{search}%'";
+        }
+
+        private void CreateAcc_VisibleChanged(object sender, EventArgs e)
+        {
+           
         }
     }
 }

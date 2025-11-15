@@ -226,21 +226,24 @@ namespace LibraryCGC
                 {
                     con.Open();
 
+                    // ✅ CHANGED: Now sends for books due within the next 3 days (not just tomorrow)
                     string query = @"
-                        SELECT 
-                            i.ClientID,
-                            i.StudentName,
-                            i.BookTitle,
-                            i.ISBN,
-                            i.DueDate,
-                            a.Email
-                        FROM IssueBooks i
-                        INNER JOIN AddStudentAcc a ON i.ClientID = a.ClientID
-                        WHERE 
-                            i.Status = 'Issued'
-                            AND CAST(i.DueDate AS DATE) = CAST(DATEADD(DAY, 1, GETDATE()) AS DATE)
-                            AND a.Email IS NOT NULL
-                            AND a.Email != ''";
+                SELECT 
+                    i.ClientID,
+                    i.StudentName,
+                    i.BookTitle,
+                    i.ISBN,
+                    i.DueDate,
+                    a.Email,
+                    DATEDIFF(DAY, GETDATE(), i.DueDate) AS DaysUntilDue
+                FROM IssueBooks i
+                INNER JOIN AddStudentAcc a ON i.ClientID = a.ClientID
+                WHERE 
+                    i.Status = 'Issued'
+                    AND CAST(i.DueDate AS DATE) >= CAST(GETDATE() AS DATE)
+                    AND CAST(i.DueDate AS DATE) <= CAST(DATEADD(DAY, 3, GETDATE()) AS DATE)
+                    AND a.Email IS NOT NULL
+                    AND a.Email != ''";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -253,23 +256,38 @@ namespace LibraryCGC
                             string bookTitle = reader["BookTitle"].ToString();
                             string isbn = reader["ISBN"].ToString();
                             DateTime dueDate = Convert.ToDateTime(reader["DueDate"]);
+                            int daysUntilDue = Convert.ToInt32(reader["DaysUntilDue"]);
 
-                            // Check if already sent today
+                            // ✅ Check if already sent today (prevents duplicates)
                             if (WasNotificationSentToday(clientID, "Due Date Reminder", isbn))
                             {
                                 skippedCount++;
+                                Console.WriteLine($"⏭️ Skipped {studentName} - already sent today");
                                 continue;
                             }
 
-                            string subject = "📚 Library Reminder: Book Due Tomorrow";
+                            // ✅ Dynamic subject based on urgency
+                            string subject = daysUntilDue == 0
+                                ? "📚 URGENT: Book Due TODAY!"
+                                : daysUntilDue == 1
+                                    ? "📚 Library Reminder: Book Due Tomorrow"
+                                    : $"📚 Library Reminder: Book Due in {daysUntilDue} Days";
+
+                            // ✅ Dynamic content based on urgency
+                            string urgencyText = daysUntilDue == 0
+                                ? "<strong style='color: #FF5252;'>TODAY</strong>"
+                                : daysUntilDue == 1
+                                    ? "<strong>TOMORROW</strong>"
+                                    : $"in <strong>{daysUntilDue} days</strong>";
 
                             string content = $@"
-                                <p>This is a friendly reminder that the following book is due <strong>TOMORROW</strong>:</p>
-                                <div class='book-info'>
-                                    <p><span class='icon'>📖</span> <strong>Book Title:</strong> {bookTitle}</p>
-                                    <p><span class='icon'>🔢</span> <strong>ISBN:</strong> {isbn}</p>
-                                    <p><span class='icon'>📅</span> <strong>Due Date:</strong> {dueDate:MMMM dd, yyyy}</p>
-                                </div>";
+                        <p>This is a friendly reminder that the following book is due {urgencyText}:</p>
+                        <div class='book-info'>
+                            <p><span class='icon'>📖</span> <strong>Book Title:</strong> {bookTitle}</p>
+                            <p><span class='icon'>🔢</span> <strong>ISBN:</strong> {isbn}</p>
+                            <p><span class='icon'>📅</span> <strong>Due Date:</strong> {dueDate:MMMM dd, yyyy}</p>
+                            <p><span class='icon'>⏰</span> <strong>Days Remaining:</strong> {daysUntilDue} day(s)</p>
+                        </div>";
 
                             string htmlBody = GenerateHtmlEmail(
                                 studentName,
@@ -279,7 +297,7 @@ namespace LibraryCGC
 
                             bool sent = SendHtmlEmail(email, subject, htmlBody);
 
-                            // Log the notification
+                            // ✅ Log the notification
                             LogEmailNotification(
                                 clientID,
                                 email,
@@ -296,7 +314,7 @@ namespace LibraryCGC
                             if (sent)
                             {
                                 successCount++;
-                                Console.WriteLine($"✅ Due date reminder sent to {studentName} ({email})");
+                                Console.WriteLine($"✅ Due date reminder sent to {studentName} ({email}) - Due in {daysUntilDue} day(s)");
                             }
                         }
                     }
@@ -325,23 +343,24 @@ namespace LibraryCGC
                 {
                     con.Open();
 
+                    // ✅ CHANGED: Now sends for ALL overdue books (removed "AND i.OverdueDays = 1")
                     string query = @"
-                        SELECT 
-                            i.ClientID,
-                            i.StudentName,
-                            i.BookTitle,
-                            i.ISBN,
-                            i.DueDate,
-                            i.OverdueDays,
-                            i.Penalty,
-                            a.Email
-                        FROM IssueBooks i
-                        INNER JOIN AddStudentAcc a ON i.ClientID = a.ClientID
-                        WHERE 
-                            i.Status = 'Overdue'
-                            AND i.OverdueDays = 1
-                            AND a.Email IS NOT NULL
-                            AND a.Email != ''";
+                SELECT 
+                    i.ClientID,
+                    i.StudentName,
+                    i.BookTitle,
+                    i.ISBN,
+                    i.DueDate,
+                    i.OverdueDays,
+                    i.Penalty,
+                    a.Email
+                FROM IssueBooks i
+                INNER JOIN AddStudentAcc a ON i.ClientID = a.ClientID
+                WHERE 
+                    i.Status = 'Overdue'
+                    AND i.OverdueDays > 0
+                    AND a.Email IS NOT NULL
+                    AND a.Email != ''";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -354,35 +373,54 @@ namespace LibraryCGC
                             string bookTitle = reader["BookTitle"].ToString();
                             string isbn = reader["ISBN"].ToString();
                             DateTime dueDate = Convert.ToDateTime(reader["DueDate"]);
+                            int overdueDays = Convert.ToInt32(reader["OverdueDays"]);
                             decimal penalty = Convert.ToDecimal(reader["Penalty"]);
 
-                            // Check if already sent today
+                            // ✅ Check if already sent today (prevents duplicates)
                             if (WasNotificationSentToday(clientID, "Overdue Notification", isbn))
                             {
                                 skippedCount++;
+                                Console.WriteLine($"⏭️ Skipped {studentName} - already sent today");
                                 continue;
                             }
 
-                            string subject = "⚠️ Library Alert: Book Is Now OVERDUE";
+                            // ✅ Dynamic subject based on severity
+                            string subject = overdueDays >= 7
+                                ? "🚨 URGENT: Book Severely Overdue!"
+                                : overdueDays >= 3
+                                    ? "⚠️ Library Alert: Book Overdue"
+                                    : "⚠️ Library Alert: Book Is Now OVERDUE";
+
+                            // ✅ Dynamic urgency message
+                            string urgencyLevel = overdueDays >= 7
+                                ? "<strong style='color: #FF0000;'>SEVERELY OVERDUE</strong>"
+                                : overdueDays >= 3
+                                    ? "<strong style='color: #FF5252;'>OVERDUE</strong>"
+                                    : "<strong style='color: #FF5252;'>OVERDUE</strong>";
 
                             string content = $@"
-                                <p>Your borrowed book is now <strong style='color: #FF5252;'>OVERDUE</strong>:</p>
-                                <div class='book-info'>
-                                    <p><span class='icon'>📖</span> <strong>Book Title:</strong> {bookTitle}</p>
-                                    <p><span class='icon'>🔢</span> <strong>ISBN:</strong> {isbn}</p>
-                                    <p><span class='icon'>📅</span> <strong>Original Due Date:</strong> {dueDate:MMMM dd, yyyy}</p>
-                                    <p><span class='icon'>💰</span> <strong>Current Penalty:</strong> <span style='color: #FF5252;'>₱{penalty:N2}</span></p>
-                                </div>";
+                        <p>Your borrowed book is now {urgencyLevel}:</p>
+                        <div class='book-info'>
+                            <p><span class='icon'>📖</span> <strong>Book Title:</strong> {bookTitle}</p>
+                            <p><span class='icon'>🔢</span> <strong>ISBN:</strong> {isbn}</p>
+                            <p><span class='icon'>📅</span> <strong>Original Due Date:</strong> {dueDate:MMMM dd, yyyy}</p>
+                            <p><span class='icon'>⏰</span> <strong>Days Overdue:</strong> <span style='color: #FF5252;'>{overdueDays} day(s)</span></p>
+                            <p><span class='icon'>💰</span> <strong>Current Penalty:</strong> <span style='color: #FF5252;'>₱{penalty:N2}</span></p>
+                        </div>";
+
+                            string footerWarning = overdueDays >= 7
+                                ? "This book is SEVERELY overdue. Please return it IMMEDIATELY. Penalties continue to increase by ₱5 per day. Failure to return may result in suspension of library privileges."
+                                : "Penalties increase by ₱5 per day until the book is returned. Please return it as soon as possible to minimize charges.";
 
                             string htmlBody = GenerateHtmlEmail(
                                 studentName,
                                 content,
-                                "Penalties increase by ₱5 per day until the book is returned. Please return it as soon as possible to minimize charges."
+                                footerWarning
                             );
 
                             bool sent = SendHtmlEmail(email, subject, htmlBody);
 
-                            // Log the notification
+                            // ✅ Log the notification
                             LogEmailNotification(
                                 clientID,
                                 email,
@@ -399,7 +437,7 @@ namespace LibraryCGC
                             if (sent)
                             {
                                 successCount++;
-                                Console.WriteLine($"✅ Overdue notification sent to {studentName} ({email})");
+                                Console.WriteLine($"✅ Overdue notification sent to {studentName} ({email}) - {overdueDays} days overdue");
                             }
                         }
                     }
@@ -413,7 +451,6 @@ namespace LibraryCGC
             Console.WriteLine($"Overdue Notifications: {successCount} sent, {skippedCount} skipped (already sent today)");
             return successCount;
         }
-
         /// <summary>
         /// Send weekly penalty reminders with tracking
         /// </summary>

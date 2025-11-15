@@ -1403,7 +1403,6 @@ VALUES
         }
 
 
-
         private void ReturnButton_Click(object sender, EventArgs e)
         {
             string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
@@ -1476,7 +1475,7 @@ ORDER BY IssueDate DESC";
                     issuedCondition.Items.Clear();
                     issuedCondition.Items.Add(issuedConditionFromDB);
                     issuedCondition.SelectedIndex = 0;
-                    issuedCondition.Enabled = false; // librarian cannot change it
+                    issuedCondition.Enabled = false;
 
                     // 3️⃣ Get the selected current condition (upon return)
                     string selectedReturnCondition = returnCondition.SelectedItem?.ToString();
@@ -1493,20 +1492,18 @@ ORDER BY IssueDate DESC";
                     string issuedCond = issuedConditionFromDB.Trim().ToLower();
                     string returnedCond = selectedReturnCondition.Trim().ToLower();
 
-                    // Define condition hierarchy (worst → best)
                     Dictionary<string, int> conditionRank = new Dictionary<string, int>
             {
                 { "lost", 1 },
                 { "major damage", 2 },
                 { "damaged", 3 },
                 { "minor damage", 4 },
-                { "minor damaged", 4 }, // handle both variants
+                { "minor damaged", 4 },
                 { "good", 5 },
                 { "good condition", 5 },
                 { "new", 6 }
             };
 
-                    // ✅ Check if both conditions are valid
                     if (!conditionRank.ContainsKey(issuedCond))
                     {
                         MessageBox.Show($"Invalid issued condition: {issuedConditionFromDB}\n\nPlease contact system administrator.",
@@ -1545,7 +1542,6 @@ ORDER BY IssueDate DESC";
 
                         if (improvedResult == DialogResult.Yes)
                         {
-                            // ✅ Update BookCondition in BooksAcq table
                             string updateCondition = @"
 UPDATE BooksAcq 
 SET BookCondition = @NewCondition 
@@ -1558,7 +1554,6 @@ WHERE ISBN = @ISBN";
                                 cmdUpdateCond.ExecuteNonQuery();
                             }
 
-                            // ✅ ALSO UPDATE IssueBooks BookCondition (so it reflects the improved condition)
                             string updateIssueCondition = @"
 UPDATE IssueBooks 
 SET BookCondition = @NewCondition 
@@ -1571,7 +1566,6 @@ WHERE IssueID = @IssueID";
                                 cmdUpdateIssueCond.ExecuteNonQuery();
                             }
 
-                            // ✅ Log the condition improvement
                             ActivityLog.RecordActivity(
                                 SessionData.CurrentUserName,
                                 "Update Book Condition",
@@ -1579,9 +1573,8 @@ WHERE IssueID = @IssueID";
                                 $"Book condition improved — ISBN: {isbn}, Title: {bookTitle}, From: {issuedConditionFromDB} → To: {selectedReturnCondition}"
                             );
                         }
-                        else // User clicked NO
+                        else
                         {
-                            // ✅ Cancel the entire transaction - book will NOT be marked as returned
                             transaction.Rollback();
                             MessageBox.Show(
                                 "Transaction cancelled. The book has NOT been marked as returned.\n" +
@@ -1590,10 +1583,9 @@ WHERE IssueID = @IssueID";
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information
                             );
-                            return; // ❌ Exit completely
+                            return;
                         }
                     }
-
                     // ✅ CHECK FOR WORSENED CONDITION
                     else if (returnedRank < issuedRank)
                     {
@@ -1610,10 +1602,8 @@ WHERE IssueID = @IssueID";
 
                         if (result == DialogResult.Yes)
                         {
-                            // ✅ ROLLBACK TRANSACTION - Don't process the return
                             transaction.Rollback();
 
-                            // ✅ Open the damage report form with dynamic data
                             DamagedBookReport damageForm = new DamagedBookReport()
                             {
                                 StartPosition = FormStartPosition.CenterScreen,
@@ -1623,7 +1613,6 @@ WHERE IssueID = @IssueID";
                             };
                             damageForm.Show();
 
-                            // ✅ EXIT - Stop processing
                             return;
                         }
                         else if (result == DialogResult.No)
@@ -1632,8 +1621,6 @@ WHERE IssueID = @IssueID";
                             return;
                         }
                     }
-
-                    // ✅ If conditions match exactly (issuedRank == returnedRank), continue normally
 
                     // 4️⃣ Update IssueBooks to mark as Returned
                     string updateIssue = @"
@@ -1685,10 +1672,62 @@ VALUES
                         cmdQty.ExecuteNonQuery();
                     }
 
-                    // 8️⃣ Commit all
+                    // ✅ 8️⃣ NEW: CHECK AND UPDATE AddStudentAcc STATUS
+                    // Check if student has any remaining issues
+                    string checkRemainingIssuesQuery = @"
+SELECT COUNT(*) 
+FROM IssueBooks 
+WHERE ClientID = @ClientID 
+AND (
+    Penalty > 0 
+    OR Status = 'Overdue' 
+    OR Status = 'Report filed by librarian'
+    OR Status = 'Issued'
+)
+AND Status != 'Returned'";
+
+                    int remainingIssues = 0;
+                    using (SqlCommand checkRemainingCmd = new SqlCommand(checkRemainingIssuesQuery, con, transaction))
+                    {
+                        checkRemainingCmd.Parameters.AddWithValue("@ClientID", clientID);
+                        remainingIssues = (int)checkRemainingCmd.ExecuteScalar();
+                    }
+
+                    // Check for unpaid penalties
+                    string checkPendingPenaltiesQuery = @"
+SELECT COUNT(*) 
+FROM PendingPenalties 
+WHERE ClientID = @ClientID AND IsPaid = 0";
+
+                    int pendingPenalties = 0;
+                    using (SqlCommand checkPendingCmd = new SqlCommand(checkPendingPenaltiesQuery, con, transaction))
+                    {
+                        checkPendingCmd.Parameters.AddWithValue("@ClientID", clientID);
+                        pendingPenalties = (int)checkPendingCmd.ExecuteScalar();
+                    }
+
+                    // ✅ Update AddStudentAcc status based on remaining issues
+                    if (remainingIssues == 0 && pendingPenalties == 0)
+                    {
+                        // No issues left - set to Active
+                        string updateStatusQuery = @"
+UPDATE AddStudentAcc 
+SET Status = 'Active' 
+WHERE ClientID = @ClientID";
+
+                        using (SqlCommand updateStatusCmd = new SqlCommand(updateStatusQuery, con, transaction))
+                        {
+                            updateStatusCmd.Parameters.AddWithValue("@ClientID", clientID);
+                            updateStatusCmd.ExecuteNonQuery();
+                        }
+                    }
+                    // If there are still issues, status should remain "With Pending Issues"
+                    // (It was likely already set to that when issues were detected)
+
+                    // 9️⃣ Commit all
                     transaction.Commit();
 
-                    // 9️⃣ Log activity
+                    // 🔟 Log activity
                     ActivityLog.RecordActivity(
                         SessionData.CurrentUserName,
                         "Return Book",
@@ -1696,8 +1735,32 @@ VALUES
                         $"Returned book — Title: {bookTitle}, Borrower: {clientName}, Condition: {selectedReturnCondition}"
                     );
 
-                    MessageBox.Show("Book returned successfully! Status updated, moved to ReturnedBooks, and quantity adjusted.",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // ✅ Show appropriate success message
+                    if (remainingIssues == 0 && pendingPenalties == 0)
+                    {
+                        MessageBox.Show(
+                            "✅ Book returned successfully!\n\n" +
+                            "Student status updated to 'Active'.\n" +
+                            "The student can now borrow books again.",
+                            "Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            $"✅ Book returned successfully!\n\n" +
+                            $"⚠️ However, this student still has:\n" +
+                            $"• {remainingIssues} unreturned/overdue book(s)\n" +
+                            $"• {pendingPenalties} unpaid penalty/penalties\n\n" +
+                            $"Status remains as 'With Pending Issues'.\n" +
+                            $"Student cannot borrow until all issues are resolved.",
+                            "Partial Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                    }
 
                     lblReturnDate.Text = $"Returned on: {DateTime.Now:MMMM dd, yyyy hh:mm tt}";
 
@@ -1707,8 +1770,8 @@ VALUES
                     ReturnedBookID.Items.Clear();
                     ReturnBookStatus.Text = "";
                     ReturnPenalty.Clear();
-                    returnCondition.SelectedIndex = -1; // Clear return condition selection
-                    issuedCondition.Items.Clear(); // Clear issued condition
+                    returnCondition.SelectedIndex = -1;
+                    issuedCondition.Items.Clear();
 
                     // 🔄 Refresh UI
                     LoadIssueBooks();
@@ -1716,6 +1779,16 @@ VALUES
                     GlobalEvents.RaiseBorrowedDataChanged();
                     GlobalEvents.RaiseOverdueDataChanged();
                     GlobalEvents.RaisePenaltiesDataChanged();
+
+                    // ✅ NEW: Refresh CreateAcc form if open (to update status highlighting)
+                    foreach (Form openForm in Application.OpenForms)
+                    {
+                        if (openForm is CreateAcc createAccForm)
+                        {
+                            createAccForm.LoadStudentAccounts();
+                            break;
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1724,7 +1797,6 @@ VALUES
                 }
             }
         }
-
 
         private void AddRemoveButtonToBorrowList()
         {
@@ -2387,38 +2459,77 @@ Trust Server Certificate=True;";
 
         private void btnSendEmailNotifications_Click(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("=== EMAIL BUTTON CLICKED ===");
+
             DialogResult result = MessageBox.Show(
-       "Send email notifications now?\n\n" +
-       "This will send:\n" +
-       "• Due date reminders (books due tomorrow)\n" +
-       "• Overdue notifications (newly overdue books)\n" +
-       "• Weekly penalty reminders (if today is Monday)\n\n" +
-       "Do you want to continue?",
-       "Send Email Notifications",
-       MessageBoxButtons.YesNo,
-       MessageBoxIcon.Question
-   );
+                "Send email notifications now?\n\n" +
+                "This will send:\n" +
+                "• Due date reminders (books due tomorrow)\n" +
+                "• Overdue notifications (newly overdue books)\n" +
+                "• Weekly penalty reminders (if today is Monday)\n\n" +
+                "Do you want to continue?",
+                "Send Email Notifications",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            System.Diagnostics.Debug.WriteLine($"User selection: {result}");
 
             if (result == DialogResult.Yes)
             {
-                // Show loading indicator
+                btnSendEmailNotifications.Enabled = false;
+                btnSendEmailNotifications.Text = "Sending...";
                 Cursor = Cursors.WaitCursor;
+
+                System.Diagnostics.Debug.WriteLine("Starting email send task...");
 
                 System.Threading.Tasks.Task.Run(() =>
                 {
-                    EmailNotificationService.CheckAndSendAllNotifications();
-
-                    // Update UI on main thread
-                    this.Invoke((MethodInvoker)delegate
+                    try
                     {
-                        Cursor = Cursors.Default;
-                        MessageBox.Show(
-                            "Email notifications have been sent successfully!",
-                            "Success",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information
-                        );
-                    });
+                        System.Diagnostics.Debug.WriteLine("Calling CheckAndSendAllNotifications...");
+
+                        // ✅ THIS IS WHAT WAS MISSING - ACTUALLY CALL THE EMAIL SERVICE!
+                        EmailNotificationService.CheckAndSendAllNotifications();
+
+                        lastEmailCheck = DateTime.Now;
+
+                        System.Diagnostics.Debug.WriteLine("Email send completed successfully");
+
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            Cursor = Cursors.Default;
+                            btnSendEmailNotifications.Enabled = true;
+                            btnSendEmailNotifications.Text = "Send Email Notifications";
+
+                            MessageBox.Show(
+                                "Email notifications sent successfully!\n\n" +
+                                " ",
+                                " ",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information
+                            );
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"ERROR: {ex.Message}");
+                        System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
+
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            Cursor = Cursors.Default;
+                            btnSendEmailNotifications.Enabled = true;
+                            btnSendEmailNotifications.Text = "Send Email Notifications";
+
+                            MessageBox.Show(
+                                $"Error sending emails:\n\n{ex.Message}",
+                                "Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error
+                            );
+                        });
+                    }
                 });
             }
         }
