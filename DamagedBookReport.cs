@@ -277,6 +277,39 @@ namespace Library_Final
         // ✅ Save Damage Report
         private void btnSave_Click(object sender, EventArgs e)
         {
+
+            // ✅ Check if BookTitle or ISBN is empty
+            if (string.IsNullOrWhiteSpace(txtReportedBy.Text))
+            {
+                MessageBox.Show("Borrower Name cannot be empty.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtReportedBy.Focus();
+                return;
+            }
+
+
+            if (string.IsNullOrWhiteSpace(txtISBN.Text))
+            {
+                MessageBox.Show("ISBN cannot be empty.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtISBN.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtClientID.Text))
+            {
+                MessageBox.Show("Client ID cannot be empty.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtClientID.Focus();
+                return;
+            }
+
+            // ✅ Check if BookTitle or ISBN is empty
+            if (string.IsNullOrWhiteSpace(txtDamageDescription.Text))
+            {
+                MessageBox.Show("Damaged Description cannot be empty.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDamageDescription.Focus();
+                return;
+            }
+
+
             try
             {
                 string isbn = txtISBN.Text.Trim();

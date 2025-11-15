@@ -1,27 +1,27 @@
-﻿using Guna.UI2.WinForms;
-using Library_Final;
-using LibraryCGC.Components;
-using Microsoft.Data.SqlClient;
-using Microsoft.VisualBasic.Logging;
-using Newtonsoft.Json.Linq;
-using PdfSharp.Pdf.Content.Objects;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+﻿    using Guna.UI2.WinForms;
+    using Library_Final;
+    using LibraryCGC.Components;
+    using Microsoft.Data.SqlClient;
+    using Microsoft.VisualBasic.Logging;
+    using Newtonsoft.Json.Linq;
+    using PdfSharp.Pdf.Content.Objects;
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Data;
+    using System.Drawing;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Security.Policy;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using System.Windows.Forms.VisualStyles;
+    using static System.Runtime.InteropServices.JavaScript.JSType;
+    using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace LibraryCGC
-{
+    namespace LibraryCGC
+    {
     public partial class Book_Aquire : Form
     {
         private int currentEmployeeID;
@@ -313,11 +313,11 @@ namespace LibraryCGC
             // 🔹 List all textboxes you want to lock/unlock
             var boxes = new LibraryCGC.Components.ArthanTextBox[]
             {
-        BookTitle,
-        Publisher,
-        Author,
-        Category,
-        Published,
+            BookTitle,
+            Publisher,
+            Author,
+            Category,
+            Published,
 
             };
 
@@ -346,21 +346,7 @@ namespace LibraryCGC
         // All METHOD HERE ---------------------------------------------------------
         private void DataGridTotalBooks_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "BookID")
-            {
-                MessageBox.Show("BookID cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                e.Cancel = true; // prevent editing
-            }
 
-            string colName = DataGridTotalBooks.Columns[e.ColumnIndex].Name;
-            // restricted columns
-            string[] restrictedCols = { "BookID", "Author", "ISBN", "Publisher", "Category" };
-
-            if (restrictedCols.Contains(colName))
-            {
-                MessageBox.Show($"{colName} cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                e.Cancel = true; // prevent editing
-            }
 
 
 
@@ -469,10 +455,10 @@ namespace LibraryCGC
 
                     // 4️⃣ Insert into BooksArchive
                     SqlCommand insertCmd = new SqlCommand(@"
-                INSERT INTO BooksArchive 
-                (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition, ArchivedDate)
-                VALUES 
-                (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition, @ArchivedDate)", con);
+                    INSERT INTO BooksArchive 
+                    (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition, ArchivedDate)
+                    VALUES 
+                    (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition, @ArchivedDate)", con);
 
                     insertCmd.Parameters.AddWithValue("@BookTitle", title);
                     insertCmd.Parameters.AddWithValue("@Author", author);
@@ -538,10 +524,10 @@ namespace LibraryCGC
                 con.Open();
 
                 using (SqlCommand cmd = new SqlCommand(@"
-            INSERT INTO BooksArchive 
-            (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate, BookType,BookCondition)
-            VALUES 
-            (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate, @BookType,@BookCondition)", con))
+                INSERT INTO BooksArchive 
+                (BookID, BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, ArchivedDate, BookType,BookCondition)
+                VALUES 
+                (@BookID, @BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @ArchivedDate, @BookType,@BookCondition)", con))
                 {
                     cmd.Parameters.AddWithValue("@BookID", row.Cells["BookID"].Value ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@BookTitle", row.Cells["BookTitle"].Value ?? DBNull.Value);
@@ -813,6 +799,8 @@ namespace LibraryCGC
                 return;
             }
 
+
+
             if (DataGridTotalBooks.Columns[e.ColumnIndex].Name == "Update")
             {
                 // Enter edit mode
@@ -821,27 +809,16 @@ namespace LibraryCGC
                     editingRowIndex = e.RowIndex;
                     DataGridTotalBooks.ReadOnly = false;
 
-                    foreach (DataGridViewColumn col in DataGridTotalBooks.Columns)
-                    {
-                        bool isEditable = col.Name == "Source" ||
-                                          col.Name == "Quantity" ||
-                                          col.Name == "BookType" ||
-                                          col.Name == "BookCondition";
-                        col.ReadOnly = !isEditable;
-                    }
-
+                    // Allow only the clicked row to be editable
                     foreach (DataGridViewRow r in DataGridTotalBooks.Rows)
                     {
-                        if (r.Index != e.RowIndex) r.ReadOnly = true;
+                        r.ReadOnly = r.Index != e.RowIndex;
                     }
 
-                    foreach (DataGridViewCell cell in DataGridTotalBooks.Rows[e.RowIndex].Cells)
-                    {
-                        if (!cell.ReadOnly) cell.Style.BackColor = Color.LightYellow;
-                    }
-
+                    // Change Update button text to Save
                     DataGridTotalBooks.Rows[e.RowIndex].Cells["Update"].Value = "Save";
-                    MessageBox.Show("You can now edit Source, Quantity, Book Type, and Book Condition only.",
+
+                    MessageBox.Show("You can now edit all columns in this row.",
                                     "Edit Mode", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
@@ -866,95 +843,20 @@ namespace LibraryCGC
                         string publisher = editRow.Cells["Publisher"].Value?.ToString() ?? "";
                         string category = editRow.Cells["Category"].Value?.ToString() ?? "";
                         string published = editRow.Cells["Published"].Value?.ToString() ?? "";
+                        string source = editRow.Cells["Source"].Value?.ToString() ?? "";
+                        string bookType = editRow.Cells["BookType"].Value?.ToString() ?? "";
+                        string bookCondition = editRow.Cells["BookCondition"].Value?.ToString() ?? "";
+                        string quantityStr = editRow.Cells["Quantity"].Value?.ToString() ?? "";
 
-                        // --- Read raw edited cell values (user input)
-                        string rawSource = editRow.Cells["Source"].Value?.ToString()?.Trim() ?? "";
-                        string rawQuantityStr = editRow.Cells["Quantity"].Value?.ToString()?.Trim() ?? "";
-                        string rawBookType = editRow.Cells["BookType"].Value?.ToString()?.Trim() ?? "";
-                        string rawBookCondition = editRow.Cells["BookCondition"].Value?.ToString()?.Trim() ?? "";
-
-                        // --- Validation + normalization
-
-                        // Source: only "Purchased" or "Donate"
-                        string[] validSources = { "Purchased", "Donate" };
-                        string normalizedSource = null;
-                        foreach (var s in validSources)
+                        // Quantity validation
+                        if (!int.TryParse(quantityStr, out int quantity))
                         {
-                            if (string.Equals(s, rawSource, StringComparison.OrdinalIgnoreCase))
-                            {
-                                normalizedSource = s; // canonical casing
-                                break;
-                            }
-                        }
-                        if (normalizedSource == null)
-                        {
-                            MessageBox.Show("Invalid Source. Only 'Purchased' or 'Donate' are allowed.",
-                                            "Invalid Source", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            LoadBooksGrid(); // refresh grid from DB
-                            return; // STOP - do NOT save
-                        }
-
-                        // Quantity: integer >= 1
-                        if (!int.TryParse(rawQuantityStr, out int quantity) || quantity < 1)
-                        {
-                            MessageBox.Show("Quantity must be a valid whole number and at least 1.",
+                            MessageBox.Show("Quantity must be a valid number.",
                                             "Invalid Quantity", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            LoadBooksGrid(); // refresh grid from DB
-                            return; // STOP - do NOT save
+                            return;
                         }
 
-                        // BookType: only Book, Magazine, Newspaper, Catalog
-                        string[] validBookTypes = { "Book", "Magazine", "Newspaper", "Catalog" };
-                        string normalizedBookType = null;
-                        foreach (var t in validBookTypes)
-                        {
-                            if (string.Equals(t, rawBookType, StringComparison.OrdinalIgnoreCase))
-                            {
-                                normalizedBookType = t;
-                                break;
-                            }
-                        }
-                        // If user left BookType blank, optionally derive from category (but still normalize)
-                        if (string.IsNullOrEmpty(normalizedBookType))
-                        {
-                            // try derive from category (but still enforce allowed set)
-                            string lowerCategory = category.ToLower();
-                            if (lowerCategory.Contains("magazine") || lowerCategory.Contains("journal")) normalizedBookType = "Magazine";
-                            else if (lowerCategory.Contains("newspaper") || lowerCategory.Contains("news")) normalizedBookType = "Newspaper";
-                            else if (lowerCategory.Contains("catalog") || lowerCategory.Contains("pamphlet")) normalizedBookType = "Catalog";
-                            else normalizedBookType = "Book";
-                            // normalizedBookType is guaranteed in allowed list
-                        }
-
-                        // BookCondition: only Good, Minor Damaged, Damaged
-                        string[] validConditions = { "Good", "Minor Damaged", "Damaged" };
-                        string normalizedCondition = null;
-                        foreach (var c in validConditions)
-                        {
-                            if (string.Equals(c, rawBookCondition, StringComparison.OrdinalIgnoreCase))
-                            {
-                                normalizedCondition = c;
-                                break;
-                            }
-                        }
-                        if (normalizedCondition == null)
-                        {
-                            MessageBox.Show("Invalid Book Condition. Only 'Good', 'Minor Damaged', or 'Damaged' are allowed.",
-                                            "Invalid Condition", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            LoadBooksGrid(); // refresh grid from DB
-                            return; // STOP - do NOT save
-                        }
-
-                        // --- At this point all validations passed and we have canonical values.
-                        // Update grid cells with normalized values (so UI reflects auto-correction)
-                        editRow.Cells["Source"].Value = normalizedSource;
-                        editRow.Cells["Quantity"].Value = quantity;
-                        editRow.Cells["BookType"].Value = normalizedBookType;
-                        editRow.Cells["BookCondition"].Value = normalizedCondition;
-
-                        // --- Fetch old values for logging
+                        // Fetch old values for activity log
                         string oldSource = "";
                         int oldQuantity = 0;
                         string oldBookType = "";
@@ -962,7 +864,7 @@ namespace LibraryCGC
 
                         using (SqlConnection conn = new SqlConnection(
                             @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;
-                      Integrated Security=True;Encrypt=True;TrustServerCertificate=True"))
+                Integrated Security=True;Encrypt=True;TrustServerCertificate=True"))
                         {
                             conn.Open();
                             string selectQuery = "SELECT Source, Quantity, BookType, BookCondition FROM BooksAcq WHERE BookID = @BookID";
@@ -982,36 +884,48 @@ namespace LibraryCGC
                             }
                         }
 
-                        // --- Perform DB update with normalized values
+                        // Update database
                         using (SqlConnection con = new SqlConnection(
                             @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=LibraryDB;
-                      Integrated Security=True;Encrypt=True;TrustServerCertificate=True"))
+                Integrated Security=True;Encrypt=True;TrustServerCertificate=True"))
                         {
                             con.Open();
                             using (SqlCommand cmd = new SqlCommand(@"
 UPDATE BooksAcq
 SET 
+    BookTitle = @BookTitle,
+    Author = @Author,
+    ISBN = @ISBN,
+    Publisher = @Publisher,
+    Category = @Category,
+    Published = @Published,
     Source = @Source,
     Quantity = @Quantity,
     BookType = @BookType,
     BookCondition = @BookCondition
 WHERE BookID = @BookID", con))
                             {
-                                cmd.Parameters.AddWithValue("@Source", normalizedSource);
+                                cmd.Parameters.AddWithValue("@BookTitle", bookTitle);
+                                cmd.Parameters.AddWithValue("@Author", author);
+                                cmd.Parameters.AddWithValue("@ISBN", isbn);
+                                cmd.Parameters.AddWithValue("@Publisher", publisher);
+                                cmd.Parameters.AddWithValue("@Category", category);
+                                cmd.Parameters.AddWithValue("@Published", published);
+                                cmd.Parameters.AddWithValue("@Source", source);
                                 cmd.Parameters.AddWithValue("@Quantity", quantity);
-                                cmd.Parameters.AddWithValue("@BookType", normalizedBookType);
-                                cmd.Parameters.AddWithValue("@BookCondition", normalizedCondition);
+                                cmd.Parameters.AddWithValue("@BookType", bookType);
+                                cmd.Parameters.AddWithValue("@BookCondition", bookCondition);
                                 cmd.Parameters.AddWithValue("@BookID", bookID);
                                 cmd.ExecuteNonQuery();
                             }
                         }
 
-                        // --- Log changes
+                        // Log changes
                         string changes = "";
-                        if (!string.Equals(oldSource, normalizedSource)) changes += $"Source: {oldSource} → {normalizedSource}; ";
+                        if (!string.Equals(oldSource, source)) changes += $"Source: {oldSource} → {source}; ";
                         if (oldQuantity != quantity) changes += $"Quantity: {oldQuantity} → {quantity}; ";
-                        if (!string.Equals(oldBookType, normalizedBookType)) changes += $"Type: {oldBookType} → {normalizedBookType}; ";
-                        if (!string.Equals(oldCondition, normalizedCondition)) changes += $"Condition: {oldCondition} → {normalizedCondition}; ";
+                        if (!string.Equals(oldBookType, bookType)) changes += $"Type: {oldBookType} → {bookType}; ";
+                        if (!string.Equals(oldCondition, bookCondition)) changes += $"Condition: {oldCondition} → {bookCondition}; ";
                         if (string.IsNullOrEmpty(changes)) changes = "No significant changes.";
 
                         ActivityLog.RecordActivity(
@@ -1202,11 +1116,11 @@ WHERE BookID = @BookID", con))
             // Optional: visual feedback for textbox background
             var boxes = new LibraryCGC.Components.ArthanTextBox[]
             {
-        BookTitle,
-        Publisher,
-        Author,
-        Category,
-        Published,
+            BookTitle,
+            Publisher,
+            Author,
+            Category,
+            Published,
 
             };
 
@@ -1429,7 +1343,7 @@ WHERE BookID = @BookID", con))
         {
             // Reset combo boxes
             cmbBookTitle.SelectedIndex = -1;
-            
+
             cmbAuthor.SelectedIndex = -1;
             cmbPublisher.SelectedIndex = -1;
             cmbSource.SelectedIndex = -1;
@@ -1468,16 +1382,7 @@ WHERE BookID = @BookID", con))
 
         private void DataGridTotalBooks_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            string colName = DataGridTotalBooks.Columns[e.ColumnIndex].Name;
-            string[] restrictedCols = { "BookID", "Author", "ISBN", "Publisher", "Category", "BookTitle", "Published" };
-
-            if (restrictedCols.Contains(colName))
-            {
-                MessageBox.Show($"{colName} cannot be edited.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
         }
 
         private void btnArchiveISBN_Click(object sender, EventArgs e)
@@ -1546,10 +1451,10 @@ WHERE BookID = @BookID", con))
 
                                 // 🔹 Step 4: Insert into BooksArchive
                                 SqlCommand insertCmd = new SqlCommand(@"
-                            INSERT INTO BooksArchive 
-                            (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition, ArchivedDate)
-                            VALUES 
-                            (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition, @ArchivedDate)", con);
+                                INSERT INTO BooksArchive 
+                                (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition, ArchivedDate)
+                                VALUES 
+                                (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition, @ArchivedDate)", con);
 
                                 insertCmd.Parameters.AddWithValue("@BookTitle", title);
                                 insertCmd.Parameters.AddWithValue("@Author", author);
@@ -1641,77 +1546,71 @@ WHERE BookID = @BookID", con))
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
+
+            if (string.IsNullOrWhiteSpace(ISBN.Texts))
+            {
+                MessageBox.Show("ISBN cannot be empty.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ISBN.Focus();
+                return;
+            }
+
+            // ✅ Check if BookTitle or ISBN is empty
+            if (string.IsNullOrWhiteSpace(BookTitle.Texts))
+            {
+                MessageBox.Show("Book Title cannot be empty.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                BookTitle.Focus();
+                return;
+            }
+
+
+
+
             using (SqlConnection con = new SqlConnection(
-               "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+       "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
             {
                 con.Open();
 
-                // 🧠 Step 1: Check if same ISBN AND Source already exist
-                string checkQuery = "SELECT Quantity FROM BooksAcq WHERE ISBN = @ISBN AND Source = @Source";
-                using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
-                {
-                    checkCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
-                    checkCmd.Parameters.AddWithValue("@Source", Source.Text.Trim());
-
-                    object existingQtyObj = checkCmd.ExecuteScalar();
-
-                    if (existingQtyObj != null)
-                    {
-                        // ✅ ISBN + Source exist → just update quantity
-                        int existingQty = Convert.ToInt32(existingQtyObj);
-                        int newQty = existingQty + Convert.ToInt32(Quantity.Value);
-
-                        string updateQuery = "UPDATE BooksAcq SET Quantity = @Quantity WHERE ISBN = @ISBN AND Source = @Source";
-                        using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
-                        {
-                            updateCmd.Parameters.AddWithValue("@Quantity", newQty);
-                            updateCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts.Trim());
-                            updateCmd.Parameters.AddWithValue("@Source", Source.Text.Trim());
-                            updateCmd.ExecuteNonQuery();
-                        }
-
-                        MessageBox.Show("Quantity updated successfully (same ISBN and Source found).",
-                                        "Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        // 🆕 ISBN + Source combination not found → insert new record
-                        string insertQuery = @"INSERT INTO BooksAcq 
+                // 🆕 Always insert a new record - one row per book
+                string insertQuery = @"INSERT INTO BooksAcq 
 (BookTitle, Author, ISBN, Publisher, Source, Quantity, Published, Category, BookType, BookCondition) 
 VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, @Category, @BookType, @BookCondition)";
 
-                        using (SqlCommand insertCmd = new SqlCommand(insertQuery, con))
-                        {
-                            insertCmd.Parameters.AddWithValue("@BookTitle", BookTitle.Texts);
-                            insertCmd.Parameters.AddWithValue("@Author", Author.Texts);
-                            insertCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
-                            insertCmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
-                            insertCmd.Parameters.AddWithValue("@Source", Source.Text.Trim());
-                            insertCmd.Parameters.AddWithValue("@Quantity", Quantity.Value);
-                            insertCmd.Parameters.AddWithValue("@Published", Published.Texts);
-                            insertCmd.Parameters.AddWithValue("@Category", Category.Texts);
-                            insertCmd.Parameters.AddWithValue("@BookCondition", BookConditioncmb.Text);
+                using (SqlCommand insertCmd = new SqlCommand(insertQuery, con))
+                {
+                    insertCmd.Parameters.AddWithValue("@BookTitle", BookTitle.Texts);
+                    insertCmd.Parameters.AddWithValue("@Author", Author.Texts);
+                    insertCmd.Parameters.AddWithValue("@ISBN", ISBN.Texts);
+                    insertCmd.Parameters.AddWithValue("@Publisher", Publisher.Texts);
+                    insertCmd.Parameters.AddWithValue("@Source", Source.Text.Trim());
+                    insertCmd.Parameters.AddWithValue("@Quantity", 1); // Always 1 per row
+                    insertCmd.Parameters.AddWithValue("@Published", Published.Texts);
+                    insertCmd.Parameters.AddWithValue("@Category", Category.Texts);
+                    insertCmd.Parameters.AddWithValue("@BookCondition", BookConditioncmb.Text);
 
-                            // Detect BookType
-                            string typeOfBook;
-                            string category = Category.Text.ToLower();
-                            if (category.Contains("magazine") || category.Contains("journal"))
-                                typeOfBook = "Magazine";
-                            else if (category.Contains("newspaper") || category.Contains("news"))
-                                typeOfBook = "Newspaper";
-                            else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
-                                typeOfBook = "Report / Document";
-                            else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
-                                typeOfBook = "Catalog / Pamphlet";
-                            else
-                                typeOfBook = "Book";
+                    // Detect BookType
+                    string typeOfBook;
+                    string category = Category.Text.ToLower();
+                    if (category.Contains("magazine") || category.Contains("journal"))
+                        typeOfBook = "Magazine";
+                    else if (category.Contains("newspaper") || category.Contains("news"))
+                        typeOfBook = "Newspaper";
+                    else if (category.Contains("report") || category.Contains("document") || category.Contains("paper"))
+                        typeOfBook = "Report / Document";
+                    else if (category.Contains("catalog") || category.Contains("pamphlet") || category.Contains("brochure"))
+                        typeOfBook = "Catalog / Pamphlet";
+                    else
+                        typeOfBook = "Book";
 
-                            insertCmd.Parameters.AddWithValue("@BookType", typeOfBook);
-                            insertCmd.ExecuteNonQuery();
+                    insertCmd.Parameters.AddWithValue("@BookType", typeOfBook);
 
-                            MessageBox.Show($"{typeOfBook} added successfully!");
-                        }
+                    // Insert multiple times based on Quantity value
+                    int quantityToAdd = (int)Quantity.Value;
+                    for (int i = 0; i < quantityToAdd; i++)
+                    {
+                        insertCmd.ExecuteNonQuery();
                     }
+
+                    MessageBox.Show($"{quantityToAdd} {typeOfBook}(s) added successfully!");
                 }
             }
 
@@ -1723,7 +1622,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                SessionData.CurrentUserName,
                "Add Book",
                "Book Acquisition",
-               $"Added book: {BookTitle.Texts}"
+               $"Added {Quantity.Value} copy/copies of: {BookTitle.Texts}"
             );
 
             // 🧹 Clear input fields
@@ -1744,6 +1643,7 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
             // ✅ Refocus ISBN textbox
             this.BeginInvoke((Action)(() => ISBN.Focus()));
+
         }
 
 
@@ -1806,6 +1706,40 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
                 e.Handled = true;
                 MessageBox.Show("Only numbers are allowed in Published year.",
                     "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void txtArchiveISBN_TextChanged(object sender, EventArgs e)
+        {
+            string isbn = txtArchiveISBN.Text.Trim();
+
+            // Only search when ISBN length > 10 (means user is done typing)
+            if (isbn.Length >=13)
+            {
+                bool found = false;
+
+                // Loop through DataGridView rows
+                foreach (DataGridViewRow row in DataGridTotalBooks.Rows)
+                {
+                    if (row.Cells["ISBN"].Value != null &&
+                        row.Cells["ISBN"].Value.ToString().Equals(isbn, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // Highlight found row
+                        row.Selected = true;
+                        DataGridTotalBooks.CurrentCell = row.Cells[0];
+
+                        // Optionally scroll to it
+                        DataGridTotalBooks.FirstDisplayedScrollingRowIndex = row.Index;
+
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    MessageBox.Show("❌ Book not found in the archive.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
     }

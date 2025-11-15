@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(REGISTER));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             guna2CirclePictureBox2 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             pictureBox1 = new PictureBox();
@@ -55,6 +55,7 @@
             label2 = new Label();
             label1 = new Label();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
+            btnTogglePassword = new Button();
             arthanPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -100,7 +101,7 @@
             guna2CirclePictureBox2.Location = new Point(202, 556);
             guna2CirclePictureBox2.Margin = new Padding(3, 4, 3, 4);
             guna2CirclePictureBox2.Name = "guna2CirclePictureBox2";
-            guna2CirclePictureBox2.ShadowDecoration.CustomizableEdges = customizableEdges1;
+            guna2CirclePictureBox2.ShadowDecoration.CustomizableEdges = customizableEdges10;
             guna2CirclePictureBox2.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
             guna2CirclePictureBox2.Size = new Size(264, 293);
             guna2CirclePictureBox2.TabIndex = 54;
@@ -125,7 +126,7 @@
             guna2CirclePictureBox1.Location = new Point(-170, -212);
             guna2CirclePictureBox1.Margin = new Padding(3, 4, 3, 4);
             guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
-            guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges11;
             guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
             guna2CirclePictureBox1.Size = new Size(281, 328);
             guna2CirclePictureBox1.TabIndex = 29;
@@ -149,7 +150,7 @@
             txtPassword.BorderRadius = 4;
             txtPassword.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             txtPassword.BorderThickness = 2;
-            txtPassword.CustomizableEdges = customizableEdges3;
+            txtPassword.CustomizableEdges = customizableEdges12;
             txtPassword.DefaultText = "";
             txtPassword.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtPassword.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -163,7 +164,7 @@
             txtPassword.Name = "txtPassword";
             txtPassword.PlaceholderText = "";
             txtPassword.SelectedText = "";
-            txtPassword.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            txtPassword.ShadowDecoration.CustomizableEdges = customizableEdges13;
             txtPassword.Size = new Size(318, 73);
             txtPassword.TabIndex = 50;
             // 
@@ -206,7 +207,7 @@
             txtUsername.BorderRadius = 4;
             txtUsername.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             txtUsername.BorderThickness = 2;
-            txtUsername.CustomizableEdges = customizableEdges5;
+            txtUsername.CustomizableEdges = customizableEdges14;
             txtUsername.DefaultText = "";
             txtUsername.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtUsername.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -220,7 +221,7 @@
             txtUsername.Name = "txtUsername";
             txtUsername.PlaceholderText = "";
             txtUsername.SelectedText = "";
-            txtUsername.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            txtUsername.ShadowDecoration.CustomizableEdges = customizableEdges15;
             txtUsername.Size = new Size(318, 73);
             txtUsername.TabIndex = 49;
             // 
@@ -250,7 +251,7 @@
             guna2ShapesTool1.Location = new Point(0, 0);
             guna2ShapesTool1.PolygonSkip = 1;
             guna2ShapesTool1.Rotate = 0F;
-            guna2ShapesTool1.RoundedEdges = customizableEdges7;
+            guna2ShapesTool1.RoundedEdges = customizableEdges16;
             guna2ShapesTool1.Size = new Size(200, 200);
             guna2ShapesTool1.TargetControl = null;
             // 
@@ -260,6 +261,7 @@
             arthanPanel2.BorderStyle = BorderStyle.FixedSingle;
             arthanPanel2.BottomLeftRadius = 0;
             arthanPanel2.BottomRightRadius = 0;
+            arthanPanel2.Controls.Add(btnTogglePassword);
             arthanPanel2.Controls.Add(guna2PictureBox1);
             arthanPanel2.Controls.Add(txtUsername);
             arthanPanel2.Controls.Add(label2);
@@ -292,12 +294,11 @@
             // guna2PictureBox1
             // 
             guna2PictureBox1.BackgroundImageLayout = ImageLayout.Center;
-            guna2PictureBox1.CustomizableEdges = customizableEdges8;
-            guna2PictureBox1.Image = (Image)resources.GetObject("guna2PictureBox1.Image");
+            guna2PictureBox1.CustomizableEdges = customizableEdges7;
             guna2PictureBox1.ImageRotate = 0F;
             guna2PictureBox1.Location = new Point(298, 360);
             guna2PictureBox1.Name = "guna2PictureBox1";
-            guna2PictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges9;
+            guna2PictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges17;
             guna2PictureBox1.Size = new Size(30, 30);
             guna2PictureBox1.TabIndex = 58;
             guna2PictureBox1.TabStop = false;
@@ -348,6 +349,16 @@
             arthanPanel3.TopRightRadius = 0;
             arthanPanel3.UseIndividualCorners = false;
             // 
+            // btnTogglePassword
+            // 
+            btnTogglePassword.Location = new Point(286, 361);
+            btnTogglePassword.Name = "btnTogglePassword";
+            btnTogglePassword.Size = new Size(35, 29);
+            btnTogglePassword.TabIndex = 59;
+            btnTogglePassword.Text = "👁";
+            btnTogglePassword.UseVisualStyleBackColor = true;
+            btnTogglePassword.Click += btnTogglePassword_Click;
+            // 
             // REGISTER
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -388,5 +399,6 @@
         private Label label1;
         private LibraryCGC.Components.ArthanPanel arthanPanel3;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox1;
+        private Button btnTogglePassword;
     }
 }

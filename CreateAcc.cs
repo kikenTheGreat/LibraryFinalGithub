@@ -60,16 +60,36 @@ namespace LibraryCGC
 {
     public partial class CreateAcc : Form
     {
+        private bool isUpdatingComboBox = false;
+
 
         public CreateAcc()
         {
             InitializeComponent();
             LoadStudentAccounts();
 
-            GlobalFontSettings.FontResolver = SimpleFontResolver.Instance;
 
 
 
+
+
+        }
+
+        // Add this class at the top of your CreateAcc.cs file (inside the namespace, outside the class)
+        public class StudentSearchResult
+        {
+            public int ClientID { get; set; }
+            public string Name { get; set; }
+            public string Role { get; set; }
+            public string Department { get; set; }
+            public string Email { get; set; }
+            public string SectionSY { get; set; }
+            public string StudentNumber { get; set; }
+
+            public override string ToString()
+            {
+                return Name ?? ""; // Handle null names
+            }
         }
 
         private void CreateAcc_Load(object sender, EventArgs e)
@@ -105,7 +125,7 @@ namespace LibraryCGC
 
                 }
 
-          HighlightStudentStatusRows(); 
+                HighlightStudentStatusRows();
 
 
 
@@ -251,7 +271,6 @@ namespace LibraryCGC
 
                 if (Role.Text == "Student")
                 {
-
                     // Check if email is empty
                     string email = Email.Text.Trim();
                     if (string.IsNullOrWhiteSpace(email))
@@ -261,34 +280,32 @@ namespace LibraryCGC
                         return;
                     }
 
-
                     // Separate if for invalid email
                     if (!string.IsNullOrWhiteSpace(email) &&
                         !email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase) &&
                         !email.EndsWith(".citiglobalcollege.edu.ph", StringComparison.OrdinalIgnoreCase))
                     {
                         MessageBox.Show("Email must end with @gmail.com or .citiglobalcollege.edu.ph", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
 
                     // Check if STUDENT ID is empty
                     string studentID = StudentNumber.Text.Trim();
                     if (string.IsNullOrWhiteSpace(studentID))
                     {
-                        MessageBox.Show("Student Number cannot be empty.", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Email.Focus();
+                        MessageBox.Show("Student Number cannot be empty.", "Invalid Student Number", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        StudentNumber.Focus();
                         return;
                     }
 
-                    // Check if STUDENT ID is empty
+                    // Check if SECTION is empty
                     string SECTION = SectionSY.Text.Trim();
                     if (string.IsNullOrWhiteSpace(SECTION))
                     {
-                        MessageBox.Show("Class Section cannot be empty.", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Email.Focus();
+                        MessageBox.Show("Class Section cannot be empty.", "Invalid Section", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        SectionSY.Focus();
                         return;
                     }
-
-
 
                     // ✅ Allow empty student number, but if not empty, it must be numbers only
                     string studentPattern = @"^\d+$"; // only digits allowed
@@ -301,20 +318,20 @@ namespace LibraryCGC
                         StudentNumber.Focus();
                         return;
                     }
-
-
                 }
-                else
+                else if (Role.Text.Equals("Faculty", StringComparison.OrdinalIgnoreCase) ||
+                         Role.Text.Equals("Non Teaching", StringComparison.OrdinalIgnoreCase))
                 {
-                    // Check if email is empty
+                    // Faculty and Non-Teaching share the same validation
                     string department = Department.Text.Trim();
                     if (string.IsNullOrWhiteSpace(department))
                     {
-                        MessageBox.Show("Department cannot be empty.", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Email.Focus();
+                        MessageBox.Show("Department cannot be empty.", "Invalid Department", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Department.Focus();
                         return;
                     }
                 }
+
 
 
 
@@ -573,7 +590,7 @@ namespace LibraryCGC
         //                row.DefaultCellStyle.BackColor = Color.LightCoral;
         //                row.DefaultCellStyle.ForeColor = Color.White;
         //            }
-                  
+
         //        }
         //    }
         //}
@@ -607,7 +624,7 @@ namespace LibraryCGC
         private void arthanButton5_Load_1(object sender, EventArgs e)
         {
             // Add options for Role combo box
-            Role.Items.AddRange(new string[] { "Student", "Faculty" });
+            Role.Items.AddRange(new string[] { "Student", "Faculty", "Non Teaching" });
             Role.SelectedIndex = 0; // default selection (optional)
         }
 
@@ -1331,119 +1348,7 @@ namespace LibraryCGC
             }
         }
 
-        private void btnPrintBarcode_Click(object sender, EventArgs e)
-        {
-            string clientID = txtPrintClientID.Text.Trim();
-            string name = txtPrintName.Text.Trim();
-            string role = txtPrintRole.Text.Trim();
 
-            // Validation
-            if (string.IsNullOrWhiteSpace(clientID))
-            {
-                MessageBox.Show("Please enter a Client ID.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtPrintClientID.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(role))
-            {
-                MessageBox.Show("Student record not found. Please check the Client ID.", "Invalid ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            try
-            {
-                // Generate barcode using ZXing
-                var writer = new BarcodeWriter<Bitmap>
-                {
-                    Format = BarcodeFormat.CODE_128,
-                    Renderer = new SimpleBitmapRenderer(),
-                    Options = new EncodingOptions
-                    {
-                        Width = 300,
-                        Height = 80,
-                        Margin = 2
-                    }
-                };
-
-                Bitmap barcodeImage = writer.Write(clientID);
-
-                // Create PDF document
-                PdfDocument pdf = new PdfDocument();
-                PdfPage page = pdf.AddPage();
-                page.Width = XUnit.FromMillimeter(58);
-                page.Height = XUnit.FromMillimeter(40);
-                XGraphics gfx = XGraphics.FromPdfPage(page);
-
-                var fontHeader = new XFont("Arial", 10);
-                var fontRegular = new XFont("Arial", 8);
-
-                double margin = XUnit.FromMillimeter(3);
-                double labelWidth = page.Width - margin * 2;
-
-                // Draw header
-                gfx.DrawString("CGC Library System", fontHeader, XBrushes.Black,
-                    new XRect(margin, margin, labelWidth, 10), XStringFormats.TopCenter);
-
-                // Draw barcode
-                double barcodeWidth = XUnit.FromMillimeter(45);
-                double barcodeHeight = XUnit.FromMillimeter(15);
-                double barcodeX = (page.Width - barcodeWidth) / 2;
-                double barcodeY = margin + 11;
-
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    barcodeImage.Save(ms, ImageFormat.Png);
-                    XImage xImage = XImage.FromStream(ms);
-                    gfx.DrawImage(xImage, barcodeX, barcodeY, barcodeWidth, barcodeHeight);
-                }
-
-                // Draw text information
-                double textStart = barcodeY + barcodeHeight + XUnit.FromMillimeter(1.5);
-                string shortName = name.Length > 18 ? name.Substring(0, 17) + "…" : name;
-
-                gfx.DrawString($"ID: {clientID}", fontRegular, XBrushes.Black,
-                    new XRect(margin, textStart, labelWidth, 10), XStringFormats.TopCenter);
-                gfx.DrawString(shortName, fontRegular, XBrushes.Black,
-                    new XRect(margin, textStart + 7, labelWidth, 10), XStringFormats.TopCenter);
-                gfx.DrawString(role, fontRegular, XBrushes.Black,
-                    new XRect(margin, textStart + 14, labelWidth, 10), XStringFormats.TopCenter);
-
-                // Save PDF
-                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Library_Barcodes");
-                Directory.CreateDirectory(folderPath);
-                string pdfPath = Path.Combine(folderPath, $"Client_{clientID}_Reprint.pdf");
-                pdf.Save(pdfPath);
-                pdf.Close();
-                barcodeImage.Dispose();
-
-                MessageBox.Show($"Barcode reprinted successfully!\n{pdfPath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Log the reprint activity
-                ActivityLog.RecordActivity(
-                    SessionData.CurrentUserName,
-                    "Reprint Barcode",
-                    "Account Management",
-                    $"Reprinted barcode for ClientID: {clientID}, Name: {name}, Role: {role}"
-                );
-
-                // Open the PDF
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-                {
-                    FileName = pdfPath,
-                    UseShellExecute = true
-                });
-
-                // Clear fields after successful print
-                txtPrintClientID.Text = "";
-                txtPrintName.Text = "";
-                txtPrintRole.Text = "";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error generating barcode: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         private void txtPrintClientID_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1467,13 +1372,539 @@ namespace LibraryCGC
         private void AddStudentAccDataGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
 
-          
 
 
 
 
 
 
+
+        }
+
+        private void arthanPanel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtPrintName_TextChanged(object sender, EventArgs e)
+        {
+
+            // Prevent recursive updates
+            if (isUpdatingComboBox) return;
+
+            // Stop existing timer and restart
+            timer1.Stop();
+            timer1.Start();
+
+            if (isUpdatingComboBox) return;
+
+            string searchText = txtPrintName.Text.Trim();
+
+            // ✅ Clear all fields when txtPrintName is empty
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                ClearPrintFields();
+                txtPrintName.Items.Clear();
+                return;
+            }
+
+            // Reset and restart timer on each keystroke
+            timer1.Stop();
+            timer1.Start();
+        }
+
+        // ============================================
+        // 5. ADD SearchTimer_Tick - The actual search
+        // ============================================
+        private void SearchTimer_Tick(object sender, EventArgs e)
+        {
+            timer1.Stop();
+
+            string searchText = txtPrintName.Text.Trim();
+
+            // Don't search for very short queries
+            if (searchText.Length < 2)
+            {
+                txtPrintName.Items.Clear();
+                return;
+            }
+
+            string connectionString =
+                "Data Source=(LocalDB)\\MSSQLLocalDB;" +
+                "Initial Catalog=LibraryDB;" +
+                "Integrated Security=True;" +
+                "Encrypt=True;" +
+                "Trust Server Certificate=True;";
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+
+                    // FIXED: Explicit NULL handling in query
+                    string query = @"
+                SELECT TOP 10 
+                    ClientID, 
+                    ISNULL(Name, '') as Name, 
+                    ISNULL(Role, '') as Role, 
+                    ISNULL(Department, '') as Department, 
+                    ISNULL(Email, '') as Email, 
+                    ISNULL(SectionSY, '') as SectionSY, 
+                    ISNULL(StudentNumber, '') as StudentNumber
+                FROM AddStudentAcc 
+                WHERE Name LIKE @name + '%'
+                UNION
+                SELECT TOP 10 
+                    ClientID, 
+                    ISNULL(Name, '') as Name, 
+                    ISNULL(Role, '') as Role, 
+                    ISNULL(Department, '') as Department, 
+                    ISNULL(Email, '') as Email, 
+                    ISNULL(SectionSY, '') as SectionSY, 
+                    ISNULL(StudentNumber, '') as StudentNumber
+                FROM InactiveStudents 
+                WHERE Name LIKE @name + '%'
+                ORDER BY Name";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@name", searchText);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            List<StudentSearchResult> results = new List<StudentSearchResult>();
+
+                            while (reader.Read())
+                            {
+                                // Safe reading with explicit string conversion
+                                results.Add(new StudentSearchResult
+                                {
+                                    ClientID = reader.GetInt32(0),
+                                    Name = reader.GetString(1),      // ISNULL makes this safe
+                                    Role = reader.GetString(2),      // ISNULL makes this safe
+                                    Department = reader.GetString(3), // ISNULL makes this safe
+                                    Email = reader.GetString(4),     // ISNULL makes this safe
+                                    SectionSY = reader.GetString(5),  // ISNULL makes this safe
+                                    StudentNumber = reader.GetString(6) // ISNULL makes this safe
+                                });
+                            }
+
+                            // Update ComboBox on UI thread
+                            if (txtPrintName.InvokeRequired)
+                            {
+                                txtPrintName.Invoke(new Action(() => UpdateComboBoxItems(results)));
+                            }
+                            else
+                            {
+                                UpdateComboBoxItems(results);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't interrupt user
+                System.Diagnostics.Debug.WriteLine($"Search error: {ex.Message}");
+            }
+
+
+
+
+        }
+
+
+        private void LoadStudentFullInfo(string name)
+        {
+            using (SqlConnection con = new SqlConnection(
+                "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;"))
+            {
+                con.Open();
+
+                string query = @"
+            SELECT ClientID, Name, Role, Department, Email, SectionSY, StudentNumber
+            FROM AddStudentAcc WHERE Name = @Name
+            UNION
+            SELECT ClientID, Name, Role, Department, Email, SectionSY, StudentNumber
+            FROM InactiveStudents WHERE Name = @Name";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Name", name);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            txtPrintRole.Text = reader["Role"].ToString();
+                            printDepartment.Text = reader["Department"].ToString();
+                            printEmail.Text = reader["Email"].ToString();
+                            printClassSection.Text = reader["SectionSY"].ToString();
+                            printStudentID.Text = reader["StudentNumber"].ToString();
+
+                            // Needed for barcode printing
+                            txtPrintClientID.Text = reader["ClientID"].ToString();
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private void ClearPrintFields()
+        {
+            txtPrintRole.Text = "";
+            printDepartment.Text = "";
+            printEmail.Text = "";
+            printClassSection.Text = "";
+            printStudentID.Text = "";
+            txtPrintClientID.Text = "";
+        }
+
+        private void btnPrintBarcode_Click(object sender, EventArgs e)
+        {
+            // Validate that we have a Client ID
+            if (string.IsNullOrWhiteSpace(txtPrintClientID.Text))
+            {
+                MessageBox.Show("Please select a student first.", "No Student Selected",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPrintName.Focus();
+                return;
+            }
+
+            // Validate that we have a name
+            if (string.IsNullOrWhiteSpace(txtPrintName.Text))
+            {
+                MessageBox.Show("Student name is missing.", "Missing Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Validate that we have a role
+            if (string.IsNullOrWhiteSpace(txtPrintRole.Text))
+            {
+                MessageBox.Show("Student role is missing.", "Missing Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int clientId = int.Parse(txtPrintClientID.Text);
+                string studentName = txtPrintName.Text;
+                string studentRole = txtPrintRole.Text;
+
+                // Generate barcode image
+                var writer = new BarcodeWriter<Bitmap>
+                {
+                    Format = BarcodeFormat.CODE_128,
+                    Renderer = new SimpleBitmapRenderer(),
+                    Options = new EncodingOptions
+                    {
+                        Width = 300,
+                        Height = 80,
+                        Margin = 2
+                    }
+                };
+
+                Bitmap barcodeImage = writer.Write(clientId.ToString());
+
+                // Create PDF document
+                PdfDocument pdf = new PdfDocument();
+                PdfPage page = pdf.AddPage();
+                page.Width = XUnit.FromMillimeter(58);
+                page.Height = XUnit.FromMillimeter(40);
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+
+                var fontHeader = new XFont("Arial", 10);
+                var fontRegular = new XFont("Arial", 8);
+
+                double margin = XUnit.FromMillimeter(3);
+                double labelWidth = page.Width - margin * 2;
+
+                // Header text
+                gfx.DrawString("CGC Library System", fontHeader, XBrushes.Black,
+                    new XRect(margin, margin, labelWidth, 10), XStringFormats.TopCenter);
+
+                // Barcode positioning
+                double barcodeWidth = XUnit.FromMillimeter(45);
+                double barcodeHeight = XUnit.FromMillimeter(15);
+                double barcodeX = (page.Width - barcodeWidth) / 2;
+                double barcodeY = margin + 11;
+
+                // Draw barcode
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    barcodeImage.Save(ms, ImageFormat.Png);
+                    XImage xImage = XImage.FromStream(ms);
+                    gfx.DrawImage(xImage, barcodeX, barcodeY, barcodeWidth, barcodeHeight);
+                }
+
+                // Student information below barcode
+                double textStart = barcodeY + barcodeHeight + XUnit.FromMillimeter(1.5);
+                string shortName = studentName.Length > 18 ? studentName.Substring(0, 17) + "…" : studentName;
+
+                gfx.DrawString($"ID: {clientId}", fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart, labelWidth, 10), XStringFormats.TopCenter);
+                gfx.DrawString(shortName, fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart + 7, labelWidth, 10), XStringFormats.TopCenter);
+                gfx.DrawString(studentRole, fontRegular, XBrushes.Black,
+                    new XRect(margin, textStart + 14, labelWidth, 10), XStringFormats.TopCenter);
+
+                // Save PDF to desktop
+                string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Library_Barcodes");
+                Directory.CreateDirectory(folderPath);
+                string pdfPath = Path.Combine(folderPath, $"Client_{clientId}_{studentName.Replace(" ", "_")}.pdf");
+
+                pdf.Save(pdfPath);
+                pdf.Close();
+                barcodeImage.Dispose();
+
+                MessageBox.Show($"✅ Barcode label created successfully!\n\nSaved to:\n{pdfPath}",
+                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Log the activity
+                ActivityLog.RecordActivity(
+                    SessionData.CurrentUserName,
+                    "Print Barcode",
+                    "Account Management",
+                    $"Printed barcode for ClientID: {clientId}, Name: {studentName}"
+                );
+
+                // Open the PDF
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = pdfPath,
+                    UseShellExecute = true
+                });
+
+                // Optional: Clear fields after printing
+                // Uncomment if you want to clear after printing
+                // ClearPrintFields();
+                // txtPrintName.Text = "";
+            }
+            catch (System.FormatException)
+            {
+                MessageBox.Show("Invalid Client ID format.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error generating barcode:\n\n{ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private bool isLoadingStudentData = false;
+        private void txtPrintName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (txtPrintName.SelectedItem is StudentSearchResult student)
+            {
+                isLoadingStudentData = true;
+
+                try
+                {
+                    // Populate all the print fields
+                    txtPrintClientID.Text = student.ClientID.ToString();
+                    txtPrintRole.Text = student.Role;
+                    printDepartment.Text = student.Department;
+                    printEmail.Text = student.Email;
+                    printClassSection.Text = student.SectionSY;
+                    printStudentID.Text = student.StudentNumber;
+
+                    // Update the ComboBox text to just show the name
+                    txtPrintName.Text = student.Name;
+                }
+                finally
+                {
+                    isLoadingStudentData = false;
+                }
+            }
+        }
+
+        private void btnPrintBarcode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+
+                if (txtPrintName.SelectedItem != null && !string.IsNullOrWhiteSpace(txtPrintClientID.Text))
+                {
+                    btnPrintBarcode.Focus();
+                    btnPrintBarcode.PerformClick();
+                }
+            }
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timer1.Stop();
+
+            string searchText = txtPrintName.Text.Trim();
+
+            // Don't search for very short queries
+            if (searchText.Length < 2)
+            {
+                txtPrintName.Items.Clear();
+                return;
+            }
+
+            string connectionString =
+                "Data Source=(LocalDB)\\MSSQLLocalDB;" +
+                "Initial Catalog=LibraryDB;" +
+                "Integrated Security=True;" +
+                "Encrypt=True;" +
+                "Trust Server Certificate=True;";
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    con.Open();
+
+                    // FIXED: Explicit NULL handling in query
+                    string query = @"
+                SELECT TOP 10 
+                    ClientID, 
+                    ISNULL(Name, '') as Name, 
+                    ISNULL(Role, '') as Role, 
+                    ISNULL(Department, '') as Department, 
+                    ISNULL(Email, '') as Email, 
+                    ISNULL(SectionSY, '') as SectionSY, 
+                    ISNULL(StudentNumber, '') as StudentNumber
+                FROM AddStudentAcc 
+                WHERE Name LIKE @name + '%'
+                UNION
+                SELECT TOP 10 
+                    ClientID, 
+                    ISNULL(Name, '') as Name, 
+                    ISNULL(Role, '') as Role, 
+                    ISNULL(Department, '') as Department, 
+                    ISNULL(Email, '') as Email, 
+                    ISNULL(SectionSY, '') as SectionSY, 
+                    ISNULL(StudentNumber, '') as StudentNumber
+                FROM InactiveStudents 
+                WHERE Name LIKE @name + '%'
+                ORDER BY Name";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@name", searchText);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            List<StudentSearchResult> results = new List<StudentSearchResult>();
+
+                            while (reader.Read())
+                            {
+                                // Safe reading with explicit string conversion
+                                results.Add(new StudentSearchResult
+                                {
+                                    ClientID = reader.GetInt32(0),
+                                    Name = reader.GetString(1),      // ISNULL makes this safe
+                                    Role = reader.GetString(2),      // ISNULL makes this safe
+                                    Department = reader.GetString(3), // ISNULL makes this safe
+                                    Email = reader.GetString(4),     // ISNULL makes this safe
+                                    SectionSY = reader.GetString(5),  // ISNULL makes this safe
+                                    StudentNumber = reader.GetString(6) // ISNULL makes this safe
+                                });
+                            }
+
+                            // Update ComboBox on UI thread
+                            if (txtPrintName.InvokeRequired)
+                            {
+                                txtPrintName.Invoke(new Action(() => UpdateComboBoxItems(results)));
+                            }
+                            else
+                            {
+                                UpdateComboBoxItems(results);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't interrupt user
+                System.Diagnostics.Debug.WriteLine($"Search error: {ex.Message}");
+            }
+        }
+
+
+        private void UpdateComboBoxItems(List<StudentSearchResult> results)
+        {
+            isUpdatingComboBox = true;
+
+            try
+            {
+                // Save cursor position
+                int cursorPos = txtPrintName.SelectionStart;
+                string currentText = txtPrintName.Text;
+
+                // Update items
+                txtPrintName.Items.Clear();
+
+                if (results.Count > 0)
+                {
+                    foreach (var student in results)
+                    {
+                        txtPrintName.Items.Add(student);
+                    }
+
+                    // Show dropdown
+                    txtPrintName.DroppedDown = true;
+                }
+
+                // Restore text and cursor
+                txtPrintName.Text = currentText;
+                txtPrintName.SelectionStart = Math.Min(cursorPos, currentText.Length);
+                txtPrintName.SelectionLength = 0;
+            }
+            finally
+            {
+                isUpdatingComboBox = false;
+            }
+        }
+
+        private void txtPrintName_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            PopulateFieldsFromSelection();
+        }
+
+
+        private void PopulateFieldsFromSelection()
+        {
+            if (txtPrintName.SelectedItem is StudentSearchResult student)
+            {
+                isUpdatingComboBox = true;
+
+                try
+                {
+                    // Populate all fields
+                    txtPrintClientID.Text = student.ClientID.ToString();
+                    txtPrintRole.Text = student.Role;
+                    printDepartment.Text = student.Department;
+                    printEmail.Text = student.Email;
+                    printClassSection.Text = student.SectionSY;
+                    printStudentID.Text = student.StudentNumber;
+
+                    // Set name only
+                    txtPrintName.Text = student.Name;
+
+                    // Close dropdown after selection
+                    txtPrintName.DroppedDown = false;
+                }
+                finally
+                {
+                    isUpdatingComboBox = false;
+                }
+            }
+        }
+
+        private void txtPrintName_Click(object sender, EventArgs e)
+        {
+            PopulateFieldsFromSelection();
         }
     }
 }

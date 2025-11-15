@@ -1,16 +1,18 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Library_Final;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Cryptography;
-using Library_Final;
+using System.Text.RegularExpressions;
 
 namespace LibraryCGC
 {
@@ -32,12 +34,7 @@ namespace LibraryCGC
                     MessageBox.Show("Passwords do not match!", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-                if (picProfile.Image == null)
-                {
-                    MessageBox.Show("Please upload a profile picture.", "Missing Image", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+ 
 
                 // Convert image to byte array
                 byte[] imageBytes = ImageToByteArray(picProfile.Image);
@@ -205,6 +202,22 @@ namespace LibraryCGC
         private void guna2CustomGradientPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+            string pattern = @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$";
+
+            if (Regex.IsMatch(txtPassword.Text, pattern))
+            {
+                // Valid password
+                txtPassword.ForeColor = Color.Green; // or any color you prefer
+            }
+            else
+            {
+                // Invalid password
+                txtPassword.ForeColor = Color.Red;
+            }
         }
     }
 }

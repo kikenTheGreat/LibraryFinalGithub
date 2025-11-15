@@ -165,6 +165,9 @@ Trust Server Certificate=True;";
         // ✅ UPDATED Form1_Load
         private async void Form1_Load(object sender, EventArgs e)
         {
+            timer2.Start();
+
+
             if (currentEmployeeID > 0)
             {
                 await Task.Delay(100);
@@ -612,7 +615,7 @@ Trust Server Certificate=True;
 
         private void arthanPanel16_Click(object sender, EventArgs e)
         {
-            ReturnedHistory returnedHistory = new ReturnedHistory();
+            NotificationDashboard returnedHistory = new NotificationDashboard();
             returnedHistory.Show();
             this.Hide();
         }
@@ -727,9 +730,19 @@ Trust Server Certificate=True;
 
         private void guna2Button1_Click_1(object sender, EventArgs e)
         {
-            REGISTER rEGISTER = new REGISTER();
-            rEGISTER.Show();
-            this.Hide();
+            DialogResult result = MessageBox.Show(
+          "Are you sure you want to log out?",
+          "Confirm Logout",
+          MessageBoxButtons.YesNo,
+          MessageBoxIcon.Warning
+      );
+
+            if (result == DialogResult.Yes)
+            {
+                REGISTER rEGISTER = new REGISTER();
+                rEGISTER.Show();
+                this.Hide();
+            }
         }
 
         private void guna2Button3_Click(object sender, EventArgs e)
@@ -756,6 +769,16 @@ Trust Server Certificate=True;
             NotificationDashboard notificationDashboard = new NotificationDashboard();
             notificationDashboard.Show();
             this.Hide();
+        }
+
+        private void arthanButton5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            label3.Text = DateTime.Now.ToString("MMMM dd, yyyy hh:mm:ss tt");
         }
     }
 }

@@ -856,9 +856,9 @@
             guna2HtmlLabel7.Location = new Point(1505, 43);
             guna2HtmlLabel7.Margin = new Padding(3, 4, 3, 4);
             guna2HtmlLabel7.Name = "guna2HtmlLabel7";
-            guna2HtmlLabel7.Size = new Size(144, 22);
+            guna2HtmlLabel7.Size = new Size(98, 22);
             guna2HtmlLabel7.TabIndex = 10;
-            guna2HtmlLabel7.Text = "Student Name / ISBN";
+            guna2HtmlLabel7.Text = "Student Name";
             // 
             // guna2HtmlLabel6
             // 
@@ -1364,9 +1364,9 @@
             guna2HtmlLabel16.Location = new Point(827, 19);
             guna2HtmlLabel16.Margin = new Padding(3, 4, 3, 4);
             guna2HtmlLabel16.Name = "guna2HtmlLabel16";
-            guna2HtmlLabel16.Size = new Size(43, 22);
+            guna2HtmlLabel16.Size = new Size(73, 22);
             guna2HtmlLabel16.TabIndex = 25;
-            guna2HtmlLabel16.Text = "Status";
+            guna2HtmlLabel16.Text = "Book Type";
             // 
             // cmbCategory
             // 
@@ -1610,9 +1610,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
             Controls.Add(arthanPanel4);
-            Controls.Add(ReturnedPANEL);
             Controls.Add(InventoryPANEL);
             Controls.Add(BorrowedPANEL);
+            Controls.Add(ReturnedPANEL);
             Name = "Report";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Report";

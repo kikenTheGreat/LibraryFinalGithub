@@ -409,6 +409,7 @@
             txtPassword.ShadowDecoration.CustomizableEdges = customizableEdges15;
             txtPassword.Size = new Size(591, 48);
             txtPassword.TabIndex = 25;
+            txtPassword.TextChanged += txtPassword_TextChanged;
             // 
             // guna2HtmlLabel13
             // 

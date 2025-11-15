@@ -34,6 +34,7 @@ namespace Library_Final
 
         private void arthanButton5_Click(object sender, EventArgs e)
         { // 1️⃣ Basic validation
+          // 1️⃣ Basic validation
             if (string.IsNullOrWhiteSpace(txtUsername.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 MessageBox.Show("Please enter both username and password.", "Missing Information",
@@ -41,10 +42,11 @@ namespace Library_Final
                 return;
             }
 
-            // 2️⃣ Query to get complete employee info including profile image
+            // 2️⃣ Case-sensitive query using COLLATE
             string query = @"SELECT EmployeeID, Username, FirstName, LastName, ProfileImage 
-                    FROM Employees 
-                    WHERE Username = @Username AND Password = @Password";
+                     FROM Employees 
+                     WHERE Username COLLATE SQL_Latin1_General_CP1_CS_AS = @Username 
+                     AND Password COLLATE SQL_Latin1_General_CP1_CS_AS = @Password";
 
             try
             {
@@ -76,7 +78,7 @@ namespace Library_Final
                                 }
                             }
 
-                            // ✅ INITIALIZE COMPLETE SESSION WITH ALL DATA
+                            // ✅ Initialize session
                             SessionData.InitializeSessionComplete(
                                 employeeId,
                                 username,
@@ -159,6 +161,27 @@ namespace Library_Final
 
         private void arthanPanel2_Paint(object sender, PaintEventArgs e)
         {
+
+        }
+
+        bool isPasswordVisible = false;
+        private void btnTogglePassword_Click(object sender, EventArgs e)
+        {
+            if (isPasswordVisible)
+            {
+                // Show password
+                txtPassword.UseSystemPasswordChar = false;
+                btnTogglePassword.Text = "🙈"; // eye-open icon
+                isPasswordVisible = false;
+            }
+            else
+            {
+                // Hide password
+                txtPassword.UseSystemPasswordChar = true;
+                btnTogglePassword.Text = "👁"; // eye-closed icon
+                isPasswordVisible = true;
+            }
+
 
         }
     }

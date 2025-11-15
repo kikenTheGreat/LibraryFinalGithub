@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Archive));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             label1 = new Label();
             pictureBox1 = new PictureBox();
             arthanPanel4 = new LibraryCGC.Components.ArthanPanel();
@@ -139,7 +139,6 @@
             arthanPanel9.BackColor = Color.Transparent;
             arthanPanel9.BottomLeftRadius = 0;
             arthanPanel9.BottomRightRadius = 0;
-            arthanPanel9.Controls.Add(RestoreQty);
             arthanPanel9.Controls.Add(guna2HtmlLabel1);
             arthanPanel9.Controls.Add(txtArchiveISBN);
             arthanPanel9.Controls.Add(btnArchiveBook);
@@ -165,13 +164,14 @@
             // RestoreQty
             // 
             RestoreQty.BackColor = Color.Transparent;
-            RestoreQty.CustomizableEdges = customizableEdges1;
+            RestoreQty.CustomizableEdges = customizableEdges5;
+            RestoreQty.Enabled = false;
             RestoreQty.Font = new Font("Segoe UI", 9F);
-            RestoreQty.Location = new Point(395, 33);
+            RestoreQty.Location = new Point(1, 0);
             RestoreQty.Margin = new Padding(3, 5, 3, 5);
             RestoreQty.Name = "RestoreQty";
-            RestoreQty.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            RestoreQty.Size = new Size(125, 51);
+            RestoreQty.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            RestoreQty.Size = new Size(10, 10);
             RestoreQty.TabIndex = 80;
             RestoreQty.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
@@ -190,7 +190,7 @@
             txtArchiveISBN.BorderRadius = 4;
             txtArchiveISBN.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
             txtArchiveISBN.BorderThickness = 2;
-            txtArchiveISBN.CustomizableEdges = customizableEdges3;
+            txtArchiveISBN.CustomizableEdges = customizableEdges1;
             txtArchiveISBN.DefaultText = "";
             txtArchiveISBN.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtArchiveISBN.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -204,7 +204,7 @@
             txtArchiveISBN.Name = "txtArchiveISBN";
             txtArchiveISBN.PlaceholderText = "";
             txtArchiveISBN.SelectedText = "";
-            txtArchiveISBN.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            txtArchiveISBN.ShadowDecoration.CustomizableEdges = customizableEdges2;
             txtArchiveISBN.Size = new Size(344, 39);
             txtArchiveISBN.TabIndex = 34;
             txtArchiveISBN.TextChanged += txtArchiveISBN_TextChanged;
@@ -213,7 +213,7 @@
             // 
             btnArchiveBook.BorderRadius = 10;
             btnArchiveBook.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            btnArchiveBook.CustomizableEdges = customizableEdges5;
+            btnArchiveBook.CustomizableEdges = customizableEdges3;
             btnArchiveBook.DisabledState.BorderColor = Color.DarkGray;
             btnArchiveBook.DisabledState.CustomBorderColor = Color.DarkGray;
             btnArchiveBook.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -223,7 +223,7 @@
             btnArchiveBook.ForeColor = Color.Black;
             btnArchiveBook.Location = new Point(538, 27);
             btnArchiveBook.Name = "btnArchiveBook";
-            btnArchiveBook.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnArchiveBook.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnArchiveBook.Size = new Size(157, 63);
             btnArchiveBook.TabIndex = 41;
             btnArchiveBook.Text = "Unarchived Book";
@@ -243,9 +243,10 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(arthanPanel4);
             Controls.Add(DataGridTotalBooks);
             Controls.Add(arthanPanel9);
-            Controls.Add(arthanPanel4);
+            Controls.Add(RestoreQty);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Archive";
             StartPosition = FormStartPosition.CenterScreen;

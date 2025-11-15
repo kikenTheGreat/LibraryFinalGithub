@@ -287,7 +287,7 @@
             label1.AutoSize = true;
             label1.BackColor = Color.White;
             label1.Font = new Font("Sans Serif Collection", 9F);
-            label1.Location = new Point(170, 631);
+            label1.Location = new Point(170, 702);
             label1.Name = "label1";
             label1.Size = new Size(60, 51);
             label1.TabIndex = 57;
@@ -320,7 +320,7 @@
             label4.AutoSize = true;
             label4.BackColor = Color.White;
             label4.Font = new Font("Sans Serif Collection", 9F);
-            label4.Location = new Point(170, 701);
+            label4.Location = new Point(170, 631);
             label4.Name = "label4";
             label4.Size = new Size(125, 51);
             label4.TabIndex = 60;
@@ -336,7 +336,6 @@
             label6.Size = new Size(93, 51);
             label6.TabIndex = 61;
             label6.Text = "Last Name";
-            label6.Click += label6_Click;
             // 
             // label7
             // 
@@ -564,9 +563,9 @@
             label12.ForeColor = Color.White;
             label12.Location = new Point(96, 25);
             label12.Name = "label12";
-            label12.Size = new Size(267, 102);
+            label12.Size = new Size(451, 102);
             label12.TabIndex = 0;
-            label12.Text = "Create Account";
+            label12.Text = "Manage Profile Information";
             // 
             // arthanPanel3
             // 
@@ -607,7 +606,6 @@
             arthanPanel3.TopLeftRadius = 15;
             arthanPanel3.TopRightRadius = 15;
             arthanPanel3.UseIndividualCorners = false;
-            arthanPanel3.Paint += arthanPanel3_Paint;
             // 
             // arthanPanel5
             // 

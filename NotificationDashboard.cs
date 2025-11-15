@@ -15,90 +15,71 @@ namespace Library_Final
         public NotificationDashboard()
         {
             InitializeComponent();
-            StyleDataGridView(dgvEmailLog);
+            StyleDataGrid(dgvEmailLog);
             LoadEmailHistory();
- 
+
             LoadStatistics();
         }
-
-        private void StyleDataGridView(DataGridView dgv)
+        private void StyleDataGrid(DataGridView dgv)
         {
-            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            // 🧭 General layout
+            dgv.BorderStyle = BorderStyle.None;
+            dgv.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dgv.RowHeadersVisible = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToResizeColumns = false;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.MultiSelect = false;
-            dgv.ReadOnly = true;
-            dgv.AllowUserToAddRows = false;
-            dgv.AllowUserToDeleteRows = false;
-            dgv.RowHeadersVisible = false;
             dgv.BackgroundColor = Color.White;
-            dgv.BorderStyle = BorderStyle.None;
-            dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgv.EnableHeadersVisualStyles = false;
             dgv.GridColor = Color.LightGray;
 
-            // Header design
-            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 140, 180);
-            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+            // ✅ Enable wrapping + auto row height
+            dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            // 🧱 Header style
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(250, 220, 130); // Light yellow header
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgv.ColumnHeadersHeight = 40;
-            dgv.ColumnHeadersDefaultCellStyle.Padding = new Padding(0, 5, 0, 5);
+            dgv.ColumnHeadersHeight = 42;
+            dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
 
-            // Row and cell style
-            dgv.DefaultCellStyle.BackColor = Color.White;
+            // 📘 Default row style
+            dgv.DefaultCellStyle.BackColor = Color.FromArgb(255, 255, 220); // Light yellow rows
             dgv.DefaultCellStyle.ForeColor = Color.Black;
-            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 9);
-            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(220, 240, 255);
+            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(240, 240, 240); // Light gray for selection
             dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
+            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
+            dgv.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgv.DefaultCellStyle.Padding = new Padding(5, 6, 5, 6);
 
-            // Row height
-            dgv.RowTemplate.Height = 35;
-        }
-        private DataGridView CreateDataGridView()
-        {
-            DataGridView dgv = new DataGridView
+            // 🪶 Alternating row style (light beige)
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 245, 180);
+            dgv.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
+            dgv.AlternatingRowsDefaultCellStyle.SelectionBackColor = Color.FromArgb(240, 240, 240); // Same gray
+            dgv.AlternatingRowsDefaultCellStyle.SelectionForeColor = Color.Black;
+            dgv.AlternatingRowsDefaultCellStyle.Padding = new Padding(5, 6, 5, 6);
+
+            // 🔧 Row height
+            dgv.RowTemplate.Height = 38;
+
+            // 🧩 Apply theme if Guna2 grid
+            if (dgv is Guna.UI2.WinForms.Guna2DataGridView gunaGrid)
             {
-                Dock = DockStyle.Fill,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
-                AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = false,
-                ReadOnly = true,
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                RowHeadersVisible = false,
-                BackgroundColor = Color.White,
-                BorderStyle = BorderStyle.None,
-                CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal,
-                EnableHeadersVisualStyles = false,
-                GridColor = Color.LightGray
-            };
+                gunaGrid.ThemeStyle.AlternatingRowsStyle.BackColor = Color.FromArgb(255, 245, 180);
+                gunaGrid.ThemeStyle.RowsStyle.BackColor = Color.FromArgb(255, 255, 220);
+                gunaGrid.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(250, 220, 130);
+                gunaGrid.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+                gunaGrid.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(240, 240, 240);
+            }
 
-            // Header style
-            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(45, 140, 180);
-            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgv.ColumnHeadersHeight = 40;
-
-            // Cell style
-            dgv.DefaultCellStyle.BackColor = Color.White;
-            dgv.DefaultCellStyle.ForeColor = Color.Black;
-            dgv.DefaultCellStyle.Font = new Font("Segoe UI", 9);
-            dgv.DefaultCellStyle.SelectionBackColor = Color.FromArgb(220, 240, 255);
-            dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
-            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 245, 245);
-
-            // Row height
-            dgv.RowTemplate.Height = 35;
-
-            // Better header padding
-            dgv.ColumnHeadersDefaultCellStyle.Padding = new Padding(0, 5, 0, 5);
-
-            return dgv;
+            dgv.Refresh();
         }
+
+
 
 
         private void LoadEmailHistory()
@@ -206,7 +187,7 @@ namespace Library_Final
         {
             LoadEmailHistory();
             LoadStatistics();
-            StyleDataGridView(dgvEmailLog);
+           
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
@@ -304,9 +285,26 @@ namespace Library_Final
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-        
-        
 
+
+
+        }
+
+        private void arthanButton1_Click(object sender, EventArgs e)
+        {
+            foreach (Form openForm in Application.OpenForms)
+            {
+                if (openForm is Form1)
+                {
+                    openForm.Show();
+                    this.Hide();
+                    return;
+                }
+            }
+
+            Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
+            form1.Show();
+            this.Hide();
         }
     }
 }

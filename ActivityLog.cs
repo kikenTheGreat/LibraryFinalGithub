@@ -75,6 +75,13 @@ namespace Library_Final
                     DataTable dt = new DataTable();
                     da.Fill(dt);
                     DataGridActivity.DataSource = dt;
+
+
+                    // ✅ Hide ReturnID and IssueID columns
+                    if (DataGridActivity.Columns.Contains("LogID"))
+                        DataGridActivity.Columns["LogID"].Visible = false;
+
+
                 }
 
                 // ✅ Only format after data binding (columns now exist)

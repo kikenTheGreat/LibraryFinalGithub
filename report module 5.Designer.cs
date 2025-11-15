@@ -396,7 +396,7 @@
             guna2Button1.FillColor = Color.FromArgb(246, 166, 17);
             guna2Button1.Font = new Font("Segoe UI", 9F);
             guna2Button1.ForeColor = Color.White;
-            guna2Button1.Location = new Point(1647, 32);
+            guna2Button1.Location = new Point(1035, 41);
             guna2Button1.Margin = new Padding(3, 4, 3, 4);
             guna2Button1.Name = "guna2Button1";
             guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges6;
@@ -575,9 +575,9 @@
             guna2HtmlLabel1.Location = new Point(22, 17);
             guna2HtmlLabel1.Margin = new Padding(3, 4, 3, 4);
             guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(618, 56);
+            guna2HtmlLabel1.Size = new Size(299, 56);
             guna2HtmlLabel1.TabIndex = 0;
-            guna2HtmlLabel1.Text = "Daily / Weekly / Monthly Summary";
+            guna2HtmlLabel1.Text = "Summary Report";
             // 
             // report_module_5
             // 

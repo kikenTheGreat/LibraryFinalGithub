@@ -1,4 +1,5 @@
-﻿using Library_Final;
+﻿using iText.Commons.Actions.Contexts;
+using Library_Final;
 using Microsoft.Data.SqlClient;
 using Microsoft.VisualBasic;
 using System;
@@ -8,9 +9,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq;
 using System.Net;
 using System.Text;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -378,8 +379,9 @@ Trust Server Certificate=True;"))
 
         private void Issue_Load(object sender, EventArgs e)
         {
-            SetupIssueBooksGrid();
 
+            SetupIssueBooksGrid();
+            
             // Status combobox setup
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
@@ -437,9 +439,17 @@ Trust Server Certificate=True;"))
 
             LoadReturnedBooks();
 
+            // ✅ FIXED: Set initial value to now, then format
             issueDate.Value = DateTime.Now;
             issueDate.Format = DateTimePickerFormat.Custom;
-            issueDate.CustomFormat = "dddd, MMMM dd, yyyy";
+            issueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt";
+
+            dueDate.Format = DateTimePickerFormat.Custom;
+            dueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt";
+            dueDate.Enabled = true; // ✅ ADD THIS LINE
+
+            // ✅ ALLOW USER TO MODIFY issueDate
+            issueDate.Enabled = true;
 
             StartDateTimeUpdater();
 
@@ -451,14 +461,16 @@ Trust Server Certificate=True;"))
 
         private void StartDateTimeUpdater()
         {
-            // ✅ Just format the DateTimePickers (no timer needed)
+            // ✅ Format both DateTimePickers
             issueDate.Format = DateTimePickerFormat.Custom;
             issueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt";
+            issueDate.Enabled = true; // ✅ ALLOW modification
 
             dueDate.Format = DateTimePickerFormat.Custom;
             dueDate.CustomFormat = "dddd, MMMM dd, yyyy hh:mm tt";
+            dueDate.Enabled = true; // This should remain disabled as it's auto-calculated
 
-            // Set initial issue date to now
+            // ✅ Set initial issue date to now (user can change this)
             issueDate.Value = DateTime.Now;
         }
 
@@ -476,7 +488,7 @@ Trust Server Certificate=True;"))
         {
             string bookID = ISBN.Text.Trim();
 
-            if (bookID.Length >= 4)
+            if (bookID.Length >= 0)
             {
                 string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
                 string query = "SELECT BookTitle, Source, BookCondition FROM BooksAcq WHERE BookID = @BookID";
@@ -616,7 +628,7 @@ Trust Server Certificate=True;"))
             ISBN.Focus();
 
             // Clear fields
-            ISBN.Clear();
+            ISBN.Text = "";
             BookTitle.Items.Clear();
             BookTitle.Text = "";
             Source.Text = "";
@@ -626,7 +638,7 @@ Trust Server Certificate=True;"))
 
         private void ClearField()
         {
-            ISBN.Clear();
+            ISBN.Text = "";
             BookTitle.Items.Clear();
             BookTitle.Text = "";
             Source.Text = "";
@@ -642,6 +654,7 @@ Trust Server Certificate=True;"))
                 return;
             }
 
+            // ✅ Use the CURRENT value from issueDate DateTimePicker (which user can modify)
             DateTime issueDateValue = issueDate.Value;
             string clientType = GetClientType(ClientID.Text.Trim());
             DateTime dueDateValue = ComputeDueDate(clientType, issueDateValue);
@@ -726,9 +739,10 @@ Trust Server Certificate=True;"))
 
                         string role = GetUserRole(ClientID.Text.Trim());
 
-                        if (role.Equals("Faculty", StringComparison.OrdinalIgnoreCase))
+                        if (role.Equals("Faculty", StringComparison.OrdinalIgnoreCase) ||
+           role.Equals("Non Teaching", StringComparison.OrdinalIgnoreCase))
                         {
-                            MessageBox.Show("Faculty member detected — borrow limit is not applied.",
+                            MessageBox.Show("Faculty / Non Teachinh member detected — borrow limit is not applied.",
                                 "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
@@ -811,7 +825,7 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
                     }
 
                     // ✅ Clear all input fields after adding
-                    ISBN.Clear();
+                    ISBN.Text = "";
                     BookTitle.Items.Clear();
                     BookTitle.Text = "";
                     Source.Clear();
@@ -976,7 +990,13 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
 
         private void issueDate_ValueChanged(object sender, EventArgs e)
         {
-
+            // ✅ Recalculate due date when issue date changes
+            if (!string.IsNullOrWhiteSpace(IssueRole.Text))
+            {
+                DateTime issueDateValue = issueDate.Value;
+                DateTime dueDateValue = ComputeDueDate(IssueRole.Text, issueDateValue);
+                dueDate.Value = dueDateValue;
+            }
         }
 
         private void overdueTimer_Tick(object sender, EventArgs e)
@@ -1148,9 +1168,6 @@ Trust Server Certificate=True;";
 
             string query = "SELECT Name, Role FROM AddStudentAcc WHERE ClientID = @ClientID";
 
-
-
-
             // 🔍 Validate ClientID — numbers only
             if (!System.Text.RegularExpressions.Regex.IsMatch(clientID, @"^\d+$"))
             {
@@ -1159,9 +1176,8 @@ Trust Server Certificate=True;";
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
                 ClientID.Text = "";
-                return; // ⛔ Stop execution — don’t query the database
+                return; // ⛔ Stop execution — don't query the database
             }
-
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(query, con))
@@ -1179,8 +1195,8 @@ Trust Server Certificate=True;";
                         // 🎓 Fill Role
                         IssueRole.Text = reader["Role"].ToString();
 
-                        // 🧮 Auto-compute due date
-                        DateTime issueDateValue = DateTime.Now;
+                        // 🧮 Auto-compute due date based on CURRENT issueDate value
+                        DateTime issueDateValue = issueDate.Value; // ✅ Use the DateTimePicker value
                         DateTime dueDateValue = ComputeDueDate(IssueRole.Text, issueDateValue);
                         dueDate.Value = dueDateValue;
 
@@ -1854,7 +1870,7 @@ VALUES
             {
                 int validDays = 0;
                 DateTime due = issueDate;
-                while (validDays < 1)
+                while (validDays < 3)
                 {
                     due = due.AddDays(1);
                     if (due.DayOfWeek != DayOfWeek.Sunday && !philippineHolidays.Contains(due.Date))
@@ -2435,6 +2451,76 @@ Trust Server Certificate=True;";
             {
                 EmailNotificationService.CheckAndSendAllNotifications();
                 MessageBox.Show("Check console for results!");
+            }
+        }
+
+        private void ISBN_TextChanged_1(object sender, EventArgs e)
+        {
+            string isbn = ISBN.Text.Trim();
+
+
+
+            if (isbn.Length >= 4)
+            {
+                string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
+                string query = "SELECT BookTitle, Source, BookCondition FROM BooksAcq WHERE ISBN = @ISBN";
+
+
+                // 🔍 Validate ISBN — numbers only
+                if (!System.Text.RegularExpressions.Regex.IsMatch(isbn, @"^\d+$"))
+                {
+                    MessageBox.Show("ISBN must contain numbers only.",
+                                    "Invalid Input",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    ISBN.Text = "";
+                    return; // ⛔ Stop execution — don’t query the database
+                }
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ISBN", isbn);
+                        con.Open();
+
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            // ✅ Book Title
+                            string title = reader["BookTitle"].ToString();
+                            BookTitle.Items.Clear();
+                            BookTitle.Items.Add(title);
+                            BookTitle.SelectedIndex = 0;
+                            BookTitle.Text = title;
+
+                            // ✅ Source
+                            Source.Text = reader["Source"].ToString();
+
+                            // ✅ Book Condition
+                            string condition = reader["BookCondition"].ToString();
+                            issuedCondition.Items.Clear();
+                            issuedCondition.Items.Add(condition);
+                            issuedCondition.SelectedIndex = 0;
+                            issuedCondition.Text = condition;
+
+                            btnAddToList.Focus();
+                        }
+                        else
+                        {
+                            BookTitle.Items.Clear();
+                            Source.Text = string.Empty;
+                            issuedCondition.Items.Clear();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                BookTitle.Items.Clear();
+                Source.Text = string.Empty;
+                issuedCondition.Items.Clear();
             }
         }
     }
