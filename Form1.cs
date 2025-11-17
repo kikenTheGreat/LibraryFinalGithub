@@ -9,7 +9,7 @@ namespace LibraryCGC
 {
     public partial class Form1 : Form
     {
-
+        private bool penaltiesLoaded = false;
         private int currentEmployeeID;
 
         // ✅ UPDATE your constructor
@@ -40,7 +40,7 @@ namespace LibraryCGC
                 UpdateTotalBooksLabel();
                 UpdateTotalBorrowedLabel();
                 UpdateTotalArchivedLabel();
-                LoadPenaltyCards();
+               
                 UpdateTotalOverdueLabel();
                 CleanOldOTPRecords();
             }
@@ -167,20 +167,26 @@ Trust Server Certificate=True;";
         {
             timer2.Start();
 
-
             if (currentEmployeeID > 0)
             {
-                await Task.Delay(100);
-
                 // Load profile (will use cache if available)
                 LoadEmployeeProfile();
+
+                // ✅ ADD THIS LINE - Load the saved semester value
+                label10.Text = SessionData.CurrentSemester ?? "No value selected";
 
                 UpdateTotalBooksLabel();
                 UpdateTotalBorrowedLabel();
                 UpdateTotalArchivedLabel();
-                LoadPenaltyCards();
                 UpdateTotalOverdueLabel();
                 CleanOldOTPRecords();
+
+                // ✅ Load penalties immediately on first load only
+                if (!penaltiesLoaded)
+                {
+                    await Task.Run(() => LoadPenaltyCards());
+                    penaltiesLoaded = true;
+                }
 
                 // ✅ Subscribe to live overdue update
                 GlobalEvents.OverdueDataChanged += () => UpdateTotalOverdueLabel();
@@ -194,6 +200,21 @@ Trust Server Certificate=True;";
                 penaltyUpdateTimer.Interval = 60000; // Update every minute
                 penaltyUpdateTimer.Tick += (s, args) => LoadPenaltyCards();
                 penaltyUpdateTimer.Start();
+            }
+        }
+
+        public void UpdateLabel(string value)
+        {
+            label10.Text = value ?? "No value selected";
+        }
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            // ✅ Instantly show cached penalty cards when returning to form
+            if (penaltiesLoaded && flowPanel1.Controls.Count == 0)
+            {
+                LoadPenaltyCards();
             }
         }
 
@@ -505,7 +526,7 @@ Trust Server Certificate=True;";
                         flowLayoutPanel11111, flowLayoutPanel22222
                     };
 
-                            FlowLayoutPanel target = columns.OrderBy(p => p.Controls.Count).First();
+                            FlowLayoutPanel target = columns[(recordCount - 1) % 6];
                             target.Controls.Add(card);
                         }
 
@@ -721,11 +742,10 @@ Trust Server Certificate=True;
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
-
-            // ✅ Use SessionData instead of local variable
-            ManageProfileForm manageProfileForm = new ManageProfileForm(SessionData.CurrentEmployeeID);
+            // Pass 'this' to give ManageProfileForm access to the current Form1
+            ManageProfileForm manageProfileForm = new ManageProfileForm(SessionData.CurrentEmployeeID, this);
             manageProfileForm.Show();
-            this.Hide();
+            this.Hide();    
         }
 
         private void guna2Button1_Click_1(object sender, EventArgs e)

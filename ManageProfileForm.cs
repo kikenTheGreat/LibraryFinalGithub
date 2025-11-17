@@ -7,6 +7,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Library_Final
 {
@@ -16,16 +17,32 @@ namespace Library_Final
             "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;";
 
         private int currentEmployeeID; // Store logged-in user's ID
+        public event Action<string> SemesterChanged;
+        private Form1 form1;
 
-        public ManageProfileForm(int employeeId)
+        public ManageProfileForm(int employeeId, Form1 existingForm1 = null)
         {
             InitializeComponent();
             currentEmployeeID = employeeId;
+            form1 = existingForm1; // Store the reference
         }
 
         private void ManageProfileForm_Load(object sender, EventArgs e)
         {
             LoadEmployeeData();
+
+            comboBox1.Items.Add("1st Semester");
+            comboBox1.Items.Add("2nd Semester");
+
+            // Load the saved semester value
+            comboBox1.SelectedItem = SessionData.CurrentSemester;
+
+            if (form1 != null && !form1.IsDisposed)
+            {
+                form1.UpdateLabel(comboBox1.SelectedItem?.ToString());
+            }
+
+
         }
 
         // 🧾 Load employee data into form fields
@@ -102,6 +119,84 @@ namespace Library_Final
         private void btnSaveChanges_Click(object sender, EventArgs e)
         {
 
+            // Check if email is empty
+            string email = txtEmail.Text.Trim();
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                MessageBox.Show("Email cannot be empty.", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtEmail.Focus();
+                return;
+            }
+
+            string email2 = txtFirstName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                MessageBox.Show("First Name cannot be empty.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtFirstName.Focus();
+                return;
+            }
+
+            string email3 = txtLastName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                MessageBox.Show("Last Name cannot be empty.", "   ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtLastName.Focus();
+                return;
+            }
+
+            string email4 = txtPosition.Text.Trim();
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                MessageBox.Show("Position cannot be empty.", "   ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPosition.Focus();
+                return;
+            }
+
+            string email6 = txtPhoneNumber.Text.Trim();
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                MessageBox.Show("Phone Number cannot be empty.", "   ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPhoneNumber.Focus();
+                return;
+            }
+
+            string phone = txtPhoneNumber.Text.Trim();
+
+            // Numbers-only check
+            if (!phone.All(char.IsDigit))
+            {
+                MessageBox.Show("Phone number must contain digits only.", "Invalid Input",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPhoneNumber.Focus();
+                return;
+            }
+
+            // Length check (11 digits)
+            if (phone.Length != 11)
+            {
+                MessageBox.Show("Phone number must be exactly 11 digits.", "Invalid Input",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPhoneNumber.Focus();
+                return;
+            }
+
+
+
+
+
+            // Separate if for invalid email
+            if (!string.IsNullOrWhiteSpace(email) &&
+                !email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase) &&
+                !email.EndsWith(".citiglobalcollege.edu.ph", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Email must end with @gmail.com or .citiglobalcollege.edu.ph", "Invalid Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+
+
+
 
             // Check if email is already used by another employee
             string checkEmailQuery = "SELECT COUNT(*) FROM Employees WHERE EmailAddress = @EmailAddress AND EmployeeID != @EmployeeID";
@@ -118,7 +213,7 @@ namespace Library_Final
                 {
                     MessageBox.Show("This email address is already in use by another employee. Please use a different email.",
                         "Duplicate Email", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtEmail.Text="";
+                    txtEmail.Text = "";
                     return;
                 }
             }
@@ -258,6 +353,24 @@ namespace Library_Final
             Form1 form1 = new Form1(SessionData.CurrentEmployeeID);
             form1.Show();
             this.Hide();
+        }
+
+        private void semester_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Save the selected semester
+            SessionData.CurrentSemester = comboBox1.SelectedItem?.ToString();
+
+            // Update Form1 label when ComboBox value changes
+            if (form1 != null && !form1.IsDisposed)
+            {
+                form1.UpdateLabel(comboBox1.SelectedItem?.ToString());
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using LibraryCGC;
+﻿using iText.Layout.Element;
+using LibraryCGC;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Data;
@@ -22,6 +23,10 @@ namespace Library_Final
         }
         private void StyleDataGrid(DataGridView dgv)
         {
+
+
+       
+
             // 🧭 General layout
             dgv.BorderStyle = BorderStyle.None;
             dgv.CellBorderStyle = DataGridViewCellBorderStyle.Single;
@@ -77,7 +82,13 @@ namespace Library_Final
             }
 
             dgv.Refresh();
+
+
+
+
         }
+
+
 
 
 
@@ -115,6 +126,14 @@ namespace Library_Final
                         DataTable dt = new DataTable();
                         da.Fill(dt);
                         dgvEmailLog.DataSource = dt;
+
+                        // *** ADD THESE LINES TO HIDE ID COLUMNS ***
+                        if (dgvEmailLog.Columns["ID"] != null)
+                            dgvEmailLog.Columns["ID"].Visible = false;
+
+                        if (dgvEmailLog.Columns["LogID"] != null)
+                            dgvEmailLog.Columns["LogID"].Visible = false;
+
 
                         // Update label to show count for the filter period
                         int filteredCount = dt.Rows.Count;
@@ -187,7 +206,12 @@ namespace Library_Final
         {
             LoadEmailHistory();
             LoadStatistics();
-           
+            dtpFrom.Value = DateTime.Now;
+            dtpTo.Value = DateTime.Now;
+
+
+            panel1.AutoScroll = true;
+
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

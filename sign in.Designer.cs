@@ -386,9 +386,9 @@
             guna2HtmlLabel12.Location = new Point(759, 575);
             guna2HtmlLabel12.Margin = new Padding(3, 4, 3, 4);
             guna2HtmlLabel12.Name = "guna2HtmlLabel12";
-            guna2HtmlLabel12.Size = new Size(208, 34);
+            guna2HtmlLabel12.Size = new Size(194, 34);
             guna2HtmlLabel12.TabIndex = 26;
-            guna2HtmlLabel12.Text = "Confirm Passoword";
+            guna2HtmlLabel12.Text = "Confirm Password";
             // 
             // txtPassword
             // 
@@ -541,9 +541,9 @@
             guna2HtmlLabel7.Location = new Point(1370, 252);
             guna2HtmlLabel7.Margin = new Padding(3, 4, 3, 4);
             guna2HtmlLabel7.Name = "guna2HtmlLabel7";
-            guna2HtmlLabel7.Size = new Size(94, 34);
+            guna2HtmlLabel7.Size = new Size(88, 34);
             guna2HtmlLabel7.TabIndex = 14;
-            guna2HtmlLabel7.Text = "Position'";
+            guna2HtmlLabel7.Text = "Position";
             // 
             // txtPhoneNumber
             // 

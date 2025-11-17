@@ -443,6 +443,7 @@
             // 
             // Source
             // 
+            Source.DropDownStyle = ComboBoxStyle.DropDownList;
             Source.DropDownWidth = 181;
             Source.Location = new Point(200, 345);
             Source.Margin = new Padding(3, 4, 3, 4);

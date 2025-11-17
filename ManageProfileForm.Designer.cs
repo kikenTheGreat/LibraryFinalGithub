@@ -54,6 +54,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageProfileForm));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             picProfile = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             btnChangeImage = new Guna.UI2.WinForms.Guna2Button();
             txtFirstName = new Guna.UI2.WinForms.Guna2TextBox();
@@ -82,8 +84,10 @@
             pictureBox1 = new PictureBox();
             label12 = new Label();
             arthanPanel3 = new LibraryCGC.Components.ArthanPanel();
+            comboBox1 = new Guna.UI2.WinForms.Guna2ComboBox();
             arthanPanel5 = new LibraryCGC.Components.ArthanPanel();
             arthanButton1 = new LibraryCGC.Components.ArthanButton();
+            label8 = new Label();
             arthanPanel1 = new LibraryCGC.Components.ArthanPanel();
             arthanPanel2 = new LibraryCGC.Components.ArthanPanel();
             arthanButton3 = new LibraryCGC.Components.ArthanButton();
@@ -572,6 +576,7 @@
             arthanPanel3.BackColor = Color.Transparent;
             arthanPanel3.BottomLeftRadius = 15;
             arthanPanel3.BottomRightRadius = 15;
+            arthanPanel3.Controls.Add(comboBox1);
             arthanPanel3.Controls.Add(picProfile);
             arthanPanel3.Controls.Add(arthanPanel5);
             arthanPanel3.Controls.Add(arthanButton1);
@@ -589,6 +594,7 @@
             arthanPanel3.Controls.Add(txtPosition);
             arthanPanel3.Controls.Add(label3);
             arthanPanel3.Controls.Add(label1);
+            arthanPanel3.Controls.Add(label8);
             arthanPanel3.CornerRadius = 15;
             arthanPanel3.EnableDragging = false;
             arthanPanel3.EnableDropShadow = true;
@@ -606,6 +612,27 @@
             arthanPanel3.TopLeftRadius = 15;
             arthanPanel3.TopRightRadius = 15;
             arthanPanel3.UseIndividualCorners = false;
+            // 
+            // comboBox1
+            // 
+            comboBox1.BackColor = Color.Transparent;
+            comboBox1.BorderRadius = 4;
+            comboBox1.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            comboBox1.BorderThickness = 2;
+            comboBox1.CustomizableEdges = customizableEdges26;
+            comboBox1.DrawMode = DrawMode.OwnerDrawFixed;
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBox1.FocusedColor = Color.FromArgb(94, 148, 255);
+            comboBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            comboBox1.Font = new Font("Segoe UI", 10F);
+            comboBox1.ForeColor = Color.FromArgb(68, 88, 112);
+            comboBox1.ItemHeight = 30;
+            comboBox1.Location = new Point(170, 796);
+            comboBox1.Name = "comboBox1";
+            comboBox1.ShadowDecoration.CustomizableEdges = customizableEdges27;
+            comboBox1.Size = new Size(521, 36);
+            comboBox1.TabIndex = 66;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // arthanPanel5
             // 
@@ -656,6 +683,17 @@
             arthanButton1.Text = "Home";
             arthanButton1.TextColor = Color.Black;
             arthanButton1.UseVisualStyleBackColor = false;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.BackColor = Color.White;
+            label8.Font = new Font("Sans Serif Collection", 9F);
+            label8.Location = new Point(170, 763);
+            label8.Name = "label8";
+            label8.Size = new Size(86, 51);
+            label8.TabIndex = 65;
+            label8.Text = "Semester";
             // 
             // arthanPanel1
             // 
@@ -809,5 +847,7 @@
         private LibraryCGC.Components.ArthanPanel arthanPanel2;
         private LibraryCGC.Components.ArthanButton arthanButton3;
         private Label label13;
+        private Label label8;
+        private Guna.UI2.WinForms.Guna2ComboBox comboBox1;
     }
 }

@@ -55,6 +55,9 @@ namespace LibraryCGC
 
         public void LoadIssueBooks()
         {
+            if (IssueBooksDataGrid.DataSource != null && IssueBooksDataGrid.Columns.Count == 0) return; // ADD THIS LINE
+
+
             // 🟡 Save current scroll position (if any)
             int firstDisplayedRow = 0;
             if (IssueBooksDataGrid.FirstDisplayedScrollingRowIndex >= 0)
@@ -73,7 +76,9 @@ namespace LibraryCGC
             i.OverdueDays,
             i.Penalty,
             i.Quantity,
-            i.ClientID
+            i.ClientID,
+            i.ISBN,
+            i.BookCondition
         FROM IssueBooks i
         WHERE 
             -- Show if student is active in AddStudentAcc
@@ -89,45 +94,29 @@ Integrated Security=True;
 Encrypt=True;
 Trust Server Certificate=True;"))
             {
-                SqlDataAdapter da = new SqlDataAdapter(query, con);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                IssueBooksDataGrid.DataSource = dt;
-
-
-
-                HighlightOverdueRows();
-                HighlightStatusRows();
-
-
-            }
-
-            // 🟢 Restore scroll position (if valid)
-            if (firstDisplayedRow >= 0 && firstDisplayedRow < IssueBooksDataGrid.RowCount)
-                IssueBooksDataGrid.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
-
-            IssueBooksDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            IssueBooksDataGrid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            IssueBooksDataGrid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            IssueBooksDataGrid.Dock = DockStyle.Fill;
-            IssueBooksDataGrid.RowHeadersVisible = false;
-            IssueBooksDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            IssueBooksDataGrid.MultiSelect = false;
-            IssueBooksDataGrid.ReadOnly = true;
-            IssueBooksDataGrid.AllowUserToResizeRows = false;
-            IssueBooksDataGrid.AllowUserToResizeColumns = false;
-            IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            foreach (DataGridViewRow row in IssueBooksDataGrid.Rows)
-            {
-                if (row.Cells["Status"].Value != null)
+                try
                 {
-                    string status = row.Cells["Status"].Value.ToString();
-                    if (status.Equals("Overdue", StringComparison.OrdinalIgnoreCase))
-                    {
-                        row.DefaultCellStyle.BackColor = Color.LightCoral;
-                        row.DefaultCellStyle.ForeColor = Color.White;
-                    }
+                    SqlDataAdapter da = new SqlDataAdapter(query, con);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    // ✅ Debug: Check if data was loaded
+                    System.Diagnostics.Debug.WriteLine($"Rows loaded: {dt.Rows.Count}");
+
+                    IssueBooksDataGrid.DataSource = dt;
+
+                    // 🟢 Restore scroll position (if valid)
+                    if (firstDisplayedRow >= 0 && firstDisplayedRow < IssueBooksDataGrid.RowCount)
+                        IssueBooksDataGrid.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
+
+                    // ✅ Apply highlighting AFTER data is bound
+                    HighlightOverdueRows();
+                    HighlightStatusRows();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error loading issue books:\n{ex.Message}",
+                        "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -271,19 +260,24 @@ Trust Server Certificate=True;"))
         private void SetupIssueBooksGrid()
         {
             IssueBooksDataGrid.Columns.Clear();
-            IssueBooksDataGrid.AutoGenerateColumns = false;
+            IssueBooksDataGrid.AutoGenerateColumns = false; // ✅ Keep this
             IssueBooksDataGrid.ReadOnly = true;
             IssueBooksDataGrid.RowHeadersVisible = false;
             IssueBooksDataGrid.BorderStyle = BorderStyle.None;
             IssueBooksDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             IssueBooksDataGrid.EnableHeadersVisualStyles = false;
+            IssueBooksDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            IssueBooksDataGrid.MultiSelect = false;
+            IssueBooksDataGrid.AllowUserToResizeRows = false;
+            IssueBooksDataGrid.AllowUserToResizeColumns = false;
 
-            // --- Issue ID (hidden or visible, your choice) ---
+            // --- Issue ID ---
             var colIssueID = new DataGridViewTextBoxColumn();
             colIssueID.HeaderText = "Issue ID";
             colIssueID.DataPropertyName = "IssueID";
             colIssueID.Name = "IssueID";
-            colIssueID.Visible = false; // set to true if you want to see the ID
+            colIssueID.Visible = true; // ✅ Make visible for debugging
+            colIssueID.Width = 80;
             IssueBooksDataGrid.Columns.Add(colIssueID);
 
             // --- Student Name ---
@@ -301,6 +295,14 @@ Trust Server Certificate=True;"))
             colClientID.Name = "ClientID";
             colClientID.Width = 100;
             IssueBooksDataGrid.Columns.Add(colClientID);
+
+            // --- ISBN (NOT BookID) ---
+            var colISBN = new DataGridViewTextBoxColumn();
+            colISBN.HeaderText = "ISBN";
+            colISBN.DataPropertyName = "ISBN"; // ✅ Changed from BookID
+            colISBN.Name = "ISBN";
+            colISBN.Width = 120;
+            IssueBooksDataGrid.Columns.Add(colISBN);
 
             // --- Book Title ---
             var colBookTitle = new DataGridViewTextBoxColumn();
@@ -332,6 +334,7 @@ Trust Server Certificate=True;"))
             colIssueDate.DataPropertyName = "IssueDate";
             colIssueDate.Name = "IssueDate";
             colIssueDate.Width = 120;
+            colIssueDate.DefaultCellStyle.Format = "MM/dd/yyyy";
             IssueBooksDataGrid.Columns.Add(colIssueDate);
 
             // --- Due Date ---
@@ -340,6 +343,7 @@ Trust Server Certificate=True;"))
             colDueDate.DataPropertyName = "DueDate";
             colDueDate.Name = "DueDate";
             colDueDate.Width = 120;
+            colDueDate.DefaultCellStyle.Format = "MM/dd/yyyy";
             IssueBooksDataGrid.Columns.Add(colDueDate);
 
             // --- Overdue Days ---
@@ -356,6 +360,7 @@ Trust Server Certificate=True;"))
             colPenalty.DataPropertyName = "Penalty";
             colPenalty.Name = "Penalty";
             colPenalty.Width = 100;
+            colPenalty.DefaultCellStyle.Format = "₱0.00";
             IssueBooksDataGrid.Columns.Add(colPenalty);
 
             // --- Status ---
@@ -363,17 +368,28 @@ Trust Server Certificate=True;"))
             colStatus.HeaderText = "Status";
             colStatus.DataPropertyName = "Status";
             colStatus.Name = "Status";
-            colStatus.Width = 100;
+            colStatus.Width = 120;
             IssueBooksDataGrid.Columns.Add(colStatus);
 
-            // --- Styling (yellow theme) ---
+            // --- Book Condition ---
+            var colCondition = new DataGridViewTextBoxColumn();
+            colCondition.HeaderText = "Condition";
+            colCondition.DataPropertyName = "BookCondition";
+            colCondition.Name = "BookCondition";
+            colCondition.Width = 120;
+            IssueBooksDataGrid.Columns.Add(colCondition);
+
+            // --- Styling ---
             IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             IssueBooksDataGrid.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(253, 242, 194);
             IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             IssueBooksDataGrid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             IssueBooksDataGrid.DefaultCellStyle.BackColor = Color.White;
+            IssueBooksDataGrid.DefaultCellStyle.SelectionBackColor = Color.White;
+            IssueBooksDataGrid.DefaultCellStyle.SelectionForeColor = Color.Black;
             IssueBooksDataGrid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 250, 230);
+            IssueBooksDataGrid.ColumnHeadersHeight = 40;
         }
 
 
@@ -381,7 +397,8 @@ Trust Server Certificate=True;"))
         {
 
             SetupIssueBooksGrid();
-            
+            LoadIssueBooks();
+            LoadReturnedBooks();
             // Status combobox setup
             Status.Items.Add("Issued");
             Status.SelectedIndex = 0;
@@ -437,7 +454,7 @@ Trust Server Certificate=True;"))
             panelReturnBooks.Visible = false;
             ReturnPANEL.Visible = false;
 
-            LoadReturnedBooks();
+         
 
             // ✅ FIXED: Set initial value to now, then format
             issueDate.Value = DateTime.Now;
@@ -859,12 +876,9 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
             {
                 MessageBox.Show("Error issuing books: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            LoadIssueBooks();
-            IssueBooksDataGrid.Refresh();
-            IssueBooksDataGrid.Update();
+ 
             GlobalEvents.RaiseBorrowedDataChanged();
-            LoadReturnedBooks();
+            
         }
 
 
@@ -1005,39 +1019,41 @@ VALUES (@ISBN, @Status, @StudentName, @BookTitle, @Source, @IssueDate, @DueDate,
             {
                 using (SqlConnection con = new SqlConnection(
                     @"Data Source=(LocalDB)\MSSQLLocalDB;
-            Initial Catalog=LibraryDB;
-            Integrated Security=True;
-            Encrypt=True;
-            Trust Server Certificate=True;"))
+    Initial Catalog=LibraryDB;
+    Integrated Security=True;
+    Encrypt=True;
+    Trust Server Certificate=True;"))
                 {
                     con.Open();
 
                     string query = @"
-                UPDATE IssueBooks
-                SET 
-                    OverdueDays = DATEDIFF(DAY, DueDate, GETDATE()),
-                    Penalty = CASE 
-                                WHEN DATEDIFF(DAY, DueDate, GETDATE()) > 0 
-                                THEN DATEDIFF(DAY, DueDate, GETDATE()) * 5 
-                                ELSE 0 
-                              END,
-                    Status = CASE 
-                                WHEN DATEDIFF(DAY, DueDate, GETDATE()) > 0 THEN 'Overdue'
-                                ELSE 'Issued'
-                             END
-                WHERE 
-                    (Status = 'Issued' OR Status = 'Overdue')
-                    AND GETDATE() >= IssueDate;
-            ";
+        UPDATE IssueBooks
+        SET 
+            OverdueDays = DATEDIFF(DAY, DueDate, GETDATE()),
+            Penalty = CASE 
+                        WHEN DATEDIFF(DAY, DueDate, GETDATE()) > 0 
+                        THEN DATEDIFF(DAY, DueDate, GETDATE()) * 5 
+                        ELSE 0 
+                      END,
+            Status = CASE 
+                        WHEN DATEDIFF(DAY, DueDate, GETDATE()) > 0 THEN 'Overdue'
+                        ELSE 'Issued'
+                     END
+        WHERE 
+            (Status = 'Issued' OR Status = 'Overdue')
+            AND GETDATE() >= IssueDate;
+    ";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.ExecuteNonQuery();
                     }
                 }
-                LoadReturnedBooks();
-                LoadIssueBooks();
-                UpdateTotalOverdueLabel();
+
+                // ❌ REMOVE THESE LINES:
+                // LoadReturnedBooks();
+                // LoadIssueBooks();
+                // UpdateTotalOverdueLabel();
             }
             catch (Exception ex)
             {
@@ -2271,14 +2287,14 @@ Trust Server Certificate=True;";
 
         private void dgvBorrowList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            // ✅ Ignore header clicks or invalid rows
+            // Ignore header clicks or invalid rows
             if (e.RowIndex < 0 || e.RowIndex >= dgvBorrowList.Rows.Count)
                 return;
 
-            // ✅ Only respond to clicks on the "Remove" column
+            // Respond only to Remove button
             if (dgvBorrowList.Columns[e.ColumnIndex].Name == "Remove")
             {
-                // ✅ Check if borrowList is in sync and index is valid
+                // Check if borrowList is in sync
                 if (borrowList == null || e.RowIndex >= borrowList.Count)
                 {
                     MessageBox.Show("List is out of sync. Please refresh or try again.",
@@ -2286,21 +2302,7 @@ Trust Server Certificate=True;";
                     return;
                 }
 
-                // ✅ Get the quantity value safely
-                object cellValue = dgvBorrowList.Rows[e.RowIndex].Cells["Quantity"].Value;
-                int quantity = 0;
-
-                if (cellValue != null && int.TryParse(cellValue.ToString(), out int parsedQty))
-                    quantity = parsedQty;
-
-                // ✅ Prevent removing if quantity < 1
-                if (quantity < 1)
-                {
-                    MessageBox.Show("Quantity cannot be less than 1.", "Invalid Action", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // ✅ Confirm before removal
+                // Confirm removal
                 var result = MessageBox.Show("Remove this book from the list?",
                                              "Confirm Remove",
                                              MessageBoxButtons.YesNo,
@@ -2308,12 +2310,11 @@ Trust Server Certificate=True;";
 
                 if (result == DialogResult.Yes)
                 {
-                    // ✅ Double-check index range before removal
-                    if (e.RowIndex < borrowList.Count)
-                        borrowList.RemoveAt(e.RowIndex);
+                    // Remove from list
+                    borrowList.RemoveAt(e.RowIndex);
 
-                    if (e.RowIndex < dgvBorrowList.Rows.Count)
-                        dgvBorrowList.Rows.RemoveAt(e.RowIndex);
+                    // Remove from grid
+                    dgvBorrowList.Rows.RemoveAt(e.RowIndex);
                 }
             }
         }

@@ -117,5 +117,9 @@ namespace Library_Final
                    !string.IsNullOrEmpty(CurrentUserFullName) &&
                    CurrentUserProfileImage != null;
         }
+
+
+        public static string CurrentSemester { get; set; } = "1st Semester";
+
     }
 }

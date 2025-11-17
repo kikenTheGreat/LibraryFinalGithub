@@ -64,7 +64,6 @@
             dgvEmailLog.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvEmailLog.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEmailLog.Dock = DockStyle.Fill;
-            dgvEmailLog.Enabled = false;
             dgvEmailLog.Location = new Point(0, 0);
             dgvEmailLog.Name = "dgvEmailLog";
             dgvEmailLog.RowHeadersWidth = 51;

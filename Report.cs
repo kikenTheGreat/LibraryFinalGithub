@@ -274,7 +274,20 @@ Trust Server Certificate=True;
                 if (dgvBorrowedBooks.Columns.Contains("IssueID"))
                     dgvBorrowedBooks.Columns["IssueID"].Visible = false;
 
-  
+
+                // ✅ Hide ReturnID and IssueID columns
+                if (dgvBorrowedBooks.Columns.Contains("BookID"))
+                    dgvBorrowedBooks.Columns["BookID"].Visible = false;
+
+
+                // ✅ Hide ReturnID and IssueID columns
+                if (dgvBorrowedBooks.Columns.Contains("ReturnDate"))
+                    dgvBorrowedBooks.Columns["ReturnDate"].Visible = false;
+
+
+
+
+
 
 
 

@@ -574,9 +574,9 @@
             label10.ForeColor = Color.FromArgb(220, 38, 38);
             label10.Location = new Point(15, 13);
             label10.Name = "label10";
-            label10.Size = new Size(169, 68);
+            label10.Size = new Size(140, 68);
             label10.TabIndex = 27;
-            label10.Text = "Book Inventory";
+            label10.Text = "Issue Books";
             // 
             // arthanTextBox10
             // 
@@ -634,7 +634,7 @@
             // panelReturnBooks
             // 
             panelReturnBooks.Controls.Add(arthanPanel1);
-            panelReturnBooks.Location = new Point(16, 156);
+            panelReturnBooks.Location = new Point(11, 147);
             panelReturnBooks.Name = "panelReturnBooks";
             panelReturnBooks.Size = new Size(421, 845);
             panelReturnBooks.TabIndex = 27;
@@ -748,6 +748,7 @@
             ReturnPenalty.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
             ReturnPenalty.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
             ReturnPenalty.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            ReturnPenalty.Enabled = false;
             ReturnPenalty.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             ReturnPenalty.Font = new Font("Segoe UI", 9F);
             ReturnPenalty.HoverState.BorderColor = Color.FromArgb(94, 148, 255);

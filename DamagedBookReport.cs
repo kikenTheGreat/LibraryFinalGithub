@@ -94,7 +94,7 @@ namespace Library_Final
 
             try
             {
-                isUpdatingFields = true; // ✅ SET FLAG BEFORE UPDATING
+                isUpdatingFields = true;
 
                 using (SqlConnection con = new SqlConnection(
                     "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=LibraryDB;Integrated Security=True;"))
@@ -103,9 +103,13 @@ namespace Library_Final
 
                     string query = @"
                 SELECT TOP 1 
-                    i.ISBN, i.BookTitle, i.Penalty AS FineAmount,
-                    i.StudentName AS BorrowerName, s.Role AS ClientType,
-                    i.BookCondition, i.Status
+                    i.ISBN, 
+                    i.BookTitle, 
+                    i.Penalty AS FineAmount,        -- 🔥 Penalty retrieved here
+                    i.StudentName AS BorrowerName, 
+                    s.Role AS ClientType,
+                    i.BookCondition, 
+                    i.Status
                 FROM IssueBooks i
                 LEFT JOIN AddStudentAcc s ON i.ClientID = s.ClientID
                 WHERE i.ClientID = @ClientID
@@ -119,16 +123,16 @@ namespace Library_Final
                         {
                             if (dr.Read())
                             {
-                                // ✅ DO NOT modify txtClientID - keep what user typed
                                 txtISBN.Text = dr["ISBN"].ToString();
                                 txtBookTitle.Text = dr["BookTitle"].ToString();
-                                txtFineAmount.Text = dr["FineAmount"].ToString();
+                                txtFineAmount.Text = dr["FineAmount"].ToString();  // 🔥 Penalty displayed here
                                 txtReportedBy.Text = dr["BorrowerName"].ToString();
                                 txtClientType.Text = dr["ClientType"].ToString();
                                 txtStatus.Text = dr["Status"]?.ToString();
 
                                 string issuedCondition = dr["BookCondition"]?.ToString()?.Trim();
 
+                                // Reload condition dropdown
                                 cmbBookCondition.Items.Clear();
                                 cmbBookCondition.Items.AddRange(new string[]
                                     { "Good", "Minor Damaged", "Damaged", "Lost" });
@@ -147,10 +151,10 @@ namespace Library_Final
                             }
                             else
                             {
-                                // Clear other fields but NOT ClientID
+                                // Clear fields
                                 txtISBN.Clear();
                                 txtBookTitle.Clear();
-                                txtFineAmount.Clear();
+                                txtFineAmount.Clear();   // 🔥 Clear penalty here
                                 txtReportedBy.Clear();
                                 txtClientType.Clear();
                                 txtStatus.Clear();
@@ -169,9 +173,10 @@ namespace Library_Final
             }
             finally
             {
-                isUpdatingFields = false; // ✅ RESET FLAG AFTER UPDATING
+                isUpdatingFields = false;
             }
         }
+
 
 
 
@@ -597,7 +602,7 @@ WHERE ISBN = @ISBN AND ClientID = @ClientID";
             }
         }
 
-        
+
 
 
 
@@ -705,6 +710,8 @@ WHERE ISBN = @ISBN AND ClientID = @ClientID";
         private async void DamagedBookReport_Load(object sender, EventArgs e)
 
         {
+
+            dtpReportDate.Value = DateTime.Now;
             await Task.Delay(100);
             await LoadEmployeeFullNameAsync();
             await LoadDamageReportsAsync(); // This already handles all styling
@@ -966,11 +973,40 @@ WHERE ISBN = @ISBN AND ClientID = @ClientID";
 
         private void txtClientID_TextChanged(object sender, EventArgs e)
         {
-            if (isUpdatingFields) return; // ✅ Don't trigger during updates
 
-            if (txtClientID.Text.Trim().Length >= 4)
+            if (isUpdatingFields) return; // prevent recursive triggering
+
+            string id = txtClientID.Text.Trim();
+
+            // 🔹 If textbox becomes empty → clear autofilled fields
+            if (id == "")
+            {
+                ClearAutoFillFields();
+                return;
+            }
+
+            // 🔹 If textbox reaches required length → fetch info
+            if (id.Length >= 4)
+            {
                 RetrieveBookInfoByClientID();
+            }
         }
+
+        private void ClearAutoFillFields()
+        {
+            isUpdatingFields = true; // prevent TextChanged looping
+
+            txtISBN.Text = "";
+            txtBookTitle.Text = "";
+            cmbBookCondition.Text = "";  // if you have more
+            txtClientType.Text = "";  // if you have more
+            txtFineAmount.Text = "";  // if you have more
+            txtStatus.Text = "";  // if you have more
+            txtReportedBy.Text = "";  // if you have more
+
+            isUpdatingFields = false;
+        }
+
 
         private void dgvDamageReports_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -1169,6 +1205,33 @@ WHERE ISBN = @ISBN AND ClientID = @ClientID";
         private void dgvDamageReports_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void txtClientID_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow ONLY digits and control keys (like Backspace)
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true; // block the key
+
+                MessageBox.Show("Numbers only! Letters are not allowed.",
+                                "Invalid Input",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+            }
+        }
+
+        private void txtFineAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+
+                MessageBox.Show("Please enter digits only.",
+                                "Invalid Input",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
         }
     }
 }

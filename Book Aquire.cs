@@ -1711,38 +1711,22 @@ VALUES (@BookTitle, @Author, @ISBN, @Publisher, @Source, @Quantity, @Published, 
 
         private void txtArchiveISBN_TextChanged(object sender, EventArgs e)
         {
-            string isbn = txtArchiveISBN.Text.Trim();
+            DataView dv = DataGridTotalBooks.DataSource as DataView;
 
-            // Only search when ISBN length > 10 (means user is done typing)
-            if (isbn.Length >=13)
+            if (dv == null)
             {
-                bool found = false;
-
-                // Loop through DataGridView rows
-                foreach (DataGridViewRow row in DataGridTotalBooks.Rows)
-                {
-                    if (row.Cells["ISBN"].Value != null &&
-                        row.Cells["ISBN"].Value.ToString().Equals(isbn, StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Highlight found row
-                        row.Selected = true;
-                        DataGridTotalBooks.CurrentCell = row.Cells[0];
-
-                        // Optionally scroll to it
-                        DataGridTotalBooks.FirstDisplayedScrollingRowIndex = row.Index;
-
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found)
-                {
-                    MessageBox.Show("❌ Book not found in the archive.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                MessageBox.Show("DataGridTotalBooks is not bound to a DataView.");
+                return;
             }
+
+            string isbn = txtArchiveISBN.Text.Trim().Replace("'", "''");
+
+            dv.RowFilter = $"CONVERT([ISBN], 'System.String') LIKE '%{isbn}%'";
+
+
+
         }
-    }
+}
 
 
 } //END OF MAIN METHOD
